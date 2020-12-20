@@ -1,0 +1,12 @@
+= Common
+Dmitry Rakovets
+:sectnums:
+:toc: left
+:toclevels: 4
+//:data-uri:
+
+:toc!:
+
+Wiki for common theme.
+
+include::design-principles.adoc[Design Principles]
