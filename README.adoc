@@ -6,3 +6,4 @@ Wikis for different courses. Use 'AsciiDoc' and 'Asciidoctor' for convertation t
 == Wiki Links
 
 * link:/common[Common]
+* link:/java/basics[Java Basics]

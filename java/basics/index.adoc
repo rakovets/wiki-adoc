@@ -1,0 +1,13 @@
+= Java Basics
+Dmitry Rakovets
+:source-highlighter: prettify
+:sectnums:
+:toc: left
+:toclevels: 2
+//:data-uri:
+
+:toc!:
+
+Wiki for course "Java Basics".
+
+include::intro.adoc[Введение]
