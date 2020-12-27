@@ -32,6 +32,30 @@ include::language/string.adoc[Строки]
 
 include::language/regular-expression.adoc[Регулярные выражения]
 
+include::oop/abstract-classes.adoc[]
+
+include::oop/access-modifiers-and-encapsulation.adoc[]
+
+include::oop/classes-and-objects.adoc[]
+
+include::oop/inheritance.adoc[]
+
+include::oop/inheritance-hierarchy-and-type-conversion.adoc[]
+
+include::oop/interfaces.adoc[]
+
+include::oop/method-overloading.adoc[]
+
+include::oop/nested-classes.adoc[]
+
+include::oop/object-as-method-parameter.adoc[]
+
+include::oop/oop-concepts.adoc[]
+
+include::oop/package.adoc[]
+
+include::oop/static-members-and-static-modifier.adoc[]
+
 include::exception-handling.adoc[Обработка исключений]
 
 include::generics/generics.adoc[Обобщения (Generics)]
