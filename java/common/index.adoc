@@ -1,0 +1,18 @@
+= Common
+Dmitry Rakovets
+:source-highlighter: prettify
+:source-highlighter: prettify
+:sectnums:
+:toc: left
+:toclevels: 2
+//:data-uri:
+
+:toc!:
+
+Wiki for common java theme.
+
+include::code-convention.adoc[Code Convention]
+
+include::checkstyle-plugin-intellij-idea.adoc[Checkstyle plugin for IntelliJ IDEA]
+
+include::intellij-idea.adoc[Intellij IDEA]

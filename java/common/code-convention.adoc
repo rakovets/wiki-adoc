@@ -1,0 +1,295 @@
+== Code Convention
+
+Рассмотрим предназначение и использование *Code Convention* на примере Java.
+
+=== Зачем нужно *Соглашения по оформлению кода*
+
+*Соглашения по оформлению кода* важны для программистов по ряду причин:
+
+* 80% от стоимости программного обеспечения приходится на его обслуживание
+* программное обеспечение не всегда поддерживается инженером, который его разработал
+* исходный код программ становится более удобочитаемым, позволяя инженерам более быстро и тщательно понимать код
+
+На данный момент существует большое количество *custom code convention*, но обычно в их основе лежит одна из приведенных ниже:
+
+* link:https://www.oracle.com/technetwork/java/codeconvtoc-136057.html[Code Conventions for the Java™ Programming Language]
+* link:http://google.github.io/styleguide/javaguide.html[Google Java Style]
+
+Для повседневного использования рекомендуется использовать *Google Java Style*, потому что она развивается совместно с Java, в отличии от *Code Conventions for the Java™ Programming Language*, которая последний раз изменялась 20 апреля 1999.
+
+Едиственное что стоит изменить, это:
+
+* разрешенная ширина строки кода: `100` -> `120`
+* отступы: 4 whitespaces -> 1 tab
+
+=== Основные выдержки
+
+==== *WHITESPACE*
+
+Пустая строка используется между:
+
+* членами класса
+* методами
+* логическими секциями в методе
+
+Пробел используется:
+
+* между `keyword` и скобкой
+* после запятой
+* вокруг бинарных операторов
+* выражения в цикле `for`
+
+==== *LINE FEED*
+
+Перенос строки используется:
+
+* после точки с запятой (исключение оператор `for`)
+* после запятой
+* перед операцией
+
+=== Examples
+
+==== Форматирование троичного оператора
+
+*Bad*:
+
+[source, java]
+----
+alpha=aLongBooleanExpression?beta:gamma;
+----
+
+*Well*:
+
+[source, java]
+----
+alpha = (aLongBooleanExpression) ? beta
+                                 : gamma;
+----
+
+[source, java]
+----
+alpha = (aLongBooleanExpression) ? beta : gamma;
+----
+
+[source, java]
+----
+alpha = (aLongBooleanExpression)
+    ? beta
+    : gamma;
+----
+
+==== Объявление переменных
+
+*Bad*:
+
+[source, java]
+----
+int foo, fooarray[];
+----
+
+[source, java]
+----
+int level; //indentation level
+int size; //size of table
+Object currentEntry; //table entry
+----
+
+*Well*:
+
+[source, java]
+----
+int foo;
+int[] fooarray;
+----
+
+[source, java]
+----
+int level; // indentation level
+int size; // size of table
+Object currentEntry; // table entry
+----
+
+==== `if`, `if ... else`, `if ... else if`
+
+*Bad*:
+
+[source, java]
+----
+if(condition)
+{
+statements;
+}
+----
+
+[source, java]
+----
+if(condition){
+statements;
+}
+else
+{
+statements;
+}
+----
+
+[source, java]
+----
+if(condition){
+statements;
+}else if(condition){
+statements;
+}else{
+statements;
+}
+----
+
+*Well*:
+
+[source, java]
+----
+if (condition) {
+    statements;
+}
+----
+
+[source, java]
+----
+if (condition) {
+    statements;
+} else {
+    statements;
+}
+----
+
+[source, java]
+----
+if (condition) {
+    statements;
+} else if (condition) {
+    statements;
+} else {
+    statements;
+}
+----
+
+==== `while`, `do ... while`, `for`, `foreach`
+
+*Bad*:
+
+[source, java]
+----
+for(initialization;condition;update)
+{
+statements;
+}
+----
+
+[source, java]
+----
+for(initialization;condition;update);
+----
+
+[source, java]
+----
+for(initialization:list){
+statements;
+}
+----
+
+[source, java]
+----
+while(condition)
+{
+statements;
+}
+----
+
+[source, java]
+----
+while(condition);
+----
+
+[source, java]
+----
+do{
+statements;
+}while(condition);
+----
+
+*Well*:
+
+[source, java]
+----
+for (initialization; condition; update) {
+    statements;
+}
+----
+
+[source, java]
+----
+for (initialization; condition; update);
+----
+
+[source, java]
+----
+for (initialization : list) {
+    statements;
+}
+----
+
+[source, java]
+----
+while (condition) {
+    statements;
+}
+----
+
+[source, java]
+----
+while(condition);
+----
+
+[source, java]
+----
+do {
+    statements;
+} while (condition);
+----
+
+==== `switch`
+
+*Bad*:
+
+[source, java]
+----
+switch(n){
+case 1:
+statements1;
+/* falls through */
+case 2:
+statements2;
+break;
+case 3:
+statements2;
+break;
+default:
+statements;
+break;
+}
+----
+*Well*:
+
+[source, java]
+----
+switch (n) {
+    case 1:
+        statements1;
+        break;
+    case 2:
+    case 3:
+        statements2;
+        break;
+    default:
+        statements;
+}
+----

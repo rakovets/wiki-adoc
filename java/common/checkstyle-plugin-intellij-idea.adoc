@@ -1,0 +1,12 @@
+== Checkstyle plugin for IntelliJ IDEA
+
+In files manager:
+
+* copy content from link:https://raw.githubusercontent.com/rakovets/java-theory/master/res/checkstyle.xml[checkstyle.xml] to `checkstyle.xml` in `${WORK_DIR_IDEA}/config/codestyles/`
+
+In IntelliJ IDEA:
+
+* go to _File_ -> _Settings_ -> _Plugins_
+* install _CheckStyle-IDEA_
+* go to _File_ -> _Settings_ -> _CheckStyle_
+* add `checkstyle.xml` as new configuration file
