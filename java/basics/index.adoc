@@ -11,3 +11,19 @@ Dmitry Rakovets
 Wiki for course "Java Basics".
 
 include::intro.adoc[Введение]
+
+include::language/data-types-and-variables.adoc[Типы данных и переменные]
+
+include::language/standard-streams.adoc[Консольный ввод и вывод]
+
+include::language/base-data-type-conversions.adoc[Преоборазование базовых типов данных]
+
+include::language/conditional-constructions.adoc[Условные конструкции]
+
+include::language/loops.adoc[Циклы]
+
+include::language/arrays.adoc[Массивы]
+
+include::language/methods.adoc[Методы]
+
+include::language/string.adoc[Строки]
