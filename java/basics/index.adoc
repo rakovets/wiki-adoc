@@ -56,6 +56,30 @@ include::oop/package.adoc[]
 
 include::oop/static-members-and-static-modifier.adoc[]
 
+include::mics/annotations.adoc[]
+
+include::mics/boxing.adoc[]
+
+include::mics/boxing-and-overloading.adoc[]
+
+include::mics/class-object.adoc[]
+
+include::mics/cloning-objects.adoc[]
+
+include::mics/enum.adoc[]
+
+include::mics/intro-to-lambda-expressions.adoc[]
+
+include::mics/javadoc.adoc[]
+
+include::mics/lambdas-as-parameters-and-methods-results.adoc[]
+
+include::mics/stringbuffer-and-stringbuilder.adoc[]
+
+include::mics/string-formatting.adoc[]
+
+include::mics/wrapper-classes.adoc[]
+
 include::exception-handling.adoc[Обработка исключений]
 
 include::generics/generics.adoc[Обобщения (Generics)]

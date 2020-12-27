@@ -1,0 +1,235 @@
+== Лямбды как параметры и результаты методов
+
+=== Лямбды как параметры методов
+
+Одним из преимуществ лямбд в java является то, что их можно передавать в качестве параметров в методы. Рассмотрим пример:
+
+[source, java]
+----
+
+public class LambdaApp {
+    public static void main(String[] args) {
+        Expression func = (n) -> n % 2 == 0;
+        int[] nums = {1, 2, 3, 4, 5, 6, 7, 8, 9};
+        System.out.println(sum(nums, func)); // 20
+    }
+
+    private static int sum(int[] numbers, Expression func) {
+        int result = 0;
+        for (int i : numbers) {
+            if (func.isEqual(i))
+                result += i;
+        }
+        return result;
+    }
+}
+
+interface Expression {
+    boolean isEqual(int n);
+}
+----
+
+Функциональный интерфейс `Expression` определяет метод `isEqual()`, который возвращает `true`, если в отношении числа `n` действует какое-нибудь равенство.
+
+В основном классе программы определяется метод `sum()`, который вычисляет сумму всех элементов массива, соответствующих некоторому условию. А само условие передается через параметр `Expression func`. Причем на момент написания метода `sum` мы можем абсолютно не знать, какое именно условие будет использоваться. Само же условие определяется в виде лямбда-выражения:
+
+[source, java]
+----
+Expression func = (n) -> n % 2 == 0;
+----
+То есть в данном случае все числа должны быть четными или остаток от их деления на `2` должен быть равен `0`. Затем это лямбда-выражение передается в вызов метода `sum`.
+
+При этом можно не определять переменную интерфейса, а сразу передать в метод лямбда-выражение:
+
+[source, java]
+----
+int[] nums = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+int x = sum(nums, (n)-> n > 5); // сумма чисел, которые больше 5
+System.out.println(x);  // 30
+----
+
+=== Ссылки на метод как параметры методов
+
+Начиная с JDK 8 в Java можно в качестве параметра в метод передавать ссылку на другой метод. В принципе данный способ аналогичен передаче в метод лямбда-выражения.
+
+Ссылка на метод передается в виде `имя_класса::имя_статического_метода` (если метод статический) или `объект_класса::имя_метода` (если метод нестатический). Рассмотрим на примере:
+
+[source, java]
+----
+interface Expression {
+    boolean isEqual(int n);
+}
+
+class ExpressionHelper {
+    static boolean isEven(int n) {
+        return n % 2 == 0;
+    }
+
+    static boolean isPositive(int n) {
+        return n > 0;
+    }
+}
+
+public class LambdaApp {
+    public static void main(String[] args) {
+        int[] nums = {-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5};
+        System.out.println(sum(nums, ExpressionHelper::isEven));
+
+        Expression expr = ExpressionHelper::isPositive;
+        System.out.println(sum(nums, expr));
+    }
+
+    private static int sum(int[] numbers, Expression func) {
+        int result = 0;
+        for (int i : numbers) {
+            if (func.isEqual(i))
+                result += i;
+        }
+        return result;
+    }
+}
+----
+
+Здесь также определен функциональный интерфейс `Expression`, который имеет один метод. Кроме того, определен класс `ExpressionHelper`, который содержит два статических метода. В принципе их можно было определить и в основном классе программы, но я вынес их в отдельный класс.
+
+В основном классе программы `LambdaApp` определен метод `sum()`, который возвращает сумму элементов массива, соответствующих некоторому условию. Условие передается в виде объекта функционального интерфейса `Expression`.
+
+В методе `main` два раза вызываем метод `sum`, передавая в него один и тот же массив чисел, но разные условия. Первый вызов метода `sum`:
+
+[source, java]
+----
+System.out.println(sum(nums, ExpressionHelper::isEven));
+----
+
+На место второго параметра передается `ExpressionHelper::isEven`, то есть ссылка на статический метод `isEven()` класса `ExpressionHelper`. При этом методы, на которые идет ссылка, должны совпадать по параметрам и результату с методом функционального интерфейса.
+
+При втором вызове метода `sum` отдельно создается объект `Expression`, который затем передается в метод:
+
+[source, java]
+----
+Expression expr = ExpressionHelper::isPositive;
+System.out.println(sum(nums, expr));
+----
+
+Использование ссылок на методы в качестве параметром аналогично использованию лямбда-выражений.
+
+Если нам надо вызвать нестатические методы, то в ссылке вместо имени класса применяется имя объекта этого класса:
+
+[source, java]
+----
+interface Expression {
+    boolean isEqual(int n);
+}
+
+class ExpressionHelper {
+    boolean isEven(int n) {
+        return n % 2 == 0;
+    }
+}
+
+public class LambdaApp {
+    public static void main(String[] args) {
+        int[] nums = {-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5};
+        ExpressionHelper exprHelper = new ExpressionHelper();
+        System.out.println(sum(nums, exprHelper::isEven)); // 0
+    }
+
+    private static int sum(int[] numbers, Expression func) {
+        int result = 0;
+        for (int i : numbers) {
+            if (func.isEqual(i))
+                result += i;
+        }
+        return result;
+    }
+}
+----
+
+=== Ссылки на конструкторы
+
+Подобным образом мы можем использовать конструкторы: `название_класса::new`. Например:
+
+[source, java]
+----
+public class LambdaApp {
+    public static void main(String[] args) {
+        UserBuilder userBuilder = User::new;
+        User user = userBuilder.create("Tom");
+        System.out.println(user.getName());
+    }
+}
+
+interface UserBuilder {
+    User create(String name);
+}
+
+class User {
+    private String name;
+
+    String getName() {
+        return name;
+    }
+
+    User(String n) {
+        this.name = n;
+    }
+}
+----
+
+При использовании конструкторов методы функциональных интерфейсов должны принимать тот же список параметров, что и конструкторы класса, и должны возвращать объект данного класса.
+
+=== Лямбды как результат методов
+
+Также метод в Java может возвращать лямбда-выражение. Рассмотрим следующий пример:
+
+[source, java]
+----
+interface Operation {
+    int execute(int x, int y);
+}
+
+public class LambdaApp {
+    public static void main(String[] args) {
+        Operation func = action(1);
+        int a = func.execute(6, 5);
+        System.out.println(a); // 11
+
+        int b = action(2).execute(8, 2);
+        System.out.println(b); // 6
+    }
+
+    private static Operation action(int number) {
+        switch (number) {
+            case 1:
+                return (x, y) -> x + y;
+            case 2:
+                return (x, y) -> x - y;
+            case 3:
+                return (x, y) -> x * y;
+            default:
+                return (x, y) -> 0;
+        }
+    }
+}
+----
+
+В данном случае определен функциональный интерфейс `Operation`, в котором метод `execute` принимает два значения типа `int` и возвращает значение типа `int`.
+
+Метод `action` принимает в качестве параметра число и в зависимости от его значения возвращает то или иное лямбда-выражение. Оно может представлять либо сложение, либо вычитание, либо умножение, либо просто возвращает `0`. Стоит учитывать, что формально возвращаемым типом метода `action` является интерфейс `Operation`, а возвращаемое лямбда-выражение соответствует этому интерфейсу.
+
+В методе `main` мы можем вызвать этот метод `action`. Например, сначала получить его результат - лямбда-выражение, которое присваивается переменной `Operation`. А затем через метод `execute` выполнить это лямбда-выражение:
+
+[source, java]
+----
+Operation func = action(1);
+int a = func.execute(6, 5);
+System.out.println(a); // 11
+----
+
+Либо можно сразу получить и тут же выполнить лямбда-выражение:
+
+[source, java]
+----
+int b = action(2).execute(8, 2);
+System.out.println(b); // 6
+----
