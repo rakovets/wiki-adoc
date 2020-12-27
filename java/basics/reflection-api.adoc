@@ -1,0 +1,443 @@
+== Reflection
+
+*Рефлексия* (от reflexio - обращение назад) - это механизм исследования данных о программе во время её выполнения. Рефлексия в Java осуществляется с помощью *Java Reflection API*, состоящий из классов пакетов `java.lang` и `java.lang.reflect`. В информатике рефлексия означает процесс, во время которого программа может отслеживать и модифицировать собственную структуру и поведение во время выполнения.
+
+*Java Reflection API* позволяет получать информацию о конструкторах, методах и полях классов и выполнять следующие операции над полями и методами объекта/класса:
+
+* определение класса объекта
+* получение информации о полях, методах, конструкторах и суперклассах
+* получение информации о модификаторах полей и методов
+* создание экземпляра класса, имя которого неизвестно до момента выполнения программы
+* определение и изменение значений свойств объекта/класса
+* вызов методов объекта/класса
+
+> В исходном коде используется объект/класс. При работе с объектом (реализацией класса) можно обращаться к полям и методам класса напрямую, если они доступны (не private). При работе с классом можно обращаться к методам класса с использованием Java Reflection API. Но класс необходимо получить из объекта.
+
+=== Определение свойств класса
+
+В работающем приложении для получения класса необходимо использовать метод `forName(String className)`. Следующий код демонстрирует возможность создания класса без использования и с использованием Reflection :
+
+[source, java]
+----
+// Без использования Reflection
+Foo foo = new Foo();
+
+// С использованием Reflection
+Class foo = Class.forName("Foo");
+
+// Загрузка JDBC-драйвера
+Class.forName("com.mysql.jdbc.Driver");
+----
+
+Метод класса `forName(className)` часто используется для загрузки JDBC-драйвера.
+
+Методом `getName()` объекта `Class` можно получить наименование класса, включающего пакет (`package`) :
+
+[source, java]
+----
+Class aclass = foo.getClass();
+System.out.println (aclass.getName());
+----
+
+Для получения значения модификатора класса используется метод `getModifiers()`. Класс `java.lang.reflect.Modifier` содержит статические методы, возвращающие логическое значения проверки модификатора класса :
+
+[source, java]
+----
+Class cls = foo.getClass();
+int mods = cls.getModifiers();
+if (Modifier.isPublic(mods)) {
+    System.out.println("public");
+}
+if (Modifier.isAbstract(mods)) {
+    System.out.println("abstract");
+}
+if (Modifier.isFinal(mods))    {
+    System.out.println("final");
+}
+----
+
+Для получения суперкласса рефлексированного объекта (класса) необходимо использовать метод `getSuperclass()`:
+
+[source, java]
+----
+Class cls = foo.getClass();
+Class superCls = cls.getSuperClass();
+----
+
+Поскольку в Java отсутствует множественное наследование, то для получения всех предков следует рекурсивно вызвать метод `getSuperclass()` в цикле, пока не будет достигнут `Object`, являющийся родителем всех классов. `Object` не имеет родителей, поэтому вызов его метода `getSuperclass()` вернет `null`.
+
+=== Определение интерфейсов и конструкторов класса
+
+Для получения в режиме *runtime* списка реализующих классом интерфейсов, необходимо получить `Class` и использовать его метод `getInterfaces()`. В следующем примере извлекается список интерфейсов класса `ArrayList`:
+
+[source, java]
+----
+Class<?>   cls = ArrayList.class;
+Class<?>[] ifs = cls.getInterfaces();
+
+System.out.println("List of interfaces\n");
+for(Class<?> ifc : ifs) {
+    System.out.println (ifc.getName());
+}
+----
+
+Чтобы IDE не предупреждала о необходимости определения типа класса
+
+> Class is a raw type. References to generic type Class<T> should be parameterized
+
+в коде были использованы *generic*. В консоль выводятся следующие интерфейсы, реализуемые классом `ArrayList`:
+
+[source, out]
+----
+List of interfaces
+
+java.util.List
+java.util.RandomAccess
+java.lang.Cloneable
+java.io.Serializable
+----
+
+Метод класса `getConstructors()` позволяет получить массив открытых конструкторов типа `java.lang.reflect.Constructor`. После этого, можно извлекать информацию о типах параметров конструктора и генерируемых исключениях:
+
+[source, java]
+----
+Class<?> cls = obj.getClass();
+Constructor[] constructors = cls.getConstructors();
+for (Constructor constructor : constructors) {
+    Class<?>[] params = constructor.getParameterTypes();
+    for (Class<?> param : params) {
+        System.out.println(param.getName());
+    }
+}
+----
+
+=== Определение полей класса
+
+Метод `getFields()` объекта `Class` возвращает массив открытых полей типа `java.lang.reflect.Field`, которые могут быть определены не только в данном классе, но также и в его родителях (суперклассе), либо интерфейсах, реализованных классом или его родителями. Класс `Field` позволяет получить имя поля, тип и модификаторы :
+
+[source, java]
+----
+Class<?> cls = obj.getClass();
+Field[] fields = cls.getFields();
+for (Field field : fields) {
+    Class<?> fld = field.getType();
+    System.out.println("Class name : " + field.getName());
+    System.out.println("Class type : " + fld.getName());
+}
+----
+
+Если известно наименование поля, то можно получить о нем информацию с помощью метода `getField()` объекта `Class`.
+
+[source, java]
+----
+Class<?> cls = obj.getClass();
+Field fld = cls.getField("fieldName");
+----
+
+Методы `getField()` и `getFields()` возвращают только открытые члены данных класса. Чтобы получить все поля класса, включая закрытые и защищенные, необходимо использовать методы `getDeclaredField()` и `getDeclaredFields()`. Данные методы работают точно так же, как и их аналоги `getField()` и `getFields()`.
+
+=== Определение значений полей класса
+
+Класс `Field` содержит специализированные методы для получения значений примитивных типов:
+
+* `getInt()`
+* `getFloat()`
+* `getByte()`
+* ...
+
+Для установки значения поля, используется метод `set()`. Для примитивных типов имеются методы:
+
+* `setInt()`
+* `setFloat()`
+* `setByte()`
+* ...
+
+[source, java]
+----
+Class<?> cls = obj.getClass();
+Field field = cls.getField("fieldName");
+
+String value = (String) field.get(obj);
+field.set(obj, "New value");
+----
+
+Ниже приведен пример изменения значения закрытого поля класса в runtime.
+
+=== Определение методов класса
+
+Метод `getMethods()` объекта `Class` возвращает массив открытых методов типа `java.lang.reflect.Method`. Эти методы могут быть определены не только в классе, но также и в его родителях (суперклассе), либо интерфейсах, реализованных классом или его родителями. Класс `Method` позволяет получить имя метода, тип возвращаемого им значения, типы параметров метода, модификаторы и генерируемые исключения.
+
+[source, java]
+----
+Class<?> cls = obj.getClass();
+Method[] methods = cls.getMethods();
+for (Method method : methods) {
+    System.out.println("Method name : " + method.getName());
+    System.out.println("Return type : " + method.getReturnType().getName());
+
+    Class<?>[] params = method.getParameterTypes();
+    System.out.print("Parameters : ");
+    for (Class<?> paramType : params) {
+        System.out.print(" " + paramType.getName());
+    }
+    System.out.println();
+}
+----
+
+Если известно имя метода и типы его параметров, то можно получить отдельный метод класса :
+
+[source, java]
+----
+Class<?> cls = obj.getClass();
+Class[] params = new Class[] {Integer.class, String.class};
+
+Method method = cls.getMethod("methodName", params);
+----
+
+=== Пример изменения значения закрытого поля класса
+
+Чтобы изменить значение закрытого (`private`) поля класса необходимо получить это поле методом `getDeclaredField()` и вызвать метод `setAccessible(true)` объекта `Field`, чтобы открыть доступ к полю. После этого значение закрытого поля можно изменять, если оно не `final`. В следующем примере определен внутренний класс `PrivateFinalFields` с набором закрытых полей; одно из полей `final`. При создании объекта класса поля инициализируются. В методе `main()` примера поочередно в закрытые поля вносятся изменения и свойства объекта выводятся в консоль.
+
+[source, java]
+----
+import java.lang.reflect.Field;
+
+class PrivateFinalFields {
+    private final String s  = "String S";
+    private int i  = 1;
+    private String s2 = "String S2";
+
+    public String toString() {
+        return "i = " + i + ", " + s + ", " + s2;
+    }
+}
+----
+
+[source, java]
+----
+public class ModifyngPrivateFields {
+    public static void main(String[] args) throws Exception {
+        PrivateFinalFields pf = new PrivateFinalFields();
+
+        Field f = pf.getClass().getDeclaredField("i");
+        f.setAccessible(true);
+        f.setInt(pf, 47);
+        System.out.println("1. " + pf);
+
+        f = pf.getClass().getDeclaredField("s");
+        f.setAccessible(true);
+        f.set(pf, "MODIFY S");
+        System.out.println("2. " + pf);
+
+        f = pf.getClass().getDeclaredField("s2");
+        f.setAccessible(true);
+        f.set(pf, "MODIFY S2");
+
+        f = pf.getClass().getDeclaredField("i");
+        f.setAccessible(true);
+        f.setInt(pf, 35);
+        System.out.println("3. " + pf);
+    }
+}
+----
+
+В результате выполнения примера в консоль будут выведены следующие сообщения :
+
+[source, out]
+----
+1. i = 47, String S, String S2
+2. i = 47, String S, String S2
+3. i = 35, String S, MODIFY S2
+----
+
+Из приведённого примера видно что поля `private` можно изменять. Для этого необходимо получить объект типа `java.lang.reflect.Field` с помощью метода `getDeclaredField()`, вызвать его метод `setAccessible(true)` и с помощью метода `set()` установить требуемое значение поля. Необходимо иметь в виду, что наличие модификатора `final` в закрытом текстовом поле не вызывает исключений при изменении значений, а само значение поля остаётся прежним, т.е. `final` поля остаются неизменные. Если не вызвать метод открытия доступа к полю `setAccessible(true)`, то будет вызвано исключение `java.lang.IllegalAccessException`.
+
+=== Пример вызова метода `invoke()`
+
+*Java Reflection Api* позволяет вызвать метод класса. Рассмотрим пример, в котором определим класс `Reflect`, включающий поля и методы управления ими. В runtime с помощью метода данного класса будем изменять значения полей и распечатывать их.
+
+Класс `Reflect` включает два закрытых поля `id`, `name` и методы управления их значениями *set/get*. Дополнительно в класс включим метод `setData()`, который будем вызывать для изменения значений полей, и метод `toString()` для печати их значений.
+
+[source, java]
+----
+class Reflect {
+    private String name;
+    private int id;
+
+    Reflect() {
+        this.name = "Test";
+        this.id = 999;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setData(final int id, String name) {
+        this.id   = id;
+        this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return "Reflect [ id : " + id + ", name : " + name + "]";
+    }
+}
+----
+
+Для тестирования объекта типа `Reflect` с помощью *Java Reflection Api* создадим класс `ReflectionTest`. В этот класс включим два метода `getClassFields()` и `getClassMethods()`, которые в *runtime* распечатают всю информацию (описание полей и методов) о классе. Методы получают класс в качестве параметра. В процедурах сначала определяются массивы полей и методы; после этого их параметры распечатываются :
+
+[source, java]
+----
+private void getClassFields(Class<?> cls) {
+    Field[] fields = cls.getDeclaredFields();
+    System.out.println("Class fields");
+    for (Field field : fields) {
+        Class<?> fld = field.getType();
+        System.out.println("Class name : " + field.getName());
+        System.out.println("Class type : " + fld.getName());
+    }
+}
+
+private void getClassMethods(Class<?> cls) {
+    Method[] methods = cls.getDeclaredMethods();
+    System.out.println("Class methods");
+    for (Method method : methods) {
+        System.out.println("Method name : " + method.getName());
+        System.out.println("Return type : " + method.getReturnType().getName());
+        Class<?>[] params = method.getParameterTypes();
+        System.out.print("Parameters : ");
+        for (Class<?> param : params) {
+            System.out.print(" " + param.getName());
+        }
+        System.out.println();
+    }
+}
+----
+
+В конструкторе класса `ReflectionTest` сначала вызываются процедуры определения полей и методов объекта/класса `Reflect`. После этого вызываются методы изменения значений и печати значений с использованием *Reflection API*. Для определения метода `setData()` используется массив типов параметров. Вызов метода `setData()` выполняется с передачей ему массива новых значений.
+
+[source, java]
+----
+public class ReflectionTest {
+    static Reflect reflect;
+
+    public ReflectionTest() {
+        getClassFields(reflect.getClass());
+        getClassMethods(reflect.getClass());
+
+        Class<?> cls = reflect.getClass();
+        try {
+            System.out.println("\n1. invoke method toString()\n");
+
+            Method method = cls.getMethod("toString");
+            System.out.println(method.invoke(reflect));
+
+            Class<?>[] paramTypes;
+            Object  [] args;
+
+            paramTypes = new Class[] {int.class, String.class};
+            method = cls.getMethod("setData", paramTypes);
+
+            args = new Object[]{(int)123,new String("New value")};
+            method.invoke(reflect, args);
+
+            System.out.println("\n2. invoke method toString()\n");
+            method = cls.getMethod("toString");
+            System.out.println(method.invoke(reflect));
+
+        } catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+            System.out.println(e);
+        }
+    }
+
+    private void getClassFields(Class<?> cls) {
+        Field[] fields = cls.getDeclaredFields();
+        System.out.println("Class fields");
+        for (Field field : fields) {
+            Class<?> fld = field.getType();
+            System.out.println("Class name : " + field.getName());
+            System.out.println("Class type : " + fld.getName());
+        }
+    }
+
+    private void getClassMethods(Class<?> cls) {
+        Method[] methods = cls.getDeclaredMethods();
+        System.out.println("Class methods");
+        for (Method method : methods) {
+            System.out.println("Method name : " + method.getName());
+            System.out.println("Return type : " + method.getReturnType().getName());
+            Class<?>[] params = method.getParameterTypes();
+            System.out.print("Parameters : ");
+            for (Class<?> param : params) {
+                System.out.print(" " + param.getName());
+            }
+            System.out.println();
+        }
+    }
+
+    public static void main(String[] args) {
+        this.reflect = new Reflect();
+        new ReflectionTest();
+        System.exit(0);
+    }
+}
+----
+
+В результате выполнения примера в консоль будут выведены представленные ниже сообщения. Методы `setData()` и `toString()`, вызываемые с помощью *Java Reflection API*, вносят измнения в закрытые поля класса и распечатываются их значения.
+
+[source, out]
+----
+Class fields
+
+Class name : name
+Class type : java.lang.String
+Class name : id
+Class type : int
+
+Class methods
+
+Method name : toString
+Return type : java.lang.String
+Parameters  :
+
+Method name : getId
+Return type : int
+Parameters  :
+
+Method name : setId
+Return type : void
+Parameters :  int
+
+Method name : getName
+Return type : java.lang.String
+Parameters  :
+
+Method name : setName
+Return type : void
+Parameters :  java.lang.String
+
+Method name : setData
+Return type : void
+Parameters :  int java.lang.String
+
+1. invoke method toString()
+
+Reflect [ id : 999, name : Test]
+
+2. invoke method toString()
+
+Reflect [ id : 123, name : New value]
+----

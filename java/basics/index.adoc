@@ -12,6 +12,8 @@ Wiki for course "Java Basics".
 
 include::intro.adoc[Введение]
 
+include::first-program-with-java.adoc[Первая программа на Java]
+
 include::language/data-types-and-variables.adoc[Типы данных и переменные]
 
 include::language/standard-streams.adoc[Консольный ввод и вывод]
@@ -27,3 +29,13 @@ include::language/arrays.adoc[Массивы]
 include::language/methods.adoc[Методы]
 
 include::language/string.adoc[Строки]
+
+include::language/regular-expression.adoc[Регулярные выражения]
+
+include::exception-handling.adoc[Обработка исключений]
+
+include::reflection-api.adoc[Reflection]
+
+include::modularity.adoc[Модульность]
+
+include::nio.adoc[Java NIO]
