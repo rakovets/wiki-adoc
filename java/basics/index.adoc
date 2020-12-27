@@ -3,7 +3,7 @@ Dmitry Rakovets
 :source-highlighter: prettify
 :sectnums:
 :toc: left
-:toclevels: 2
+:toclevels: 1
 //:data-uri:
 
 :toc!:
@@ -33,6 +33,12 @@ include::language/string.adoc[Строки]
 include::language/regular-expression.adoc[Регулярные выражения]
 
 include::exception-handling.adoc[Обработка исключений]
+
+include::generics/generics.adoc[Обобщения (Generics)]
+
+include::generics/inheritance-and-generics.adoc[Наследование и обобщения]
+
+include::generics/wildcard-for-generics.adoc[Ограничения обобщений]
 
 include::reflection-api.adoc[Reflection]
 
