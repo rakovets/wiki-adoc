@@ -88,6 +88,24 @@ include::generics/inheritance-and-generics.adoc[Наследование и об
 
 include::generics/wildcard-for-generics.adoc[Ограничения обобщений]
 
+include::datetime/class-datetimeformatter.adoc[]
+
+include::datetime/class-duration.adoc[]
+
+include::datetime/class-instant.adoc[]
+
+include::datetime/class-localdate.adoc[]
+
+include::datetime/class-localdatetime.adoc[]
+
+include::datetime/class-localtime.adoc[]
+
+include::datetime/class-period.adoc[]
+
+include::datetime/class-zoneddatetime.adoc[]
+
+include::datetime/datetime.adoc[]
+
 include::reflection-api.adoc[Reflection]
 
 include::modularity.adoc[Модульность]

@@ -1,0 +1,101 @@
+== Класс `ZonedDateTime`
+
+Класс `ZonedDateTime` представляет дату и время с информацией о часовом поясе. Это может быть начало определенного события где-нибудь в мире, например конференции, запуска ракеты и т.д.
+
+`ZonedDateTimeКласс` неизменяемый, это означает, что все методы, выполняющие вычисления над `ZonedDateTime` объектом, возвращают новый объект `ZonedDateTime`.
+
+=== Создание `ZonedDateTime` объектов
+
+Создать объект `ZonedDateTime` можно несколькими способами.
+
+Первый способ - вызвать  метод `now()` класса `ZonedDateTime`. Вот пример создания объекта `ZonedDateTime`с помощью `now()` метода:
+
+[source, java]
+----
+ZonedDateTime zonedDateTime = ZonedDateTime.now();
+----
+
+Другой способ создать объект `ZonedDateTime` - использовать метод `of()`, который может создать `ZonedDateTime` объект на основе конкретной даты и времени. Вот пример создания объекта `ZonedDateTime` с помощью метода `of()`:
+
+[source, java]
+----
+ZoneId zoneId = ZoneId.of("UTC+1");
+
+ZonedDateTime zonedDateTime2 =
+    ZonedDateTime.of(2015, 11, 30, 23, 45, 59, 1234, zoneId);
+----
+
+=== Доступ к дате и времени `ZonedDateTime`
+
+Можно получить доступ к полям даты и времени `ZonedDateTime` экземпляра, используя один из следующих методов:
+
+* `getYear()`
+* `getMonth()`
+* `getDayOfMonth()`
+* `getDayOfWeek()`
+* `getDayOfYear()`
+* `getHour()`
+* `getMinute()`
+* `getSecond()`
+* `getNano()`
+
+Пример доступа к году ZonedDateTime:
+
+[source, java]
+----
+int year = ZonedDateTime.now().getYear();
+----
+
+Некоторые из этих методов возвращают *enum*, а другие возвращают `int`. Из *enums* можно получить `int` представление их значения, используя метод `getValue()`. Например:
+
+
+[source, java]
+----
+int month = ZonedDateTime.now().getMonth().getValue();
+----
+=== Расчет даты и времени
+
+Класс `ZonedDateTime` содержит набор методов, используемых для расчета даты и времени. Вот некоторые из этих методов:
+
+* `plusYears()`
+* `plusMonths()`
+* `plusDays()`
+* `plusHours()`
+* `plusMinutes`
+* `plusSeconds`
+* `plusNanos()`
+* `minusYears()`
+* `minusMonths()`
+* `minusDays()`
+* `minusHours()`
+* `minusMinutes`
+* `minusSeconds`
+* `minusNanos()`
+
+Имейте в виду, что расчеты, которые охватывают изменения летнего времени (начало или конец), могут не дать ожидаемого результата! Альтернативой является использование экземпляра класса `Period`, например:
+
+[source, java]
+----
+ZonedDateTime newZoneDateTime = previousDateTime.plus(Period.ofDays(3));
+----
+
+Это должно привести к более правильному расчету.
+
+=== Часовые пояса
+
+Часовые пояса представлены классом `ZoneId`, как показано в предыдущем примере. Можно создать объект `ZoneId` с помощью  метода `now()`. Вот пример:
+
+[source, java]
+----
+ZoneId zoneId = ZoneId.of("UTC+1");
+----
+
+Параметр, передаваемый `of()` методу, - это идентификатор часового пояса, для которого создается `ZoneId` . В приведенном выше примере идентификатором является `UTC+1`, который является смещением от времени *UTC* (*по Гринвичу*). Можно найти смещение *UTC* для желаемого часового пояса и создать соответствующий ему идентификатор, объединив `UTC` со смещением (например, `+1` или `-5`).
+
+Вы также можете использовать другой тип идентификатора часового пояса, который состоит из названия места, где этот часовой пояс активен. Вот пример:
+
+[source, java]
+----
+ZoneId zoneId2 = ZoneId.of("Europe/Copenhagen");
+ZoneId zoneId3 = ZoneId.of("Europe/Paris");
+----

@@ -1,0 +1,110 @@
+== Класс `Instant`
+
+Класс `Instant` используется для представления *мгновения в секундах* (*Unix-время*/*Unix time*/*POSIX-время*), которые прошли с _1 января 1970 года_ (этот момент называют *эпохой Unix* *(Unix Epoch*). Например: `923,456,789` секунд и `186,054,812` наносекунд.
+
+Рассмотрим пример использования методов `now()`, `ofEpochSecond()`,` ofEpochMilli()` класса `Instant`:
+
+[source, java]
+----
+import java.time.Instant;
+import java.time.temporal.ChronoField;
+
+public class InstantDemo1 {
+    public static void main(String[] args) {
+        Instant now = Instant.now();
+
+        Instant instant = now.with(ChronoField.NANO_OF_SECOND, 10);
+        // Устанавливаем секунды
+        Instant fiveSecondsAfterEpoch = Instant.ofEpochSecond(5);
+        // Устанавливаем секунды и наносекунды (могут быть отрицательные)
+        Instant sixSecTwoNanBeforeEpoch = Instant.ofEpochSecond(-6, -2);
+        // Устанавливаем милисекунды после (могут быть и до) эпохи
+        Instant fiftyMilliSecondsAfterEpoch = Instant.ofEpochMilli(50);
+
+        System.out.println("now: " + now);
+        System.out.println("instant: " + instant);
+        System.out.println("fiveSecondsAfterEpoch: " + fiveSecondsAfterEpoch);
+        System.out.println("sixSecTwoNanBeforeEpoch: " + sixSecTwoNanBeforeEpoch);
+        System.out.println("fiftyMilliSecondsAfterEpoch: " + fiftyMilliSecondsAfterEpoch);
+    }
+}
+----
+
+Следующий пример демонстрирует использование методов `get()` класса `Instant` для получения секунд, наносекунд и миллисекунд:
+
+[source, java]
+----
+import java.time.Instant;
+import java.time.temporal.ChronoField;
+
+public class InstantDemo2 {
+    public static void main(String[] args) {
+        Instant now = Instant.now();
+        long seconds = now.getEpochSecond(); // Получить секунды
+        int nanos1 = now.getNano(); //Получить наносекунды
+        // Получить значение как int
+        int millis = now.get(ChronoField.MILLI_OF_SECOND);
+        // Получить значение как long
+        long nanos2 = now.getLong(ChronoField.NANO_OF_SECOND);
+
+        System.out.println("Секунды: " + seconds);
+        System.out.println("Наносекунды: " + nanos1);
+        System.out.println("Милисекунды: " + millis);
+        System.out.println("Наносекунды: " + nanos2);
+    }
+}
+----
+
+Объекты класса `Instant` можно сравнивать методами `isAfter()`, `isBefore()` и `equals()`:
+
+[source, java]
+----
+import java.time.Instant;
+
+public class InstantDemo3 {
+    public static void main(String[] args) {
+        Instant now = Instant.now();
+        Instant fiveSecondsAfterEpoch = Instant.ofEpochSecond(5);
+
+        System.out.println("now.isAfter(fiveSecondsAfterEpoch)? " + now.isAfter(fiveSecondsAfterEpoch));
+        System.out.println("now.isBefore(fiveSecondsAfterEpoch)? " + now.isBefore(fiveSecondsAfterEpoch));
+        System.out.println("now.equals(fiveSecondsAfterEpoch)? " + now.equals(fiveSecondsAfterEpoch));
+    }
+}
+----
+
+Пример использования методов `plus()`, `minus()` класса `Instant` для добавления секунд, миллисекунд и наносекунд:
+
+[source, java]
+----
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+
+public class InstantDemo4 {
+    public static void main(String[] args) {
+        Instant now = Instant.ofEpochSecond(0);
+        // Добавление
+        Instant instant1 = now.plusSeconds(400);
+        Instant instant2 = now.plusMillis(98622200);
+        Instant instant3 = now.plusNanos(300013890);
+        Instant instant4 = now.plus(2, ChronoUnit.MINUTES);
+
+        // Вычитание
+        Instant instant5 = now.minusSeconds(2);
+        Instant instant6 = now.minusMillis(1);
+        Instant instant7 = now.minusNanos(1);
+        Instant instant8 = now.minus(10, ChronoUnit.SECONDS);
+
+        System.out.println(now);
+        System.out.println(instant1);
+        System.out.println(instant2);
+        System.out.println(instant3);
+        System.out.println(instant4);
+
+        System.out.println(instant5);
+        System.out.println(instant6);
+        System.out.println(instant7);
+        System.out.println(instant8);
+    }
+}
+----
