@@ -10,51 +10,151 @@ Dmitry Rakovets
 
 Wiki for course "Java Basics".
 
-include::intro.adoc[Введение]
+include::collections/class-linkedlist.adoc[]
 
-include::first-program-with-java.adoc[Первая программа на Java]
+include::collections/interface-collection.adoc[]
 
-include::language/data-types-and-variables.adoc[Типы данных и переменные]
+include::collections/interface-iterator.adoc[]
 
-include::language/standard-streams.adoc[Консольный ввод и вывод]
+include::collections/interface-list-and-class-arraylist.adoc[]
 
-include::language/base-data-type-conversions.adoc[Преоборазование базовых типов данных]
+include::collections/interface-listiterator.adoc[]
 
-include::language/conditional-constructions.adoc[Условные конструкции]
+include::collections/interface-map-and-class-hashmap.adoc[]
 
-include::language/loops.adoc[Циклы]
+include::collections/interface-queue-and-class-arraydeque.adoc[]
 
-include::language/arrays.adoc[Массивы]
+include::collections/interfaces-comparable-comparator.adoc[]
 
-include::language/methods.adoc[Методы]
+include::collections/interface-set-and-class-hashset.adoc[]
 
-include::language/string.adoc[Строки]
+include::collections/interfaces-sortedmap-navigablemap-and-class-treemap.adoc[]
 
-include::language/regular-expression.adoc[Регулярные выражения]
+include::collections/interfaces-sortedset-navigableset-and-class-treeset.adoc[]
 
-include::oop/abstract-classes.adoc[]
+include::concurrency/class-thread.adoc[]
 
-include::oop/access-modifiers-and-encapsulation.adoc[]
+include::concurrency/creating-and-running-threads.adoc[]
 
-include::oop/classes-and-objects.adoc[]
+include::concurrency/methods-wait-and-notify.adoc[]
 
-include::oop/inheritance.adoc[]
+include::concurrency/operator-synchronized.adoc[]
 
-include::oop/inheritance-hierarchy-and-type-conversion.adoc[]
+include::concurrency/termination-and-interruption-threads.adoc[]
 
-include::oop/interfaces.adoc[]
+include::concurrent/class-exchanger.adoc[]
 
-include::oop/method-overloading.adoc[]
+include::concurrent/class-phaser.adoc[]
 
-include::oop/nested-classes.adoc[]
+include::concurrent/interface-condition.adoc[]
 
-include::oop/object-as-method-parameter.adoc[]
+include::concurrent/locks-and-reentrantlock.adoc[]
 
-include::oop/oop-concepts.adoc[]
+include::concurrent/semaphore.adoc[]
 
-include::oop/package.adoc[]
+include::datetime/class-datetimeformatter.adoc[]
 
-include::oop/static-members-and-static-modifier.adoc[]
+include::datetime/class-duration.adoc[]
+
+include::datetime/class-instant.adoc[]
+
+include::datetime/class-localdate.adoc[]
+
+include::datetime/class-localdatetime.adoc[]
+
+include::datetime/class-localtime.adoc[]
+
+include::datetime/class-period.adoc[]
+
+include::datetime/class-zoneddatetime.adoc[]
+
+include::datetime/datetime.adoc[]
+
+include::exception-handling.adoc[]
+
+include::first-program-with-java.adoc[]
+
+include::fp/arrays-and-parallel-operations.adoc[]
+
+include::fp/class-collectors.adoc[]
+
+include::fp/class-optional.adoc[]
+
+include::fp/creating-stream.adoc[]
+
+include::fp/filtering-mapping-foreaching.adoc[]
+
+include::fp/functional-interfaces.adoc[]
+
+include::fp/getting-and-merging-stream.adoc[]
+
+include::fp/intro-to-stream-api.adoc[]
+
+include::fp/stream-and-parallel.adoc[]
+
+include::fp/stream-collect.adoc[]
+
+include::fp/stream-reduce.adoc[]
+
+include::fp/stream-resulting-methods.adoc[]
+
+include::fp/stream-skip-and-limit.adoc[]
+
+include::fp/stream-sorted.adoc[]
+
+include::generics/generics.adoc[]
+
+include::generics/inheritance-and-generics.adoc[]
+
+include::generics/wildcard-for-generics.adoc[]
+
+include::intro.adoc[]
+
+include::io/bufferedinputstream-and-bufferedoutputstream.adoc[]
+
+include::io/bufferedreader-and-bufferedwriter.adoc[]
+
+include::io/bytearrayinputstream-and-bytearrayoutputstream.adoc[]
+
+include::io/class-console.adoc[]
+
+include::io/class-file.adoc[]
+
+include::io/closing-streams.adoc[]
+
+include::io/dataoutputstream-and-datainputstream.adoc[]
+
+include::io/fileinputstream-and-fileoutputstream.adoc[]
+
+include::io/filereader-and-filewriter.adoc[]
+
+include::io/inputstream-and-outputstream.adoc[]
+
+include::io/printstream-and-printwriter.adoc[]
+
+include::io/serialization.adoc[]
+
+include::io/work-with-zip-archives.adoc[]
+
+include::language/arrays.adoc[]
+
+include::language/base-data-type-conversions.adoc[]
+
+include::language/conditional-constructions.adoc[]
+
+include::language/data-types-and-variables.adoc[]
+
+include::language/loops.adoc[]
+
+include::language/methods.adoc[]
+
+include::language/operators.adoc[]
+
+include::language/regular-expression.adoc[]
+
+include::language/standard-streams.adoc[]
+
+include::language/string.adoc[]
 
 include::mics/annotations.adoc[]
 
@@ -80,34 +180,32 @@ include::mics/string-formatting.adoc[]
 
 include::mics/wrapper-classes.adoc[]
 
-include::exception-handling.adoc[Обработка исключений]
+include::modularity.adoc[]
 
-include::generics/generics.adoc[Обобщения (Generics)]
+include::nio.adoc[]
 
-include::generics/inheritance-and-generics.adoc[Наследование и обобщения]
+include::oop/abstract-classes.adoc[]
 
-include::generics/wildcard-for-generics.adoc[Ограничения обобщений]
+include::oop/access-modifiers-and-encapsulation.adoc[]
 
-include::datetime/class-datetimeformatter.adoc[]
+include::oop/classes-and-objects.adoc[]
 
-include::datetime/class-duration.adoc[]
+include::oop/inheritance.adoc[]
 
-include::datetime/class-instant.adoc[]
+include::oop/inheritance-hierarchy-and-type-conversion.adoc[]
 
-include::datetime/class-localdate.adoc[]
+include::oop/interfaces.adoc[]
 
-include::datetime/class-localdatetime.adoc[]
+include::oop/method-overloading.adoc[]
 
-include::datetime/class-localtime.adoc[]
+include::oop/nested-classes.adoc[]
 
-include::datetime/class-period.adoc[]
+include::oop/object-as-method-parameter.adoc[]
 
-include::datetime/class-zoneddatetime.adoc[]
+include::oop/oop-concepts.adoc[]
 
-include::datetime/datetime.adoc[]
+include::oop/package.adoc[]
 
-include::reflection-api.adoc[Reflection]
+include::oop/static-members-and-static-modifier.adoc[]
 
-include::modularity.adoc[Модульность]
-
-include::nio.adoc[Java NIO]
+include::reflection-api.adoc[]
