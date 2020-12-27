@@ -1,0 +1,113 @@
+== `sorted()`
+
+Коллекции, на основе которых нередко создаются потоки, уже имеют специальные методы для сортировки содержимого. Однако класс `Stream` также включает возможность сортировки. Такую сортировку мы можем задействовать, когда у нас идет набор промежуточных операций с потоком, которые создают новые наборы данных, и нам надо эти наборы отсортировать.
+
+Для простой сортировки по возрастанию применяется метод `sorted()`:
+
+[source, java]
+----
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+public class Program {
+    public static void main(String[] args) {
+        List<String> phones = new ArrayList<String>();
+        Collections.addAll(phones, "iPhone X", "Nokia 9", "Huawei Nexus 6P",
+                "Samsung Galaxy S8", "LG G6", "Xiaomi MI6",
+                "ASUS Zenfone 3", "Sony Xperia Z5", "Meizu Pro 6",
+                "Pixel 2");
+
+        phones.stream()
+                .filter(p -> p.length() < 12)
+                .sorted() // сортировка по возрастанию
+                .forEach(s -> System.out.println(s));
+    }
+}
+----
+
+Консольный вывод после сортировки объектов:
+
+[source, sh]
+----
+LG G6
+Meizu Pro 6
+Nokia 9
+Pixel 2
+Xiaomi MI6
+iPhone X
+----
+
+Однако данный метод не всегда подходит. Уже по консольному выводу мы видим, что метод сортирует объекты по возрастанию, но при этом заглавные и строчные буквы рассматриваются отдельно.
+
+Кроме того, данный метод подходит только для сортировки тех объектов, которые реализуют интерфейс `Comparable`.
+
+Если же у нас классы объектов не реализуют этот интерфейс или мы хотим создать какую-то свою логику сортировки, то мы можем использовать другую версию метода `sorted()`, которая в качестве параметра принимает компаратор.
+
+Например, пусть у нас есть следующий класс `Phone`:
+
+[source, java]
+----
+class Phone {
+    private String name;
+    private String company;
+    private int price;
+
+    public Phone(String name, String comp, int price) {
+        this.name = name;
+        this.company = comp;
+        this.price = price;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public String getCompany() {
+        return company;
+    }
+}
+----
+
+Отсортируем поток обектов `Phone`:
+
+[source, java]
+----
+import java.util.Comparator;
+import java.util.stream.Stream;
+
+public class Program {
+    public static void main(String[] args) {
+        Stream<Phone> phoneStream = Stream.of(new Phone("iPhone X", "Apple", 600),
+            new Phone("Pixel 2", "Google", 500),
+            new Phone("iPhone 8", "Apple",450),
+            new Phone("Nokia 9", "HMD Global",150),
+            new Phone("Galaxy S9", "Samsung", 300));
+
+        phoneStream.sorted(new PhoneComparator())
+                .forEach(p->System.out.printf("%s (%s) - %d \n",
+                        p.getName(), p.getCompany(), p.getPrice()));
+    }
+}
+
+class PhoneComparator implements Comparator<Phone> {
+    public int compare(Phone a, Phone b) {
+        return a.getName().toUpperCase().compareTo(b.getName().toUpperCase());
+    }
+}
+----
+
+Здесь определен класс компаратора `PhoneComparator`, который сортирует объекты по полю `name`. В итоге мы получим следующий вывод:
+
+[source, sh]
+----
+Galaxy S9 (Samsung) - 300
+iPhone 8 (Apple) - 450
+iPhone X (Apple) - 600
+Nokia 9 (HMD Global) - 150
+Pixel 2 (Google) - 500
+----
