@@ -1,0 +1,125 @@
+=== Запись файлов и класс `FileOutputStream`
+
+Класс `FileOutputStream` предназначен для записи байтов в файл. Он является производным от класса `OutputStream`, поэтому наследует всю его функциональность.
+
+Через конструктор класса `FileOutputStream` задается файл, в который производится запись. Класс поддерживает несколько конструкторов:
+
+- `FileOutputStream(String filePath)`
+- `FileOutputStream(File fileObj)`
+- `FileOutputStream(String filePath, boolean append)`
+- `FileOutputStream(File fileObj, boolean append)`
+
+Файл задается либо через строковый путь, либо через объект `File`. Второй параметр - `append` задает способ записи: eсли он равен `true`, то данные дозаписываются в конец файла, а при `false` - файл полностью перезаписывается
+
+Например, запишем в файл строку:
+
+[source, java]
+----
+import java.io.FileOutputStream;
+import java.io.IOException;
+
+public class Program {
+    public static void main(String[] args) {
+        String text = "Hello world!"; // строка для записи
+        try (FileOutputStream fos = new FileOutputStream("C://SomeDir//notes.txt")) {
+            byte[] buffer = text.getBytes(); // перевод строки в байты
+            fos.write(buffer, 0, buffer.length);
+        } catch (IOException ex) {
+            System.out.println(ex.getMessage());
+        }
+        System.out.println("The file has been written");
+    }
+}
+----
+
+Для создания объекта `FileOutputStream` используется конструктор, принимающий в качестве параметра путь к файлу для записи. Если такого файла нет, то он автоматически создается при записи. Так как здесь записываем строку, то ее надо сначала перевести в массив байтов. И с помощью метода `write()` строка записывается в файл.
+
+Для автоматического закрытия файла и освобождения ресурса объект `FileOutputStream` создается с помощью конструктции `try...catch`.
+
+При этом необязательно записывать весь массив байтов. Используя перегрузку метода `write()`, можно записать и одиночный байт:
+
+[source, java]
+----
+fos.write(buffer[0]); // запись первого байта
+----
+
+=== Чтение файлов и класс `FileInputStream`
+
+Для считывания данных из файла предназначен класс `FileInputStream`, который является наследником класса `InputStream` и поэтому реализует все его методы.
+
+Для создания объекта `FileInputStream` мы можем использовать ряд конструкторов:
+
+- `FileInputStream(File file)` открывает соединение с файлом, `file` является `Object` типа `File` к считываемому файлу
+- `​​FileInputStream(FileDescriptor fdObj)` используя файловый дескриптор `fdObj`, который представляет существующее соединение с файлом в файловой системе
+- `FileInputStream(String name)` открывает соединение с файлом, `name` является путем к считываемому файлу
+
+Если файл не может быть открыт, например, по указанному пути такого файла не существует, то генерируется исключение `FileNotFoundException`.
+
+Считаем данные из ранее записанного файла и выведем на консоль:
+
+[source, java]
+----
+import java.io.FileInputStream;
+import java.io.IOException;
+
+public class Program {
+    public static void main(String[] args) {
+        try (FileInputStream fin = new FileInputStream("C://SomeDir//notes.txt")) {
+            System.out.printf("File size: %d bytes \n", fin.available());
+            int i = -1;
+            while ((i = fin.read()) != -1) {
+                System.out.print((char) i);
+            }
+        } catch (IOException ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
+}
+----
+
+В данном случае мы считываем каждый отдельный байт в переменную `i`:
+
+[source, java]
+----
+while ((i = fin.read()) != -1) {
+----
+
+Когда в потоке больше нет данных для чтения, метод возвращает число `-1`.
+
+Затем каждый считанный байт конвертируется в объект типа `char` и выводится на консоль.
+
+Подобным образом можно считать данные в массив байтов и затем производить с ним манипуляции:
+
+[source, java]
+----
+byte[] buffer = new byte[fin.available()]; // считаем файл в буфер
+fin.read(buffer, 0, fin.available());
+System.out.println("File data:");
+for (int i = 0; i < buffer.length; i++) {
+    System.out.print((char) buffer[i]);
+}
+----
+
+Совместим оба класса и выполним чтение из одного и запись в другой файл:
+
+[source, java]
+----
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
+public class Program {
+    public static void main(String[] args) {
+        try (FileInputStream fin = new FileInputStream("C://SomeDir//notes.txt");
+             FileOutputStream fos = new FileOutputStream("C://SomeDir//notes_new.txt")) {
+            byte[] buffer = new byte[fin.available()]; // считываем буфер
+            fin.read(buffer, 0, buffer.length); // записываем из буфера в файл
+            fos.write(buffer, 0, buffer.length);
+        } catch (IOException ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
+}
+----
+
+Классы `FileInputStream` и `FileOutputStream` предназначены прежде всего для записи двоичных файлов, то есть для записи и чтения байтов. И хотя они также могут использоваться для работы с текстовыми файлами, но все же для этой задачи больше подходят другие классы.

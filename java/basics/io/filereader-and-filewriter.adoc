@@ -1,0 +1,102 @@
+== Класс `FileWriter` и `FileReader`
+
+Хотя с помощью ранее рассмотренных классов можно записывать текст в файлы, однако они предназначены прежде всего для работы с бинарными потоками данных, и их возможностей для полноценной работы с текстовыми файлами недостаточно. И для этой цели служат совсем другие классы, которые являются наследниками абстрактных классов `Reader` и `Writer`.
+
+=== Запись файлов. Класс `FileWriter`
+
+Класс `FileWriter` является производным от класса `Writer`. Он используется для записи текстовых файлов.
+
+Чтобы создать объект `FileWriter`, можно использовать один из следующих конструкторов:
+- `FileWriter(File file)`
+- `FileWriter(File file, boolean append)`
+- `FileWriter(FileDescriptor fd)`
+- `FileWriter(String fileName)`
+- `FileWriter(String fileName, boolean append) `
+
+Так, в конструктор передается либо путь к файлу в виде строки, либо объект `File`, который ссылается на конкретный текстовый файл. Параметр `append` указывает, должны ли данные дозаписываться в конец файла (если параметр равен `true`), либо файл должен перезаписываться.
+
+Запишем в файл какой-нибудь текст:
+
+[source, java]
+----
+import java.io.FileWriter;
+import java.io.IOException;
+
+public class Program {
+    public static void main(String[] args) {
+        try (FileWriter writer = new FileWriter("notes3.txt", false)) {
+            String text = "Hello Gold!";
+            writer.write(text); // запись всей строки
+            writer.append('\n'); // запись одного символа
+            writer.append('E');
+            writer.flush();
+        } catch (IOException ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
+}
+----
+
+В конструкторе использовался параметр `append` со значением `false` - то есть файл будет перезаписываться. Затем с помощью методов, определенных в базовом классе `Writer` производится запись данных.
+
+=== Чтение файлов. Класс `FileReader`
+
+Класс `FileReader` наследуется от абстрактного класса `Reader` и предоставляет функциональность для чтения текстовых файлов.
+
+Для создания объекта `FileReader` мы можем использовать один из его конструкторов:
+
+- `FileReader(String fileName)`
+- `FileReader(File file)`
+- `FileReader(FileDescriptor fd)`
+
+А используя методы, определенные в базом классе `Reader`, произвести чтение файла:
+
+[source, java]
+----
+import java.io.FileReader;
+import java.io.IOException;
+
+public class Program {
+    public static void main(String[] args) {
+        try (FileReader reader = new FileReader("notes3.txt")) {
+            // читаем посимвольно
+            int c;
+            while ((c = reader.read()) != -1) {
+                System.out.print((char) c);
+            }
+        } catch (IOException ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
+}
+----
+
+Также мы можем считывать в промежуточный буфер из массива символов:
+
+[source, java]
+----
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.Arrays;
+
+public class Program {
+    public static void main(String[] args) {
+        try (FileReader reader = new FileReader("notes3.txt")) {
+            char[] buf = new char[256];
+            int c;
+            while ((c = reader.read(buf)) > 0) {
+                if (c < 256) {
+                    buf = Arrays.copyOf(buf, c);
+                }
+                System.out.print(buf);
+            }
+        } catch (IOException ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
+}
+----
+
+В данном случае считываем последовательно символы из файла в массив из 256 символов, пока не дойдем до конца файла в этом случае метод `read()` возвратит число `-1`.
+
+Поскольку считанная порция файла может быть меньше 256 символов (например, в файле всего 73 символа), и если количество считанных данных меньше размера буфера (256), то выполняем копирование массива с помощью метода `Arrays.copyOf()`. То есть фактически обрезаем массив `buf`, оставляя в нем только те символы, которые считаны из файла.

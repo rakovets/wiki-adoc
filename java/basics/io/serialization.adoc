@@ -1,0 +1,244 @@
+== Сериализация
+
+*Сериализация* представляет процесс записи состояния объекта в поток, соответственно процесс извлечения или восстановления состояния объекта из потока называется *десериализацией*. Сериализация очень удобна, когда идет работа со сложными объектами.
+
+image:/assets/img/java/basics/io/serialization.png[Serialization]
+
+=== Интерфейс `Serializable`
+
+Сразу надо сказать, что сериализовать можно только те объекты, которые реализуют интерфейс `Serializable`. Этот интерфейс не определяет никаких методов, просто он служит указателем системе, что объект, реализующий его, может быть сериализован.
+
+=== Сериализация. Класс `ObjectOutputStream`
+
+Для сериализации объектов в поток используется класс `ObjectOutputStream`. Он записывает данные в поток.
+
+Для создания объекта `ObjectOutputStream` в конструктор передается поток, в который производится запись:
+
+[source, java]
+----
+ObjectOutputStream(OutputStream out)
+----
+
+Для записи данных `ObjectOutputStream` использует ряд методов, среди которых можно выделить следующие:
+
+- `void close()` закрывает поток
+- `void flush()` очищает буфер и сбрасывает его содержимое в выходной поток
+- `void write(byte[] buf)` записывает в поток массив байтов
+- `void write(int val)` записывает в поток один младший байт из `val`
+- `void writeBoolean(boolean val)` записывает в поток значение `boolean`
+- `void writeByte(int val)` записывает в поток один младший байт из `val`
+- `void writeChar(int val)` записывает в поток значение типа `char`, представленное целочисленным значением
+- `void writeDouble(double val)` записывает в поток значение типа `double`
+- `void writeFloat(float val)` записывает в поток значение типа `float`
+- `void writeInt(int val)` записывает целочисленное значение `int`
+- `void writeLong(long val)` записывает значение типа `long`
+- `void writeShort(int val)` записывает значение типа `short`
+- `void writeUTF(String str)` записывает в поток строку в кодировке `UTF-8`
+- `void writeObject(Object obj)` записывает в поток отдельный объект
+
+Эти методы охватывают весь спектр данных, которые можно сериализовать.
+
+Например, сохраним в файл один объект класса `Person`:
+
+[source, java]
+----
+import java.io.FileOutputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+
+public class Program {
+    public static void main(String[] args) {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("person.dat"))) {
+            Person p = new Person("Sam", 33, 178, true);
+            oos.writeObject(p);
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
+}
+
+class Person implements Serializable {
+    private String name;
+    private int age;
+    private double height;
+    private boolean married;
+
+    Person(String n, int a, double h, boolean m) {
+        name = n;
+        age = a;
+        height = h;
+        married = m;
+    }
+
+    String getName() {
+        return name;
+    }
+
+    int getAge() {
+        return age;
+    }
+
+    double getHeight() {
+        return height;
+    }
+
+    boolean getMarried() {
+        return married;
+    }
+}
+----
+
+=== Десериализация. Класс `ObjectInputStream`
+
+Класс `ObjectInputStream` отвечает за обратный процесс - чтение ранее сериализованных данных из потока. В конструкторе он принимает ссылку на поток ввода:
+
+[source, java]
+----
+ObjectInputStream(InputStream in)
+----
+
+Функционал `ObjectInputStream` сосредоточен в методах, предназначенных для чтения различных типов данных. Рассмотрим основные методы этого класса:
+
+- `void close()` закрывает поток
+- `int skipBytes(int len)` пропускает при чтении несколько байт, количество которых равно `len`
+- `int available()` возвращает количество байт, доступных для чтения
+- `int read()` считывает из потока один байт и возвращает его целочисленное представление
+- `boolean readBoolean()` считывает из потока одно значение `boolean`
+- `byte readByte()` считывает из потока один байт
+- `char readChar()` считывает из потока один символ `char`
+- `double readDouble()` считывает значение типа `double`
+- `float readFloat()` считывает из потока значение типа `float`
+- `int readInt()` считывает целочисленное значение `int`
+- `long readLong()` считывает значение типа `long`
+- `short readShort()` считывает значение типа `short`
+- `String readUTF()` считывает строку в кодировке `UTF-8`
+- `Object readObject()` считывает из потока объект
+
+Например, извлечем выше сохраненный объект `Person` из файла:
+
+[source, java]
+----
+import java.io.FileInputStream;
+import java.io.ObjectInputStream;
+
+public class Program {
+    public static void main(String[] args) {
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("person.dat"))) {
+            Person p = (Person) ois.readObject();
+            System.out.printf("Name: %s \t Age: %d \n", p.getName(), p.getAge());
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
+}
+----
+
+Теперь совместим сохранение и восстановление из файла на примере списка объектов:
+
+[source, java]
+----
+import java.io.*;
+import java.util.ArrayList;
+
+public class Program {
+    //@SuppressWarnings("unchecked")
+    public static void main(String[] args) {
+        String filename = "people.dat";
+        // создадим список объектов, которые будем записывать
+        ArrayList<Person> people = new ArrayList<Person>();
+        people.add(new Person("Tom", 30, 175, false));
+        people.add(new Person("Sam", 33, 178, true));
+
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(filename))) {
+            oos.writeObject(people);
+            System.out.println("File has been written");
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }
+
+        // десериализация в новый список
+        ArrayList<Person> newPeople = new ArrayList<Person>();
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(filename))) {
+            newPeople = ((ArrayList<Person>) ois.readObject());
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }
+
+        for (Person p : newPeople) {
+            System.out.printf("Name: %s \t Age: %d \n", p.getName(), p.getAge());
+        }
+    }
+}
+----
+
+[source, java]
+----
+class Person implements Serializable {
+    private String name;
+    private int age;
+    private double height;
+    private boolean married;
+
+    public Person(String n, int a, double h, boolean m) {
+        this.name = n;
+        this.age = a;
+        this.height = h;
+        this.married = m;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public int getAge() {
+        return this.age;
+    }
+
+    public double getHeight() {
+        return this.height;
+    }
+
+    public boolean getMarried() {
+        return this.married;
+    }
+}
+----
+
+=== Исключение данных из сериализации
+
+По умолчанию сериализуются все переменные объекта. Однако, возможно, мы хотим, чтобы некоторые поля были исключены из сериализации. Для этого они должны быть объявлены с модификатором `transient`. Например, исключим из сериализации объекта `Person` переменные `height` и `married`:
+
+[source, java]
+----
+import java.io.Serializable;
+
+class Person implements Serializable {
+    private String name;
+    private int age;
+    private transient double height;
+    private transient boolean married;
+
+    public Person(String n, int a, double h, boolean m) {
+        this.name = n;
+        this.age = a;
+        this.height = h;
+        this.married = m;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public int getAge() {
+        return this.age;
+    }
+
+    public double getHeight() {
+        return this.height;
+    }
+
+    public boolean getMarried() {
+        return this.married;
+    }
+}
+----

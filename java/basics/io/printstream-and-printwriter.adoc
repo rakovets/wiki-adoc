@@ -1,0 +1,110 @@
+=== Класс `PrintStream`
+
+Класс `PrintStream` - это именно тот класс, который используется для вывода на консоль. Когда мы выводим на консоль некоторую информацию с помощью вызова `System.out.println()`, то тем самым мы задействует `PrintStream`, так как переменная `out` в классе `System` как раз и представляет объект класса `PrintStream`, а метод `println()` - это метод класса `PrintStream`.
+
+Но `PrintStream` полезен не только для вывода на консоль. Мы можем использовать данный класс для записи информации в поток вывода. Для этого `PrintStream` определяет ряд конструкторов:
+
+- `PrintStream(OutputStream outputStream)`
+- `PrintStream(OutputStream outputStream, boolean autoFlushingOn)`
+- `PrintStream(OutputStream outputStream, boolean autoFlushingOn, String charSet) throws UnsupportedEncodingException`
+- `PrintStream(File outputFile) throws FileNotFoundException`
+- `PrintStream(File outputFile, String charSet) throws FileNotFoundException, UnsupportedEncodingException`
+- `PrintStream(String outputFileName) throws FileNotFoundException`
+- `PrintStream(String outputFileName, String charSet) throws FileNotFoundException, UnsupportedEncodingException`
+
+Параметр `outputStream` - это объект `OutputStream`, в который производится запись. Параметр `autoFlushingOn` при значении `true` позволяет автоматически записывать данные в поток вывода. По умолчанию этот параметр равен `false`. Параметр `charSet` позволяет указать кодировку символов.
+
+В качестве источника для записи данных вместо `OutputStream` можно использовать объект `File` или строковый путь, по которому будет создаваться файл.
+
+Для вывода информации в выходной поток `PrintStream` использует следующие методы:
+
+- `println()` вывод строковой информации с переводом строки
+- `print()` вывод строковой информации без перевода строки
+- `printf()` форматированный вывод
+
+Например, запишем информацию в файл:
+
+[source, java]
+----
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.PrintStream;
+
+public class Program {
+    public static void main(String[] args) {
+        String text = "Привет мир!"; // строка для записи
+        try (FileOutputStream fos = new FileOutputStream("C://SomeDir//notes3.txt");
+             PrintStream printStream = new PrintStream(fos)) {
+            printStream.println(text);
+            System.out.println("Запись в файл произведена");
+        } catch (IOException ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
+}
+----
+
+В данном случае применяется форма конструктора `PrintStream`, которая в качестве параметра принимает поток вывода: `PrintStream (OutputStream out)`. Кроме того, мы могли бы использовать ряд других форм конструктора, например, указывая названия файла для записи: `PrintStream (string filename)`
+
+В качестве потока вывода используется объект `FileOutputStream`. С помощью метода `println()` производится запись информации в выходной поток - то есть в объект `FileOutputStream`. (В случае с выводом на консоль с помощью `System.out.println()` в качестве потока вывода выступает консоль)
+
+Кроме того, как и любой поток вывода и наследник класса `OutputStream` он имеет метод `write()`:
+
+[source, java]
+----
+import java.io.IOException;
+import java.io.PrintStream;
+
+public class Program {
+    public static void main(String[] args) {
+        try (PrintStream printStream = new PrintStream("notes3.txt")) {
+            printStream.print("Hello World!");
+            printStream.println("Welcome to Java!");
+            printStream.printf("Name: %s Age: %d \n", "Tom", 34);
+            String message = "PrintStream";
+            byte[] messageToBytes = message.getBytes();
+            printStream.write(messageToBytes);
+            System.out.println("The file has been written");
+        } catch (IOException ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
+}
+----
+
+После выполнения этой программы получится файл со следующим содержанием:
+
+[source, out]
+----
+Hello World!Welcome to Java!
+Name: Tom Age: 34
+PrintStream
+----
+
+=== `PrintWriter`
+
+На `PrintStream` похож другой класс `PrintWriter`. Его можно использовать как для вывода информации на консоль, так и в файл или любой другой поток вывода. Данный класс имеет ряд конструкторов:
+
+- `PrintWriter(File file)` автоматически добавляет информацию в указанный файл
+- `PrintWriter(File file, String csn)` автоматически добавляет информацию в указанный файл с учетом кодировки `csn`
+- `PrintWriter(OutputStream out)` для вывода информации используется существующий объект `OutputStream`, автоматически сбрасывая в него данные
+- `PrintWriter(OutputStream out, boolean autoFlush)` для вывода информации используется существующий объект `OutputStream`, второй параметр указывает, надо ли автоматически добавлять в `OutputStream` данные
+- `PrintWriter(String fileName)` автоматически добавляет информацию в файл по указанному имени
+- `PrintWriter(String fileName, String csn)` автоматически добавляет информацию в файл по указанному имени, используя кодировку `csn`
+- `PrintWriter(Writer out)` для вывода информации используется существующий объект `Writer`, в который автоматически идет запись данных
+- `PrintWriter(Writer out, boolean autoFlush)` для вывода информации используется существующий объект `Writer`, второй параметр указывает, надо ли автоматически добавлять в `Writer` данные
+
+`PrintWriter` реализует интерфейсы `Appendable`, `Closable` и `Flushable`, и поэтому после использования представляемый им поток надо закрывать.
+
+Для записи данных в поток он также используется методы `printf()` и `println()`.
+
+Например, применим данный класс для вывода на консоль:
+
+[source, java]
+----
+try (PrintWriter pw = new PrintWriter(System.out)) {
+    pw.println("Hello world!");
+}
+----
+
+В качестве потока вывода здесь применяется `System.out`, а на консоль будет выведена строка `Hello world!`
