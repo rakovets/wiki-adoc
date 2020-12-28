@@ -1,4 +1,4 @@
-== Checkstyle plugin for IntelliJ IDEA
+= Checkstyle plugin for IntelliJ IDEA
 
 In files manager:
 

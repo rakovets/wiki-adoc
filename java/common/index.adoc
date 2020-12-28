@@ -1,7 +1,6 @@
 = Common
 Dmitry Rakovets
 :source-highlighter: prettify
-:source-highlighter: prettify
 :sectnums:
 :toc: left
 :toclevels: 2
@@ -10,6 +9,8 @@ Dmitry Rakovets
 :toc!:
 
 Wiki for common java theme.
+
+:leveloffset: +1
 
 include::code-convention.adoc[Code Convention]
 
