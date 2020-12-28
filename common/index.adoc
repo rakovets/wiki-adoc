@@ -12,4 +12,14 @@ Wiki for common theme.
 
 :leveloffset: +1
 
-include::design-principles.adoc[Design Principles]
+include::programming/index.adoc[]
+
+include::git/index.adoc[]
+
+include::web/index.adoc[]
+
+include::abbreviations.adoc[]
+
+include::commands-for-unix-like-os.adoc[]
+
+include::number-systems.adoc[]

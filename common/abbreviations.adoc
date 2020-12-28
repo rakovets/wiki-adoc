@@ -1,0 +1,50 @@
+= Abbreviations
+
+== Common
+
+* `BIOS` - Basic Input/Output System
+* `CHS` - Cylinder Head Sector
+* `CIFS` - Common Internet File System
+* `DD` - DataDog
+* `DOM` - Document Object Model
+* `DRY` - Don't Repeat Youself (Andy Hunt, Dave Thomas "The PragmaticProgrammer")
+* `DTD` - Document Type Definition
+* `ESP` - `EFI` System Partition
+* `FUSE` - File System in User Scope
+* `GPG` - `GNU` Privacy Guard
+* `GPT` - Globaly UID Partition Table
+* `GRUB` - GRand Uninfied Boot loader
+* `IaaS` - Infrastructure as a Service
+* `LBA` - Logical Block Addressing
+* `MBR` - Master Boot Record
+* `NAT` - Network Address Translation
+* `NTLM` - NT Lan Manager
+* `SCSI` - Small Computer System Interface
+* `SGML` - Standard Generalized Markup Language
+* `SMB` - Server Message Block
+* `SOAP` - Simple Object Access Protocol
+* `UEFI` - Unified Extensible Firmware Interface
+* `UID` - Unique Identifier
+* `UUID` - Universally Unique Identifier
+* `VFS` - Virtual File System
+* `W3C` - World Wide Web Consortium
+* `WSDL` - Web Service Description Language
+* `XML` - eXtensible Markup Language
+* `XPath` - XML Path Language
+* `XSD` - XML Schema Definition
+* `XSL` - eXtensible Stylesheet Language
+* `XSLT` - eXtensible Stylesheet Language Transformations
+
+== Amazon Web Services
+
+* `AWS` - Amazon Web Services
+* `EC2` - Elastic Compute Cloud
+* `EBS` - Elastic Block Store
+* `AMI` - Amazon Machine Image
+* `IAM` - Identity and Access Management
+* `VPC` - Virtual Private Cloud
+* `SAN` - Storage-Area Network
+* `EFS` - Elastic File Store
+* `CIDR` - Classes Inter-Domain Routing
+* `SQS` - Simple Queue Service
+* `STS` - Simple Token Service
