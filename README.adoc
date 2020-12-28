@@ -8,3 +8,17 @@ Wikis for different courses. Use 'AsciiDoc' and 'Asciidoctor' for convertation t
 * link:/common[Common]
 * link:/java/common[Java Common]
 * link:/java/basics[Java Basics]
+
+== Code of Conduct
+
+This project is governed by the link:.github/CODE_OF_CONDUCT.md[Code of Conduct].
+By participating, you are expected to uphold this code of conduct.
+
+
+== Contributing
+
+Follow link:.github/CONTRIBUTING.md[CONTRIBUTING.md].
+
+== License
+
+The project is released under version 1.3 of the link:https://www.gnu.org/licenses/fdl-1.3.ru.html[GNU Free Documentation License].
