@@ -3,209 +3,37 @@ Dmitry Rakovets
 :source-highlighter: prettify
 :sectnums:
 :toc: left
-:toclevels: 1
+:toclevels: 2
 //:data-uri:
 
 :toc!:
 
 Wiki for course "Java Basics".
 
-include::collections/class-linkedlist.adoc[]
-
-include::collections/interface-collection.adoc[]
-
-include::collections/interface-iterator.adoc[]
-
-include::collections/interface-list-and-class-arraylist.adoc[]
-
-include::collections/interface-listiterator.adoc[]
-
-include::collections/interface-map-and-class-hashmap.adoc[]
-
-include::collections/interface-queue-and-class-arraydeque.adoc[]
-
-include::collections/interfaces-comparable-comparator.adoc[]
-
-include::collections/interface-set-and-class-hashset.adoc[]
-
-include::collections/interfaces-sortedmap-navigablemap-and-class-treemap.adoc[]
-
-include::collections/interfaces-sortedset-navigableset-and-class-treeset.adoc[]
-
-include::concurrency/class-thread.adoc[]
-
-include::concurrency/creating-and-running-threads.adoc[]
-
-include::concurrency/methods-wait-and-notify.adoc[]
-
-include::concurrency/operator-synchronized.adoc[]
-
-include::concurrency/termination-and-interruption-threads.adoc[]
-
-include::concurrent/class-exchanger.adoc[]
-
-include::concurrent/class-phaser.adoc[]
-
-include::concurrent/interface-condition.adoc[]
-
-include::concurrent/locks-and-reentrantlock.adoc[]
-
-include::concurrent/semaphore.adoc[]
-
-include::datetime/class-datetimeformatter.adoc[]
-
-include::datetime/class-duration.adoc[]
-
-include::datetime/class-instant.adoc[]
-
-include::datetime/class-localdate.adoc[]
-
-include::datetime/class-localdatetime.adoc[]
-
-include::datetime/class-localtime.adoc[]
-
-include::datetime/class-period.adoc[]
-
-include::datetime/class-zoneddatetime.adoc[]
-
-include::datetime/datetime.adoc[]
-
-include::exception-handling.adoc[]
-
-include::first-program-with-java.adoc[]
-
-include::fp/arrays-and-parallel-operations.adoc[]
-
-include::fp/class-collectors.adoc[]
-
-include::fp/class-optional.adoc[]
-
-include::fp/creating-stream.adoc[]
-
-include::fp/filtering-mapping-foreaching.adoc[]
-
-include::fp/functional-interfaces.adoc[]
-
-include::fp/getting-and-merging-stream.adoc[]
-
-include::fp/intro-to-stream-api.adoc[]
-
-include::fp/stream-and-parallel.adoc[]
-
-include::fp/stream-collect.adoc[]
-
-include::fp/stream-reduce.adoc[]
-
-include::fp/stream-resulting-methods.adoc[]
-
-include::fp/stream-skip-and-limit.adoc[]
-
-include::fp/stream-sorted.adoc[]
-
-include::generics/generics.adoc[]
-
-include::generics/inheritance-and-generics.adoc[]
-
-include::generics/wildcard-for-generics.adoc[]
+:leveloffset: +1
 
 include::intro.adoc[]
 
-include::io/bufferedinputstream-and-bufferedoutputstream.adoc[]
+include::first-program.adoc[]
 
-include::io/bufferedreader-and-bufferedwriter.adoc[]
+include::language/index.adoc[]
 
-include::io/bytearrayinputstream-and-bytearrayoutputstream.adoc[]
+include::oop/index.adoc[]
 
-include::io/class-console.adoc[]
+include::mics/index.adoc[]
 
-include::io/class-file.adoc[]
+include::exception-handling.adoc[]
 
-include::io/closing-streams.adoc[]
+include::generics/index.adoc[]
 
-include::io/dataoutputstream-and-datainputstream.adoc[]
+include::collections/index.adoc[]
 
-include::io/fileinputstream-and-fileoutputstream.adoc[]
+include::fp/index.adoc[]
 
-include::io/filereader-and-filewriter.adoc[]
+include::datetime/index.adoc[]
 
-include::io/inputstream-and-outputstream.adoc[]
+include::io/index.adoc[]
 
-include::io/printstream-and-printwriter.adoc[]
+include::concurrency/index.adoc[]
 
-include::io/serialization.adoc[]
-
-include::io/work-with-zip-archives.adoc[]
-
-include::language/arrays.adoc[]
-
-include::language/base-data-type-conversions.adoc[]
-
-include::language/conditional-constructions.adoc[]
-
-include::language/data-types-and-variables.adoc[]
-
-include::language/loops.adoc[]
-
-include::language/methods.adoc[]
-
-include::language/operators.adoc[]
-
-include::language/regular-expression.adoc[]
-
-include::language/standard-streams.adoc[]
-
-include::language/string.adoc[]
-
-include::mics/annotations.adoc[]
-
-include::mics/boxing.adoc[]
-
-include::mics/boxing-and-overloading.adoc[]
-
-include::mics/class-object.adoc[]
-
-include::mics/cloning-objects.adoc[]
-
-include::mics/enum.adoc[]
-
-include::mics/intro-to-lambda-expressions.adoc[]
-
-include::mics/javadoc.adoc[]
-
-include::mics/lambdas-as-parameters-and-methods-results.adoc[]
-
-include::mics/stringbuffer-and-stringbuilder.adoc[]
-
-include::mics/string-formatting.adoc[]
-
-include::mics/wrapper-classes.adoc[]
-
-include::modularity.adoc[]
-
-include::nio.adoc[]
-
-include::oop/abstract-classes.adoc[]
-
-include::oop/access-modifiers-and-encapsulation.adoc[]
-
-include::oop/classes-and-objects.adoc[]
-
-include::oop/inheritance.adoc[]
-
-include::oop/inheritance-hierarchy-and-type-conversion.adoc[]
-
-include::oop/interfaces.adoc[]
-
-include::oop/method-overloading.adoc[]
-
-include::oop/nested-classes.adoc[]
-
-include::oop/object-as-method-parameter.adoc[]
-
-include::oop/oop-concepts.adoc[]
-
-include::oop/package.adoc[]
-
-include::oop/static-members-and-static-modifier.adoc[]
-
-include::reflection-api.adoc[]
+include::concurrent/index.adoc[]

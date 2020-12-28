@@ -1,12 +1,13 @@
-== Класс `ByteArrayInputStream` и `ByteArrayOutputStream`
+= Классы `ByteArrayInputStream` и `ByteArrayOutputStream`
+
 Для работы с массивами байтов - их чтения и записи используются классы `ByteArrayInputStream` и `ByteArrayOutputStream`.
 
-=== Чтение массива байтов и класс `ByteArrayInputStream`
+== Чтение массива байтов и класс `ByteArrayInputStream`
 
 Класс ByteArrayInputStream представляет входной поток, использующий в качестве источника данных массив байтов. Он имеет следующие конструкторы:
 
-- `ByteArrayInputStream(byte[] buf)`
-- `ByteArrayInputStream(byte[] buf, int offset, int length)`
+* `ByteArrayInputStream(byte[] buf)`
+* `ByteArrayInputStream(byte[] buf, int offset, int length)`
 
 В качестве параметров конструкторы используют массив байтов `buf`, из которого производится считывание, смещение относительно начала массива `offset` и количество считываемых символов `length`.
 
@@ -37,12 +38,14 @@ public class Program {
 
 В отличие от других классов потоков для закрытия объекта `ByteArrayInputStream` не требуется вызывать метод `close()`.
 
-=== Запись массива байт и класс `ByteArrayOutputStream`
+== Запись массива байт и класс `ByteArrayOutputStream`
+
 Класс `ByteArrayOutputStream` представляет поток вывода, использующий массив байтов в качестве места вывода.
 
 Чтобы создать объект данного класса, мы можем использовать один из его конструкторов:
-- `ByteArrayOutputStream()`
-- `ByteArrayOutputStream(int size)`
+
+* `ByteArrayOutputStream()`
+* `ByteArrayOutputStream(int size)`
 
 Первая версия создает массив для хранения байтов длиной в *32 байта*, а вторая версия создает массив длиной `size`.
 

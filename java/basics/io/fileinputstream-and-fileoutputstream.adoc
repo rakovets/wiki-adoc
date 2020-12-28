@@ -1,13 +1,15 @@
-=== Запись файлов и класс `FileOutputStream`
+= Классы `FileOutputStream` и `FileInputStream`
+
+== Запись файлов и класс `FileOutputStream`
 
 Класс `FileOutputStream` предназначен для записи байтов в файл. Он является производным от класса `OutputStream`, поэтому наследует всю его функциональность.
 
 Через конструктор класса `FileOutputStream` задается файл, в который производится запись. Класс поддерживает несколько конструкторов:
 
-- `FileOutputStream(String filePath)`
-- `FileOutputStream(File fileObj)`
-- `FileOutputStream(String filePath, boolean append)`
-- `FileOutputStream(File fileObj, boolean append)`
+* `FileOutputStream(String filePath)`
+* `FileOutputStream(File fileObj)`
+* `FileOutputStream(String filePath, boolean append)`
+* `FileOutputStream(File fileObj, boolean append)`
 
 Файл задается либо через строковый путь, либо через объект `File`. Второй параметр - `append` задает способ записи: eсли он равен `true`, то данные дозаписываются в конец файла, а при `false` - файл полностью перезаписывается
 
@@ -43,15 +45,15 @@ public class Program {
 fos.write(buffer[0]); // запись первого байта
 ----
 
-=== Чтение файлов и класс `FileInputStream`
+== Чтение файлов и класс `FileInputStream`
 
 Для считывания данных из файла предназначен класс `FileInputStream`, который является наследником класса `InputStream` и поэтому реализует все его методы.
 
 Для создания объекта `FileInputStream` мы можем использовать ряд конструкторов:
 
-- `FileInputStream(File file)` открывает соединение с файлом, `file` является `Object` типа `File` к считываемому файлу
-- `​​FileInputStream(FileDescriptor fdObj)` используя файловый дескриптор `fdObj`, который представляет существующее соединение с файлом в файловой системе
-- `FileInputStream(String name)` открывает соединение с файлом, `name` является путем к считываемому файлу
+* `FileInputStream(File file)` открывает соединение с файлом, `file` является `Object` типа `File` к считываемому файлу
+* `​​FileInputStream(FileDescriptor fdObj)` используя файловый дескриптор `fdObj`, который представляет существующее соединение с файлом в файловой системе
+* `FileInputStream(String name)` открывает соединение с файлом, `name` является путем к считываемому файлу
 
 Если файл не может быть открыт, например, по указанному пути такого файла не существует, то генерируется исключение `FileNotFoundException`.
 
@@ -82,6 +84,7 @@ public class Program {
 [source, java]
 ----
 while ((i = fin.read()) != -1) {
+}
 ----
 
 Когда в потоке больше нет данных для чтения, метод возвращает число `-1`.

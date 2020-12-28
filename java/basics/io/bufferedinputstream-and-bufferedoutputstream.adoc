@@ -1,13 +1,13 @@
-== Класс `BufferedInputStream` and `BufferedOutputStream`
+= Классы `BufferedInputStream` and `BufferedOutputStream`
 
 Для оптимизации операций ввода-вывода используются буферизуемые потоки. Эти потоки добавляют к стандартным специальный буфер в памяти, с помощью которого повышается производительность при чтении и записи потоков.
 
-=== Класс `BufferedInputStream`
+== Класс `BufferedInputStream`
 
 Класс `BufferedInputStream` накапливает вводимые данные в специальном буфере без постоянного обращения к устройству ввода. Класс `BufferedInputStream` определяет два конструктора:
 
-- `BufferedInputStream(InputStream inputStream)`
-- `BufferedInputStream(InputStream inputStream, int bufSize)`
+* `BufferedInputStream(InputStream inputStream)`
+* `BufferedInputStream(InputStream inputStream, int bufSize)`
 
 Первый параметр - это поток ввода, с которого данные будут считываться в буфер. Второй параметр - размер буфера.
 

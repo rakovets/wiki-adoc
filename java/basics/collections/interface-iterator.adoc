@@ -1,4 +1,4 @@
-== Interface `Iterator`
+= Interface `Iterator`
 
 Одним из ключевых методов интерфейса `Collection`, который он унаследовал от интерфейса `Iterable` является метод `Iterator<E> iterator()`. Он возвращает *итератор* - то есть объект, реализующий интерфейс `Iterator`.
 

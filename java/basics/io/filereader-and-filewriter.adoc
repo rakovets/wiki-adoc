@@ -1,17 +1,18 @@
-== Класс `FileWriter` и `FileReader`
+= Класс `FileWriter` и `FileReader`
 
 Хотя с помощью ранее рассмотренных классов можно записывать текст в файлы, однако они предназначены прежде всего для работы с бинарными потоками данных, и их возможностей для полноценной работы с текстовыми файлами недостаточно. И для этой цели служат совсем другие классы, которые являются наследниками абстрактных классов `Reader` и `Writer`.
 
-=== Запись файлов. Класс `FileWriter`
+== Запись файлов. Класс `FileWriter`
 
 Класс `FileWriter` является производным от класса `Writer`. Он используется для записи текстовых файлов.
 
 Чтобы создать объект `FileWriter`, можно использовать один из следующих конструкторов:
-- `FileWriter(File file)`
-- `FileWriter(File file, boolean append)`
-- `FileWriter(FileDescriptor fd)`
-- `FileWriter(String fileName)`
-- `FileWriter(String fileName, boolean append) `
+
+* `FileWriter(File file)`
+* `FileWriter(File file, boolean append)`
+* `FileWriter(FileDescriptor fd)`
+* `FileWriter(String fileName)`
+* `FileWriter(String fileName, boolean append) `
 
 Так, в конструктор передается либо путь к файлу в виде строки, либо объект `File`, который ссылается на конкретный текстовый файл. Параметр `append` указывает, должны ли данные дозаписываться в конец файла (если параметр равен `true`), либо файл должен перезаписываться.
 
@@ -45,9 +46,9 @@ public class Program {
 
 Для создания объекта `FileReader` мы можем использовать один из его конструкторов:
 
-- `FileReader(String fileName)`
-- `FileReader(File file)`
-- `FileReader(FileDescriptor fd)`
+* `FileReader(String fileName)`
+* `FileReader(File file)`
+* `FileReader(FileDescriptor fd)`
 
 А используя методы, определенные в базом классе `Reader`, произвести чтение файла:
 

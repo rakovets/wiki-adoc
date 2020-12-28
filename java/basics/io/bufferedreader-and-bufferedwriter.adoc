@@ -1,11 +1,13 @@
-=== Запись текста через буфер и `BufferedWriter`
+= Классы `BufferedWriter` and `BufferedReader`
+
+== Запись текста через буфер и `BufferedWriter`
 
 Класс `BufferedWriter` записывает текст в поток, предварительно буферизируя записываемые символы, тем самым снижая количество обращений к физическому носителю для записи данных.
 
 Класс `BufferedWriter` имеет следующие конструкторы:
 
-- `BufferedWriter(Writer out)`
-- `BufferedWriter(Writer out, int sz)`
+* `BufferedWriter(Writer out)`
+* `BufferedWriter(Writer out, int sz)`
 
 В качестве параметра он принимает поток вывода, в который надо осуществить запись. Второй параметр указывает на размер буфера.
 
@@ -29,14 +31,14 @@ public class Program {
 }
 ----
 
-=== Чтение текста и `BufferedReader`
+== Чтение текста и `BufferedReader`
 
 Класс `BufferedReader` считывает текст из символьного потока ввода, буферизируя прочитанные символы. Использование буфера призвано увеличить производительность чтения данных из потока.
 
 Класс `BufferedReader` имеет следующие конструкторы:
 
-- `BufferedReader(Reader in)`
-- `BufferedReader(Reader in, int sz)`
+* `BufferedReader(Reader in)`
+* `BufferedReader(Reader in, int sz)`
 
 Второй конструктор, кроме потока ввода, из которого производится чтение, также определяет размер буфера, в который будут считываться символы.
 
@@ -80,7 +82,7 @@ try (BufferedReader br = new BufferedReader(new FileReader("notes4.txt"))) {
 }
 ----
 
-=== Считывание с консоли в файл
+== Считывание с консоли в файл
 
 Соединим оба класса `BufferedReader` и `BufferedWriter` для считывания с консоли в файл. Для этого определим следующий код программы:
 
