@@ -94,7 +94,10 @@ public class Program {
         phones.forEach((k, v) -> System.out.println(k + " " + v));
     }
 }
+----
 
+[source, java]
+----
 class Phone {
     private String name;
     private int price;
@@ -174,3 +177,4 @@ public class Program {
         filteredPhones.forEach(s -> System.out.println(s));
     }
 }
+----
