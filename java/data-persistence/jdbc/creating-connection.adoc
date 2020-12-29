@@ -1,0 +1,46 @@
+= Установка соединения
+
+Проверка на то, что можно осуществлять взаимодействие с *СУБД* через драйвер (на примере MySQL). Для этого определим следующий код программы:
+
+[source, java]
+----
+public class Program {
+    public static void main(String[] args) {
+        //java -classpath c:\Java\mysql-connector-java-8.0.11.jar;c:\Java Program
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver").getDeclaredConstructor().newInstance();
+            System.out.println("Connection succesfull!");
+        } catch (Exception ex) {
+            System.out.println("Connection failed...");
+
+            System.out.println(ex);
+        }
+    }
+}
+----
+
+Для загрузки драйвера здесь применяется строка
+
+[source, java]
+----
+Class.forName("com.mysql.cj.jdbc.Driver").getDeclaredConstructor().newInstance();
+----
+
+Метод `Class.forName()` в качестве параметра принимает строку, которая представляет полный путь к классу драйвера с учетом всех пакетов. В случае MySQL это путь `com.mysql.cj.jdbc.Driver`. Таким образом, Метод `Class.forName()` загружает класс драйвера, который будет использоваться.
+
+Далее вызывается метод `getDeclaredConstructor()`, который возвращает конструктор данного класса. И в конце вызывается метод `newInstance()`, который создает с помощью конструктора объект данного класса. И после этого можно взаимодействовать с сервером MySQL.
+
+Убедимся, что сервер MySQL запущен, и скомпилируем и запустим программу на выполнение:
+
+[source, powershell]
+----
+C:\Java>javac Program.java
+C:\Java>java -classpath c:\Java\mysql-connector-java-8.0.11.jar;c:\Java Program
+Connection succesfull!
+
+C:\Java>
+----
+
+В данном случае класс программы и драйвер размещены в папке `C:\Java`. Поэтому при выполнении программы после параметра `-classpath` указывается полный путь к файлу драйвера - `c:\Java\mysql-connector-java-8.0.11.jar`. Далее после точки с запятой указывается каталог, где находятся файлы программы, то есть опть же это каталог `C:\Java`. И после этого идет название выполняемого класса программы - `Program`.
+
+И если все сделано правильно, то при выполнении программы мы можем увидеть на консоли строку `Connection succesfull!`. После этого мы можем начать взаимодействовать с СУБД.

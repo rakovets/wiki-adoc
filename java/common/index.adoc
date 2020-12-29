@@ -12,8 +12,10 @@ Wiki for common java theme.
 
 :leveloffset: +1
 
-include::code-convention.adoc[Code Convention]
+include::code-convention.adoc[]
 
-include::checkstyle-plugin-intellij-idea.adoc[Checkstyle plugin for IntelliJ IDEA]
+include::checkstyle-plugin-intellij-idea.adoc[]
 
-include::intellij-idea.adoc[Intellij IDEA]
+include::intellij-idea.adoc[]
+
+include::javaee-vs-spring-framework.adoc[]

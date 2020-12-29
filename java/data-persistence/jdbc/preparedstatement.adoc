@@ -1,0 +1,108 @@
+= `PreparedStatement`
+
+Кроме класса `Statement` в `java.sql` мы можем использовать для выполнения запросов еще один класс - `PreparedStatement`. Кроме собственно выполнения запроса этот класс позволяет подготовить запрос, отформатировать его должным образом.
+
+Например, в прошлых темах была создана таблица, которая имеет три столбца:
+
+[source, sql]
+----
+CREATE TABLE products (
+    Id INT PRIMARY KEY AUTO_INCREMENT,
+    ProductName VARCHAR(20),
+    Price INT
+)
+----
+
+С помощью `PreparedStatement` добавим в нее один объект:
+
+[source, java]
+----
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.util.Scanner;
+
+public class Program {
+    public static void main(String[] args) {
+        try {
+            String url = "jdbc:mysql://localhost/store?serverTimezone=Europe/Moscow&useSSL=false";
+            String username = "root";
+            String password = "password";
+            Scanner scanner = new Scanner(System.in);
+
+            Class.forName("com.mysql.cj.jdbc.Driver").getDeclaredConstructor().newInstance();
+            System.out.print("Input product name: ");
+            String name = scanner.nextLine();
+            System.out.print("Input product price: ");
+            int price = scanner.nextInt();
+            try (Connection conn = DriverManager.getConnection(url, username, password)) {
+                String sql = "INSERT INTO Products (ProductName, Price) Values (?, ?)";
+                PreparedStatement preparedStatement = conn.prepareStatement(sql);
+                preparedStatement.setString(1, name);
+                preparedStatement.setInt(2, price);
+                int rows = preparedStatement.executeUpdate();
+                System.out.printf("%d rows added", rows);
+            }
+        } catch (Exception ex) {
+            System.out.println("Connection failed...");
+            System.out.println(ex);
+        }
+    }
+}
+----
+
+В данном случае данные вводятся с консоли и затем добавляются в базу данных. Для создания объекта `PreparedStatement` применяется метод `prepareStatement()` класса `Connection`. В этот метод передается выражение sql `INSERT INTO Products (ProductName, Price) Values (?, ?)`. Это выражение может содержать знаки вопроса `?` - знаки подстановки, вместо которых будут вставляться реальные значения.
+
+Чтобы связать отдельные знаки подстановки с конкретными значениями у класса `PreparedStatement` определен ряд методов для различных типов данных. Все методы, которые поставляют значения вместо знаков подстановки, в качестве первого параметра принимают порядковый номер знака подстановки (нумерация начинается с 1), а в качестве второго параметра - собственно значение, которое вставляется вместо знака подстановки.
+
+Например, первый знак подстановки `?` в выражении sql представляет значение для столбца `ProductName`, который хранит строку. Поэтому для связи значения с первым знаком подстановки применяется метод `preparedStatement.setString(1, name)`.
+
+Второй знак подстановки должен передавать значение для столбца `Price`, который хранит целые числа. Поэтому для вставик значения используется метод `preparedStatement.setInt(2, price)`.
+
+Кроме `setString()` и `setInt()` `PreparedStatement` имеет еще ряд подобных методов, которые работают подобным образом. Некоторые из них:
+
+* `setBigDecimal()`
+* `setBoolean()`
+* `setDate()`
+* `setDouble()`
+* `setFloat()`
+* `setLong()`
+* `setNull()`
+* `setTime()`
+
+Для выполнения запроса `PreparedStatement` имеет три метода:
+
+* `boolean execute()` выполняет любую SQL-команду
+* `ResultSet executeQuery()` выполняет команду `SELECT`, которая возвращает данные в виде `ResultSet`
+* `int executeUpdate()` выполняет такие SQL-команды, как `INSERT`, `UPDATE`, `DELETE`, `CREATE` и возвращает количество измененных строк
+
+При этом в отличие от методов `Statement` эти методы не принимают SQL-выражение.
+
+Пример выполнения программы:
+
+[source, powershell]
+----
+C:\Java>javac Program.java
+C:\Java>java -classpath c:\Java\mysql-connector-java-8.0.11.jar;c:\Java Program
+Inpit product name: Xiaomi Mi 8
+Input product price: 35000
+1 rows added
+
+C:\Java>
+----
+
+Подобным образом мы можем выполнять и другие выражения. Например, получим товары, у которых цена меньше `50000`:
+
+[source, java]
+----
+int maxPrice = 50000;
+PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM Products WHERE Price < ?");
+preparedStatement.setInt(1, maxPrice);
+ResultSet resultSet = preparedStatement.executeQuery();
+while (resultSet.next()) {
+    int id = resultSet.getInt("Id");
+    String name = resultSet.getString("ProductName");
+    int price = resultSet.getInt("Price");
+    System.out.printf("%d. %s - %d \n", id, name, price);
+}
+----

@@ -1,0 +1,100 @@
+= TCP networking
+
+Java для работы в сети имеет специальный пакет `java.net`, содержащий класс `Socket`, что в переводе означает «гнездо». Ключевыми классами для реализации взаимодействия программ по протоколу TCP являются:
+
+* `ServerSocket` - класс реализует серверный сокет, который ожидает запросы, приходящие от клиентов по сети, и может отправлять ответ
+* `Socket` - класс реализует клиентский сокет
+
+== Socket
+
+Клиентский сокет `Socket` можно создать с использованием одного из следующих конструкторов:
+
+* `Socket()`
+* `Socket(String host, int port)`
+* `Socket(InetAddress address, int port)`
+
+В строковой константе `host` можно указать как *IP* адрес сервера, так и его *DNS* имя. При этом программа автоматически выберет свободный порт на локальном компьютере и свяжет его с сокетом. При этом могут быть вызваны одно из двух видов исключений, связанного с неизвестным адресом хоста (в сети компьютер не будет найден) или отсутствием связи с этим сокетом.
+
+Наиболее важные методы класса `Socket`:
+
+* `InputStream getInputStream()`
+* `OutputStream getOutputStream()`
+* `void close()`
+* `void setSoTimeout(int timeout) throws SocketException`
+
+где `timeout` время ожидания в секундах. Если в течение этого времени никаких действий с сокетом не произведено (получение и отправка данных), то он самоликвидируется. Исключением является сокет с `timeout` равным `0` - "вечный" сокет.
+
+Пример использования:
+
+[source, java]
+----
+import java.io.DataOutputStream;
+import java.net.Socket;
+
+public class MyClient {
+    public static void main(String[] args) {
+        try {
+            Socket s = new Socket("localhost", 6666);
+            DataOutputStream dout = new DataOutputStream(s.getOutputStream());
+            dout.writeUTF("Hello Server");
+            dout.flush();
+            dout.close();
+            s.close();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+}
+----
+
+== ServerSocket
+
+Для создания серверного сокета `ServerSocket` можно использовать один из следующих конструкторов :
+
+* `public ServerSocket() throws IOException`
+* `public ServerSocket(int port) throws IOException`
+* `public ServerSocket(int port, int backlog) throws IOException`
+* `public ServerSocket(int port, int backlog, InetAddress bindAddr) throws IOException`
+
+Первым параметров в конструктор необходимо передать порт `port`, который будет привязан к серверному сокету. Если порт занят или запрещён к использованию политикой безопасности компьютера, то вызывается исключение `IOException`. Если значение передавамого порта равно `0`, то система сама выделит номер свободного порта. Значение полученного порта можно узнать через вызов функции `getLocalPort()`. Несвязанный серверный сокет `ServerSocket()` необходимо «связывать» с IP-адресом и портом c помощью метода `bind()`.
+
+Параметр `backlog` устанавливает максимальное количество клиентских подключений. Если количество подключений достигло предела, то следующему клиенту в подключении будет отказано.
+
+Наиболее часто используемые методы серверного сокета `ServerSocket`:
+
+* `Socket accept()` - ожидание подключения клиента
+* `void bind(SocketAddress endpoint)` - связывание `ServerSocket` c определенным адресом (IP-адрес и порт)
+* `void close()` - закрытие сокета
+* `ServerSocketChannel getChannel()` - получение объекта `ServerSocketChannel`, связанного с сокетом
+* `InetAddress getInetAddress()` - получение локального адреса
+* `int getLocalPort()` - получение номера порта, который серверный сокет слушает
+* `SocketAddress getLocalSocketAddress()`- получение адреса в виде объекта `SocketAddress`
+* `int getReceiveBufferSize()`- получение размера буфера
+* `boolean isClosed()` - проверка, закрыт ли серверный сокет
+* `void setReceiveBufferSize(int size)` - определение размера буфера
+
+После создания в приложении серверного сокета `ServerSocket` необходимо вызвать функцию `accept()`, которая переводит приложение в режим ожидания подключения клиента. Дальнейший код не выполняется, пока клиент не подключится. Как только клиент подключается функция возвращает объект класса `Socket`, который следует использовать для взаимодействия сервера с клиентом.
+
+Пример использования:
+
+[source, java]
+----
+import java.io.DataInputStream;
+import java.net.ServerSocket;
+import java.net.Socket;
+
+public class MyServer {
+    public static void main(String[] args) {
+        try {
+            ServerSocket ss = new ServerSocket(6666);
+            Socket s = ss.accept(); // establishes connection
+            DataInputStream dis = new DataInputStream(s.getInputStream());
+            String str = (String) dis.readUTF();
+            System.out.println("message= " + str);
+            ss.close();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+}
+----

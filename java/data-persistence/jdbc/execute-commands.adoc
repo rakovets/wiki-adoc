@@ -1,0 +1,67 @@
+= Выполнение команд
+
+Для взаимодействия с базой данных приложение отправляет серверу MySQL команды на языке SQL. Чтобы выполнить команду, вначале необходимо создаеть объект `Statement`.
+
+Для его создания у объекта `Connection` вызывается метод `createStatement()`:
+
+[source, java]
+----
+Statement statement = conn.createStatement();
+----
+
+Для выполнения команд SQL в классе `Statement` определены методы:
+
+* `int executeUpdate(String sql)` выполняет такие команды, как `INSERT`, `UPDATE`, `DELETE`, `CREATE TABLE`, `DROP TABLE`. В качестве результата возвращает количество строк, затронутых операцией (например, количество добавленных, измененных или удаленных строк), или `0`, если ни одна строка не затронута операцией или если команда не изменяет содержимое таблицы (например, команда создания новой таблицы)
+* `ResultSet executeQuery(String sql)` выполняет команду `SELECT`. Возвращает объект `ResultSet`, который содержит результаты запроса.
+* `boolean execute(String sql)` выполняет любые команды и возвращает `true` - если команда возвращает набор строк (`SELECT`), иначе возвращается `false`
+* `int[] executeBatch()`
+
+Рассмотрим метод `executeUpdate()`. В качестве параметра в него передается собственно команда SQL:
+
+[source, java]
+----
+int executeUpdate("Команда_SQL")
+----
+
+Ранее была создана база данных `store`, но она пустая, в ней нет таблиц и соответственно данных. Создадим таблицу и добавим в нее начальные данные:
+
+[source, java]
+----
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.Statement;
+
+public class Program {
+    public static void main(String[] args) {
+        try {
+            String url = "jdbc:mysql://localhost/store?serverTimezone=Europe/Moscow&useSSL=false";
+            String username = "root";
+            String password = "password";
+            Class.forName("com.mysql.cj.jdbc.Driver").getDeclaredConstructor().newInstance();
+            // команда создания таблицы
+            String sqlCommand = "CREATE TABLE products (Id INT PRIMARY KEY AUTO_INCREMENT, ProductName VARCHAR(20), Price INT)";
+            try (Connection conn = DriverManager.getConnection(url, username, password)) {
+                Statement statement = conn.createStatement();
+                // создание таблицы
+                statement.executeUpdate(sqlCommand);
+                System.out.println("Database has been created!");
+            }
+        } catch (Exception ex) {
+            System.out.println("Connection failed...");
+            System.out.println(ex);
+        }
+    }
+}
+----
+
+То есть в данном случае мы выполняем команду `CREATE TABLE products (Id INT PRIMARY KEY AUTO_INCREMENT, ProductName VARCHAR(20), Price INT)`, которая создает таблицу `Products` с тремя столбцами: `Id` - индентификатор стоки, `ProductName` - строковое название товара и `Price` - числовая цена товара.
+
+При этом если необходимо выполнить сразу несколько команд, то необязательно создавать новый объект `Statement`:
+
+[source, java]
+----
+Statement statement = conn.createStatement();
+statement.executeUpdate("Команда_SQL1");
+statement.executeUpdate("Команда_SQL2");
+statement.executeUpdate("Команда_SQL3");
+----

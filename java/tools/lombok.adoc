@@ -1,0 +1,10 @@
+= Lombok
+
+== Install Lombok Plugin for IntelliJ IDEA
+
+1. _File > Settings > Plugins_
+2. Search Plugin *Lombok*
+3. Install Plugin *Lombok*
+4. _File > Settings > Build, Execution, Deployment > Compiler > Annotation Processors_
+5. Set flag _Enable annotation processing_
+6. Restart IDE

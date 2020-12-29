@@ -1,0 +1,15 @@
+= Data Persistence in Java
+Dmitry Rakovets
+:source-highlighter: prettify
+:sectnums:
+:toc: left
+:toclevels: 2
+//:data-uri:
+
+:toc!:
+
+Wiki for course "Data Persistence in Java".
+
+:leveloffset: +1
+
+include::jdbc/index.adoc[]

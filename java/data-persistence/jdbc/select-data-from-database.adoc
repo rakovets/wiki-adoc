@@ -1,0 +1,115 @@
+= Получение данных из БД
+
+== Метод executeQuery.
+
+Для выборки данных с помощью команды `SELECT` применяется метод `executeQuery`:
+
+[source, java]
+----
+ResultSet executeQuery("Команда_SQL")
+----
+
+Метод возвращает объект `ResultSet`, который содержит все полученные данные. Как эти данные получить?
+
+В объекте `ResultSet` итератор устаналивается на позиции перед первой строкой. И чтобы переместиться к первой строке (и ко всем последующим) необходимо вызвать метод `next()`. Пока в наборе `ResultSet` есть доступные строки, метод `next()` будет возвращать `true`. Типичное перемещение по набору строк:
+
+[source, java]
+----
+ResultSet resultSet = statement.executeQuery("SELECT * FROM Products");
+while (resultSet.next()) {
+    // получение содержимого строк
+}
+----
+
+То есть пока в `resultSet` есть доступные строки, будет выполняться цикл `while`, который будет переходить к следующей строке в наборе.
+
+После перехода к строке мы можем получить ее содержимое. Для этого у `ResultSet` определен ряд методов. Некоторые из них:
+
+* `booleam getBoolean()`
+* `Date getDate()`
+* `double getDouble()`
+* `int getInt()`
+* `float getFloat()`
+* `long getLong()`
+* `String getNString()`
+* `String getString()`
+
+В зависимости от того, данные какого тип хранятся в том или ином столбце, мы можем использовать тот или иной метод. Каждый из этих методов имеет две версии (на примере `int`):
+
+* `int getInt(int columnIndex)`
+* `int getInt(String columnLabel)`
+
+Первая версия получает данные из столбца с номером `columnIndex`. Вторая версия получает данные из столбца с названием `columnLabel`.
+
+Например, была создана таблица, которая имеет три столбца:
+
+[source, sql]
+----
+CREATE TABLE products (
+    Id INT PRIMARY KEY AUTO_INCREMENT,
+    ProductName VARCHAR(20),
+    Price INT
+)
+----
+
+Получим из нее данные:
+
+[source, java]
+----
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+
+public class Program {
+    public static void main(String[] args) {
+        try {
+            String url = "jdbc:mysql://localhost/store?serverTimezone=Europe/Moscow&useSSL=false";
+            String username = "root";
+            String password = "password";
+            Class.forName("com.mysql.cj.jdbc.Driver").getDeclaredConstructor().newInstance();
+            try (Connection conn = DriverManager.getConnection(url, username, password)) {
+                Statement statement = conn.createStatement();
+                ResultSet resultSet = statement.executeQuery("SELECT * FROM Products");
+                while (resultSet.next()) {
+                    int id = resultSet.getInt(1);
+                    String name = resultSet.getString(2);
+                    int price = resultSet.getInt(3);
+                    System.out.printf("%d. %s - %d \n", id, name, price);
+                }
+            }
+        } catch (Exception ex) {
+            System.out.println("Connection failed...");
+            System.out.println(ex);
+        }
+    }
+}
+----
+
+Первый столбец в таблице - столбец `Id` представляет тип `int`, поэтому для его получения используется метод `getInt()`. Второй столбец - `ProductName` представляет строку, поэтому для получения его данных применяется метод `getString()`. То есть между типом данных и методом есть соответствие. И мы не можем, к примеру, получить значение столбца `ProductName` с помощью метода `getInt()`.
+
+Нужно отметить, что индексация столбцов начинается с `1`, а не с `0`.
+
+Возможный консольный вывод программы:
+
+[source, powershell]
+----
+C:\Java>javac Program.java
+C:\Java>java -classpath c:\Java\mysql-connector-java-8.0.11.jar;c:\Java Program
+1. iPhone X - 71000
+2. Galaxy S9 - 40000
+C:\Java>
+----
+
+Однако мы можем точно не знать порядок следования данных полученном наборе. В этом случае мы можем вместо номеров столбцов можно передать названия столбцов:
+
+[source, java]
+----
+ResultSet resultSet = statement.executeQuery("SELECT * FROM Products");
+while (resultSet.next()) {
+    int id = resultSet.getInt("Id");
+    String name = resultSet.getString("ProductName");
+    int price = resultSet.getInt("Price");
+    System.out.printf("%d. %s - %d \n", id, name, price);
+}
+----

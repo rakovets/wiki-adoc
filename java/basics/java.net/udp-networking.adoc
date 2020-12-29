@@ -1,0 +1,68 @@
+= UDP networking
+
+Классы `DatagramSocket` и `DatagramPacket` используются для программирования сокетов без подключения.
+
+== DatagramSocket
+
+Класс `DatagramSocket` представляет сокет без соединения для отправки и приема пакетов *datagram*.
+
+*Datagram* - это в основном информация, но нет гарантии что она что-то содержит, когда она доставится или доставится ли вообще.
+
+Конструкторы класса `DatagramSocket`:
+
+* `DatagramSocket() throws SocketExeption` - создает сокет datagram и связывает его с доступным номером порта на *localhost*.
+* `DatagramSocket(int port) throws SocketExeption` - создает сокет datagram и связывает его с данным номером `port`.
+* `DatagramSocket(int port, InetAddress address) throws SocketExeption` - создает сокет datagram и связывает его с указанным номером `port` и адресом хоста `InetAddress`.
+
+== DatagramPacket
+
+`DatagramPacket` - это сообщение, которое может быть отправлено или получено. Если вы отправляете несколько пакетов, он может поступать в любом порядке. Кроме того, доставка пакетов не гарантируется.
+
+Чаще используют следующие конструкторы класса `DatagramPacket`:
+
+* `DatagramPacket(byte [] barr, int length)` - используется для приема пакетов
+* `DatagramPacket(byte [] barr, int length, адрес InetAddress, int port)` - используется для отправки пакетов
+
+
+Пример отправки `DatagramPacket` по `DatagramSocket`
+
+Отправитель:
+
+[source, java]
+----
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+
+public class DSender {
+    public static void main(String[] args) throws Exception {
+        DatagramSocket ds = new DatagramSocket();
+        String str = "Welcome java";
+        InetAddress ip = InetAddress.getByName("127.0.0.1");
+
+        DatagramPacket dp = new DatagramPacket(str.getBytes(), str.length(), ip, 3000);
+        ds.send(dp);
+        ds.close();
+    }
+}
+----
+
+Получатель:
+
+[source, java]
+----
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+
+public class DReceiver {
+    public static void main(String[] args) throws Exception {
+        DatagramSocket ds = new DatagramSocket(3000);
+        byte[] buf = new byte[1024];
+        DatagramPacket dp = new DatagramPacket(buf, 1024);
+        ds.receive(dp);
+        String str = new String(dp.getData(), 0, dp.getLength());
+        System.out.println(str);
+        ds.close();
+    }
+}
+----

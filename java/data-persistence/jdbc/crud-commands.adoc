@@ -1,0 +1,117 @@
+= CRUD команды
+
+Для добавления, редактирования и удаления данных мы можем ипользовать рассмотренный в прошлой теме метод `executeUpdate()`. С помощью результата метода мы можем проконтроллировать, сколько строк было добавлено, изменено или удалено.
+
+== Добавление
+
+Так, возьмем созданную в прошлой теме таблицу `Products`:
+
+[source, sql]
+----
+CREATE TABLE Products (
+    Id INT PRIMARY KEY AUTO_INCREMENT,
+    ProductName VARCHAR(20),
+    Price INT
+)
+----
+
+И добавим в эту таблицу несколько объектов:
+
+[source, java]
+----
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.Statement;
+
+public class Program {
+    public static void main(String[] args) {
+        try {
+            String url = "jdbc:mysql://localhost/store?serverTimezone=Europe/Minsk&useSSL=false";
+            String username = "root";
+            String password = "password";
+            Class.forName("com.mysql.cj.jdbc.Driver").getDeclaredConstructor().newInstance();
+            try (Connection conn = DriverManager.getConnection(url, username, password)) {
+                Statement statement = conn.createStatement();
+                int rows = statement.executeUpdate("INSERT Products(ProductName, Price) VALUES ('iPhone X', 76000)," +
+                        "('Galaxy S9', 45000), ('Nokia 9', 36000)");
+                System.out.printf("Added %d rows", rows);
+            }
+        } catch (Exception ex) {
+            System.out.println("Connection failed...");
+            System.out.println(ex);
+        }
+    }
+}
+----
+
+Для добавления данных в БД применяется команда `INSERT`. В данном случае в таблицу `Products` добавляется три объекта. И после выполнения программы на консоли мы увидим число добавленных объектов:
+
+[source, powershell]
+----
+C:\Java>javac Program.java
+C:\Java>java -classpath c:\Java\mysql-connector-java-8.0.11.jar;c:\Java Program
+Added 3 rows
+C:\Java>
+----
+
+== Редактирование
+
+Изменим строки в таблице, например, уменьшим цену товара на 5000 единиц. Для изменения применяется команда `UPDATE`:
+
+[source, java]
+----
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.Statement;
+
+public class Program {
+    public static void main(String[] args) {
+        try {
+            String url = "jdbc:mysql://localhost/store?serverTimezone=Europe/Minsk&useSSL=false";
+            String username = "root";
+            String password = "password";
+            Class.forName("com.mysql.cj.jdbc.Driver").getDeclaredConstructor().newInstance();
+            try (Connection conn = DriverManager.getConnection(url, username, password)) {
+                Statement statement = conn.createStatement();
+                int rows = statement.executeUpdate("UPDATE Products SET Price = Price - 5000");
+                System.out.printf("Updated %d rows", rows);
+            }
+        } catch (Exception ex) {
+            System.out.println("Connection failed...");
+            System.out.println(ex);
+        }
+    }
+}
+----
+
+== Удаление
+
+Удалим один объект из таблицы с помощью команды `DELETE`:
+
+[source, java]
+----
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.Statement;
+
+public class Program {
+    public static void main(String[] args) {
+        try {
+            String url = "jdbc:mysql://localhost/store?serverTimezone=Europe/Minsk&useSSL=false";
+            String username = "root";
+            String password = "password";
+            Class.forName("com.mysql.cj.jdbc.Driver").getDeclaredConstructor().newInstance();
+            try (Connection conn = DriverManager.getConnection(url, username, password)) {
+                Statement statement = conn.createStatement();
+                int rows = statement.executeUpdate("DELETE FROM Products WHERE Id = 3");
+                System.out.printf("%d row(s) deleted", rows);
+            }
+        } catch (Exception ex) {
+            System.out.println("Connection failed...");
+            System.out.println(ex);
+        }
+    }
+}
+----
+
+Как видно из примеров, не так сложно взаимодействовать с базой данных. Достаточно передать в метод `executeUpdate()` нужную команду SQL.
