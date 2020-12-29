@@ -1,0 +1,94 @@
+= Как работает сервлет
+
+*Сервлет* - это класс, который расширяет функциональность класса `HttpServlet` и запускается внутри *контейнера сервлетов*.
+
+*Сервлет* размещается на сервере, однако чтобы сервер мог использовать сервлет для обработки запросов, сервер должен поддерживать движок или контейнер сервлетов (*servlet container/engine*). Например, _Apache Tomcat_ по сути является контейнером сервлетов, поэтому он может использовать сервлеты для обслуживания запросов.
+
+Для обработки запроса в `HttpServlet` определен ряд методов, которые мы можем переопределить в классе сервлета:
+
+* `doGet()` обрабатывает запросы *GET* (получение данных)
+* `doPost()` обрабатывает запросы *POST* (отправка данных)
+* `doPut()` обрабатывает запросы *PUT* (отправка данных для изменения)
+* `doDelete()` обрабатывает запросы *DELETE* (удаление данных)
+* `doHead()` обрабатывает запросы *HEAD*
+
+Каждый метод обрабатывает определенный тип запросов *HTTP*, и мы можем определить все эти методы, но, зачастую, работа идет в основном с методами `doGet()` и `doPost()`. Например, определение методов без реализации:
+
+[source, java]
+----
+import java.io.IOException;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+@WebServlet("/hello")
+public class HelloServlet extends HttpServlet {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+        throws ServletException, IOException {
+    }
+
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+        throws ServletException, IOException {
+    }
+
+    protected void doPut(HttpServletRequest request, HttpServletResponse response)
+        throws ServletException, IOException {
+    }
+
+    protected void doDelete(HttpServletRequest request, HttpServletResponse response)
+        throws ServletException, IOException {
+    }
+
+    protected void doHead(HttpServletRequest request, HttpServletResponse response)
+        throws ServletException, IOException {
+    }
+}
+----
+
+Все методы в качестве параметра принимают два объекта:
+
+* `HttpServletRequest` хранит информацию о запросе
+* `HttpServletResponse` управляет ответом на запрос.
+
+== Жизненный цикл сервлета
+
+Для каждого сервлета движок сервлетов создает только одну копию. Вне зависимости от того, сколько запросов будет отправлено сервлету, все запросы будут обрабатываться толькой одной копией сервлета. Объект сервлета создается либо при запуске движка сервлетов, либо когда сервлет получает первый запрос. Затем для каждого запроса запускается поток, который обращается к объекту сервлета.
+
+При работе с сервлетом движок сервлетов вызывает у класса сервлета ряд методов, которые определены в родительском абстрактном классе `HttpServlet`.
+
+Когда движок сервлетов создает объект сервлета, у сервлета вызывается метод `init()`.
+
+[source, java]
+----
+public void init(ServletConfig config) throws ServletException {
+}
+----
+
+Этот метод вызывается только один раз - при создании сервлета. Мы можем переопределить этот метод, чтобы определить в нем некоторую логику инициализации.
+
+Когда к сервлету приходит запрос, движок сервлетов вызывает метод `service()` сервлета. А этот метод, исходя из типа запроса (*GET*, *POST*, *PUT* и т.д.) решает, какому методу сервлета (`doGet()`, `doPost()` и т.д.) обрабатывать этот запрос.
+
+[source, java]
+----
+public void service(HttpServletRequest request, HttpServletResponse response)
+		throws IOException, ServletException {
+}
+----
+Этот метод также можно переопределить, однако в этом нет смысла. В реальности для обработки запроса переопределяются методы `onGet()`, `onPost()` и т.д., которые обрабатывают конкретные типы запросов.
+
+Если объект сервлета долгое время не используется (к нему нет никаких запросов), или если происходит завершение работы движка сервлетов, то движок сервлетов выгружает из памяти все созданные экземпляры сервлетов. Однако до выгрузки сервлета из памяти у сервлета вызывается метод `destroy()`.
+
+[source, java]
+----
+public void destroy() {
+}
+----
+
+При необходимости мы также можем его переопределить, например, определить в нем логику логгирования или что иное. В то же время следует учитывать, что если сервер вдруг упадет по какой-то причине, например, отключится электричество и т.д., тогда данный метод естественно не будет вызван и его логика не сработает.
+
+image:/assets/img/java/jakarta-ee/servlet/lifecycle.png[Lifecycle]
+
+Поскольку для обработки всех запросов создается один экземпляр сервлета, и все обращения к нему идут в отдельных потоках, то не рекомендуется в классе сервлета объявлять и использовать глобальные переменные, так как они не будут потокобезопасными.

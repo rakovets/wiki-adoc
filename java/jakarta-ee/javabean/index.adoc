@@ -1,0 +1,9 @@
+= JavaBean
+
+:leveloffset: +1
+
+include::javabean.adoc[]
+
+include::example-enterprise-javabeans.adoc[]
+
+:leveloffset: -1

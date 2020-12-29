@@ -1,0 +1,17 @@
+= Jakarta Server Pages
+
+:leveloffset: +1
+
+include::what-is-jsp.adoc[]
+
+include::jsp-syntax-basics.adoc[]
+
+include::using-java-classes-in-jsp.adoc[]
+
+include::included-jsp-pages.adoc[]
+
+include::receiving-submitted-forms.adoc[]
+
+include::passing-data-from-servlet-to-jsp.adoc[]
+
+:leveloffset: -1

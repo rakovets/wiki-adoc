@@ -1,0 +1,63 @@
+= Введение в сервлеты
+
+Сервлет представляет специальный тип классов Java, который выполняется на веб-сервере и который обрабатывает запросы и возвращает результат обработки.
+
+Создадим первый сервлет. Определим где-нибудь на жестком диске файл `HelloServlet.java` со следующим кодом:
+
+[source, java]
+----
+import java.io.PrintWriter;
+import java.io.IOException;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+@WebServlet("/hello")
+public class HelloServlet extends HttpServlet {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		response.setContentType("text/html");
+		PrintWriter writer = response.getWriter();
+		try {
+			writer.println("<h2>Hello from HelloServlet</h2>");
+		} finally {
+			writer.close();
+		}
+	}
+}
+----
+
+Класс сервлета наследуется от класса `HttpServlet`. Перед определением класса указана аннотация `@WebServlet`, которая указывает, с какой конечной точкой будет сопоставляться данный сервлет. То есть данный сервлет будет обрабатывать запросы по адресу `/hello`.
+
+Для обработки *GET*-запросов (например, при обращении к сервлету из адресной строки браузера) сервлет должен переопределить метод `doGet()`. То есть, к примеру, в данном случае get-запрос по адресу `/hello` будет обрабатываться методом `doGet()`.
+
+Этот метод принимает два параметра. Параметр типа `HttpServletRequest` инкапсулирует всю информацию о запросе. А параметр типа `HttpServletResponse` позволяет управлять ответом. В частности, с помощью вызова `response.setContentType("text/html")` устанавливается тип ответа (в данном случае, мы говорим, что ответ представляет код html). А с помощью метода `getWriter()` объекта `HttpServletResponse` мы можем получить объект `PrintWriter`, через который можно отправить какой-то определенный ответ пользователю. В данном случае через метод `println()` пользователю отправляет простейший html-код. По завершению использования объекта `HttpServletResponse` его необходимо закрыть с помощью метода `close()`.
+
+Для запуска сервлета воспользуемся опять же контейнером сервлетов _Apache Tomcat_. В каталоге _Tomcat_ в папке `webapps` создадим каталог для нового приложения, который назовем `helloapp`.
+
+В папке приложения классы сервлетов должны размещаться в папке `WEB-INF/classes`. Создадим в каталоге `helloapp` папку `WEB-INF`, а в ней папку `classes`. И в папку `helloapp/WEB-INF/classes` поместим файл `HelloServlet.java`.
+
+image:/assets/img/java/jakarta-ee/servlet/servlet1.png[]
+
+Но нам нужен не код сервлета, а скомпилированный класс сервлета. Поэтому скомпилируем сервлет. Для этого нам нужно использовать специальную утилиту `servlet-api.jar`, которая находится в каталоге Tomcat в папке `lib`.
+
+В начале в командной строке/терминале перейдем с помощью команды `cd` к папке `helloapp/WEB-INF/classes`, где расположен код сервлета.
+
+Потом для компиляции сервлета выполним следующую команду:
+
+[source, powershell]
+----
+javac -cp .;"C:\Program Files\Apache Software Foundation\Tomcat 9.0\lib\servlet-api.jar" HelloServlet.java
+----
+
+В моем случае предполагается, что Tomcat размещен в каталоге `C:\Program Files\Apache Software Foundation\Tomcat 9.0`.
+
+image:/assets/img/java/jakarta-ee/servlet/servlet2.png[]
+
+После этого в папке `helloapp/WEB-INF/classes` должен появиться класс сервлета. Перезапустим Tomcat и обратимся к нашему сервлету в браузере:
+
+image:/assets/img/java/jakarta-ee/servlet/servlet3.png[]
+
+Поскольку с помощью аннотации `@WebServlet` в классе сервлета была указана точка `/hello`, то при обращении к сервлету после домена и порта идет название приложения (`helloapp`) и конечная точка (`hello`).

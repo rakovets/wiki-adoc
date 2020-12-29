@@ -1,0 +1,122 @@
+= Обработка ошибок
+
+Файл `web.xml` позволяет указать, какие страницы *html* или *jsp* будут отправляться пользователю при отправке статусных кодов ошибок. Для этого в `web.xml` применяется элемент `<error-page>`.
+
+Внутри этого элемента с помощью элемента `<error-code>` указывается статусный код ошибки, который надо обработать. А элемент `<location>` указывает на путь к странице *html* или *jsp*, которая будет отправляться пользователю.
+
+Например, добавим в проект в папку `WebContent` новый файл `404.html` со следующим кодом:
+
+[source, html]
+----
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Not Found</title>
+</head>
+<body>
+    <h2>Resource not found!</h2>
+</body>
+</html>
+----
+
+image:/assets/img/java/jakarta-ee/servlet/page-404.jpg[Page 404]
+
+В файле `web.xml` определим следующее содержимое:
+
+[source, xml]
+----
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
+                        http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
+    version="4.0">
+    <error-page>
+        <error-code>404</error-code>
+        <location>/404.html</location>
+    </error-page>
+</web-app>
+----
+
+В данном случае элемент `error-code` указывает, что мы будем обрабатывать ошибки со статусным кодом `404` (то есть такие ошибки, которые подразумевают отсутствие ресурса на сервере). А элемент `location` указывает, что в случае обращения к несуществующему ресурсу пользователю будет отправляться страница `404.html`.
+
+image:/assets/img/java/jakarta-ee/servlet/page-not-found.jpg[Page Not Found]
+
+== Обработка исключений
+
+Кроме настройки обработки стандартных ошибок протокола *http*, типа *404* или *403*, файл `web.xml` позволяет настроить обработку исключений, которые могут возникнуть при обработке запроса. Для этого в `web.xml` применяется элемент `<exception-type>`.
+
+Например, добавим в проект в папку `WebContent` новый файл `error.jsp` и определим в нем следующий код:
+
+[source, html]
+----
+<%
+   String message = pageContext.getException().getMessage();
+   String exception = pageContext.getException().getClass().toString();
+%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+    <title>Exception</title>
+</head>
+<body>
+    <h2>Exception occurred while processing the request</h2>
+    <p>Type: <%= exception%></p>
+    <p>Message: <%= message %></p>
+</body>
+</html>
+----
+
+Данная страница *jsp* будет отображать информацию об исключении. Через глобальный объект `pageContext` в страницу передается контекст. Если при обработке запроса возникло какое-нибудь исключение, то метод `pageContext.getException()` возвратит это исключение в виде объекта `Exception`. И далее мы можем исследовать этот объект и вызывать его методы, например, получить тип исключения и сообщение об исключении.
+
+Симитируем с сервлете какое-нибудь исключение:
+
+[source, java]
+----
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+@WebServlet("/hello")
+public class HelloServlet extends HttpServlet {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        int x = 0;
+        int y = 8 / x;
+    }
+}
+----
+
+В данном случае мы получаем ошибку деления на нуль, которая представлена типом `java.lang.ArithmeticException`.
+
+Теперь определим следующий файл `web.xml`:
+
+[source, xml]
+----
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
+                        http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
+    version="4.0">
+    <error-page>
+        <exception-type>java.lang.Throwable</exception-type>
+        <location>/error.jsp</location>
+    </error-page>
+</web-app>
+----
+
+Элемент `exception-type` указывает, что обрабатываться будут исключения типа `java.lang.Throwable`. Поскольку это базовый класс для всех типов исключений, то фактически мы будем обрабатывать все исключения. Хотя можно конкретизировать тип исключения, например, указать тот же `java.lang.ArithmeticException`.
+
+Элемент `location` определяет страницу, которая отправляется пользователю при возникновении исключении. В данном случае это `error.jsp`.
+
+В итоге при обращении к сервлету будет сгенерировано исключение, и мы увидим информацию о нем:
+
+image:/assets/img/java/jakarta-ee/servlet/page-exception.jpg[Page exception]

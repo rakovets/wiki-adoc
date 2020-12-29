@@ -1,0 +1,126 @@
+= Expression Language
+
+*Expression Language* или сокращенно *EL* предоставляет компактный синтаксис для обращения к массивам, коллекциям, объектам и их свойствам внутри страницы *jsp*. Он довольн прост. Вставку окрывает знак `$`, затем в фигурные скобки `{}` заключается выводимое значение:
+
+[source, html]
+----
+${attribute}
+${object.property}
+----
+
+== Поиск данных
+
+Откуда эти данные берутся? *EL* пытается найти значения для этих данных во всех доступных контекстах.
+
+И *EL* просматривает все эти контексты в следующем порядке:
+
+1. Контекст страницы (данные сохраняются в `PageContext`)
+2. Контекст запроса
+3. Контекст сессии
+4. Контекст приложения
+
+Соответственно, если контексты запроса и сессии содержат атрибут с одним и тем же именем, то будет использоваться атрибут из контекста запроса.
+
+Затем найденное значение (если оно было найдено) конвертируется в строку и выводится на страницу.
+
+Следует отметить, что мы не можем определить данные на странице, например, с помощью скриплета и затем вывести через *EL*:
+
+[source, html]
+----
+<%
+    String name = "Tom";
+%>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>JSP Application</title>
+</head>
+<body>
+    <p>Name: ${name}</p>
+</body>
+</html>
+----
+
+Такой способ не будет работать. Если мы хотим определить данные непосредственно на страницы, то их затем необходимо включить в контекст страницы, который доступен через переменную `pageContext`:
+
+[source, html]
+----
+<%
+    pageContext.setAttribute("name", "Tom");
+%>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>JSP Application</title>
+</head>
+<body>
+    <p>Name: ${name}</p>
+</body>
+</html>
+----
+
+Однако может сложиться ситуация, что сразу в нескольких контекстах одновременно содержатся данные с одним и тем же именем, например, `name`. Соответственно *EL* будет получать данные в порядке просмотра контекстов. Но, возможно, нам захочется выводить данные из какого-то определенного контекста. В этом случае перед названием данных мы можем указать название контекста: `pageScope`, `requestScope`, `sessionScope` или `applicationScope`. Например:
+
+[source, html]
+----
+<%
+    pageContext.setAttribute("name", "Bob");
+%>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>JSP Application</title>
+</head>
+<body>
+    <p>Name: ${requestScope.name}</p>
+</body>
+</html>
+----
+
+== Передача сложных объектов
+
+Подобным образом мы можем передать и более сложные данные - списки, массивы, сложные объекты. Допустим, в сервлете на страницу передается массив:
+
+[source, java]
+----
+@WebServlet("/hello")
+public class HelloServlet extends HttpServlet {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String[] users = new String[] {"Tom", "Bob", "Sam"};
+        request.setAttribute("users", users);
+        getServletContext().getRequestDispatcher("/basic.jsp").forward(request, response);
+    }
+}
+----
+
+И на странице `basic.jsp` получаем переданные данные:
+
+[source, html]
+----
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+    <title>JSP Application</title>
+</head>
+<body>
+    <p>Second: ${users[1]}</p>
+    <p>Third: ${users[2]}</p>
+</body>
+</html>
+----
+
+Вместо массива в сервлете мы могли бы передать более гибкий объект - `ArrayList`:
+
+[source, java]
+----
+ArrayList<String> users = new ArrayList<String>();
+Collections.addAll(users, "Tom", "Bob", "Sam");
+request.setAttribute("users", users);
+----
+
+В этом случае в *jsp* мы могли бы получить эти данные так же, как и из массива.

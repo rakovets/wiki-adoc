@@ -1,0 +1,252 @@
+= JSP syntax basics
+
+Содержимое страницы *JSP* фактически делится на код *html* (а также *css/javascript*) и код на языке Java. Для вставки кода *java* на страницу *JSP* можно использовать пять основных элементов:
+
+* *Выражения JSP* (*JSP Expression*)
+* *Скриплет JSP* (*JSP Scriplet*)
+* *Объявления JSP* (*JSP Declaration*)
+* *Директивы JSP* (*JSP Directive*)
+* *Комментарии JSP*
+
+== JSP Expression
+
+*JSP Expression* представляет выражение, заключенное между тегами `<%=` и `%>`. При обращении к *JSP* вычисляется значение этого выражения.
+
+Например, определим следующую страницу *JSP*:
+
+[source, html]
+----
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>First JSP App</title>
+</head>
+<body>
+    <p>2 + 2 = <%= 2 + 2 %></p>
+    <p>5 > 2 = <%= 5 > 2 %></p>
+    <p><%= new String("Hello").toUpperCase() %></p>
+    <p>Today <%= new java.util.Date() %></p>
+</body>
+</html>
+----
+
+Здесь используются четыре *JSP*-выражения. Первое выражение - простая арифметическая операция сложения. При обработке страницы вместо
+
+[source, html]
+----
+<p>2 + 2 = <%= 2 + 2 %></p>
+----
+
+будет сгенерирована следующая `html`-разметка:
+
+[source, html]
+----
+<p>2 + 2 = 4</p>
+----
+
+Второе выражение - операция сравнения во многом аналогична. Третье выражение - создание объекта `String` и вызов у него метода `toUpperCase()`, который возвращает строку в верхнем регистре. То есть выражение также может представлять вызов метода.
+
+И четвертое выражение - вызов конструктора класса `Date`, который создает объект с текущей датой.
+
+Когда придет запрос к этой странице, из нее будет сгенерирован следующий код:
+
+[source, html]
+----
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>First JSP App</title>
+    </head>
+    <body>
+        <p>2 + 2 = 4</p>
+        <p>5 > 2 = true</p>
+        <p>HELLO</p>
+        <p>Today Fri Aug 31 11:37:26 MSK 2018</p>
+    </body>
+</html>
+----
+
+И соответственно эту страницу мы увидим в браузере:
+
+image:/assets/img/java/jakarta-ee/jsp/jsp-syntax-basics1.png[JSP syntax basics]
+
+== JSP Scriplet
+
+*JSP Scriplet* представляет одну или несколько строк на языке Java. Скриплет заключается внутри следующих тегов:
+
+[source, html]
+----
+<%
+    код Java
+%>
+----
+
+Например, определим следующую страницу *JSP*:
+
+[source, html]
+----
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>First JSP App</title>
+</head>
+<body>
+    <%
+        for (int i = 1; i < 5; i++) {
+            out.println("<br>Hello " + i);
+        }
+    %>
+</body>
+</html>
+----
+
+В данном случае скриплет представляет цикл `for`, в котором генерируется вывод с помощью метода `out.println()`. В итоге в браузере будет выведено четыре разо слово `Hello` с соответствующей цифрой:
+
+image:/assets/img/java/jakarta-ee/jsp/jsp-syntax-basics2.png[JSP syntax basics]
+
+Другой пример - определим переменную и массив и выведим их содержимое на страницу:
+
+[source, html]
+----
+<%
+    String[] people = new String[]{"Tom", "Bob", "Sam"};
+    String header = "Users list";
+%>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>First JSP App</title>
+</head>
+<body>
+    <h3><%= header %></h3>
+    <ul>
+    <%
+        for (String person: people) {
+            out.println("<li>" + person + "</li>");
+        }
+    %>
+    </ul>
+</body>
+</html>
+----
+
+В скриплете в начале страницы определяются две переменных - переменная типа `String` и массив строк. С помощью второго скриплета содержимое массива через цикл `for` выводится на страницу.
+
+image:/assets/img/java/jakarta-ee/jsp/jsp-syntax-basics3.png[JSP syntax basics]
+
+== JSP Declaration
+
+*JSP Declaration* позволяют определить метод, который мы затем можем вызывать в скриплетах или в *JSP*-выражениях. Определение метода помещается между тегами `<%!` и `%>`. Например, определим следующую *JSP*-страницу:
+
+[source, html]
+----
+<%!
+    int square(int n){
+        return n * n;
+    }
+%>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>First JSP App</title>
+</head>
+<body>
+    <p><%= square(6) %></p>
+    <ul>
+    <%
+        for(int i = 1; i <= 5; i++){
+            out.println("<li>" + square(i) + "</li>");
+        }
+    %>
+    </ul>
+</body>
+</html>
+----
+
+В данном случае метод `square()` возвращает квадрат числа. Затем этот метод используется в выражении *JSP* и в скриплете в цикле `for`.
+
+image:/assets/img/java/jakarta-ee/jsp/jsp-syntax-basics4.png[JSP syntax basics]
+
+== Директивы
+
+*Директивы* предназначены для установки условий, которые применяются ко всей странице *JSP*. Наиболее используемая директива - это директива `page`. Например, с помощью атрибута `import` этой директивы мы можем импортировать пакеты или отдельные классы на страницу *JSP*.
+
+Например, в первом коде статьи для вывода даты использовалось выражение `new java.util.Date()`. Но мы можем использовать данное выражение на странице многократно, либо использовать другие классы из пакета `java.util`. И в этом случае мы можем импортировать нужные нам классы или пакеты:
+
+[source, html]
+----
+<%@ page import="java.util.Data" %>
+----
+
+Импорт всего пакета:
+
+[source, html]
+----
+<%@ page import="java.util.*" %>
+----
+
+Если необходимо импортировать несколько классов и(или) пакетов, то они перечисляются через запятую:
+
+[source, html]
+----
+<%@ page import="java.util.Data, java.text.*" %>
+----
+
+Другой полезный и часто используемый атрибут - `pageEncoding`, который задает кодировку *UTF-8*. Например:
+
+[source, html]
+----
+<%@ page import="java.util.Date" pageEncoding="UTF-8" %>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>JSP Application</title>
+</head>
+<body>
+    <h2>Сегодня: <%= new Date() %></h2>
+</body>
+</html>
+----
+
+image:/assets/img/java/jakarta-ee/jsp/jsp-syntax-basics5.png[JSP syntax basics]
+
+== Комментарии
+
+*Комментарии JSP* добавляются с помощью тега `<%-- Текст_комментария --%>`:
+
+[source, html]
+----
+<%-- Первое приложение на JSP --%>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>First JSP App</title>
+</head>
+<body>
+    <h2>Hello</h2>
+</body>
+</html>
+----
+
+При этом внутри скриплета мы можем использовать стандартные для языка Java комментарии:
+
+[source, html]
+----
+<%
+    /*
+        Пример цикла
+        в JSP
+    */
+    // вывод строки Hello четыре раза
+    for(int i = 1; i < 5; i++){
+        out.println("<br>Hello " + i);
+}
+%>
+----

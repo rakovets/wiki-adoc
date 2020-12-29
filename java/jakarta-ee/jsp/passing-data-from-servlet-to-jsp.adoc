@@ -1,0 +1,123 @@
+= Передача данных из сервлета в jsp
+
+Нередко страница *jsp* обрабатывает запрос вместе сервлетом. В этом случае сервлет определяет логику, а *jsp* - визуальную часть. И при обработке запроса сервлет может перенаправить дальнейшую обработку странице *jsp*. Соответственно может возникнуть вопрос, как передать данные из сервлета в *jsp*?
+
+Есть несколько способов передачи данных из сервлета в *jsp*, которые заключаются в использовании определенного контекста или *scope*. Есть несколько контекстов для передачи данных:
+
+* *request* (*контекст запроса*) данные сохраняются в `HttpServletRequest`
+* *session* (*контекст сессии*) данные сохраняются в `HttpSession`
+* *application* (*контекст приложения*) данные сохраняются в `ServletContext`
+
+Данные из контекста запроса доступны только в пределах текущего запроса. Данные из контекста сессии доступны только в пределах текущего сеанса. А данные из контекста приложения доступны постоянно, пока работает приложение.
+
+Но вне зависимости от выбранного способа передача данных осуществляется с помощью метода `setAttribute(name, value)`, где `name` - строковое название данных, а `value` - сами данные, которые могут представлять различные данные.
+
+Наиболее распространенный способ передачи данных из сервлета в *jsp* представляют атрибуты запроса. То есть у объекта `HttpServletRequest`, который передается в сервлет, вызывается метод `setAttribute()`. Этот метод устанавливает атрибут, который можно получить в *jsp*.
+
+Например, добавим в проект страницу `basic.jsp` со следующим кодом:
+
+[source, html]
+----
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+<title>JSP Application</title>
+</head>
+<body>
+    <p>Name: ${name}</p>
+    <p>Age: ${age}</p>
+</body>
+</html>
+----
+
+В `basic.jsp` можно получить атрибуты `name` и `age` и вывести их значение на страницу. Для вывода атрибутов применяется специальный синтаксис *EL*: в фигурные скобки `{}` заключается выводимое значение.
+
+== Контекст запроса
+
+Определим сервлет `HelloServlet`, который передает запрос `basic.jsp` и передает ей данные:
+
+[source, java]
+----
+import java.io.IOException;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+@WebServlet("/hello")
+public class HelloServlet extends HttpServlet {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        request.setAttribute("name", "Tom");
+        request.setAttribute("age", 34);
+
+        getServletContext().getRequestDispatcher("/basic.jsp").forward(request, response);
+    }
+}
+----
+
+Сервлет устанавливает два атрибута - `name` и `age` через объект `HttpServletRequest` и затем перенаправляет запрос странице `basic.jsp`.
+
+Если мы обратимся к сервлету `HelloServlet`, то он передаст запрос и данные странице `basic.jsp`.
+
+image:/assets/img/java/jakarta-ee/jsp/jsp-hello.png[JSP hello]
+
+== Контекст приложения
+
+Использование контекста приложения представляет применение объекта `ServletContext`, который можно получить в сервлете с помощью метода `getServletContext()`:
+
+[source, java]
+----
+import java.io.IOException;
+
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+@WebServlet("/hello")
+public class HelloServlet extends HttpServlet {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        ServletContext selvletContext = getServletContext();
+        selvletContext.setAttribute("name", "Tom");
+        selvletContext.setAttribute("age", 35);
+
+        getServletContext().getRequestDispatcher("/basic.jsp").forward(request, response);
+    }
+}
+----
+
+Код страницы `basic.jsp` при этом не меняется.
+
+== Контекст сессии
+
+Подобным образом можно передать данные в *jsp* через сессию:
+
+[source, java]
+----
+import java.io.IOException;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+@WebServlet("/hello")
+public class HelloServlet extends HttpServlet {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        session.setAttribute("name", "Tom");
+        session.setAttribute("age", 34);
+
+        getServletContext().getRequestDispatcher("/basic.jsp").forward(request, response);
+    }
+}
+----

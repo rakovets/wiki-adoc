@@ -1,0 +1,95 @@
+= `web.xml` и маппинг сервлетов
+
+При определении сервлетов применялась аннотация `@WebServlet`, которая устанавливала конечную точку, с которой сопоставлялся сервлет. Например:
+
+[source, java]
+----
+@WebServlet("/hello")
+public class HelloServlet extends HttpServlet {
+}
+----
+
+Вышеприведенный сервлет сопоставляется с путем `"/hello"`. То есть сервлет `HelloServlet` будет обрабатывать запросы типа `"http://localhost:8081/[название_приложения]/hello"` или `"http://somesite.com/[название_приложения]/hello"`.
+
+Но есть и другой способ сопоставления путей и сервлетов. Он представляет использование файла `web.xml`.
+
+Файл `web.xml` хранит информацию о конфигурации приложения. Он не является обязательной частью приложения, тем не менее он широко используется для настройки конфигурации.
+
+Данный файл должен располагаться в папке `WEB-INF` приложения. При запуске *Tomcat* считывает его содержимое и использует считанную конфигурацию. Если же файл содержит ошибки, то *Tomcat* отображает ошибку.
+
+`web.xml` имеет определенную структуру. Все вложенные узлы, которые определяют конфигурацию, помещаются в корневой узел `<web-app>`.
+
+[source, xml]
+----
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
+                        http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
+    version="4.0">
+</web-app>
+----
+
+У элемента `web-app` определяется ряд атрибутов. В данном случае атрибуты `xmlns` и `xmlns:xsi` указывают на используемые пространства имен `xml`. Атрибут `version` указывает на версию спецификации сервлетов или `Servlet API`, которая используется в приложении. Последняя версия `API` сервлетов - 4.0.
+
+С помощью элемента `<servlet-mapping>` можно задать сопоставление сервлета с запрашиваемым *URL*.
+
+Например, добавим в проект в *Eclipse* в директорию `WebConent/WEB-INF` новый файл `web.xml`:
+
+image:/assets/img/java/jakarta-ee/servlet/config-servlets.jpg[web.xml]
+
+Определим в нем следующий код:
+
+[source, xml]
+----
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
+                        http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
+    version="4.0">
+
+    <servlet>
+        <servlet-name>HelloWorld</servlet-name>
+        <servlet-class>HelloServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>HelloWorld</servlet-name>
+        <url-pattern>/welcome</url-pattern>
+    </servlet-mapping>
+
+</web-app>
+----
+
+Прежде всего вначале с помощью элемента `<servlet>` определяется сервлет. Элемент `<servlet-name>` задает имя сервлета, на которое будет проецировать класс, указанный в элементе `<servlet-class>`. То есть, допустим, у нас проекте есть класс сервлета `HelloServlet`, который будет проецироваться на имя `HelloWorld`. Имя может быть произвольным и может совпадать с названием класса.
+
+Затем в элементе `<servlet-mapping>` сервлет с именем `HelloWorld` (по сути сервлет `HelloServlet`) сопоставляется с путем `/welcome`.
+
+Допустим, сервлет `HelloServlet` будет выглядеть следующим образом:
+
+[source, java]
+----
+import java.io.IOException;
+import java.io.PrintWriter;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+public class HelloServlet extends HttpServlet {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setContentType("text/html");
+        PrintWriter writer = response.getWriter();
+        try {
+            writer.println("<h2>Welcome to servlets</h2>");
+        } finally {
+            writer.close();
+        }
+    }
+}
+----
+
+Теперь, чтобы обратиться к этому сервлету, надо использовать путь `/welcome`:
+
+image:/assets/img/java/jakarta-ee/servlet/request-welcome.jpg[Request welcom]

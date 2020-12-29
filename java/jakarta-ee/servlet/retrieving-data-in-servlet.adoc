@@ -1,0 +1,222 @@
+= Получение данных в сервлете
+
+В методы `doGet()` и `doPost()` сервлета, которые обрабатывают запрос, в качестве одного из параметров передается объект `HttpServletRequest`, с помощью которого можно получить отправленные сервлету данные, то есть параметры запроса. Для этого в классе `HttpServletRequest` определены два метода:
+
+* `getParameter(String param)` возвращает значение определенного параметра, название которого передается в метод. Если указанного параметра в запросе нет, то возвращается значение `null`.
+* `getParameterValues(String param)` возвращает массив значений, который представляет определенный параметр. Если указанного параметра в запросе нет, то возвращается значение `null`.
+
+== Получение данных из строки запроса
+
+Передавать значения в сервлет можно различными способами. При отправке *GET*-запроса значения передаются через строку запроса. Стандартный get-запрос принимает примерно следующую форму: `название_ресурса?параметр1=значение1&параметр2=значение2`.
+
+Например, определим следующий сервлет:
+
+[source, java]
+----
+import java.io.PrintWriter;
+import java.io.IOException;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+@WebServlet("/hello")
+public class HelloServlet extends HttpServlet {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        response.setContentType("text/html");
+        PrintWriter writer = response.getWriter();
+        // получаем параметр id
+        String id = request.getParameter("id");
+        try {
+            writer.println("<h2>Id:" + id + "</h2>");
+        } finally {
+            writer.close();
+        }
+    }
+}
+----
+
+В данном случае мы предполагаем, что в сервлет в *get*-запросе передается значение/параметр по имени `id`. С помощью вызова `request.getParameter("id")` мы получаем значение этого параметра и затем отправляем его в ответ пользователю. При этом стоит учитывать, что неважно, что мы будем передавать извне - целое или дробное число, отдельный символ, в любом случае метод `getParameter()` возвратить строку.
+
+Запустим приложение и обратимся к сервлету:
+
+image:/assets/img/java/jakarta-ee/servlet/servlet7.jpg[serlvet7]
+
+В случае выше значение для параметра `id` не указано, мы просто вводим в адресной строке браузера название ресурса - в данном случае `http://localhost:8081/helloapp/hello`, где `helloapp` - название приложения, а `hello` - конечная точка, к которой примонтирован сервлет. Поэтому метод `getParameter("id"`) возвращает значение `null`.
+
+Теперь передадим значение для параметра `id`:
+
+image:/assets/img/java/jakarta-ee/servlet/servlet8.jpg[servlet8]
+
+Параметры в строке запроса указываютя после названия ресурса после знака вопроса:` http://localhost:8081/helloapp/hello?id=5`.В данном случае параметр `id` равен `5`.
+
+Подобным образом можно передавать несколько параметров. Например, изменим сервлет следующим образом:
+
+[source, java]
+----
+import java.io.PrintWriter;
+import java.io.IOException;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+@WebServlet("/hello")
+public class HelloServlet extends HttpServlet {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        response.setContentType("text/html");
+        PrintWriter writer = response.getWriter();
+        String name = request.getParameter("name");
+        String age = request.getParameter("age");
+
+        try {
+            writer.println("<h2>Name: " + name + "; Age: " + age + "</h2>");
+        } finally {
+            writer.close();
+        }
+    }
+}
+----
+
+В данном случае сервлет получает два параметра: `name` и `age`. Мы можем передать значения для них, набрав в адресной строке, например,` http://localhost:8081/helloapp/hello?name=Tom&age=34.` При передаче некольких параметров они отделяются друг от друга знаком амперсанда `&`. Подобным образом мы можем передать и большее количество параметров.
+
+image:/assets/img/java/jakarta-ee/servlet/servlet9.jpg[servlet9]
+
+== Передача массивов
+
+В примерах выше передавались одиночные данные - отдельные строки. Но также мы можем передавать наборы значений. Например, изменим сервлет следующим образом:
+
+[source, java]
+----
+import java.io.PrintWriter;
+import java.io.IOException;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+@WebServlet("/hello")
+public class HelloServlet extends HttpServlet {
+
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        response.setContentType("text/html");
+        PrintWriter writer = response.getWriter();
+        String[] nums = request.getParameterValues("nums");
+
+        try {
+            writer.print("<h2>Numbers: ");
+            for(String n: nums)
+                writer.print(n + " ");
+            writer.println("</h2>");
+        } finally {
+            writer.close();
+        }
+    }
+}
+----
+
+Если в сервлет передается массив значений, то для его получения у объекта `HttpServletRequest` применяется метод `getParameterValues()`, который получает название параметра и возвращает массив строк. В данном случае мы ожидаем, что параметр будет называться `nums`. Затем значения из этого параметра в цикле передаются в ответ клиенту.
+
+Запустим сервлет и передадим ему значения
+
+image:/assets/img/java/jakarta-ee/servlet/servlet10.jpg[servlet10]
+
+При передаче массива через строку запроса указываются несколько значений с одним и тем же именем: `http://localhost:8081/helloapp/hello?nums=1&nums=2&nums=3`.
+
+== Получение данных из форм
+
+Еще одним распространенным способом отправки данных является отправка форм. Добавим в проект страницу `index.html` со следующим кодом:
+
+[source, html]
+----
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>User Form</title>
+</head>
+<body>
+    <form action="hello" method="POST">
+        Name: <input name="username" />
+        <br><br>
+        Age: <input name="userage" />
+        <br><br>
+        Gender: <input type="radio" name="gender" value="female" checked />Female
+        <input type="radio" name="gender" value="male" />Male
+        <br><br>
+        Country: <select name="country">
+            <option>Canada</option>
+            <option>Spain</option>
+            <option>France</option>
+            <option>Germany</option>
+        </select>
+        <br><br>
+        Courses:
+        <input type="checkbox" name="courses" value="JavaSE" checked />Java SE
+        <input type="checkbox" name="courses" value="JavaFX" checked />Java FX
+        <input type="checkbox" name="courses" value="JavaEE" checked />Java EE
+        <br><br>
+        <input type="submit" value="Submit" />
+    </form>
+</body>
+</html>
+----
+
+Как правило, формы отправлются с помощью запроса *POST*, поэтому у элемента формы определен атрибут `method="POST"`. Сама форма будет отправляться на ресурс `/hello`, с которым будет сопоставляться сервлет. На самой форме есть множество полей ввода, в том числе набор чекбоксов, из которых можно выбрать сразу несколько значений.
+
+image:/assets/img/java/jakarta-ee/servlet/servlet11.jpg[servlet11]
+
+Теперь определим сервлет, который будет обрабатывать эту форму:
+
+[source, java]
+----
+import java.io.PrintWriter;
+import java.io.IOException;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+@WebServlet("/hello")
+public class HelloServlet extends HttpServlet {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        response.setContentType("text/html");
+        PrintWriter writer = response.getWriter();
+
+        String name = request.getParameter("username");
+        String age = request.getParameter("userage");
+        String gender = request.getParameter("gender");
+        String country = request.getParameter("country");
+        String[] courses = request.getParameterValues("courses");
+
+        try {
+            writer.println("<p>Name: " + name + "</p>");
+            writer.println("<p>Age: " + age + "</p>");
+            writer.println("<p>Gender: " + gender + "</p>");
+            writer.println("<p>Country: " + country + "</p>");
+            writer.println("<h4>Courses</h4>");
+            for (String course: courses) {
+                writer.println("<li>" + course + "</li>");
+            }
+        } finally {
+            writer.close();
+        }
+    }
+}
+----
+
+Данный сервлет будет обрабатывать запросы к по адресу `/hello`, на который отпавляется форма. Поскольку отправка формы осущетвляется с помощью метода `POST`, то для обработки запроса определен метод `doPost()`. Метод `doPost()` принимает те же параметры, что и метод `doGet()`.
+
+С помощью методов `getParameter()` и `getParameterValues()` также получаем значения параметров. В данном случае названия параметров представляют названия полей ввода отправленной формы.
+
+Причем поскольку на форме несколько чекбоксов, которые имеют одно и то же имя, то соответственно сервлету передается набор значений, который получаем с помощью метода `getParameterValues()`. Все остальные поля представляют одиночные значения, поэтому для получения их данных применяется метод `getParameter()`.
+
+image:/assets/img/java/jakarta-ee/servlet/servlet12.jpg[servlet12]

@@ -1,0 +1,152 @@
+= Sessions
+
+Сессия позоляет сохранять некоторую информацию на время сеанса. Когда клиент обращается к сервлету или странице `JSP`, то движок сервлетов проверяет, определен ли в запросе параметр `ID` сессии. Если такой параметр неопределен (например, клиент первый раз обращается к приложению), тогда движок сервлетов создает уникальное значение `ID` и связанный с ним объект сессии. Объект сессии сохраняется на сервере, а `ID` отправляется в ответе клиенту и по умолчанию сохраняется на клиенте в куках. Затем когда приходит новый запрос от того же клиента, то движок сервлетов опять же может получить `ID` и сопоставить его с объектом сессии на веб-сервере.
+
+Хотя по умолчанию `ID` сессии хранится в куках, но возможна ситуация, когда куки отключены на клиенте. Для решения этой проблемы есть ряд техник, в частности, добавление `ID` в адрес.
+
+Для получения объекта сессии в сервлете у объекта `HttpServletRequest` определен метод `getSession()`. Он возвращает объект `HttpSession`.
+
+[source, java]
+----
+HttpSession session = request.getSession();
+----
+
+Для управления сессией объект `HttpSession` предоставляет ряд методов:
+
+* `setAttribute(String name, Object o)` сохраняет в сессии под ключом `name`
+* `getAttribute(String name)` возвращает из сессии объект с ключом `name`. Если ключа `name` в сессии неопределено, то возвращается `null`
+* `removeAttribute(String name)` удаляет из сессии объект с ключом `name`
+
+Например, определим следующий сервлет:
+
+[source, java]
+----
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+@WebServlet("/hello")
+public class HelloServlet extends HttpServlet {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // получаем сессию
+        HttpSession session = request.getSession();
+        // получаем объект name
+        String name = (String) session.getAttribute("name");
+
+        PrintWriter out = response.getWriter();
+        try {
+            // если объект ранее не установлен
+            if (name == null) {
+                // устанавливаем объект с ключом name
+                session.setAttribute("name", "Tom Soyer");
+                out.println("Session data are set");
+            } else {
+                out.println("Name: " + name);
+                // удаляем объект с ключом name
+                session.removeAttribute("name");
+            }
+        } finally {
+            out.close();
+        }
+    }
+}
+----
+
+В данном случае мы получаем из сессии объект с ключом `name`. Если он не определен, то добавляем его в сессию, если определен - то удаляем. Таким образом, при первом запросе к приложению, в сессию будут добавлены данные, а при втором удалены, но мы сможем увидеть эти данные:
+
+image:/assets/img/java/jakarta-ee/servlet/session.png[Session]
+
+Подобным образом можно сохранять в сессию более сложные объекты. Допустим, у нас есть следующий класс, который представляет пользователя:
+
+[source, java]
+----
+public class Person {
+    private String name;
+    private int age;
+
+    public Person(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getAge() {
+        return age;
+    }
+}
+----
+
+Сохраним в сессию и получим из сессии объект этого класса:
+
+[source, java]
+----
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+@WebServlet("/hello")
+public class HelloServlet extends HttpServlet {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        Person tom = (Person) session.getAttribute("person");
+
+        PrintWriter out = response.getWriter();
+        try {
+            if (tom == null) {
+                tom = new Person("Tom", 34);
+                session.setAttribute("person", tom);
+                out.println("Session data are set");
+            } else {
+                out.println("Name: " + tom.getName() + " Age: " + tom.getAge());
+                session.removeAttribute("person");
+            }
+        } finally {
+            out.close();
+        }
+    }
+}
+----
+
+В данном случае также если объект по ключу `person` не установлен, то он устанавливается, иначе удаляется.
+
+== Дополнительные методы `HttpSession`
+
+Кроме выше рассмотренных методов `HttpSession` есть еще ряд методов, которые могут быть полезны. Некоторые из них:
+
+* `getAttributeNames()` возвращает объект `java.util.Enumeration`, который содержит все ключи имеющих в сессии объектов
+* `getId()` возвращает идентификатор сессии в виде строки
+* `isNew()` возвращает `true`, если для клиента еще не установлена сессия (клиент сделал первый запрос или на клиенте отключены куки)
+* `setMaxInactiveInterval(int seconds)` устанавливает интервал неактивности в секундах. И если в течение этого интервала клиент был неактивен, то данные сессии данные удаляются. По умолчанию максимальный интервал неактивности `1800` секунд. Значение `-1` указывает, что сессия удаляется только тогда, когда пользователь закрыл вкладку в браузере.
+* `invalidate()` удаляет из сессии все объекты
+
+Применение методов:
+
+[source, java]
+----
+// получение всех ключей
+Enumeration keys = session.getAttributeNames();
+while (keys.hasMoreElements()) {
+    System.out.println((String) keys.nextElement());
+}
+
+session.setMaxInactiveInterval(60 * 60 * 24); // установка интервала неактивности 1 день
+session.setMaxInactiveInterval(-1); // до закрытия браузера
+
+// удаление всех данных из сессии
+session.invalidate();
+----

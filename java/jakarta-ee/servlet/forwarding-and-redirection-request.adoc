@@ -1,0 +1,172 @@
+
+= Переадресация и перенаправление запроса
+
+Одной из распространеных задач веб-программирования является переадресация. Рассмотрим, как мы можем в сервлетах выполнять переадресацию на другой ресурс.
+
+== Перенаправление запроса
+
+Метод `forward()` класса `RequestDispatcher` позволяет перенаправить запрос из сервлета на другой сервлет, `html-страницу` или страницу `jsp`. Причем в данном случае речь идет о перенаправлении запроса, а не о переадресации.
+
+Например, пусть в проекте определена страница `index.html` :
+
+[source, html]
+----
+<!DOCTYPE html>
+<html>
+    <head>
+    <meta charset="UTF-8">
+    <title>Servlets in Java</title>
+</head>
+<body>
+    <h2>Index.html</h2>
+</body>
+</html>
+----
+
+Данная страница просто выводит заголовок.
+
+И, допустим, мы хотим из сервлета перенаправить запрос на эту страницу:
+
+[source, java]
+----
+import java.io.IOException;
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+@WebServlet("/hello")
+public class HelloServlet extends HttpServlet {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String path = "/index.html";
+        ServletContext servletContext = getServletContext();
+        RequestDispatcher requestDispatcher = servletContext.getRequestDispatcher(path);
+        requestDispatcher.forward(request, response);
+    }
+}
+----
+
+Для того, чтобы выполнить перенаправление запроса, вначале с помощью метода `getServletContext()` получаем объект `ServletContext` , который представляет контекст запроса. Затем с помощью его метода `getRequestDispatcher()` получаем объект `RequestDispatcher` . Путь к ресурсу, на который надо выполнить перенаправление, передается в качестве параметра в `getRequestDispatcher()` .
+
+Затем у объекта RequestDispatcher вызывается метод `forward()`, в который передаются объекты `HttpServletRequest` и `HttpServletResponse` .
+
+И если мы обратимся к сервлету, то фактически мы получим содержимое страницы `index.html` , который будет перенаправлен запрос.
+
+image:/assets/img/java/jakarta-ee/servlet/jsp-hello.jpg[JSP-hello]
+
+Подобным образом мы можем выполнять перенаправление на страницы `jsp` и другие сервлеты. Например, добавим в проект новый сервлет `NotFoundServlet` :
+
+image:/assets/img/java/jakarta-ee/servlet/not-found-servlet.jpg[NotFoundServlet]
+
+Определим для `NotFoundServlet` следующий код:
+
+[source, java]
+----
+import java.io.IOException;
+import java.io.PrintWriter;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+@WebServlet("/notfound")
+public class NotFoundServlet extends HttpServlet {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setContentType("text/html");
+        PrintWriter writer = response.getWriter();
+        String id = request.getParameter("id");
+        try {
+            writer.println("<h2>Not Found: " + id + "</h2>");
+        } finally {
+            writer.close();
+        }
+    }
+}
+----
+
+В данном случае `NotFoundServlet` сопоставляется с адресом `/notfound`.
+
+Изменим код `HelloServlet` , чтобы он перенаправлял на NotFoundServlet:
+
+[source, java]
+----
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+@WebServlet("/hello")
+public class HelloServlet extends HttpServlet {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+throws ServletException, IOException {
+
+        String path = "/notfound";
+            ServletContext servletContext = getServletContext();
+            RequestDispatcher requestDispatcher = servletContext.getRequestDispatcher(path);
+            requestDispatcher.forward(request, response);
+    }
+}
+----
+
+В данном случае если `id` равен `null` , то идет перенаправление на `NotFoundServlet`. Следует отметить, что в метод requestDispatcher.forward передаются объекты `HttpServletRequest` и `HttpServletResponse`. То есть `NotFoundServlet` получит те же самые данные запроса, что и `HelloServlet`.
+
+image:/assets/img/java/jakarta-ee/servlet/jsp-not-found.jpg[Not Found JSP-pages]
+
+== Переадресация
+
+Для переадресации применяется метод `sendRedirect()` объекта `HttpServletResponse`. В качестве параметра данный метод принимает адрес переадресации. Адрес может быть локальным, внутренним, а может быть и внешним.
+
+Например, если сервлету `HelloServlet` не передано значение для параметра `id`, выполним переадресацию на сервлет `NotFoundServlet`:
+
+[source, java]
+----
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+@WebServlet("/hello")
+public class HelloServlet extends HttpServlet {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+throws ServletException, IOException {
+        String id = request.getParameter("id");
+        if (id == null) {
+            String path = request.getContextPath() + "/notfound";
+            response.sendRedirect(path);
+        } else {
+            response.setContentType("text/html");
+            PrintWriter writer = response.getWriter();
+            try {
+                writer.println("<h2>Hello Id " + id + "</h2>");
+            } finally {
+                writer.close();
+            }
+        }
+    }
+}
+----
+
+В данном случае переадресация идет на локальный ресурс. Но важно понимать, что в метод `sendRedirect` передается адрес относительно корня текущего домена. То есть в данном случае у нас домен и порт `http://localhost:8001/`, а приложение называется `helloapp`, то для обращения к сервлету `NotFoundServlet` необходимо передать адрес `helloapp/notfound`. Путь к текущему приложению можно получить с помощью метода `getContextPath()`.
+
+Также можно выполнять и переадресацию на внешний ресурс, указывая полный адрес:
+
+[source, java]
+----
+response.sendRedirect("https://metanit.com/");
+----
