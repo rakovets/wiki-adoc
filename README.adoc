@@ -1,5 +1,6 @@
 = wiki
 Dmitry Rakovets
+:favicon: favicon.ico
 
 Wikis for different courses. Use 'AsciiDoc' and 'Asciidoctor' for convertation to 'HTML'.
 
