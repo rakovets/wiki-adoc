@@ -6,14 +6,13 @@ Wikis for different courses. Use 'AsciiDoc' and 'Asciidoctor' for convertation t
 
 == Wiki for courses
 
-Wiki for different courses:
-
 * link:/common[Common]
 * Java:
 ** link:/java/basics[Java Basics]
 ** link:/java/common[Java Common]
 ** link:/java/data-persistence[Data Persistence in Java]
 ** link:/java/jakarta-ee[Java with Jakarta EE]
+** link:/java/spring[Java with Spring]
 ** link:/java/tools[Java Tools]
 
 == Code of Conduct
