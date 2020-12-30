@@ -1,4 +1,4 @@
-= Java Basics
+= Basics Java
 Dmitry Rakovets
 :source-highlighter: prettify
 :sectnums:
@@ -8,7 +8,7 @@ Dmitry Rakovets
 
 :toc!:
 
-Wiki for course "Java Basics".
+Wiki for course "Basics Java".
 
 :leveloffset: +1
 
