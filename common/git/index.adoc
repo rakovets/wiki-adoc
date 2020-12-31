@@ -2,6 +2,8 @@
 
 :leveloffset: +1
 
+include::git.adoc[]
+
 include::execute-using-git-bash.adoc[]
 
 include::execute-using-github-ui.adoc[]

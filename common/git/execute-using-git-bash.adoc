@@ -1,8 +1,6 @@
 = Command for Git
 
-image:/assets/img/common/git-basic-operations.webp[Git basic operation]
-
-== Description
+== Precondition
 
 * Все команды кроме `git clone` выполняются в `terminal`/`cmd` в directory с проектом
 * Команда `git clone` выполняется в directory `dev`, которая должна быть создана в пользовательской directory
@@ -13,7 +11,7 @@ image:/assets/img/common/git-basic-operations.webp[Git basic operation]
 
 == Workflow
 
-image:/assets/img/common/execute-using-git-bash.svg[Git basic operation]
+image:/assets/img/common/git/execute-using-git-bash.svg[Git basic operation]
 
 === Как копировать remote repository когда его нет на компьютере?
 
