@@ -13,14 +13,14 @@
 * `DI` - Dependency Injection
 * `DNS` - Domain Name System
 * `DOM` - Document Object Model
-* `DRY` - Don't Repeat Youself
+* `DRY` - Don't Repeat Yourself
 * `DTD` - Document Type Definition
 * `ESP` - `EFI` System Partition
 * `FTP` - File Transfer Protocol
 * `FUSE` - File System in User Scope
 * `GPG` - `GNU` Privacy Guard
-* `GPT` - Globaly UID Partition Table
-* `GRUB` - GRand Uninfied Boot loader
+* `GPT` - Globally UID Partition Table
+* `GRUB` - GRand Unified Boot loader
 * `HTTP`- HyperText Transfer Protocol
 * `IaaS` - Infrastructure as a Service
 * `IoC` - Inversion of Control
