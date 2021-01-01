@@ -8,7 +8,7 @@ Dmitry Rakovets
 
 :toc!:
 
-Wiki for common theme.
+Wiki for a common theme.
 
 :leveloffset: +1
 
@@ -23,3 +23,7 @@ include::abbreviations.adoc[]
 include::commands-for-unix-like-os.adoc[]
 
 include::number-systems.adoc[]
+
+// include ONLY at the end of the document, because it breaks the layout
+// Possible reason: using *PassThrough* Block
+include::asciidoc.adoc[]
