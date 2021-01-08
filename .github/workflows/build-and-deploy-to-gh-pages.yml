@@ -1,0 +1,26 @@
+name: Build and deploy to GitHub Pages
+on:
+  push:
+    branches:
+      - master
+jobs:
+  adoc_build_deploy:
+    runs-on: ubuntu-latest
+    name: Build and deploy to GitHub Pages
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Get build container
+        id: adocbuild
+        uses: avattathil/asciidoctor-action@master
+        with:
+          program:
+            "asciidoctor -b html5 -R . -D . '**/*.adoc';
+            rm .gitignore README.html;
+            rm -rf *.adoc;"
+      - name: Deploy docs to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: ./
