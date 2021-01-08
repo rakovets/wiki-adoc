@@ -2,7 +2,7 @@
 
 *Сериализация* представляет процесс записи состояния объекта в поток, соответственно процесс извлечения или восстановления состояния объекта из потока называется *десериализацией*. Сериализация очень удобна, когда идет работа со сложными объектами.
 
-image:/assets/img/java/basics/io/serialization.png[Serialization]
+image:/assets/img/java/core/io/serialization.png[Serialization]
 
 == Интерфейс `Serializable`
 

@@ -37,10 +37,10 @@
 * `TreeMap`: структура данных в виде дерева, где каждый элемент имеет уникальный ключ и некоторое значение
 
 Схематично всю систему можно представить следующим образом:
-image:/assets/img/java/basics/collections/java-collection-hierarchy.png[Java Collection Hierarchy]
+image:/assets/img/java/core/collections/java-collection-hierarchy.png[Java Collection Hierarchy]
 
 Следует отметить, что в отличие от других интерфейсов, которые представляют коллекции, интерфейс `Map` *НЕ расширяет* интерфейс `Collection`.
-image:/assets/img/java/basics/collections/java-map-hierarchy.png[Java Map Hierarchy]
+image:/assets/img/java/core/collections/java-map-hierarchy.png[Java Map Hierarchy]
 
 == Interface `Collection`
 

@@ -12,7 +12,7 @@
 
 *Javadoc* также проверяет теги по фактическому коду. Если есть параметры, исключения или возвраты, которые не соответствуют параметрам, исключениям или возвратам в фактическом коде, то *Javadoc* будет показывать предупреждения.
 
-image::/assets/img/java/basics/javadoc/error.png[Error]
+image::/assets/img/java/core/javadoc/error.png[Error]
 
 === Изучение параметров *Javadoc*
 
@@ -354,7 +354,7 @@ link:https://docs.oracle.com/javase/7/docs/technotes/tools/windows/javadoc.html[
 
 Вкладка "Резюме класса" показывает краткую версию каждого из классов. Описание, которое писали для каждого класса, отображается здесь. Это своего рода краткое справочное руководство по API.
 
-image::/assets/img/java/basics/javadoc/class-summary.png[Class summary]
+image::/assets/img/java/core/javadoc/class-summary.png[Class summary]
 
 Для отображения деталей класса кликаем по его имени (в нашем примере это `ACMESmartphone` или `Dynamite`)
 
@@ -362,13 +362,13 @@ image::/assets/img/java/basics/javadoc/class-summary.png[Class summary]
 
 При просмотре страницы класса, мы получаем сводку полей, конструкторов и методов для класса. Опять же, это просто обзор. Если прокрутить вниз, то увидим полную информацию о каждом из этих элементов.
 
-image::/assets/img/java/basics/javadoc/class-details.png[Class details]
+image::/assets/img/java/core/javadoc/class-details.png[Class details]
 
 === Другая навигация
 
 Если кликнуть на вкладку *Package* вверху, можно просмотреть классы по пакетам. Или можно перейти к классу, щелкнув имя класса в левом столбце. Также можно просмотреть все, кликнув *Index*.
 
-image::/assets/img/java/basics/javadoc/navigation.png[Navigation]
+image::/assets/img/java/core/javadoc/navigation.png[Navigation]
 
 Для получения справки по организации *Javadoc* нужно кликнуть на вкладку *Help* вверху на навигационной панели.
 

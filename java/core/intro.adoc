@@ -24,4 +24,4 @@
 
 Если необходимо нетолько запускать программы, но и разрабатывать их, то потребуется специальный комплект для разработки *JDK* (*Java Development Kit*). *JDK* уже содержит *JRE*, а также включает ряд дополнительных программ и утилит, в частности компилятор *Java*.
 
-image::/assets/img/java/basics/java-platform.png[Java Platform]
+image::/assets/img/java/core/java-platform.png[Java Platform]

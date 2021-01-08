@@ -4,7 +4,7 @@
 
 Следует отметить, что в отличие от других интерфейсов, которые представляют коллекции, интерфейс `Map` *НЕ расширяет* интерфейс `Collection`.
 
-image:/assets/img/java/basics/collections/java-map-hierarchy.png[Java Map Hierarchy]
+image:/assets/img/java/core/collections/java-map-hierarchy.png[Java Map Hierarchy]
 
 Среди методов интерфейса `Map` можно выделить следующие:
 

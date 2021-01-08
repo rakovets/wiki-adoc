@@ -11,4 +11,4 @@
 
 `LocalDate`, `LocalTime`, `LocalDateTime` и `Instant` реализуют интерфейс `java.time.temporal.Temporal`. `Period` и `Duration` реализуют интерфейс `java.time.temporal.TemporalAmount`.
 
-image:/assets/img/java/basics/date-time.png[Date and Time]
+image:/assets/img/java/core/date-time.png[Date and Time]

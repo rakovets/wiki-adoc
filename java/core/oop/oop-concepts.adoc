@@ -29,7 +29,7 @@
 * *Абстракция* (*Abstraction*)
 * *Инкапсуляция* (*Encapsulation*)
 
-image:/assets/img/java/basics/oop/java-oops.png[Java OOPs Concepts]
+image:/assets/img/java/core/oop/java-oops.png[Java OOPs Concepts]
 
 Помимо этих концепций, есть несколько других терминов, которые используются в объектно-ориентированном дизайне:
 

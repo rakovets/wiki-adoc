@@ -151,7 +151,7 @@ Integer y = 567;
 
 Переменная `y` указывает на объект в памяти:
 
-image:/assets/img/java/basics/mics/wrapper-immutable1.png[Объекты классов оболочек неизменяемы]
+image:/assets/img/java/core/mics/wrapper-immutable1.png[Объекты классов оболочек неизменяемы]
 
 Если мы попытаемся изменить `y`, у нас создастся еще один объект в памяти, на который теперь и будет указывать `y`:
 
@@ -161,7 +161,7 @@ Integer y = 567;
 y++;
 ----
 
-image:/assets/img/java/basics/mics/wrapper-immutable2.png[Объекты классов оболочек неизменяемы]
+image:/assets/img/java/core/mics/wrapper-immutable2.png[Объекты классов оболочек неизменяемы]
 
 == Кэширование объектов классов оболочек
 

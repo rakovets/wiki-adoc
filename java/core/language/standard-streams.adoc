@@ -130,7 +130,7 @@ public class FirstApp {
 
 Например, если бы мы запускали проект в *IntelliJ IDEA*, то это выглядело бы так:
 
-image::/assets/img/java/basics/language/console-output.png[Console Output]
+image::/assets/img/java/core/language/console-output.png[Console Output]
 
 == Проблема с кириллическими символами
 
@@ -140,4 +140,4 @@ image::/assets/img/java/basics/language/console-output.png[Console Output]
 
 Нам откроется окно настроек проекта, где в самом низу нам надо выбрать вместо кодировки по умолчанию `UTF-8` кодировку `windows-1251`:
 
-image::/assets/img/java/basics/language/problem-encoding.png[Problem encoding]
+image::/assets/img/java/core/language/problem-encoding.png[Problem encoding]

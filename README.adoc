@@ -8,7 +8,7 @@ Wikis for different courses. Use 'AsciiDoc' and 'Asciidoctor' for convertation t
 
 * link:/common[Common]
 * Java:
-** link:/java/basics[Basics Java]
+** link:/java/core[Core Java]
 ** link:/java/common[Java Common]
 ** link:/java/data-persistence[Data Persistence in Java]
 ** link:/java/jakarta-ee[Java with Jakarta EE]
