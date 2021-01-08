@@ -1,0 +1,5 @@
+# AsciiDoc or AsciiDoctor
+*.html
+
+# IntelliJ IDEA
+.idea/

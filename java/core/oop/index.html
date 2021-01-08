@@ -1,0 +1,3188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.12">
+<title>Java Object-Oriented Programming</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
+<style>
+/* Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
+/* Uncomment @import statement to use as custom stylesheet */
+/*@import "https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700";*/
+article,aside,details,figcaption,figure,footer,header,hgroup,main,nav,section{display:block}
+audio,video{display:inline-block}
+audio:not([controls]){display:none;height:0}
+html{font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}
+a{background:none}
+a:focus{outline:thin dotted}
+a:active,a:hover{outline:0}
+h1{font-size:2em;margin:.67em 0}
+abbr[title]{border-bottom:1px dotted}
+b,strong{font-weight:bold}
+dfn{font-style:italic}
+hr{-moz-box-sizing:content-box;box-sizing:content-box;height:0}
+mark{background:#ff0;color:#000}
+code,kbd,pre,samp{font-family:monospace;font-size:1em}
+pre{white-space:pre-wrap}
+q{quotes:"\201C" "\201D" "\2018" "\2019"}
+small{font-size:80%}
+sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}
+sup{top:-.5em}
+sub{bottom:-.25em}
+img{border:0}
+svg:not(:root){overflow:hidden}
+figure{margin:0}
+fieldset{border:1px solid silver;margin:0 2px;padding:.35em .625em .75em}
+legend{border:0;padding:0}
+button,input,select,textarea{font-family:inherit;font-size:100%;margin:0}
+button,input{line-height:normal}
+button,select{text-transform:none}
+button,html input[type="button"],input[type="reset"],input[type="submit"]{-webkit-appearance:button;cursor:pointer}
+button[disabled],html input[disabled]{cursor:default}
+input[type="checkbox"],input[type="radio"]{box-sizing:border-box;padding:0}
+button::-moz-focus-inner,input::-moz-focus-inner{border:0;padding:0}
+textarea{overflow:auto;vertical-align:top}
+table{border-collapse:collapse;border-spacing:0}
+*,*::before,*::after{-moz-box-sizing:border-box;-webkit-box-sizing:border-box;box-sizing:border-box}
+html,body{font-size:100%}
+body{background:#fff;color:rgba(0,0,0,.8);padding:0;margin:0;font-family:"Noto Serif","DejaVu Serif",serif;font-weight:400;font-style:normal;line-height:1;position:relative;cursor:auto;tab-size:4;word-wrap:anywhere;-moz-osx-font-smoothing:grayscale;-webkit-font-smoothing:antialiased}
+a:hover{cursor:pointer}
+img,object,embed{max-width:100%;height:auto}
+object,embed{height:100%}
+img{-ms-interpolation-mode:bicubic}
+.left{float:left!important}
+.right{float:right!important}
+.text-left{text-align:left!important}
+.text-right{text-align:right!important}
+.text-center{text-align:center!important}
+.text-justify{text-align:justify!important}
+.hide{display:none}
+img,object,svg{display:inline-block;vertical-align:middle}
+textarea{height:auto;min-height:50px}
+select{width:100%}
+.subheader,.admonitionblock td.content>.title,.audioblock>.title,.exampleblock>.title,.imageblock>.title,.listingblock>.title,.literalblock>.title,.stemblock>.title,.openblock>.title,.paragraph>.title,.quoteblock>.title,table.tableblock>.title,.verseblock>.title,.videoblock>.title,.dlist>.title,.olist>.title,.ulist>.title,.qlist>.title,.hdlist>.title{line-height:1.45;color:#7a2518;font-weight:400;margin-top:0;margin-bottom:.25em}
+div,dl,dt,dd,ul,ol,li,h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6,pre,form,p,blockquote,th,td{margin:0;padding:0}
+a{color:#2156a5;text-decoration:underline;line-height:inherit}
+a:hover,a:focus{color:#1d4b8f}
+a img{border:0}
+p{font-family:inherit;font-weight:400;font-size:1em;line-height:1.6;margin-bottom:1.25em;text-rendering:optimizeLegibility}
+p aside{font-size:.875em;line-height:1.35;font-style:italic}
+h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6{font-family:"Open Sans","DejaVu Sans",sans-serif;font-weight:300;font-style:normal;color:#ba3925;text-rendering:optimizeLegibility;margin-top:1em;margin-bottom:.5em;line-height:1.0125em}
+h1 small,h2 small,h3 small,#toctitle small,.sidebarblock>.content>.title small,h4 small,h5 small,h6 small{font-size:60%;color:#e99b8f;line-height:0}
+h1{font-size:2.125em}
+h2{font-size:1.6875em}
+h3,#toctitle,.sidebarblock>.content>.title{font-size:1.375em}
+h4,h5{font-size:1.125em}
+h6{font-size:1em}
+hr{border:solid #dddddf;border-width:1px 0 0;clear:both;margin:1.25em 0 1.1875em;height:0}
+em,i{font-style:italic;line-height:inherit}
+strong,b{font-weight:bold;line-height:inherit}
+small{font-size:60%;line-height:inherit}
+code{font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;font-weight:400;color:rgba(0,0,0,.9)}
+ul,ol,dl{font-size:1em;line-height:1.6;margin-bottom:1.25em;list-style-position:outside;font-family:inherit}
+ul,ol{margin-left:1.5em}
+ul li ul,ul li ol{margin-left:1.25em;margin-bottom:0;font-size:1em}
+ul.square li ul,ul.circle li ul,ul.disc li ul{list-style:inherit}
+ul.square{list-style-type:square}
+ul.circle{list-style-type:circle}
+ul.disc{list-style-type:disc}
+ol li ul,ol li ol{margin-left:1.25em;margin-bottom:0}
+dl dt{margin-bottom:.3125em;font-weight:bold}
+dl dd{margin-bottom:1.25em}
+abbr,acronym{text-transform:uppercase;font-size:90%;color:rgba(0,0,0,.8);border-bottom:1px dotted #ddd;cursor:help}
+abbr{text-transform:none}
+blockquote{margin:0 0 1.25em;padding:.5625em 1.25em 0 1.1875em;border-left:1px solid #ddd}
+blockquote cite{display:block;font-size:.9375em;color:rgba(0,0,0,.6)}
+blockquote cite::before{content:"\2014 \0020"}
+blockquote cite a,blockquote cite a:visited{color:rgba(0,0,0,.6)}
+blockquote,blockquote p{line-height:1.6;color:rgba(0,0,0,.85)}
+@media screen and (min-width:768px){h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6{line-height:1.2}
+h1{font-size:2.75em}
+h2{font-size:2.3125em}
+h3,#toctitle,.sidebarblock>.content>.title{font-size:1.6875em}
+h4{font-size:1.4375em}}
+table{background:#fff;margin-bottom:1.25em;border:solid 1px #dedede;word-wrap:normal}
+table thead,table tfoot{background:#f7f8f7}
+table thead tr th,table thead tr td,table tfoot tr th,table tfoot tr td{padding:.5em .625em .625em;font-size:inherit;color:rgba(0,0,0,.8);text-align:left}
+table tr th,table tr td{padding:.5625em .625em;font-size:inherit;color:rgba(0,0,0,.8)}
+table tr.even,table tr.alt{background:#f8f8f7}
+table thead tr th,table tfoot tr th,table tbody tr td,table tr td,table tfoot tr td{line-height:1.6}
+h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6{line-height:1.2;word-spacing:-.05em}
+h1 strong,h2 strong,h3 strong,#toctitle strong,.sidebarblock>.content>.title strong,h4 strong,h5 strong,h6 strong{font-weight:400}
+.center{margin-left:auto;margin-right:auto}
+.stretch{width:100%}
+.clearfix::before,.clearfix::after,.float-group::before,.float-group::after{content:" ";display:table}
+.clearfix::after,.float-group::after{clear:both}
+:not(pre).nobreak{word-wrap:normal}
+:not(pre).nowrap{white-space:nowrap}
+:not(pre).pre-wrap{white-space:pre-wrap}
+:not(pre):not([class^=L])>code{font-size:.9375em;font-style:normal!important;letter-spacing:0;padding:.1em .5ex;word-spacing:-.15em;background:#f7f7f8;-webkit-border-radius:4px;border-radius:4px;line-height:1.45;text-rendering:optimizeSpeed}
+pre{color:rgba(0,0,0,.9);font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;line-height:1.45;text-rendering:optimizeSpeed}
+pre code,pre pre{color:inherit;font-size:inherit;line-height:inherit}
+pre>code{display:block}
+pre.nowrap,pre.nowrap pre{white-space:pre;word-wrap:normal}
+em em{font-style:normal}
+strong strong{font-weight:400}
+.keyseq{color:rgba(51,51,51,.8)}
+kbd{font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;display:inline-block;color:rgba(0,0,0,.8);font-size:.65em;line-height:1.45;background:#f7f7f7;border:1px solid #ccc;-webkit-border-radius:3px;border-radius:3px;-webkit-box-shadow:0 1px 0 rgba(0,0,0,.2),0 0 0 .1em white inset;box-shadow:0 1px 0 rgba(0,0,0,.2),0 0 0 .1em #fff inset;margin:0 .15em;padding:.2em .5em;vertical-align:middle;position:relative;top:-.1em;white-space:nowrap}
+.keyseq kbd:first-child{margin-left:0}
+.keyseq kbd:last-child{margin-right:0}
+.menuseq,.menuref{color:#000}
+.menuseq b:not(.caret),.menuref{font-weight:inherit}
+.menuseq{word-spacing:-.02em}
+.menuseq b.caret{font-size:1.25em;line-height:.8}
+.menuseq i.caret{font-weight:bold;text-align:center;width:.45em}
+b.button::before,b.button::after{position:relative;top:-1px;font-weight:400}
+b.button::before{content:"[";padding:0 3px 0 2px}
+b.button::after{content:"]";padding:0 2px 0 3px}
+p a>code:hover{color:rgba(0,0,0,.9)}
+#header,#content,#footnotes,#footer{width:100%;margin-left:auto;margin-right:auto;margin-top:0;margin-bottom:0;max-width:62.5em;*zoom:1;position:relative;padding-left:.9375em;padding-right:.9375em}
+#header::before,#header::after,#content::before,#content::after,#footnotes::before,#footnotes::after,#footer::before,#footer::after{content:" ";display:table}
+#header::after,#content::after,#footnotes::after,#footer::after{clear:both}
+#content{margin-top:1.25em}
+#content::before{content:none}
+#header>h1:first-child{color:rgba(0,0,0,.85);margin-top:2.25rem;margin-bottom:0}
+#header>h1:first-child+#toc{margin-top:8px;border-top:1px solid #dddddf}
+#header>h1:only-child,body.toc2 #header>h1:nth-last-child(2){border-bottom:1px solid #dddddf;padding-bottom:8px}
+#header .details{border-bottom:1px solid #dddddf;line-height:1.45;padding-top:.25em;padding-bottom:.25em;padding-left:.25em;color:rgba(0,0,0,.6);display:-ms-flexbox;display:-webkit-flex;display:flex;-ms-flex-flow:row wrap;-webkit-flex-flow:row wrap;flex-flow:row wrap}
+#header .details span:first-child{margin-left:-.125em}
+#header .details span.email a{color:rgba(0,0,0,.85)}
+#header .details br{display:none}
+#header .details br+span::before{content:"\00a0\2013\00a0"}
+#header .details br+span.author::before{content:"\00a0\22c5\00a0";color:rgba(0,0,0,.85)}
+#header .details br+span#revremark::before{content:"\00a0|\00a0"}
+#header #revnumber{text-transform:capitalize}
+#header #revnumber::after{content:"\00a0"}
+#content>h1:first-child:not([class]){color:rgba(0,0,0,.85);border-bottom:1px solid #dddddf;padding-bottom:8px;margin-top:0;padding-top:1rem;margin-bottom:1.25rem}
+#toc{border-bottom:1px solid #e7e7e9;padding-bottom:.5em}
+#toc>ul{margin-left:.125em}
+#toc ul.sectlevel0>li>a{font-style:italic}
+#toc ul.sectlevel0 ul.sectlevel1{margin:.5em 0}
+#toc ul{font-family:"Open Sans","DejaVu Sans",sans-serif;list-style-type:none}
+#toc li{line-height:1.3334;margin-top:.3334em}
+#toc a{text-decoration:none}
+#toc a:active{text-decoration:underline}
+#toctitle{color:#7a2518;font-size:1.2em}
+@media screen and (min-width:768px){#toctitle{font-size:1.375em}
+body.toc2{padding-left:15em;padding-right:0}
+#toc.toc2{margin-top:0!important;background:#f8f8f7;position:fixed;width:15em;left:0;top:0;border-right:1px solid #e7e7e9;border-top-width:0!important;border-bottom-width:0!important;z-index:1000;padding:1.25em 1em;height:100%;overflow:auto}
+#toc.toc2 #toctitle{margin-top:0;margin-bottom:.8rem;font-size:1.2em}
+#toc.toc2>ul{font-size:.9em;margin-bottom:0}
+#toc.toc2 ul ul{margin-left:0;padding-left:1em}
+#toc.toc2 ul.sectlevel0 ul.sectlevel1{padding-left:0;margin-top:.5em;margin-bottom:.5em}
+body.toc2.toc-right{padding-left:0;padding-right:15em}
+body.toc2.toc-right #toc.toc2{border-right-width:0;border-left:1px solid #e7e7e9;left:auto;right:0}}
+@media screen and (min-width:1280px){body.toc2{padding-left:20em;padding-right:0}
+#toc.toc2{width:20em}
+#toc.toc2 #toctitle{font-size:1.375em}
+#toc.toc2>ul{font-size:.95em}
+#toc.toc2 ul ul{padding-left:1.25em}
+body.toc2.toc-right{padding-left:0;padding-right:20em}}
+#content #toc{border-style:solid;border-width:1px;border-color:#e0e0dc;margin-bottom:1.25em;padding:1.25em;background:#f8f8f7;-webkit-border-radius:4px;border-radius:4px}
+#content #toc>:first-child{margin-top:0}
+#content #toc>:last-child{margin-bottom:0}
+#footer{max-width:none;background:rgba(0,0,0,.8);padding:1.25em}
+#footer-text{color:rgba(255,255,255,.8);line-height:1.44}
+#content{margin-bottom:.625em}
+.sect1{padding-bottom:.625em}
+@media screen and (min-width:768px){#content{margin-bottom:1.25em}
+.sect1{padding-bottom:1.25em}}
+.sect1:last-child{padding-bottom:0}
+.sect1+.sect1{border-top:1px solid #e7e7e9}
+#content h1>a.anchor,h2>a.anchor,h3>a.anchor,#toctitle>a.anchor,.sidebarblock>.content>.title>a.anchor,h4>a.anchor,h5>a.anchor,h6>a.anchor{position:absolute;z-index:1001;width:1.5ex;margin-left:-1.5ex;display:block;text-decoration:none!important;visibility:hidden;text-align:center;font-weight:400}
+#content h1>a.anchor::before,h2>a.anchor::before,h3>a.anchor::before,#toctitle>a.anchor::before,.sidebarblock>.content>.title>a.anchor::before,h4>a.anchor::before,h5>a.anchor::before,h6>a.anchor::before{content:"\00A7";font-size:.85em;display:block;padding-top:.1em}
+#content h1:hover>a.anchor,#content h1>a.anchor:hover,h2:hover>a.anchor,h2>a.anchor:hover,h3:hover>a.anchor,#toctitle:hover>a.anchor,.sidebarblock>.content>.title:hover>a.anchor,h3>a.anchor:hover,#toctitle>a.anchor:hover,.sidebarblock>.content>.title>a.anchor:hover,h4:hover>a.anchor,h4>a.anchor:hover,h5:hover>a.anchor,h5>a.anchor:hover,h6:hover>a.anchor,h6>a.anchor:hover{visibility:visible}
+#content h1>a.link,h2>a.link,h3>a.link,#toctitle>a.link,.sidebarblock>.content>.title>a.link,h4>a.link,h5>a.link,h6>a.link{color:#ba3925;text-decoration:none}
+#content h1>a.link:hover,h2>a.link:hover,h3>a.link:hover,#toctitle>a.link:hover,.sidebarblock>.content>.title>a.link:hover,h4>a.link:hover,h5>a.link:hover,h6>a.link:hover{color:#a53221}
+details,.audioblock,.imageblock,.literalblock,.listingblock,.stemblock,.videoblock{margin-bottom:1.25em}
+details>summary:first-of-type{cursor:pointer;display:list-item;outline:none;margin-bottom:.75em}
+.admonitionblock td.content>.title,.audioblock>.title,.exampleblock>.title,.imageblock>.title,.listingblock>.title,.literalblock>.title,.stemblock>.title,.openblock>.title,.paragraph>.title,.quoteblock>.title,table.tableblock>.title,.verseblock>.title,.videoblock>.title,.dlist>.title,.olist>.title,.ulist>.title,.qlist>.title,.hdlist>.title{text-rendering:optimizeLegibility;text-align:left;font-family:"Noto Serif","DejaVu Serif",serif;font-size:1rem;font-style:italic}
+table.tableblock.fit-content>caption.title{white-space:nowrap;width:0}
+.paragraph.lead>p,#preamble>.sectionbody>[class="paragraph"]:first-of-type p{font-size:1.21875em;line-height:1.6;color:rgba(0,0,0,.85)}
+table.tableblock #preamble>.sectionbody>[class="paragraph"]:first-of-type p{font-size:inherit}
+.admonitionblock>table{border-collapse:separate;border:0;background:none;width:100%}
+.admonitionblock>table td.icon{text-align:center;width:80px}
+.admonitionblock>table td.icon img{max-width:none}
+.admonitionblock>table td.icon .title{font-weight:bold;font-family:"Open Sans","DejaVu Sans",sans-serif;text-transform:uppercase}
+.admonitionblock>table td.content{padding-left:1.125em;padding-right:1.25em;border-left:1px solid #dddddf;color:rgba(0,0,0,.6);word-wrap:anywhere}
+.admonitionblock>table td.content>:last-child>:last-child{margin-bottom:0}
+.exampleblock>.content{border-style:solid;border-width:1px;border-color:#e6e6e6;margin-bottom:1.25em;padding:1.25em;background:#fff;-webkit-border-radius:4px;border-radius:4px}
+.exampleblock>.content>:first-child{margin-top:0}
+.exampleblock>.content>:last-child{margin-bottom:0}
+.sidebarblock{border-style:solid;border-width:1px;border-color:#dbdbd6;margin-bottom:1.25em;padding:1.25em;background:#f3f3f2;-webkit-border-radius:4px;border-radius:4px}
+.sidebarblock>:first-child{margin-top:0}
+.sidebarblock>:last-child{margin-bottom:0}
+.sidebarblock>.content>.title{color:#7a2518;margin-top:0;text-align:center}
+.exampleblock>.content>:last-child>:last-child,.exampleblock>.content .olist>ol>li:last-child>:last-child,.exampleblock>.content .ulist>ul>li:last-child>:last-child,.exampleblock>.content .qlist>ol>li:last-child>:last-child,.sidebarblock>.content>:last-child>:last-child,.sidebarblock>.content .olist>ol>li:last-child>:last-child,.sidebarblock>.content .ulist>ul>li:last-child>:last-child,.sidebarblock>.content .qlist>ol>li:last-child>:last-child{margin-bottom:0}
+.literalblock pre,.listingblock>.content>pre{-webkit-border-radius:4px;border-radius:4px;overflow-x:auto;padding:1em;font-size:.8125em}
+@media screen and (min-width:768px){.literalblock pre,.listingblock>.content>pre{font-size:.90625em}}
+@media screen and (min-width:1280px){.literalblock pre,.listingblock>.content>pre{font-size:1em}}
+.literalblock pre,.listingblock>.content>pre:not(.highlight),.listingblock>.content>pre[class="highlight"],.listingblock>.content>pre[class^="highlight "]{background:#f7f7f8}
+.literalblock.output pre{color:#f7f7f8;background:rgba(0,0,0,.9)}
+.listingblock>.content{position:relative}
+.listingblock code[data-lang]::before{display:none;content:attr(data-lang);position:absolute;font-size:.75em;top:.425rem;right:.5rem;line-height:1;text-transform:uppercase;color:inherit;opacity:.5}
+.listingblock:hover code[data-lang]::before{display:block}
+.listingblock.terminal pre .command::before{content:attr(data-prompt);padding-right:.5em;color:inherit;opacity:.5}
+.listingblock.terminal pre .command:not([data-prompt])::before{content:"$"}
+.listingblock pre.highlightjs{padding:0}
+.listingblock pre.highlightjs>code{padding:1em;-webkit-border-radius:4px;border-radius:4px}
+.listingblock pre.prettyprint{border-width:0}
+.prettyprint{background:#f7f7f8}
+pre.prettyprint .linenums{line-height:1.45;margin-left:2em}
+pre.prettyprint li{background:none;list-style-type:inherit;padding-left:0}
+pre.prettyprint li code[data-lang]::before{opacity:1}
+pre.prettyprint li:not(:first-child) code[data-lang]::before{display:none}
+table.linenotable{border-collapse:separate;border:0;margin-bottom:0;background:none}
+table.linenotable td[class]{color:inherit;vertical-align:top;padding:0;line-height:inherit;white-space:normal}
+table.linenotable td.code{padding-left:.75em}
+table.linenotable td.linenos{border-right:1px solid currentColor;opacity:.35;padding-right:.5em}
+pre.pygments .lineno{border-right:1px solid currentColor;opacity:.35;display:inline-block;margin-right:.75em}
+pre.pygments .lineno::before{content:"";margin-right:-.125em}
+.quoteblock{margin:0 1em 1.25em 1.5em;display:table}
+.quoteblock:not(.excerpt)>.title{margin-left:-1.5em;margin-bottom:.75em}
+.quoteblock blockquote,.quoteblock p{color:rgba(0,0,0,.85);font-size:1.15rem;line-height:1.75;word-spacing:.1em;letter-spacing:0;font-style:italic;text-align:justify}
+.quoteblock blockquote{margin:0;padding:0;border:0}
+.quoteblock blockquote::before{content:"\201c";float:left;font-size:2.75em;font-weight:bold;line-height:.6em;margin-left:-.6em;color:#7a2518;text-shadow:0 1px 2px rgba(0,0,0,.1)}
+.quoteblock blockquote>.paragraph:last-child p{margin-bottom:0}
+.quoteblock .attribution{margin-top:.75em;margin-right:.5ex;text-align:right}
+.verseblock{margin:0 1em 1.25em}
+.verseblock pre{font-family:"Open Sans","DejaVu Sans",sans;font-size:1.15rem;color:rgba(0,0,0,.85);font-weight:300;text-rendering:optimizeLegibility}
+.verseblock pre strong{font-weight:400}
+.verseblock .attribution{margin-top:1.25rem;margin-left:.5ex}
+.quoteblock .attribution,.verseblock .attribution{font-size:.9375em;line-height:1.45;font-style:italic}
+.quoteblock .attribution br,.verseblock .attribution br{display:none}
+.quoteblock .attribution cite,.verseblock .attribution cite{display:block;letter-spacing:-.025em;color:rgba(0,0,0,.6)}
+.quoteblock.abstract blockquote::before,.quoteblock.excerpt blockquote::before,.quoteblock .quoteblock blockquote::before{display:none}
+.quoteblock.abstract blockquote,.quoteblock.abstract p,.quoteblock.excerpt blockquote,.quoteblock.excerpt p,.quoteblock .quoteblock blockquote,.quoteblock .quoteblock p{line-height:1.6;word-spacing:0}
+.quoteblock.abstract{margin:0 1em 1.25em;display:block}
+.quoteblock.abstract>.title{margin:0 0 .375em;font-size:1.15em;text-align:center}
+.quoteblock.excerpt>blockquote,.quoteblock .quoteblock{padding:0 0 .25em 1em;border-left:.25em solid #dddddf}
+.quoteblock.excerpt,.quoteblock .quoteblock{margin-left:0}
+.quoteblock.excerpt blockquote,.quoteblock.excerpt p,.quoteblock .quoteblock blockquote,.quoteblock .quoteblock p{color:inherit;font-size:1.0625rem}
+.quoteblock.excerpt .attribution,.quoteblock .quoteblock .attribution{color:inherit;text-align:left;margin-right:0}
+p.tableblock:last-child{margin-bottom:0}
+td.tableblock>.content{margin-bottom:1.25em;word-wrap:anywhere}
+td.tableblock>.content>:last-child{margin-bottom:-1.25em}
+table.tableblock,th.tableblock,td.tableblock{border:0 solid #dedede}
+table.grid-all>*>tr>*{border-width:1px}
+table.grid-cols>*>tr>*{border-width:0 1px}
+table.grid-rows>*>tr>*{border-width:1px 0}
+table.frame-all{border-width:1px}
+table.frame-ends{border-width:1px 0}
+table.frame-sides{border-width:0 1px}
+table.frame-none>colgroup+*>:first-child>*,table.frame-sides>colgroup+*>:first-child>*{border-top-width:0}
+table.frame-none>:last-child>:last-child>*,table.frame-sides>:last-child>:last-child>*{border-bottom-width:0}
+table.frame-none>*>tr>:first-child,table.frame-ends>*>tr>:first-child{border-left-width:0}
+table.frame-none>*>tr>:last-child,table.frame-ends>*>tr>:last-child{border-right-width:0}
+table.stripes-all tr,table.stripes-odd tr:nth-of-type(odd),table.stripes-even tr:nth-of-type(even),table.stripes-hover tr:hover{background:#f8f8f7}
+th.halign-left,td.halign-left{text-align:left}
+th.halign-right,td.halign-right{text-align:right}
+th.halign-center,td.halign-center{text-align:center}
+th.valign-top,td.valign-top{vertical-align:top}
+th.valign-bottom,td.valign-bottom{vertical-align:bottom}
+th.valign-middle,td.valign-middle{vertical-align:middle}
+table thead th,table tfoot th{font-weight:bold}
+tbody tr th{background:#f7f8f7}
+tbody tr th,tbody tr th p,tfoot tr th,tfoot tr th p{color:rgba(0,0,0,.8);font-weight:bold}
+p.tableblock>code:only-child{background:none;padding:0}
+p.tableblock{font-size:1em}
+ol{margin-left:1.75em}
+ul li ol{margin-left:1.5em}
+dl dd{margin-left:1.125em}
+dl dd:last-child,dl dd:last-child>:last-child{margin-bottom:0}
+ol>li p,ul>li p,ul dd,ol dd,.olist .olist,.ulist .ulist,.ulist .olist,.olist .ulist{margin-bottom:.625em}
+ul.checklist,ul.none,ol.none,ul.no-bullet,ol.no-bullet,ol.unnumbered,ul.unstyled,ol.unstyled{list-style-type:none}
+ul.no-bullet,ol.no-bullet,ol.unnumbered{margin-left:.625em}
+ul.unstyled,ol.unstyled{margin-left:0}
+ul.checklist{margin-left:.625em}
+ul.checklist li>p:first-child>.fa-square-o:first-child,ul.checklist li>p:first-child>.fa-check-square-o:first-child{width:1.25em;font-size:.8em;position:relative;bottom:.125em}
+ul.checklist li>p:first-child>input[type="checkbox"]:first-child{margin-right:.25em}
+ul.inline{display:-ms-flexbox;display:-webkit-box;display:flex;-ms-flex-flow:row wrap;-webkit-flex-flow:row wrap;flex-flow:row wrap;list-style:none;margin:0 0 .625em -1.25em}
+ul.inline>li{margin-left:1.25em}
+.unstyled dl dt{font-weight:400;font-style:normal}
+ol.arabic{list-style-type:decimal}
+ol.decimal{list-style-type:decimal-leading-zero}
+ol.loweralpha{list-style-type:lower-alpha}
+ol.upperalpha{list-style-type:upper-alpha}
+ol.lowerroman{list-style-type:lower-roman}
+ol.upperroman{list-style-type:upper-roman}
+ol.lowergreek{list-style-type:lower-greek}
+.hdlist>table,.colist>table{border:0;background:none}
+.hdlist>table>tbody>tr,.colist>table>tbody>tr{background:none}
+td.hdlist1,td.hdlist2{vertical-align:top;padding:0 .625em}
+td.hdlist1{font-weight:bold;padding-bottom:1.25em}
+td.hdlist2{word-wrap:anywhere}
+.literalblock+.colist,.listingblock+.colist{margin-top:-.5em}
+.colist td:not([class]):first-child{padding:.4em .75em 0;line-height:1;vertical-align:top}
+.colist td:not([class]):first-child img{max-width:none}
+.colist td:not([class]):last-child{padding:.25em 0}
+.thumb,.th{line-height:0;display:inline-block;border:solid 4px #fff;-webkit-box-shadow:0 0 0 1px #ddd;box-shadow:0 0 0 1px #ddd}
+.imageblock.left{margin:.25em .625em 1.25em 0}
+.imageblock.right{margin:.25em 0 1.25em .625em}
+.imageblock>.title{margin-bottom:0}
+.imageblock.thumb,.imageblock.th{border-width:6px}
+.imageblock.thumb>.title,.imageblock.th>.title{padding:0 .125em}
+.image.left,.image.right{margin-top:.25em;margin-bottom:.25em;display:inline-block;line-height:0}
+.image.left{margin-right:.625em}
+.image.right{margin-left:.625em}
+a.image{text-decoration:none;display:inline-block}
+a.image object{pointer-events:none}
+sup.footnote,sup.footnoteref{font-size:.875em;position:static;vertical-align:super}
+sup.footnote a,sup.footnoteref a{text-decoration:none}
+sup.footnote a:active,sup.footnoteref a:active{text-decoration:underline}
+#footnotes{padding-top:.75em;padding-bottom:.75em;margin-bottom:.625em}
+#footnotes hr{width:20%;min-width:6.25em;margin:-.25em 0 .75em;border-width:1px 0 0}
+#footnotes .footnote{padding:0 .375em 0 .225em;line-height:1.3334;font-size:.875em;margin-left:1.2em;margin-bottom:.2em}
+#footnotes .footnote a:first-of-type{font-weight:bold;text-decoration:none;margin-left:-1.05em}
+#footnotes .footnote:last-of-type{margin-bottom:0}
+#content #footnotes{margin-top:-.625em;margin-bottom:0;padding:.75em 0}
+.gist .file-data>table{border:0;background:#fff;width:100%;margin-bottom:0}
+.gist .file-data>table td.line-data{width:99%}
+div.unbreakable{page-break-inside:avoid}
+.big{font-size:larger}
+.small{font-size:smaller}
+.underline{text-decoration:underline}
+.overline{text-decoration:overline}
+.line-through{text-decoration:line-through}
+.aqua{color:#00bfbf}
+.aqua-background{background:#00fafa}
+.black{color:#000}
+.black-background{background:#000}
+.blue{color:#0000bf}
+.blue-background{background:#0000fa}
+.fuchsia{color:#bf00bf}
+.fuchsia-background{background:#fa00fa}
+.gray{color:#606060}
+.gray-background{background:#7d7d7d}
+.green{color:#006000}
+.green-background{background:#007d00}
+.lime{color:#00bf00}
+.lime-background{background:#00fa00}
+.maroon{color:#600000}
+.maroon-background{background:#7d0000}
+.navy{color:#000060}
+.navy-background{background:#00007d}
+.olive{color:#606000}
+.olive-background{background:#7d7d00}
+.purple{color:#600060}
+.purple-background{background:#7d007d}
+.red{color:#bf0000}
+.red-background{background:#fa0000}
+.silver{color:#909090}
+.silver-background{background:#bcbcbc}
+.teal{color:#006060}
+.teal-background{background:#007d7d}
+.white{color:#bfbfbf}
+.white-background{background:#fafafa}
+.yellow{color:#bfbf00}
+.yellow-background{background:#fafa00}
+span.icon>.fa{cursor:default}
+a span.icon>.fa{cursor:inherit}
+.admonitionblock td.icon [class^="fa icon-"]{font-size:2.5em;text-shadow:1px 1px 2px rgba(0,0,0,.5);cursor:default}
+.admonitionblock td.icon .icon-note::before{content:"\f05a";color:#19407c}
+.admonitionblock td.icon .icon-tip::before{content:"\f0eb";text-shadow:1px 1px 2px rgba(155,155,0,.8);color:#111}
+.admonitionblock td.icon .icon-warning::before{content:"\f071";color:#bf6900}
+.admonitionblock td.icon .icon-caution::before{content:"\f06d";color:#bf3400}
+.admonitionblock td.icon .icon-important::before{content:"\f06a";color:#bf0000}
+.conum[data-value]{display:inline-block;color:#fff!important;background:rgba(0,0,0,.8);-webkit-border-radius:50%;border-radius:50%;text-align:center;font-size:.75em;width:1.67em;height:1.67em;line-height:1.67em;font-family:"Open Sans","DejaVu Sans",sans-serif;font-style:normal;font-weight:bold}
+.conum[data-value] *{color:#fff!important}
+.conum[data-value]+b{display:none}
+.conum[data-value]::after{content:attr(data-value)}
+pre .conum[data-value]{position:relative;top:-.125em}
+b.conum *{color:inherit!important}
+.conum:not([data-value]):empty{display:none}
+dt,th.tableblock,td.content,div.footnote{text-rendering:optimizeLegibility}
+h1,h2,p,td.content,span.alt{letter-spacing:-.01em}
+p strong,td.content strong,div.footnote strong{letter-spacing:-.005em}
+p,blockquote,dt,td.content,span.alt{font-size:1.0625rem}
+p{margin-bottom:1.25rem}
+.sidebarblock p,.sidebarblock dt,.sidebarblock td.content,p.tableblock{font-size:1em}
+.exampleblock>.content{background:#fffef7;border-color:#e0e0dc;-webkit-box-shadow:0 1px 4px #e0e0dc;box-shadow:0 1px 4px #e0e0dc}
+.print-only{display:none!important}
+@page{margin:1.25cm .75cm}
+@media print{*{-webkit-box-shadow:none!important;box-shadow:none!important;text-shadow:none!important}
+html{font-size:80%}
+a{color:inherit!important;text-decoration:underline!important}
+a.bare,a[href^="#"],a[href^="mailto:"]{text-decoration:none!important}
+a[href^="http:"]:not(.bare)::after,a[href^="https:"]:not(.bare)::after{content:"(" attr(href) ")";display:inline-block;font-size:.875em;padding-left:.25em}
+abbr[title]::after{content:" (" attr(title) ")"}
+pre,blockquote,tr,img,object,svg{page-break-inside:avoid}
+thead{display:table-header-group}
+svg{max-width:100%}
+p,blockquote,dt,td.content{font-size:1em;orphans:3;widows:3}
+h2,h3,#toctitle,.sidebarblock>.content>.title{page-break-after:avoid}
+#header,#content,#footnotes,#footer{max-width:none}
+#toc,.sidebarblock,.exampleblock>.content{background:none!important}
+#toc{border-bottom:1px solid #dddddf!important;padding-bottom:0!important}
+body.book #header{text-align:center}
+body.book #header>h1:first-child{border:0!important;margin:2.5em 0 1em}
+body.book #header .details{border:0!important;display:block;padding:0!important}
+body.book #header .details span:first-child{margin-left:0!important}
+body.book #header .details br{display:block}
+body.book #header .details br+span::before{content:none!important}
+body.book #toc{border:0!important;text-align:left!important;padding:0!important;margin:0!important}
+body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-break-before:always}
+.listingblock code[data-lang]::before{display:block}
+#footer{padding:0 .9375em}
+.hide-on-print{display:none!important}
+.print-only{display:block!important}
+.hide-for-print{display:none!important}
+.show-for-print{display:inherit!important}}
+@media print,amzn-kf8{#header>h1:first-child{margin-top:1.25rem}
+.sect1{padding:0!important}
+.sect1+.sect1{border:0}
+#footer{background:none}
+#footer-text{color:rgba(0,0,0,.6);font-size:.9em}}
+@media amzn-kf8{#header,#content,#footnotes,#footer{padding:0}}
+</style>
+</head>
+<body class="article">
+<div id="header">
+<h1>Java Object-Oriented Programming</h1>
+</div>
+<div id="content">
+<div class="sect1">
+<h2 id="_концепции_ооп">Концепции ООП</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><strong>Объектно-ориентированное программирование</strong> - это парадигма, которая предоставляет множество концепций, таких как наследование, полимофизм и т.д.</p>
+</div>
+<div class="paragraph">
+<p><strong>Simula</strong> считается первым объектно-ориентированным языком программирования.</p>
+</div>
+<div class="paragraph">
+<p>Парадигма программирования, в которой все представлено в виде объекта, называется истинно объектно-ориентированным языком программирования.</p>
+</div>
+<div class="paragraph">
+<p><strong>Smalltalk</strong> считается первым истинным объектно-ориентированным языком программирования.</p>
+</div>
+<div class="paragraph">
+<p>Популярными объектно-ориентированными языками являются:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Java</strong></p>
+</li>
+<li>
+<p><strong>C#</strong></p>
+</li>
+<li>
+<p><strong>PHP</strong></p>
+</li>
+<li>
+<p><strong>Python</strong></p>
+</li>
+<li>
+<p><strong>C++</strong></p>
+</li>
+</ul>
+</div>
+<div class="sect2">
+<h3 id="_ооп">ООП</h3>
+<div class="paragraph">
+<p><strong>Объект</strong> представляет собой <strong>реальную сущность</strong> из реального мира, например: BMW X5, Boeing 737, Parker Jotter (ручка).</p>
+</div>
+<div class="paragraph">
+<p><strong>Объектно-ориентированное программирование</strong> - это методология или парадигма для разработки программы с использованием классов и объектов. Это упрощает разработку и обслуживание программного обеспечения, предоставляя некоторые концепции:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Объект</strong>  (<strong>Object</strong>)</p>
+</li>
+<li>
+<p><strong>Класс</strong> (<strong>Class</strong>)</p>
+</li>
+<li>
+<p><strong>Наследование</strong> (<strong>Inheritance</strong>)</p>
+</li>
+<li>
+<p><strong>Полиморфизм</strong> (<strong>Polymorphism</strong>)</p>
+</li>
+<li>
+<p><strong>Абстракция</strong> (<strong>Abstraction</strong>)</p>
+</li>
+<li>
+<p><strong>Инкапсуляция</strong> (<strong>Encapsulation</strong>)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src="/assets/img/java/core/oop/java-oops.png" alt="Java OOPs Concepts"></span></p>
+</div>
+<div class="paragraph">
+<p>Помимо этих концепций, есть несколько других терминов, которые используются в объектно-ориентированном дизайне:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Связность</strong> (<strong>Coupling</strong>), <strong>Единство</strong> (<strong>Cohesion</strong>)</p>
+</li>
+<li>
+<p><strong>Ассоциация</strong> (<strong>Association</strong>)</p>
+</li>
+<li>
+<p><strong>Агрегация</strong> (<strong>Aggregation</strong>), <strong>Композиция</strong> (<strong>Composition</strong>)</p>
+</li>
+</ul>
+</div>
+<div class="sect3">
+<h4 id="_object">Object</h4>
+<div class="paragraph">
+<p>Любая сущность, которая имеет <strong>состояние</strong> (<strong>state</strong>) и <strong>поведение</strong> (<strong>behavior</strong>), называется <strong>объектом</strong>. Например: овчарка, Apple MacBook Pro 13 Touch Bar 2019, Huawei Mate P10 Lite . Это может быть как физический предмет, так и нет.</p>
+</div>
+<div class="paragraph">
+<p><strong>Объект</strong> может быть определен как <strong>экземпляр класса</strong>. Объект содержит адрес и занимает некоторое место в памяти. Объекты могут взаимодействовать, но не знать состояния и реализации друг друга. Единственная необходимая вещь - это <strong>контракт взаимодействия</strong>.</p>
+</div>
+<div class="paragraph">
+<p>Пример: <code>собака</code> - это объект, потому что она имеет такие состояния, как <code>цвет</code>, <code>имя</code>, <code>порода</code>, а также поведение, такое как <code>вилять хвостом</code>, <code>лаять</code>, <code>есть</code>.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_class">Class</h4>
+<div class="paragraph">
+<p><strong>Класс</strong> - это определенный пользователем шаблон или прототип, из которого создаются объекты. Он представляет собой набор <strong>свойств</strong> или <strong>методов</strong>, которые являются общими для всех объектов одного типа.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_inheritance">Inheritance</h4>
+<div class="paragraph">
+<p>Когда один объект приобретает все свойства и поведение родительского объекта, то это называется <strong>наследованием</strong>.</p>
+</div>
+<div class="paragraph">
+<p><strong>Наследование</strong> обеспечивает повторное использование кода.</p>
+</div>
+<div class="paragraph">
+<p><strong>Наследование</strong> используется для достижения полиморфизма во время выполнения.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_polymorphism">Polymorphism</h4>
+<div class="paragraph">
+<p>Если одна задача выполняется разными способами, это называется <strong>полиморфизмом</strong>.</p>
+</div>
+<div class="paragraph">
+<p>В Java используется <strong>перегрузка</strong> и <strong>переопределение</strong> методов для достижения полиморфизма.</p>
+</div>
+<div class="paragraph">
+<p>Например, когда вызвать метод <code>говорить</code>, то: <code>кошка</code> говорит <code>мяу</code>, <code>собака</code> лает <code>гав</code>.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_abstraction">Abstraction</h4>
+<div class="paragraph">
+<p>Сокрытие внутренних деталей и предоставление функциональности называется <strong>абстракцией</strong>. Например, автомобиль, нам не обязательно знать устройство автомобиля, нам достаточно знаний того, что нам позволяет им управлять (руль, педали и т.д.).</p>
+</div>
+<div class="paragraph">
+<p>В Java используется <strong>абстрактный класс</strong> и <strong>интерфейс</strong> для достижения абстракции.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_encapsulation">Encapsulation</h4>
+<div class="paragraph">
+<p><strong>Связывание</strong> (или упаковка) кода и данных в единый блок называется <strong>инкапсуляцией</strong>. Например, капсула, имеет одну оболочку, которая содержит различные лекарства.</p>
+</div>
+<div class="paragraph">
+<p><strong>Java Class</strong> является примером инкапсуляции.</p>
+</div>
+<div class="paragraph">
+<p><strong>Java Bean</strong> является полностью инкапсулированным классом, потому что все члены данных здесь являются закрытыми.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_coupling">Coupling</h4>
+<div class="paragraph">
+<p><strong>Связность</strong> относится к знаниям/информации/зависимости одного класса о другом классе. Если у класса есть подробная информация о другом классе, существует <strong>strong coupling</strong>.</p>
+</div>
+<div class="paragraph">
+<p>В Java используются <code>private</code>, <code>protected</code>, <code>public</code> модификаторы для отображения уровня видимости класса, метода и поля.</p>
+</div>
+<div class="paragraph">
+<p>Можно использовать интерфейсы для <strong>weak coupling</strong>, потому что нет конкретной реализации.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_cohesion">Cohesion</h4>
+<div class="paragraph">
+<p><strong>Сплоченность</strong> относится к уровню компонента, который выполняет одну четко определенную задачу. Одна четко определенная задача выполняется <strong>highly cohesive</strong> методом. <strong>weakly cohesive</strong> метод разделит задачу на отдельные части.</p>
+</div>
+<div class="paragraph">
+<p>Например: пакет <code>java.io</code> представляет собой <strong>highly cohesive</strong> пакет, поскольку он имеет связанные с вводом/выводом классы и интерфейс. Тем не менее, пакет <code>java.util</code> является <strong>weakly cohesive</strong> пакетом, потому что он имеет несвязанные классы и интерфейсы.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_association">Association</h4>
+<div class="paragraph">
+<p><strong>Ассоциация</strong> представляет отношения между объектами. Здесь один объект может быть связан с одним или несколькими объектами. Между объектами может быть четыре типа связи:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>One to One</code></p>
+</li>
+<li>
+<p><code>One to Many</code></p>
+</li>
+<li>
+<p><code>Many to One</code></p>
+</li>
+<li>
+<p><code>Many to Many</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Например, одна страна может иметь одного президента (<code>One to One</code>), а президент может иметь много министров (<code>One to Many</code>). Кроме того, у многих членов парламента может быть один президент (<code>Many to One</code>), а у многих министров может быть много департаментов (<code>Many to Many</code>).</p>
+</div>
+<div class="paragraph">
+<p><strong>Ассоциация</strong> может быть:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>undirectional</code></p>
+</li>
+<li>
+<p><code>bidirectional</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Ассоциация</strong> достигается с помощью:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>Inheritance</code></p>
+</li>
+<li>
+<p><code>Aggregation</code></p>
+</li>
+<li>
+<p><code>Composition</code></p>
+</li>
+</ul>
+</div>
+<div class="sect4">
+<h5 id="_aggregation">Aggregation</h5>
+<div class="paragraph">
+<p><strong>Агрегация</strong> - это способ достижения ассоциации. Агрегация представляет собой отношение, в котором один объект содержит другие объекты как часть своего состояния.</p>
+</div>
+<div class="paragraph">
+<p><strong>Агрегация</strong> представляет <strong>weak relationship</strong> между объектами.</p>
+</div>
+<div class="paragraph">
+<p><strong>Агрегация</strong> также называется связью <strong>has-a</strong> в Java. Мол, наследование представляет собой отношения <strong>is-a</strong> .</p>
+</div>
+<div class="paragraph">
+<p><strong>Агрегация</strong> еще один способ повторного использования объектов.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_composition">Composition</h5>
+<div class="paragraph">
+<p><strong>Композиция</strong> представляет отношение, в котором один объект содержит другие объекты как часть своего состояния.</p>
+</div>
+<div class="paragraph">
+<p><strong>Композиция</strong> также является способом достижения ассоциации.</p>
+</div>
+<div class="paragraph">
+<p>Существует <strong>strong relationship</strong> между содержащим объектом и зависимым объектом. Это состояние, в котором содержащиеся объекты не имеют самостоятельного существования. Если вы удалите родительский объект, все дочерние объекты будут удалены автоматически.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_преимущество_ооп_над_процедурно_ориентированным_языком_программирования">Преимущество ООП над процедурно-ориентированным языком программирования</h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><strong>ООП</strong> облегчает разработку и сопровождение, в то время как в языке программирования, ориентированного на процедуры, нелегко управлять, если код увеличивается с увеличением размера проекта.</p>
+</li>
+<li>
+<p><strong>ООП</strong> обеспечивает скрытие данных, тогда как в языке программирования, ориентированного на процедуры, глобальные данные могут быть доступны из любого места.</p>
+</li>
+<li>
+<p><strong>ООП</strong> дает возможность имитировать события в реальном мире гораздо более эффективно. Мы можем обеспечить решение проблемы с реальными словами, если мы используем язык объектно-ориентированного программирования.</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_в_чем_разница_между_object_oriented_языком_программирования_и_object_based_языком_программирования">В чем разница между <strong>object-oriented</strong> языком программирования и <strong>object-based</strong> языком программирования?</h3>
+<div class="paragraph">
+<p><strong>Object-based</strong> язык программирования следует всем функциям ООП, кроме наследования. <strong>JavaScript</strong> и <strong>VBScript</strong> являются примерами <strong>object-based</strong> языков программирования.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_классы_и_объекты">Классы и объекты</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><strong>Java</strong> является объектно-ориентированным языком, поэтому такие понятия как "класс" и "объект" играют в нем ключевую роль. Любую программу на <strong>Java</strong> можно представить как набор взаимодействующих между собой объектов.</p>
+</div>
+<div class="paragraph">
+<p>Шаблоном или описанием объекта является <strong>класс</strong>, а <strong>объект</strong> представляет экземпляр этого класса. Можно еще провести следующую аналогию. У нас у всех есть некоторое представление о человеке - наличие двух рук, двух ног, головы, туловища и т.д. Есть некоторый шаблон - этот шаблон можно назвать классом. Реально же существующий человек (фактически экземпляр данного класса) является объектом этого класса.</p>
+</div>
+<div class="paragraph">
+<p>Класс определяется с помощью ключевого слова <code>сlass</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">class Person {
+    // тело класса
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>В данном случае класс называется <code>Person</code>. После названия класса идут фигурные скобки, между которыми помещается тело класса - то есть его поля и методы.</p>
+</div>
+<div class="paragraph">
+<p>Вся функциональность класса представлена <strong>членами класса</strong> - <strong>полями</strong> (<strong>fields</strong> - переменные класса), которые хранят состояние объекта, и <strong>методами</strong> (<strong>methods</strong>), которые определяют поведение объекта. Например, класс <code>Person</code>, который представляет человека, мог бы иметь следующее определение:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">class Person {
+    String name; // имя
+    int age; // возраст
+
+    void displayInfo() {
+        System.out.printf("Name: %s \tAge: %d\n", name, age);
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>В классе <code>Person</code> определены два поля: <code>name</code> представляет имя человека, а <code>age</code> - его возраст. И также определен метод <code>displayInfo()</code>, который ничего не возвращает и просто выводит эти данные на консоль.</p>
+</div>
+<div class="paragraph">
+<p>Теперь используем данный класс. Для этого определим следующую программу:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">public class Program {
+    public static void main(String[] args) {
+        Person tom;
+    }
+}
+
+class Person {
+    String name; // имя
+    int age; // возраст
+
+    void displayInfo() {
+        System.out.printf("Name: %s \tAge: %d\n", name, age);
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Как правило, классы определяются в разных файлах. В данном случае для простоты мы определяем два класса в одном файле. Стоит отметить, что в этом случае только один класс может иметь модификатор <code>public</code> (в данном случае это класс <code>Program</code>), а сам файл кода должен называться по имени этого класса, то есть в данном случае файл должен называться <code>Program.java</code>.</p>
+</div>
+<div class="paragraph">
+<p>Класс представляет новый тип, поэтому мы можем определять переменные, которые представляют данный тип. Так, здесь в методе <code>main()</code> определена переменная <code>tom</code>, которая представляет класс <code>Person</code>. Но пока эта переменная не указывает ни на какой объект и по умолчанию она имеет значение <code>null</code>. По большому счету мы ее пока не можем использовать, поэтому вначале необходимо создать объект класса <code>Person</code>.</p>
+</div>
+<div class="sect2">
+<h3 id="_конструкторы">Конструкторы</h3>
+<div class="paragraph">
+<p>Кроме обычных методов классы могут определять специальные методы, которые называются <strong>конструкторами</strong> (<strong>constructors</strong>). Конструкторы вызываются при создании нового объекта данного класса. Конструкторы выполняют инициализацию объекта.</p>
+</div>
+<div class="paragraph">
+<p>Если в классе не определено ни одного конструктора, то для этого класса автоматически создается <strong>конструктор без параметров</strong> (<strong>default constructor</strong>).</p>
+</div>
+<div class="paragraph">
+<p>Выше определенный класс <code>Person</code> не имеет никаких конструкторов. Поэтому для него автоматически создается конструктор по умолчанию, который мы можем использовать для создания объекта <code>Person</code>. В частности, создадим один объект:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">public class Program {
+    public static void main(String[] args) {
+        Person tom = new Person(); // создание объекта
+        tom.displayInfo();
+
+        tom.name = "Tom"; // изменение имени
+        tom.age = 34; // изменение возраста
+        tom.displayInfo();
+    }
+}
+
+class Person {
+    String name; // имя
+    int age; // возраст
+
+    void displayInfo() {
+        System.out.printf("Name: %s \tAge: %d\n", name, age);
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Для создания объекта <code>Person</code> используется выражение <code>new Person()</code>. Оператор <code>new</code> выделяет память для объекта <code>Person</code>. И затем вызывается конструктор по умолчанию, который не принимает никаких параметров. В итоге после выполнения данного выражения в памяти будет выделен участок, где будут храниться все данные объекта <code>Person</code>. А переменная <code>tom</code> получит ссылку на созданный объект.</p>
+</div>
+<div class="paragraph">
+<p>Если конструктор не инициализирует значения переменных объекта, то они получают значения по умолчанию. Для переменных числовых типов это число <code>0</code>, а для типа <code>String</code> и других классов - это значение <code>null</code> (то есть фактически отсутствие значения).</p>
+</div>
+<div class="paragraph">
+<p>После создания объекта мы можем обратиться к переменным объекта <code>Person</code> через переменную <code>tom</code> и установить или получить их значения, например, <code>tom.name = "Tom"</code>.</p>
+</div>
+<div class="paragraph">
+<p>Если необходимо, что при создании объекта производилась какая-то логика, например, чтобы поля класса получали какие-то определенные значения, то можно определить в классе свои конструкторы. Например:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">public class Program {
+    public static void main(String[] args) {
+        Person bob = new Person(); // вызов первого конструктора без параметров
+        bob.displayInfo();
+
+        Person tom = new Person("Tom"); // вызов второго конструктора с одним параметром
+        tom.displayInfo();
+
+        Person sam = new Person("Sam", 25); // вызов третьего конструктора с двумя параметрами
+        sam.displayInfo();
+    }
+}
+
+class Person {
+    String name; // имя
+    int age; // возраст
+
+    Person() {
+        name = "Undefined";
+        age = 18;
+    }
+
+    Person(String n) {
+        name = n;
+        age = 18;
+    }
+
+    Person(String n, int a) {
+        name = n;
+        age = a;
+    }
+
+    void displayInfo() {
+        System.out.printf("Name: %s \tAge: %d\n", name, age);
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Теперь в классе определено три коструктора, каждый из которых принимает различное количество параметров и устанавливает значения полей класса.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_ключевое_слово_this">Ключевое слово <code>this</code></h3>
+<div class="paragraph">
+<p>Ключевое слово <code>this</code> представляет ссылку на текущий экземпляр класса. Через это ключевое слово мы можем обращаться к переменным, методам объекта, а также вызывать его конструкторы. Например:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">public class Program {
+    public static void main(String[] args) {
+        Person undef = new Person();
+        undef.displayInfo();
+
+        Person tom = new Person("Tom");
+        tom.displayInfo();
+
+        Person sam = new Person("Sam", 25);
+        sam.displayInfo();
+    }
+}
+
+class Person {
+    String name; // имя
+    int age; // возраст
+
+    Person() {
+        this("Undefined", 18);
+    }
+
+    Person(String name) {
+        this(name, 18);
+    }
+
+    Person(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    void displayInfo() {
+        System.out.printf("Name: %s \tAge: %d\n", name, age);
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>В третьем конструкторе параметры называются так же, как и поля класса. И чтобы разграничить поля и параметры, применяется ключевое слово <code>this</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">this.name = name;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Так, в данном случае указываем, что значение параметра <code>name</code> присваивается полю <code>name</code>.</p>
+</div>
+<div class="paragraph">
+<p>Кроме того, у нас три конструктора, которые выполняют идентичные действия: устанавливают поля <code>name</code> и <code>age</code>. Чтобы избежать повторов, с помощью <code>this</code> можно вызвать один из конструкторов класса и передать для его параметров необходимые значения:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">Person(String name) {
+    this(name, 18);
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>В итоге результат программы будет тот же, что и в предыдущем примере.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_инициализаторы">Инициализаторы</h3>
+<div class="paragraph">
+<p>Кроме конструктора начальную инициализацию объекта вполне можно было проводить с помощью <strong>инициализатора</strong> (<strong>initializer</strong>) объекта. Инициализатор выполняется до любого конструктора. То есть в инициализатор мы можем поместить код, общий для всех конструкторов:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">public class Program {
+    public static void main(String[] args) {
+        Person undef = new Person();
+        undef.displayInfo();
+
+        Person tom = new Person("Tom");
+        tom.displayInfo();
+    }
+}
+
+class Person {
+    String name; // имя
+    int age; // возраст
+
+    /*начало блока инициализатора*/
+    {
+        name = "Undefined";
+        age = 18;
+    }
+    /*конец блока инициализатора*/
+
+    Person() {
+    }
+
+    Person(String name) {
+        this.name = name;
+    }
+
+    Person(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    void displayInfo() {
+        System.out.printf("Name: %s \tAge: %d\n", name, age);
+    }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_объекты_как_параметры_методов">Объекты как параметры методов</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Объекты классов, как и данные примитивных типов могут передаваться в методы. Однако в данном случае есть одна особенность - при передаче объектов в качестве значения передается копия ссылки на область в памяти, где рассположен этот объект. Рассмотрим небольшой пример. Пусть у нас есть следующий класс <code>Person</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">public class Program {
+    public static void main(String[] args) {
+        Person kate = new Person("Kate");
+        System.out.println(kate.getName()); // "Kate"
+        changeName(kate);
+        System.out.println(kate.getName()); // "Alice"
+    }
+
+    static void changeName(Person p) {
+        p.setName("Alice");
+    }
+}
+
+class Person {
+    private String name;
+
+    Person(String name) {
+        this.name = name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Здесь в метод <code>changeName</code> передается объект <code>Person</code>, у которого изменяется имя. Так как в метод будет передаваться копия ссылки на область памяти, в которой находится объект <code>Person</code>, то переменная <code>kate</code> и параметр <code>p</code> метода <code>changeName()</code> будут указывать на один и тот же объект в памяти. Поэтому после выполнения метода у объекта <code>kate</code>, который передается в метод, будет изменено имя с <code>"Kate"</code> на <code>"Alice"</code>.</p>
+</div>
+<div class="paragraph">
+<p>От этого случая следует отличать другой случай:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">public class Program {
+    public static void main(String[] args) {
+        Person kate = new Person("Kate");
+        System.out.println(kate.getName()); // "Kate"
+        changePerson(kate);
+        System.out.println(kate.getName()); // "Kate" - изменения не произошло, т.к. 'kate' хранит ссылку на старый объект
+    }
+
+    static void changePerson(Person p) {
+        p = new Person("Alice"); // 'p' указывает на новый объект
+        p.setName("Ann");
+    }
+
+    static void changeName(Person p) {
+        p.setName("Alice");
+    }
+}
+
+class Person {
+    private String name;
+
+    Person(String name) {
+        this.name = name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>В метод <code>changePerson()</code> также передается копия ссылки на объект <code>Person</code>. Однако в самом методе мы изменяем не отдельные значения объекта, а пересоздаем объект с помощью конструктора и оператора <code>new</code>. В результате в памяти будет выделено новое место для нового объекта <code>Person</code>, и ссылка на этот объект будет присвоена параметру <code>p</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">static void changePerson(Person p) {
+    p = new Person("Alice"); // 'p' указывает на новый объект
+    p.setName("Ann"); // изменяется новый объект
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>То есть после создания нового объекта <code>Person</code> параметр <code>p</code> и переменная <code>kate</code> в методе <code>main()</code> будут хранить ссылки на разные объекты. Переменная <code>kate</code>, которая передавалась в метод, продолжит хранить ссылку на старый объект в памяти. Поэтому ее значение не меняется.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_пакеты">Пакеты</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Как правило, в <strong>Java</strong> классы объединяются в пакеты. Пакеты позволяют организовать классы логически в наборы. По умолчанию <strong>java</strong> уже имеет ряд встроенных пакетов, например, <code>java.lang</code>, <code>java.util</code>, <code>java.io</code> и т.д. Кроме того, пакеты могут иметь вложенные пакеты.</p>
+</div>
+<div class="paragraph">
+<p>Организация классов в виде пакетов позволяет избежать конфликта имен между классами. Ведь нередки ситуации, когда разработчики называют свои классы одинаковыми именами. Принадлежность к пакету позволяет <strong>гарантировать однозначность имен</strong>.</p>
+</div>
+<div class="paragraph">
+<p>Чтобы указать, что класс принадлежит определенному пакету, надо использовать директиву <code>package</code>, после которой указывается имя пакета:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">package название_пакета;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Как правило, названия пакетов соответствуют физической структуре проекта, то есть организации каталогов, в которых находятся файлы с исходным кодом. А путь к файлам внутри проекта соответствует названию пакета этих файлов. Например, если классы принадлежат пакету <code>my.pack</code>, то эти классы помещаются в проекте в папку <code>my/pack</code>.</p>
+</div>
+<div class="paragraph">
+<p>Классы необязательно определять в пакеты. Если для класса пакет не определен, то считается, что данный класс находится <strong>в пакете по умолчанию</strong>, который не имеет имени.</p>
+</div>
+<div class="paragraph">
+<p>Например, создадим в папке для исходных файлов директорию <code>study</code>. В нем создадим файл <code>Program.java</code> со следующим кодом:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">package study;
+
+public class Program {
+    public static void main(String[] args) {
+        Person kate = new Person("Kate", 32);
+        kate.displayInfo();
+    }
+}
+
+class Person {
+    String name;
+    int age;
+
+    Person(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    void displayInfo() {
+        System.out.printf("Name: %s \t Age: %d \n", name, age);
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Директива <code>package study</code> в начале файла указывает, что классы <code>Program</code> и <code>Person</code>, которые здесь определены, принадлежат пакету <code>study</code>.</p>
+</div>
+<div class="paragraph">
+<p>Когда мы работаем в среде разработке, то <strong>IDE</strong> берет на себя все вопросы компиляции пакетов и входящих в них файлов. Соответственно нам достаточно нажать на кнопку, и все будет готово. Однако если мы компилируем программу в командной строке, то мы можем столкнуться с некоторыми трудностями. Поэтому рассмотрим этот аспект.</p>
+</div>
+<div class="sect2">
+<h3 id="_работа_с_пакетами_в_terminal">Работа с пакетами в <code>terminal</code></h3>
+<div class="paragraph">
+<p>Для компиляции программы вначале в командной строке/терминале с помощью команды <code>cd</code> перейдем к папке, где находится каталог <code>study</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-sh" data-lang="sh">cd C:\java</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Например, в моем случае это каталог <code>C:\java</code> (то есть файл с исходным кодом расположен по пути <code>C:\java\study\Program.java</code>).</p>
+</div>
+<div class="paragraph">
+<p>Для компиляции выполним команду</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-sh" data-lang="sh">javac study\Program.java</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>После этого в папке <code>study</code> появятся скомпилированные файлы <code>Program.class</code> и <code>Person.class</code>. Для запуска программы выполним команду:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-sh" data-lang="sh">java study.Program</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_импорт_пакетов_и_классов">Импорт пакетов и классов</h3>
+<div class="paragraph">
+<p>Если нам надо использовать классы из других пакетов, то нам надо подключить эти пакеты и классы. Исключение составляют классы из пакета <code>java.lang</code> (например, <code>String</code>), которые подключаются в программу автоматически.</p>
+</div>
+<div class="paragraph">
+<p>Например, класс <code>Scanner</code> находится в пакете <code>java.util</code>, поэтому мы можем получить к нему доступ следующим способом:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">java.util.Scanner in = new java.util.Scanner(System.in);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>То есть указываем полный путь к файлу в пакете при создании его объекта. Однако такое нагромождение имен пакетов не всегда удобно, и в качестве альтернативы  можем импортировать пакеты и классы в проект с помощью директивы <code>import</code>, которая указывается после директивы <code>package</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">package study;
+
+import java.util.Scanner; // импорт класса Scanner
+
+public class Program {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Директива <code>import</code> указывается в самом начале кода, после чего идет имя подключаемого класса (в данном случае класса <code>Scanner</code>).</p>
+</div>
+<div class="paragraph">
+<p>В примере выше мы подключили только один класс, однако пакет <code>java.util</code> содержит еще множество классов. И чтобы не подключать по отдельности каждый класс, мы можем сразу подключить весь пакет:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">import java.util.*; // импорт всех классов из пакета java.util</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Теперь мы можем использовать любой класс из пакета <code>java.util</code>.</p>
+</div>
+<div class="paragraph">
+<p>Возможна ситуация, когда мы используем два класса с одним и тем же названием из двух разных пакетов, например, класс <code>Date</code> имеется и в пакете <code>java.util</code>, и в пакете <code>java.sql</code>. И если нам надо одновременно использовать два этих класса, то необходимо указывать полный путь к этим классам в пакете:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">java.util.Date utilDate = new java.util.Date();
+java.sql.Date sqlDate = new java.sql.Date();</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_статический_импорт">Статический импорт</h3>
+<div class="paragraph">
+<p>В <strong>java</strong> есть также особая форма импорта - <strong>статический импорт</strong>. Для этого вместе с директивой <code>import</code> используется модификатор <code>static</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">package study;
+
+import static java.lang.System.*;
+import static java.lang.Math.*;
+
+public class Program {
+    public static void main(String[] args) {
+        double result = sqrt(20);
+        out.println(result);
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Здесь происходит статический импорт классов <code>System</code> и <code>Math</code>. Эти классы имеют статические методы. Благодаря операции статического импорта мы можем использовать эти методы без названия класса. Например, писать не <code>Math.sqrt(20)</code>, а <code>sqrt(20)</code>, так как функция <code>sqrt()</code>, которая возвращает квадратный корень числа, является статической.</p>
+</div>
+<div class="paragraph">
+<p>То же самое в отношении класса <code>System</code>: в нем определен статический объект <code>out</code>, поэтому мы можем его использовать без указания класса.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_модификаторы_доступа">Модификаторы доступа</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Все члены класса в языке <strong>Java</strong> - поля и методы - имеют модификаторы доступа. <strong>Модификаторы доступа</strong> позволяют задать допустимую область видимости для членов класса, то есть контекст, в котором можно употреблять данную переменную или метод.</p>
+</div>
+<div class="paragraph">
+<p>В Java используются следующие модификаторы доступа:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>public</code> - публичный, общедоступный класс или член класса. Поля и методы, объявленные с модификатором <code>public</code>, видны другим классам из текущего пакета и из внешних пакетов.</p>
+</li>
+<li>
+<p><code>private</code> - закрытый класс или член класса, противоположность модификатору <code>public</code>. Закрытый класс или член класса доступен только из кода в том же классе.</p>
+</li>
+<li>
+<p><code>protected</code> - такой класс или член класса доступен из любого места в текущем классе или пакете или в производных классах, даже если они находятся в других пакетах</p>
+</li>
+<li>
+<p><strong>default</strong> (<strong>package</strong>): отсутствие модификатора у поля или метода класса предполагает применение к нему модификатора по умолчанию. Такие поля или методы видны всем классам в текущем пакете.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Рассмотрим модификаторы доступа на примере следующей программы:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">public class Program {
+    public static void main(String[] args) {
+        Person kate = new Person("Kate", 32, "Baker Street", "+12334567");
+        kate.displayName(); // норм, метод public
+        kate.displayAge(); // норм, метод имеет модификатор по умолчанию
+        kate.displayPhone(); // норм, метод protected
+        kate.displayAddress(); // ! Ошибка, метод private
+
+        System.out.println(kate.name); // норм, модификатор по умолчанию
+        System.out.println(kate.address); // норм, модификатор public
+        System.out.println(kate.age); // норм, модификатор protected
+        System.out.println(kate.phone); // ! Ошибка, модификатор private
+    }
+}
+
+class Person {
+    String name;
+    protected int age;
+    public String address;
+    private String phone;
+
+    public Person(String name, int age, String address, String phone) {
+        this.name = name;
+        this.age = age;
+        this.address = address;
+        this.phone = phone;
+    }
+
+    public void displayName() {
+        System.out.printf("Name: %s \n", name);
+    }
+
+    void displayAge() {
+        System.out.printf("Age: %d \n", age);
+    }
+
+    private void displayAddress() {
+        System.out.printf("Address: %s \n", address);
+    }
+
+    protected void displayPhone() {
+        System.out.printf("Phone: %s \n", phone);
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>В данном случае оба класса расположены в одном пакете - <strong>пакете по умолчанию</strong>, поэтому в классе <code>Program</code> мы можем использовать все методы и переменные класса <code>Person</code>, которые имеют <strong>модификатор по умолчанию</strong>, <code>public</code> и <code>protected</code>. А поля и методы с модификатором <code>private</code> в классе <code>Program</code> не будут доступны.</p>
+</div>
+<div class="paragraph">
+<p>Если бы класс <code>Program</code> располагался бы в другом пакете, то ему были бы доступны только поля и методы с модификатором <code>public</code>.</p>
+</div>
+<div class="paragraph">
+<p>Модификатор доступа должен предшествовать остальной части определения переменной или метода.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_инкапсуляция">Инкапсуляция</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Казалось бы, почему бы не объявить все переменные и методы с модификатором <code>public</code>, чтобы они были доступны в любой точке программы вне зависимости от пакета или класса?</p>
+</div>
+<div class="paragraph">
+<p>Возьмем, например, поле <code>age</code>, которое представляет возраст. Если другой класс имеет прямой доступ к этому полю, то есть вероятность, что в процессе работы программы ему будет передано некорректное значение, например, отрицательное число. Подобное изменение данных не является желательным. Либо же мы хотим, чтобы некоторые данные были достуны напрямую, чтобы их можно было вывести на консоль или просто узнать их значение.</p>
+</div>
+<div class="paragraph">
+<p>В этой связи рекомендуется как можно больше ограничивать доступ к данным, чтобы защитить их от нежелательного доступа извне (как для получения значения, так и для его изменения). Использование различных модификаторов гарантирует, что данные не будут искажены или изменены не надлежащим образом. Подобное сокрытие данных внутри некоторой области видимости называется <strong>инкапсуляцией</strong>.</p>
+</div>
+<div class="paragraph">
+<p>Так, как правило, вместо непосредственного использования полей, как правило, используют методы доступа. Например:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">public class Program {
+    public static void main(String[] args) {
+        Person kate = new Person("Kate", 30, true);
+        System.out.println(kate.getAge()); // 30
+        kate.setAge(33);
+        System.out.println(kate.getAge()); // 33
+        kate.setAge(123450);
+        System.out.println(kate.getAge()); // 33
+    }
+}
+
+class Person {
+    private String name;
+    private int age;
+    private boolean adult;
+
+    public Person(String name, int age, boolean adult) {
+        this.name = name;
+        this.age = age;
+        this.adult = adult;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getAge() {
+        return this.age;
+    }
+
+    public void setAge(int age) {
+        if (age &gt; 0 &amp;&amp; age &lt; 110) {
+            this.age = age;
+        }
+    }
+
+    public boolean isAdult() {
+        return this.adult;
+    }
+
+    public void setAdult(boolean adult) {
+        this.adult = adult;
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>И затем вместо непосредственной работы с полями <code>name</code> и <code>age</code> в классе <code>Person</code> мы будем работать с методами, которые устанавливает и возвращают значения этих полей. Методы <code>setName()</code>, <code>setAge()</code> и <code>setAdult()</code>, которые меняют состояние объекта, иногда называют <strong>мьютейтерами</strong> (<strong>mutator</strong>). А методы <code>getName()</code>, <code>getAge()</code> и <code>isAdult()</code>, с помощью которых получаем доступ к состоянию класса, называют <strong>аксессерами</strong> (<strong>accessor</strong>).</p>
+</div>
+<div class="paragraph">
+<p>Причем в эти методы мы можем вложить дополнительную логику. Например, в данном случае при изменении возраста производится проверка, насколько соответствует новое значение допустимому диапазону.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_наследование">Наследование</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Одним из ключевых аспектов объектно-ориентированного программирования является <strong>наследование</strong> (<strong>inheritance</strong>). С помощью наследования можно расширить функционал уже имеющихся классов за счет добавления нового функционала или изменения старого. Например, имеется следующий класс <code>Person</code>, описывающий отдельного человека:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">class Person {
+    private String name;
+    public String getName() {
+        return name;
+    }
+
+    public Person(String name) {
+        this.name = name;
+    }
+
+    public void display() {
+        System.out.println("Name: " + name);
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>И, возможно, впоследствии мы захотим добавить еще один класс, который описывает сотрудника предприятия - класс <code>Employee</code>. Так как этот класс реализует тот же функционал, что и класс <code>Person</code>, так как сотрудник - это также и человек, то было бы рационально сделать класс <code>Employee</code> <strong>производным</strong> (<strong>subclass</strong>, <strong>наследником</strong>, <strong>подклассом</strong>) от класса <code>Person</code>, который, в свою очередь, называется <strong>базовым классом</strong> (<strong>superclass</strong>, <strong>родителем</strong>, <strong>суперклассом</strong>):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">class Employee extends Person {
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Чтобы объявить один класс наследником от другого, надо использовать после имени класса-наследника ключевое слово <code>extends</code>, после которого идет имя базового класса. Для класса <code>Employee</code> базовым является <code>Person</code>, и поэтому класс <code>Employee</code> наследует все те же поля и методы, которые есть в классе <code>Person</code>.</p>
+</div>
+<div class="paragraph">
+<p>Использование классов:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">public class Program {
+    public static void main(String[] args) {
+        Person tom = new Person("Tom");
+        tom.display();
+        Employee sam = new Employee("Sam");
+        sam.display();
+    }
+}
+
+class Person {
+    private String name;
+
+    public String getName() {
+        return name;
+    }
+
+    public Person(String name) {
+        this.name = name;
+    }
+
+    public void display() {
+        System.out.println("Name: " + name);
+    }
+}
+
+class Employee extends Person {
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Производный класс имеет доступ ко всем методам и полям базового класса (даже если базовый класс находится в другом пакете) кроме тех, которые определены с модификатором <code>private</code>. При этом производный класс также может добавлять свои поля и методы:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">public class Program {
+    public static void main(String[] args) {
+        Employee sam = new Employee("Sam", "Red Hat");
+        sam.display(); // Sam
+        sam.work(); // Sam works in Red Hat
+    }
+}
+
+class Person {
+    private String name;
+
+    public String getName() {
+        return name;
+    }
+
+    public Person(String name) {
+        this.name = name;
+    }
+
+    public void display() {
+        System.out.println("Name: " + name);
+    }
+}
+
+class Employee extends Person {
+    private String company;
+
+    public Employee(String name, String company) {
+        super(name);
+        this.company = company;
+    }
+
+    public void work() {
+        System.out.printf("%s works in %s \n", getName(), company);
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>В данном случае класс <code>Employee</code> добавляет поле <code>company</code>, которое хранит место работы сотрудника, а также метод <code>work()</code>.</p>
+</div>
+<div class="paragraph">
+<p>Если в базовом классе определены конструкторы, то в конструкторе производного классы необходимо вызвать один из конструкторов базового класса с помощью ключевого слова <code>super</code>. Например, класс <code>Person</code> имеет конструктор, который принимает один параметр. Поэтому в классе <code>Employee</code> в конструкторе нужно вызвать констуктор класса <code>Person</code>. После слова <code>super</code> в скобках идет перечисление передаваемых аргументов. Таким образом, установка имени сотрудника делегируется конструктору базового класса.</p>
+</div>
+<div class="paragraph">
+<p>При этом вызов конструктора базового класса должен идти в самом начале в конструкторе производного класса.</p>
+</div>
+<div class="sect2">
+<h3 id="_переопределение_методов">Переопределение методов</h3>
+<div class="paragraph">
+<p>Производный класс может определять свои методы, а может переопределять методы, которые унаследованы от базового класса. Например, переопределим в классе <code>Employee</code> метод <code>display()</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">public class Program {
+    public static void main(String[] args) {
+        Employee sam = new Employee("Sam", "Red Hat");
+        sam.display();  // Sam
+        // Works in Red Hat
+    }
+}
+
+class Person {
+    private String name;
+
+    public String getName() {
+        return name;
+    }
+
+    public Person(String name) {
+        this.name = name;
+    }
+
+    public void display() {
+        System.out.println("Name: " + name);
+    }
+}
+
+class Employee extends Person {
+    private String company;
+
+    public Employee(String name, String company) {
+        super(name);
+        this.company = company;
+    }
+
+    @Override
+    public void display() {
+        System.out.printf("Name: %s \n", getName());
+        System.out.printf("Works in %s \n", company);
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Перед переопределяемым методом указывается аннотация <code>@Override</code>. Данная аннотация в принципе необязательна.</p>
+</div>
+<div class="paragraph">
+<p>При переопределении метода он должен иметь уровень доступа не меньше, чем уровень доступа в базовом класса. Например, если в базовом классе метод имеет модификатор <code>public</code>, то и в производном классе метод должен иметь модификатор <code>public</code>.</p>
+</div>
+<div class="paragraph">
+<p>Однако в данном случае мы видим, что часть метода <code>display</code> в <code>Employee</code> повторяет действия из метода <code>display()</code> базового класса. Поэтому мы можем сократить класс <code>Employee</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">class Employee extends Person {
+    private String company;
+
+    public Employee(String name, String company) {
+        super(name);
+        this.company = company;
+    }
+
+    @Override
+    public void display() {
+        super.display();
+        System.out.printf("Works in %s \n", company);
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>С помощью ключевого слова <code>super</code> мы также можем обратиться к реализации методов базового класса.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_запрет_наследования">Запрет наследования</h3>
+<div class="paragraph">
+<p>Хотя наследование очень интересный и эффективный механизм, но в некоторых ситуациях его применение может быть нежелательным. И в этом случае можно запретить наследование с помощью ключевого слова <code>final</code>. Например:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">public final class Person {
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Если бы класс <code>Person</code> был бы определен таким образом, то следующий код был бы ошибочным и не сработал, так как мы тем самым запретили наследование:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">class Employee extends Person {
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Кроме запрета наследования можно также запретить переопределение отдельных методов. Например, в примере выше переопределен метод <code>displayInfo()</code>, запретим его переопределение:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">public class Person {
+    public final void display() {
+        System.out.println("Имя: " + name);
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>В этом случае класс <code>Employee</code> не сможет переопределить метод <code>display()</code>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_динамическая_диспетчеризация_методов">Динамическая диспетчеризация методов</h3>
+<div class="paragraph">
+<p>Наследование и возможность переопределения методов открывают нам большие возможности. Прежде всего мы можем передать переменной суперкласса ссылку на объект подкласса:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">Person sam = new Employee("Sam", "Oracle");</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Так как <code>Employee</code> наследуется от <code>Person</code>, то объект <code>Employee</code> является в то же время и объектом <code>Person</code>. Грубо говоря, любой работник предприятия одновременно является человеком.</p>
+</div>
+<div class="paragraph">
+<p>Однако несмотря на то, что переменная представляет объект <code>Person</code>, виртуальная машина видит, что в реальности она указывает на объект <code>Employee</code>. Поэтому при вызове методов у этого объектов будет вызывать та версия методов, которая определена в классе <code>Employee</code>, а не в <code>Person</code>. Например:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">public class Program {
+    public static void main(String[] args) {
+        Person tom = new Person("Tom");
+        tom.display();
+        Person sam = new Employee("Sam", "Oracle");
+        sam.display();
+    }
+}
+
+class Person {
+    private String name;
+
+    public String getName() {
+        return name;
+    }
+
+    public Person(String name) {
+        this.name = name;
+    }
+
+    public void display() {
+        System.out.printf("Person %s \n", name);
+    }
+}
+
+class Employee extends Person {
+    private String company;
+
+    public Employee(String name, String company) {
+        super(name);
+        this.company = company;
+    }
+
+    @Override
+    public void display() {
+        System.out.printf("Employee %s works in %s \n", super.getName(), company);
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>При вызове переопределенного метода виртуального машина динамически находит и вызывает именно ту версию метода, которая определена в подклассе. Данный процесс еще называется <strong>динамическая диспетчеризация методов</strong> (<strong>dynamic method lookup</strong>, <strong>динамический поиск метода</strong>).</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_иерархия_наследования_и_преобразование_типов">Иерархия наследования и преобразование типов</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Преобразование объектов классов происходит по-другому, чем с примитивными типами. Допустим, у нас есть следующая иерархия классов:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">public class Program {
+    public static void main(String[] args) {
+        Person tom = new Person("Tom");
+        tom.display();
+        Person sam = new Employee("Sam", "Oracle");
+        sam.display();
+        Person bob = new Client("Bob", "DeutscheBank", 3000);
+        bob.display();
+    }
+}
+
+class Person {
+    private String name;
+
+    public String getName() {
+        return name;
+    }
+
+    public Person(String name) {
+        this.name = name;
+    }
+
+    public void display() {
+        System.out.printf("Person %s \n", name);
+    }
+}
+
+class Employee extends Person {
+    private String company;
+
+    public Employee(String name, String company) {
+        super(name);
+        this.company = company;
+    }
+
+    public String getCompany() {
+        return company;
+    }
+
+    public void display() {
+        System.out.printf("Employee %s works in %s \n", super.getName(), company);
+    }
+}
+
+class Client extends Person {
+    private int sum; // Переменная для хранения суммы на счете
+    private String bank;
+
+    public Client(String name, String bank, int sum) {
+        super(name);
+        this.bank = bank;
+        this.sum = sum;
+    }
+
+    public void display() {
+        System.out.printf("Client %s has account in %s \n", super.getName(), bank);
+    }
+
+    public String getBank() {
+        return bank;
+    }
+
+    public int getSum() {
+        return sum;
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>В этой иерархии классов можно проследить следующую цепь наследования: <code>Object</code> &#8594; <code>Person</code> &#8594; <code>Employee</code>|<code>Client</code>.</p>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src="/assets/img/java/core/oop/hierarhy-classes.png" alt="hierarhy classes"></span></p>
+</div>
+<div class="sect2">
+<h3 id="_преобразование_типов_в_языке_java">Преобразование типов в языке Java</h3>
+<div class="paragraph">
+<p>Суперклассы обычно размещаются выше подклассов, поэтому на вершине наследования находится класс <code>Object</code>, а в самом низу <code>Employee</code> и <code>Client</code>.</p>
+</div>
+<div class="paragraph">
+<p>Объект подкласса также представляет объект суперкласса. Поэтому в программе мы можем написать следующим образом:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">Object tom = new Person("Tom");
+Object sam = new Employee("Sam", "Oracle");
+Object kate = new Client("Kate", "DeutscheBank", 2000);
+Person bob = new Client("Bob", "DeutscheBank", 3000);
+Person alice = new Employee("Alice", "Google");</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Это так называемое <strong>восходящее преобразование</strong> (<strong>upcasting</strong>) от подкласса внизу к суперклассу вверху иерархии. Такое преобразование осуществляется автоматически.</p>
+</div>
+<div class="paragraph">
+<p>Обратное не всегда верно. Например, объект <code>Person</code> не всегда является объектом <code>Employee</code> или <code>Client</code>. Поэтому <strong>нисходящее преобразование</strong> (<strong>downcasting</strong>) от суперкласса к подклассу автоматически не выполняется. В этом случае нам надо использовать операцию преобразования типов.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">Object sam = new Employee("Sam", "Oracle");
+
+// нисходящее преобразование от Object к типу Employee
+Employee emp = (Employee) sam;
+emp.display();
+System.out.println(emp.getCompany());</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>В данном случае переменная <code>sam</code> приводится к типу <code>Employee</code>. И затем через объект emp мы можем обратиться к функционалу объекта <code>Employee</code>.</p>
+</div>
+<div class="paragraph">
+<p>Мы можем преобразовать объект <code>Employee</code> по всей прямой линии наследования от <code>Object</code> к <code>Employee</code>.</p>
+</div>
+<div class="paragraph">
+<p>Примеры нисходящих перобразований:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">Object kate = new Client("Kate", "DeutscheBank", 2000);
+((Person) kate).display();
+
+Object sam = new Employee("Sam", "Oracle");
+((Employee) sam).display();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Но рассмотрим еще одну ситуацию:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">Object kate = new Client("Kate", "DeutscheBank", 2000);
+Employee emp = (Employee) kate;
+emp.display();
+
+// или так
+((Employee) kate).display();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>В данном случае переменная типа <code>Object</code> хранит ссылку на объект <code>Client</code>. Мы можем без ошибок привести этот объект к типам <code>Person</code> или <code>Client</code>. Но при попытке преобразования к типу <code>Employee</code> мы получим ошибку во время выполнения. Так как <code>kate</code> не представляет объект типа <code>Employee</code>.</p>
+</div>
+<div class="paragraph">
+<p>Здесь мы явно видим, что переменная <code>kate</code> - это ссылка на объект <code>Client</code>, а не <code>Employee</code>. Однако нередко данные приходят извне, и мы можем точно не знать, какой именно объект эти данные представляют. Соответственно возникает большая вероятная столкнуться с ошибкой. И перед тем, как провести преобразование типов, мы можем проверить, а можем ли мы выполнить приведение с помощью оператора <code>instanceof</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">Object kate = new Client("Kate", "DeutscheBank", 2000);
+if (kate instanceof Employee) {
+    ((Employee) kate).display();
+} else {
+    System.out.println("Conversion is invalid");
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Выражение <code>kate instanceof Employee</code> проверяет, является ли переменная <code>kate</code> объектом типа <code>Employee</code>. Но так как в данном случае явно не является, то такая проверка вернет значение <code>false</code>, и преобразование не сработает.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_перегрузка_методов">Перегрузка методов</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>В программе мы можем использовать методы с одним и тем же именем, но с разными типами и/или количеством параметров. Такой механизм называется <strong>перегрузкой методов</strong> (<strong>method overloading</strong>).</p>
+</div>
+<div class="paragraph">
+<p>Например:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">public class Program {
+    public static void main(String[] args) {
+        System.out.println(sum(2, 3)); // 5
+        System.out.println(sum(4.5, 3.2)); // 7.7
+        System.out.println(sum(4, 3, 7)); // 14
+    }
+
+    static int sum(int x, int y) {
+        return x + y;
+    }
+
+    static double sum(double x, double y) {
+        return x + y;
+    }
+
+    static int sum(int x, int y, int z) {
+        return x + y + z;
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Здесь определено три варианта или три перегрузки метода <code>sum()</code>, но при его вызове в зависимости от типа и количества передаваемых параметров система выберет именно ту версию, которая наиболее подходит.</p>
+</div>
+<div class="paragraph">
+<p>Стоит отметить, что на перегрузку методов влияют количество и типы параметров. Однако различие в типе возвращаемого значения для перегрузки не имеют никакого значения. Например, в следующем случае методы различаются по типу возвращаемого значения:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">public class Program {
+    public static void main(String[] args) {
+        System.out.println(sum(2, 3));
+        System.out.println(sum(4, 3));
+    }
+
+    static int sum(int x, int y) {
+        return x + y;
+    }
+
+    static double sum(int x, int y) {
+        return x + y;
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Однако перегрузкой это не будет считаться. Более того такая программа некорректна и попросту не скомилируется, так как метод с одним и тем же количеством и типом параметров определен несколько раз.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_абстрактные_классы">Абстрактные классы</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Кроме обычных классов в <strong>Java</strong> есть <strong>абстрактные классы</strong>. Абстрактный класс похож на обычный класс. В абстрактном классе также можно определить поля и методы, в то же время нельзя создать объект или экземпляр абстрактного класса. Абстрактные классы призваны предоставлять базовый функционал для классов-наследников. А производные классы уже реализуют этот функционал.</p>
+</div>
+<div class="paragraph">
+<p>При определении абстрактных классов используется ключевое слово <code>abstract</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">public abstract class Human {
+    private String name;
+
+    public String getName() {
+        return name;
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Но главное отличие состоит в том, что мы не можем использовать конструктор абстрактного класса для создания его объекта. Например, следующим образом:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">Human h = new Human();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Кроме обычных методов абстрактный класс может содержать абстрактные методы. Такие методы определяются с помощью ключевого слова <code>abstract</code> и не имеют никакого функционала:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">public abstract void display();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Производный класс обязан переопределить и реализовать все абстрактные методы, которые имеются в базовом абстрактном классе. Также следует учитывать, что если класс имеет хотя бы один абстрактный метод, то данный класс должен быть определен как абстрактный.</p>
+</div>
+<div class="paragraph">
+<p>Зачем нужны абстрактные классы? Допустим, мы делаем программу для обсулживания банковских операций и определяем в ней три класса: <code>Person</code>, который описывает человека, <code>Employee</code>, который описывает банковского служащего, и класс <code>Client</code>, который представляет клиента банка. Очевидно, что классы <code>Employee</code> и <code>Client</code> будут производными от класса <code>Person</code>, так как оба класса имеют некоторые общие поля и методы. И так как все объекты будут представлять либо сотрудника, либо клиента банка, то напрямую мы от класса <code>Person</code> создавать объекты не будем. Поэтому имеет смысл сделать его абстрактным.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">public class Program {
+    public static void main(String[] args) {
+        Employee sam = new Employee("Sam", "Leman Brothers");
+        sam.display();
+        Client bob = new Client("Bob", "Leman Brothers");
+        bob.display();
+    }
+}
+
+abstract class Person {
+    private String name;
+
+    public String getName() {
+        return name;
+    }
+
+    public Person(String name) {
+        this.name = name;
+    }
+
+    public abstract void display();
+}
+
+class Employee extends Person {
+    private String bank;
+
+    public Employee(String name, String company) {
+        super(name);
+        this.bank = company;
+    }
+
+    public void display() {
+        System.out.printf("Employee Name: %s \t Bank: %s \n", super.getName(), bank);
+    }
+}
+
+class Client extends Person {
+    private String bank;
+
+    public Client(String name, String company) {
+        super(name);
+        this.bank = company;
+    }
+
+    public void display() {
+        System.out.printf("Client Name: %s \t Bank: %s \n", super.getName(), bank);
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Другим хрестоматийным примером является системы фигур. В реальности не существует геометрической фигуры как таковой. Есть круг, прямоугольник, квадрат, но просто фигуры нет. Однако же и круг, и прямоугольник имеют что-то общее и являются фигурами:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">abstract class Figure {
+    float x; // x-координата точки
+    float y; // y-координата точки
+
+    Figure(float x, float y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    public abstract float getPerimeter();
+
+    public abstract float getArea();
+}
+
+class Rectangle extends Figure {
+    private float width;
+    private float height;
+
+    Rectangle(float x, float y, float width, float height) {
+        super(x, y);
+        this.width = width;
+        this.height = height;
+    }
+
+    public float getPerimeter() {
+        return width * 2 + height * 2;
+    }
+
+    public float getArea() {
+        return width * height;
+    }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_интерфейсы">Интерфейсы</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Механизм наследования очень удобен, но он имеет свои ограничения. В частности мы можем наследовать только от одного класса, в отличие, например, от языка С++, где имеется <strong>множественное наследование</strong>.</p>
+</div>
+<div class="paragraph">
+<p>В языке <strong>Java</strong> подобную проблему частично позволяют решить интерфейсы. <strong>Интерфейсы</strong> определяют некоторый функционал, не имеющий конкретной реализации, который затем реализуют классы, применяющие эти интерфейсы. И один класс может применить множество интерфейсов.</p>
+</div>
+<div class="paragraph">
+<p>Чтобы определить интерфейс, используется ключевое слово <code>interface</code>. Например:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">interface Printable {
+    void print();
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Данный интерфейс называется <code>Printable</code>. Интерфейс может определять константы и методы, которые могут иметь, а могут и не иметь реализации. Методы без реализации похожи на абстрактные методы абстрактных классов. Так, в данном случае объявлен один метод, который не имеет реализации.</p>
+</div>
+<div class="paragraph">
+<p>Все методы интерфейса не имеют модификаторов доступа, но фактически по умолчанию доступ <code>public</code>, так как цель интерфейса - определение функционала для реализации его классом. Поэтому весь функционал должен быть открыт для реализации.</p>
+</div>
+<div class="paragraph">
+<p>Чтобы класс применил интерфейс, надо использовать ключевое слово <code>implements</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">public class Program {
+    public static void main(String[] args) {
+        Book b1 = new Book("Java. Complete Referense.", "H. Shildt");
+        b1.print();
+    }
+}
+
+interface Printable {
+    void print();
+}
+
+class Book implements Printable {
+    String name;
+    String author;
+
+    Book(String name, String author) {
+        this.name = name;
+        this.author = author;
+    }
+
+    public void print() {
+        System.out.printf("%s (%s) \n", name, author);
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>В данном случае класс <code>Book</code> реализует интерфейс <code>Printable</code>. При этом надо учитывать, что если класс применяет интерфейс, то он должен реализовать все методы интерфейса, как в случае выше реализован метод <code>print()</code>. Потом в методе main мы можем объект класса <code>Book</code> и вызвать его метод <code>print()</code>. Если класс не реализует какие-то методы интерфейса, то такой класс должен быть определен как абстрактный, а его неабстрактные классы-наследники затем должны будут эти методы.</p>
+</div>
+<div class="paragraph">
+<p>В тоже время мы не можем напрямую создавать объекты интерфейсов, поэтому следующий код не будет работать:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">Printable pr = new Printable();
+pr.print();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Одним из преимуществ использования интерфейсов является то, что они позволяют добавить в приложение гибкости. Например, в дополнение к классу <code>Book</code> определим еще один класс, который будет реализовывать интерфейс <code>Printable</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">class Journal implements Printable {
+    private String name;
+
+    String getName() {
+        return name;
+    }
+
+    Journal(String name) {
+        this.name = name;
+    }
+
+    public void print() {
+        System.out.println(name);
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Класс <code>Book</code> и класс <code>Journal</code> связаны тем, что они реализуют интерфейс <code>Printable</code>. Поэтому мы динамически в программе можем создавать объекты <code>Printable</code> как экземпляры обоих классов:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">public class Program {
+    public static void main(String[] args) {
+        Printable printable = new Book("Java. Complete Reference", "H. Shildt");
+        printable.print(); // Java. Complete Reference (H. Shildt)
+        printable = new Journal("Foreign Policy");
+        printable.print(); // Foreign Policy
+    }
+}
+
+interface Printable {
+    void print();
+}
+
+class Book implements Printable {
+    String name;
+    String author;
+
+    Book(String name, String author) {
+        this.name = name;
+        this.author = author;
+    }
+
+    public void print() {
+        System.out.printf("%s (%s) \n", name, author);
+    }
+}
+
+class Journal implements Printable {
+    private String name;
+
+    String getName() {
+        return name;
+    }
+
+    Journal(String name) {
+        this.name = name;
+    }
+
+    public void print() {
+        System.out.println(name);
+    }
+}</code></pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_интерфейсы_в_преобразованиях_типов">Интерфейсы в преобразованиях типов</h3>
+<div class="paragraph">
+<p>Все сказанное в отношении преобразования типов характерно и для интерфейсов. Например, так как класс <code>Journal</code> реализует интерфейс <code>Printable</code>, то переменная типа <code>Printable</code> может хранить ссылку на объект типа <code>Journal</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">Printable p = new Journal("Foreign Affairs");
+p.print();
+// Интерфейс не имеет метода getName, необходимо явное приведение
+String name = ((Journal) p).getName();
+System.out.println(name);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>И если мы хотим обратиться к методам класса <code>Journal</code>, которые определены не в интерфейсе <code>Printable</code>, а в самом классе <code>Journal</code>, то нам надо явным образом выполнить преобразование типов: <code>((Journal) p).getName();</code></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_методы_по_умолчанию">Методы по умолчанию</h3>
+<div class="paragraph">
+<p>Ранее до <strong>JDK 8</strong> при реализации интерфейса мы должны были обязательно реализовать все его методы в классе. А сам интерфейс мог содержать только определения методов без конкретной реализации. В <strong>JDK 8</strong> была добавлена такая функциональность как <strong>методы по умолчанию</strong>. И теперь интерфейсы кроме определения методов могут иметь их реализацию по умолчанию, которая используется, если класс, реализующий данный интерфейс, не реализует метод. Например, создадим метод по умолчанию в интерфейсе <code>Printable</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">interface Printable {
+    default void print() {
+        System.out.println("Undefined printable");
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Метод по умолчанию - это обычный метод без модификаторов, который помечается ключевым словом <code>default</code>. Затем в классе <code>Journal</code> нам необязательно этот метод реализовать, хотя мы можем его и переопределить:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">class Journal implements Printable {
+    private String name;
+
+    String getName() {
+        return name;
+    }
+
+    Journal(String name) {
+        this.name = name;
+    }
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_статические_методы">Статические методы</h3>
+<div class="paragraph">
+<p>Начиная с <strong>JDK 8</strong> в интерфейсах доступны <strong>статические методы</strong> - они аналогичны методам класса:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">interface Printable {
+    void print();
+
+    static void read() {
+        System.out.println("Read printable");
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Чтобы обратиться к статическому методу интерфейса также, как и в случае с классами, пишут название интерфейса и метод:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">public static void main(String[] args) {
+    Printable.read();
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_приватные_методы">Приватные методы</h3>
+<div class="paragraph">
+<p>По умолчанию все методы в интерфейсе фактически имеют модификатор <code>public</code>. Однако начиная с <strong>Java 9</strong> мы также можем определять в интерфейсе методы с модификатором <code>private</code>. Они могут быть статическими и нестатическими, но они не могут иметь реализации по умолчанию.</p>
+</div>
+<div class="paragraph">
+<p>Подобные методы могут использоваться только внутри самого интерфейса, в котором они определены. То есть к примеру нам надо выполнять в интерфейсе некоторые повторяющиеся действия, и в этом случае такие действия можно выделить в приватные методы:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">public class Program {
+    public static void main(String[] args) {
+        Calculatable c = new Calculation();
+        System.out.println(c.sum(1, 2));
+        System.out.println(c.sum(1, 2, 4));
+    }
+}
+
+class Calculation implements Calculatable {
+}
+
+interface Calculatable {
+    default int sum(int a, int b) {
+        return sumAll(a, b);
+    }
+
+    default int sum(int a, int b, int c) {
+        return sumAll(a, b, c);
+    }
+
+    private int sumAll(int... values) {
+        int result = 0;
+        for (int n : values) {
+            result += n;
+        }
+        return result;
+    }
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_константы_в_интерфейсах">Константы в интерфейсах</h3>
+<div class="paragraph">
+<p>Кроме методов в интерфейсах могут быть определены статические константы:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">interface Stateable {
+    int OPEN = 1;
+    int CLOSED = 0;
+
+    void printState(int n);
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Хотя такие константы также не имеют модификаторов, но по умолчанию они имеют модификатор доступа <code>public static final</code>, и поэтому их значение доступно из любого места программы.</p>
+</div>
+<div class="paragraph">
+<p>Применение констант:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">public class Program {
+    public static void main(String[] args) {
+        WaterPipe pipe = new WaterPipe();
+        pipe.printState(1);
+    }
+}
+
+class WaterPipe implements Stateable {
+    public void printState(int n) {
+        if (n == OPEN) {
+            System.out.println("Water is opened");
+        } else if (n == CLOSED) {
+            System.out.println("Water is closed");
+        } else {
+            System.out.println("State is invalid");
+        }
+    }
+}
+
+interface Stateable {
+    int OPEN = 1;
+    int CLOSED = 0;
+
+    void printState(int n);
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_множественная_реализация_интерфейсов">Множественная реализация интерфейсов</h3>
+<div class="paragraph">
+<p>Если нам надо применить в классе несколько интерфейсов, то они все перечисляются через запятую после слова <code>implements</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">interface Printable {
+    // методы интерфейса
+}
+
+interface Searchable {
+    // методы интерфейса
+}
+
+class Book implements Printable, Searchable{
+    // реализация класса
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_наследование_интерфейсов">Наследование интерфейсов</h3>
+<div class="paragraph">
+<p>Интерфейсы, как и классы, могут наследоваться:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">interface BookPrintable extends Printable {
+    void paint();
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>При применении этого интерфейса класс <code>Book</code> должен будет реализовать как методы интерфейса <code>BookPrintable</code>, так и методы базового интерфейса <code>Printable</code>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_вложенные_интерфейсы">Вложенные интерфейсы</h3>
+<div class="paragraph">
+<p>Как и классы, интерфейсы могут быть вложенными, то есть могут быть определены в классах или других интерфейсах. Например:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">class Printer {
+    interface Printable {
+        void print();
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>При применении такого интерфейса нам надо указывать его полное имя вместе с именем класса:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">public class Journal implements Printer.Printable {
+    String name;
+
+    Journal(String name) {
+        this.name = name;
+    }
+
+    public void print() {
+        System.out.println(name);
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Использование интерфейса будет аналогично предыдущим случаям:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">Printer.Printable p = new Journal("Foreign Affairs");
+p.print();</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_интерфейсы_как_параметры_и_результаты_методов">Интерфейсы как параметры и результаты методов</h3>
+<div class="paragraph">
+<p>И также как и в случае с классами, интерфейсы могут использоваться в качестве типа параметров метода или в качестве возвращаемого типа:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">public class Program {
+    public static void main(String[] args) {
+        Printable printable = createPrintable("Foreign Affairs", false);
+        printable.print();
+
+        read(new Book("Java for impatients", "Cay Horstmann"));
+        read(new Journal("Java Dayly News"));
+    }
+
+    static void read(Printable p) {
+        p.print();
+    }
+
+    static Printable createPrintable(String name, boolean option) {
+        if (option) {
+            return new Book(name, "Undefined");
+        } else {
+            return new Journal(name);
+        }
+    }
+}
+
+interface Printable {
+    void print();
+}
+
+class Book implements Printable {
+    String name;
+    String author;
+
+    Book(String name, String author) {
+        this.name = name;
+        this.author = author;
+    }
+
+    public void print() {
+        System.out.printf("%s (%s) \n", name, author);
+    }
+}
+
+class Journal implements Printable {
+    private String name;
+
+    String getName() {
+        return name;
+    }
+
+    Journal(String name) {
+        this.name = name;
+    }
+
+    public void print() {
+        System.out.println(name);
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Метод <code>read()</code> в качестве параметра принимает объект интерфейса <code>Printable</code>, поэтому в этот метод мы можем передать как объект <code>Book</code>, так и объект <code>Journal</code>.</p>
+</div>
+<div class="paragraph">
+<p>Метод <code>createPrintable()</code> возвращает объект <code>Printable</code>, поэтому также мы вожем возвратить как объект <code>Book</code>, так и <code>Journal</code>.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_статические_члены_и_модификатор_static">Статические члены и модификатор <code>static</code></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Кроме обычных методов и полей класс может иметь статические поля, методы, константы и инициализаторы. Например, главный класс программы имеет метод <code>main()</code>, который является статическим:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">public static void main(String[] args) {
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Для объявления статических:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>полей</p>
+</li>
+<li>
+<p>констант</p>
+</li>
+<li>
+<p>методов</p>
+</li>
+<li>
+<p>инициализаторов</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>перед их объявлением указывается ключевое слово <code>static</code>.</p>
+</div>
+<div class="sect2">
+<h3 id="_статические_поля">Статические поля</h3>
+<div class="paragraph">
+<p>При создании объектов класса для каждого объекта создается своя копия нестатических обычных полей. А статические поля являются общими для всего класса. Поэтому они могут использоваться без создания объектов класса.</p>
+</div>
+<div class="paragraph">
+<p>Например, создадим статическую переменную:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">public class Program {
+    public static void main(String[] args) {
+        Person tom = new Person();
+        Person bob = new Person();
+
+        tom.displayId(); // "Id: 1"
+        bob.displayId(); // "Id: 2"
+        System.out.println(Person.counter); // 3
+
+        Person.counter = 8; // изменяем Person.counter
+
+        Person sam = new Person();
+        sam.displayId(); // "Id: 8"
+    }
+}
+
+class Person {
+    private int id;
+    static int counter = 1;
+
+    Person() {
+        id = counter++;
+    }
+
+    public void displayId() {
+        System.out.printf("Id: %d\n", id);
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Класс <code>Person</code> содержит статическую переменную <code>counter</code>, которая увеличивается в конструкторе и ее значение присваивается переменной <code>id</code>. То есть при создании каждого нового объекта <code>Person</code> эта переменная будет увеличиваться, поэтому у каждого нового объекта <code>Person</code> значение поля <code>id</code> будет на <code>1</code> больше чем у предыдущего.</p>
+</div>
+<div class="paragraph">
+<p>Так как переменная <code>counter</code> статическая, то мы можем обратиться к ней в программе по имени класса:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">System.out.println(Person.counter); // получаем значение
+Person.counter = 8; // изменяем значение</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_статические_константы">Статические константы</h3>
+<div class="paragraph">
+<p>Также статическими бывают константы, которые являются общими для всего класса.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">public class Program {
+    public static void main(String[] args) {
+        double radius = 60;
+        System.out.printf("Radius: %f\n", radius); // "Radius: 60"
+        System.out.printf("Area: %f\n", Math.PI * radius); // "Area: 11304,0"
+    }
+}
+
+class Math {
+    public static final double PI = 3.14;
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Стоит отметить, что на протяжении всех предыдущих тем уже активно использовались статические константы. В частности, в выражении:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">System.out.println("hello");</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>out</code> как раз представляет статическую константу класса <code>System</code>. Поэтому обращение к ней идет без создания объекта класса <code>System</code>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_статические_инициализаторы">Статические инициализаторы</h3>
+<div class="paragraph">
+<p>Статические инициализаторы предназначены для инициализации статических переменных, либо для выполнения таких действий, которые выполняются при создании самого первого объекта. Например, определим статический инициализатор:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">public class Program {
+    public static void main(String[] args) {
+        Person tom = new Person();
+        Person bob = new Person();
+
+        tom.displayId(); // "Id: 105"
+        bob.displayId(); // "Id: 106"
+    }
+}
+
+class Person {
+    private int id;
+    static int counter;
+
+    static {
+        counter = 105;
+        System.out.println("Static initializer");
+    }
+
+    Person() {
+        id = counter++;
+        System.out.println("Constructor");
+    }
+
+    public void displayId() {
+        System.out.printf("Id: %d\n", id);
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Статический инициализатор определяется как обычный, только перед ним ставится ключевое слово <code>static</code>. В данном случае в статическом инициализаторе мы устанавливаем начальное значение статического поля <code>counter</code> и выводим на консоль сообщение.</p>
+</div>
+<div class="paragraph">
+<p>В самой программе создаются два объекта класса <code>Person</code>.</p>
+</div>
+<div class="paragraph">
+<p>Стоит учитывать, что вызов статического инициализатора производится только перед созданием самого первого объекта класса.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_статические_методы_2">Статические методы</h3>
+<div class="paragraph">
+<p>Статические методы также относятся ко всему классу в целом. Например, в примере выше статическая переменная <code>counter</code> была доступна извне, и мы могли изменить ее значение вне класса <code>Person</code>. Сделаем ее недоступной для изменения извне, но доступной для чтения. Для этого используем статический метод:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">public class Program {
+    public static void main(String[] args) {
+        Person.displayCounter(); // "Counter: 1"
+
+        Person tom = new Person();
+        Person bob = new Person();
+
+        Person.displayCounter(); // "Counter: 3"
+    }
+}
+
+class Person {
+    private int id;
+    private static int counter = 1;
+
+    Person() {
+        id = counter++;
+    }
+
+    public static void displayCounter() {
+        System.out.printf("Counter: %d\n", counter);
+    }
+
+    public void displayId() {
+        System.out.printf("Id: %d\n", id);
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Теперь статическая переменная недоступна извне, она приватная. А ее значение выводится с помощью статического метода <code>displayCounter()</code>. Для обращения к статическому методу используется имя класса:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">Person.displayCounter();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>При использовании статических методов надо учитывать ограничения: в статических методах мы можем вызывать только другие статические методы и использовать только статические переменные.</p>
+</div>
+<div class="paragraph">
+<p>Вообще методы определяются как статические, когда методы не затрагиют состояние объекта, то есть его нестатические поля и константы, и для вызова метода нет смысла создавать экземпляр класса. Например:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">public class Program {
+    public static void main(String[] args) {
+        System.out.println(Operation.sum(45, 23)); // 68
+        System.out.println(Operation.subtract(45, 23)); // 22
+        System.out.println(Operation.multiply(4, 23)); // 92
+    }
+}
+
+class Operation {
+    static int sum(int x, int y) {
+        return x + y;
+    }
+
+    static int subtract(int x, int y) {
+        return x - y;
+    }
+
+    static int multiply(int x, int y) {
+        return x * y;
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>В данном случае для методов <code>sum()</code>, <code>subtract()</code>, <code>multiply()</code> не имеет значения, какой именно экземпляр класса <code>Operation</code> используется. Эти методы работают только с параметрами, не затрагивая состояние класса. Поэтому их можно определить как статические.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_вложенные_классы">Вложенные классы</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><strong>Вложенные классы</strong> (<strong>nested class</strong>) - это классы определенные внутри другого класса. <strong>Область действия вложенного класса</strong> ограничена областью действия внешнего класса. Если класс В определен в классе А, то класс B не может существовать независимо от класса А. <strong>Вложенный класс</strong> имеет доступ к членам (в том числе <code>private</code>) того класса, в который он объявлен.</p>
+</div>
+<div class="paragraph">
+<p><strong>Типы вложенных классов</strong>:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Обычный внутренний класс</strong> (<strong>regular inner class</strong> or <strong>member class</strong>).</p>
+</li>
+<li>
+<p><strong>Локальный класс</strong> (<strong>method-local inner class</strong>).</p>
+</li>
+<li>
+<p><strong>Анонимный класс</strong> (<strong>anonymous inner class</strong>).</p>
+</li>
+<li>
+<p><strong>Статический вложенный класс</strong> (<strong>static nested class</strong>).</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src="/assets/img/java/core/oop/nested-classes.png" alt="Nested Classes"></span></p>
+</div>
+<div class="sect2">
+<h3 id="_обычный_внутренний_класс">Обычный внутренний класс</h3>
+<div class="paragraph">
+<p><strong>Внутренний класс</strong> (<strong>inner class</strong>) определяется в области действия внешнего класса.</p>
+</div>
+<div class="paragraph">
+<p>Чтобы создать объект внутреннего класса, должен существовать объект внешнего класса.</p>
+</div>
+<div class="paragraph">
+<p>Внутренний и внешний класс имеют доступ ко всем членам класса друг друга (даже <code>private</code>).</p>
+</div>
+<div class="paragraph">
+<p>Следующий пример демонстрирует объявление обычного внутреннего класса:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">public class Town {
+    private String postCode = "33333";
+
+    public class Street {
+        private int house;
+
+        public void printAddress() {
+            System.out.println("Город " + Town.this);
+            System.out.println("Индекс " + postCode);
+            System.out.println("Улица " + this);
+            System.out.println("Дом " + house);
+        }
+    }
+
+    public void createStreet() {
+        Street street = new Street();
+        street.house = 78;
+        street.printAddress();
+    }
+
+    public static void main(String[] args) {
+        Town town = new Town();
+        town.createStreet();
+        Town.Street street1 = town.new Street();
+        Town.Street street2 = new Town().new Street();
+        street1.printAddress();
+        street2.printAddress();
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Внутри метода внешнего класса, объект внутреннего класса создается как обычно:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">Street street = new Street();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Если мы создаем объект внутреннего класса не в методах внешнего класса или в статических методах внешнего класса, необходимо использовать объект внешнего класса:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">new Town().new Street();
+// or
+town.new Street();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Если необходимо получить ссылку на внутренний класс во внутреннем классе, используем слово <code>this</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">System.out.println("Street is " + this);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Если необходимо получить ссылку на объект внешнего класса, запишите имя внешнего класса, за которым следует точка, а затем ключевое слово <code>this</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">System.out.println("Town is " + Town.this);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Обычный внутренний класс является таким же членом внешнего класса, как и переменные и методы. Следующие модификаторы могут быть применены к обычному внутреннему классу:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>final</code></p>
+</li>
+<li>
+<p><code>abstract</code></p>
+</li>
+<li>
+<p><code>public</code></p>
+</li>
+<li>
+<p><code>private</code></p>
+</li>
+<li>
+<p><code>protected</code></p>
+</li>
+<li>
+<p><code>static</code> – но <code>static</code> преобразует его во вложенный класс</p>
+</li>
+<li>
+<p><code>strictfp</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Если метод описан как <code>strictfp</code> (явно либо неявно), то JVM гарантирует, что результаты вычисления выражений с <code>double</code> и <code>float</code> в пределах метода будут одинаковыми на всех платформах. Модификатор <code>strictfp</code> для класса и интерфейса указывает на то, что все методы класса/интерфейса будут <code>strictfp</code>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_локальный_класс_java">Локальный класс Java</h3>
+<div class="paragraph">
+<p><strong>Локальный класс</strong> (<strong>local class</strong>) определяется в блоке Java кода. На практике чаще всего объявление происходит в методе некоторого другого класса. Как и <strong>inner classes</strong>, локальные классы ассоциируются с экземпляром внешнего класса и имеют доступ к его полям и методам.</p>
+</div>
+<div class="paragraph">
+<p>Локальный класс может обращаться к локальным переменным и параметрам метода, если они объявлены с модификатором <code>final</code> или являются <strong>effective final</strong> (начиная с Java 8).</p>
+</div>
+<div class="paragraph">
+<p><strong>Effective final переменная</strong> это переменная, которая не объявлена явно как <code>final</code>, но ее значение не меняется.</p>
+</div>
+<div class="paragraph">
+<p>Экземпляр класса может быть создан внутри того же метода, что и класс, но ниже объявления класса.</p>
+</div>
+<div class="paragraph">
+<p>Локальные классы не могут быть объявлены как:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>private</code></p>
+</li>
+<li>
+<p><code>public</code></p>
+</li>
+<li>
+<p><code>protected</code></p>
+</li>
+<li>
+<p><code>static</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Они не могут иметь внутри себя статических объявлений (полей, методов, классов). Исключением являются константы (<code>static final</code>).</p>
+</div>
+<div class="paragraph">
+<p>Локальные классы могут быть объявлены как <code>abstract</code> или <code>final</code>.</p>
+</div>
+<div class="paragraph">
+<p>Рассмотрим пример объявления локального класса:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">public class Town2 {
+    private String postCode = "33333";
+
+    public void createAddress() {
+        final int houseNumber = 34;
+        class Street {
+            public void printAddress() {
+                System.out.println("PostCode is " + postCode);
+                System.out.println("House Number is " + houseNumber);
+            }
+        }
+        Street street = new Street();
+        street.printAddress();
+    }
+
+    public static void main(String[] args) {
+        Town2 town = new Town2();
+        town.createAddress();
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Если локальный класс объявлен внутри статического метода, он имеет доступ только к статическим переменным класса:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">public class Town3 {
+    private static String postCode = "33333";
+
+    public static void createAddress() {
+        final int houseNumber = 34;
+        class Street {
+            public void printAddress() {
+                System.out.println("PostCode is " + postCode);
+                System.out.println("House Number is " + houseNumber);
+            }
+        }
+        Street street = new Street();
+        street.printAddress();
+    }
+
+    public static void main(String[] args) {
+        Town3.createAddress();
+    }
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_анонимный_класс">Анонимный класс</h3>
+<div class="paragraph">
+<p><strong>Анонимный класс</strong> (<strong>anonymous class</strong>) - это локальный класс без имени. Используется тогда, когда нужно переопределить метод класса или интерфейса. Класс одновременно объявляется и инициализируется.</p>
+</div>
+<div class="paragraph">
+<p>Они могут быть объявлены не только в методе, но и внутри аргумента метода.</p>
+</div>
+<div class="paragraph">
+<p>Рассмотрим пример анонимного класса:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">public class Potato {
+    public void peel() {
+        System.out.println("Чистим картошку.");
+    }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">public class Food {
+    public static void main(String[] args) {
+        Potato potato = new Potato() {
+            @Override
+            public void peel() {
+                System.out.println("Чистим картошку в анонимном классе.");
+            }
+        };
+        potato.peel();
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Анонимный класс может не только переопределить методы класса наследника, но и добавить новые методы. Но новые методы НЕ могут быть вызваны извне анонимного класса:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">public class AnotherFood {
+    public static void main(String[] args) {
+        Potato potato = new Potato() {
+            public void fry() {
+                System.out.println("Жарим картошку в анонимном классе.");
+            }
+
+            @Override
+            public void peel() {
+                System.out.println("Чистим картошку в анонимном классе.");
+                fry();
+            }
+        };
+        potato.peel();
+        //Ошибка компиляции
+        //potato.fry();
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Случаи использования анонимного класса:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Тело класса является очень коротким.</p>
+</li>
+<li>
+<p>Нужен только один экземпляр класса.</p>
+</li>
+<li>
+<p>Класс используется в месте его создания или сразу после него.</p>
+</li>
+<li>
+<p>Имя класса не важно и не облегчает понимание кода.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Анонимный класс могут также расширять интерфейс:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">public interface Moveable {
+    void moveRight();
+    void moveLeft();
+}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">public class MoveableDemo {
+    public static void main(String[] args) {
+        Moveable moveable = new Moveable() {
+            @Override
+            public void moveRight() {
+                System.out.println("MOVING RIGHT!!!");
+            }
+
+            @Override
+            public void moveLeft() {
+                System.out.println("MOVING LEFT!!!");
+            }
+        };
+        moveable.moveRight();
+        moveable.moveLeft();
+    }
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_статический_вложенный_класс">Статический вложенный класс</h3>
+<div class="paragraph">
+<p><strong>Статический вложенный класс</strong> (<strong>static nested class</strong>) – это внутренний класс объявленный с модификатором <code>static</code>.</p>
+</div>
+<div class="paragraph">
+<p>Статический вложенный класс не имеет доступа к нестатическим полям и методам внешнего класса. Доступ к нестатическим полям и методам может осуществляться только через ссылку на экземпляр внешнего класса. В этом плане <code>static</code> nested классы очень похожи на любые другие классы верхнего уровня.</p>
+</div>
+<div class="paragraph">
+<p>Рассмотрим примеры объявления статических вложенных классов:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">public class Town4 {
+    public static class Street {
+        public void go() {
+            System.out.println("Go to the Street.");
+        }
+    }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">public class City {
+    public static class District {
+        public void go() {
+            System.out.println("Go to the District.");
+        }
+    }
+
+    public static void main(String[] args) {
+        Town4.Street street = new Town4.Street();
+        street.go();
+        District district = new District();
+        district.go();
+    }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</body>
+</html>

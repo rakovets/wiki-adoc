@@ -1,0 +1,2866 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.12">
+<title>Java Functional Programming (JSR 335)</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
+<style>
+/* Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
+/* Uncomment @import statement to use as custom stylesheet */
+/*@import "https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700";*/
+article,aside,details,figcaption,figure,footer,header,hgroup,main,nav,section{display:block}
+audio,video{display:inline-block}
+audio:not([controls]){display:none;height:0}
+html{font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}
+a{background:none}
+a:focus{outline:thin dotted}
+a:active,a:hover{outline:0}
+h1{font-size:2em;margin:.67em 0}
+abbr[title]{border-bottom:1px dotted}
+b,strong{font-weight:bold}
+dfn{font-style:italic}
+hr{-moz-box-sizing:content-box;box-sizing:content-box;height:0}
+mark{background:#ff0;color:#000}
+code,kbd,pre,samp{font-family:monospace;font-size:1em}
+pre{white-space:pre-wrap}
+q{quotes:"\201C" "\201D" "\2018" "\2019"}
+small{font-size:80%}
+sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}
+sup{top:-.5em}
+sub{bottom:-.25em}
+img{border:0}
+svg:not(:root){overflow:hidden}
+figure{margin:0}
+fieldset{border:1px solid silver;margin:0 2px;padding:.35em .625em .75em}
+legend{border:0;padding:0}
+button,input,select,textarea{font-family:inherit;font-size:100%;margin:0}
+button,input{line-height:normal}
+button,select{text-transform:none}
+button,html input[type="button"],input[type="reset"],input[type="submit"]{-webkit-appearance:button;cursor:pointer}
+button[disabled],html input[disabled]{cursor:default}
+input[type="checkbox"],input[type="radio"]{box-sizing:border-box;padding:0}
+button::-moz-focus-inner,input::-moz-focus-inner{border:0;padding:0}
+textarea{overflow:auto;vertical-align:top}
+table{border-collapse:collapse;border-spacing:0}
+*,*::before,*::after{-moz-box-sizing:border-box;-webkit-box-sizing:border-box;box-sizing:border-box}
+html,body{font-size:100%}
+body{background:#fff;color:rgba(0,0,0,.8);padding:0;margin:0;font-family:"Noto Serif","DejaVu Serif",serif;font-weight:400;font-style:normal;line-height:1;position:relative;cursor:auto;tab-size:4;word-wrap:anywhere;-moz-osx-font-smoothing:grayscale;-webkit-font-smoothing:antialiased}
+a:hover{cursor:pointer}
+img,object,embed{max-width:100%;height:auto}
+object,embed{height:100%}
+img{-ms-interpolation-mode:bicubic}
+.left{float:left!important}
+.right{float:right!important}
+.text-left{text-align:left!important}
+.text-right{text-align:right!important}
+.text-center{text-align:center!important}
+.text-justify{text-align:justify!important}
+.hide{display:none}
+img,object,svg{display:inline-block;vertical-align:middle}
+textarea{height:auto;min-height:50px}
+select{width:100%}
+.subheader,.admonitionblock td.content>.title,.audioblock>.title,.exampleblock>.title,.imageblock>.title,.listingblock>.title,.literalblock>.title,.stemblock>.title,.openblock>.title,.paragraph>.title,.quoteblock>.title,table.tableblock>.title,.verseblock>.title,.videoblock>.title,.dlist>.title,.olist>.title,.ulist>.title,.qlist>.title,.hdlist>.title{line-height:1.45;color:#7a2518;font-weight:400;margin-top:0;margin-bottom:.25em}
+div,dl,dt,dd,ul,ol,li,h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6,pre,form,p,blockquote,th,td{margin:0;padding:0}
+a{color:#2156a5;text-decoration:underline;line-height:inherit}
+a:hover,a:focus{color:#1d4b8f}
+a img{border:0}
+p{font-family:inherit;font-weight:400;font-size:1em;line-height:1.6;margin-bottom:1.25em;text-rendering:optimizeLegibility}
+p aside{font-size:.875em;line-height:1.35;font-style:italic}
+h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6{font-family:"Open Sans","DejaVu Sans",sans-serif;font-weight:300;font-style:normal;color:#ba3925;text-rendering:optimizeLegibility;margin-top:1em;margin-bottom:.5em;line-height:1.0125em}
+h1 small,h2 small,h3 small,#toctitle small,.sidebarblock>.content>.title small,h4 small,h5 small,h6 small{font-size:60%;color:#e99b8f;line-height:0}
+h1{font-size:2.125em}
+h2{font-size:1.6875em}
+h3,#toctitle,.sidebarblock>.content>.title{font-size:1.375em}
+h4,h5{font-size:1.125em}
+h6{font-size:1em}
+hr{border:solid #dddddf;border-width:1px 0 0;clear:both;margin:1.25em 0 1.1875em;height:0}
+em,i{font-style:italic;line-height:inherit}
+strong,b{font-weight:bold;line-height:inherit}
+small{font-size:60%;line-height:inherit}
+code{font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;font-weight:400;color:rgba(0,0,0,.9)}
+ul,ol,dl{font-size:1em;line-height:1.6;margin-bottom:1.25em;list-style-position:outside;font-family:inherit}
+ul,ol{margin-left:1.5em}
+ul li ul,ul li ol{margin-left:1.25em;margin-bottom:0;font-size:1em}
+ul.square li ul,ul.circle li ul,ul.disc li ul{list-style:inherit}
+ul.square{list-style-type:square}
+ul.circle{list-style-type:circle}
+ul.disc{list-style-type:disc}
+ol li ul,ol li ol{margin-left:1.25em;margin-bottom:0}
+dl dt{margin-bottom:.3125em;font-weight:bold}
+dl dd{margin-bottom:1.25em}
+abbr,acronym{text-transform:uppercase;font-size:90%;color:rgba(0,0,0,.8);border-bottom:1px dotted #ddd;cursor:help}
+abbr{text-transform:none}
+blockquote{margin:0 0 1.25em;padding:.5625em 1.25em 0 1.1875em;border-left:1px solid #ddd}
+blockquote cite{display:block;font-size:.9375em;color:rgba(0,0,0,.6)}
+blockquote cite::before{content:"\2014 \0020"}
+blockquote cite a,blockquote cite a:visited{color:rgba(0,0,0,.6)}
+blockquote,blockquote p{line-height:1.6;color:rgba(0,0,0,.85)}
+@media screen and (min-width:768px){h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6{line-height:1.2}
+h1{font-size:2.75em}
+h2{font-size:2.3125em}
+h3,#toctitle,.sidebarblock>.content>.title{font-size:1.6875em}
+h4{font-size:1.4375em}}
+table{background:#fff;margin-bottom:1.25em;border:solid 1px #dedede;word-wrap:normal}
+table thead,table tfoot{background:#f7f8f7}
+table thead tr th,table thead tr td,table tfoot tr th,table tfoot tr td{padding:.5em .625em .625em;font-size:inherit;color:rgba(0,0,0,.8);text-align:left}
+table tr th,table tr td{padding:.5625em .625em;font-size:inherit;color:rgba(0,0,0,.8)}
+table tr.even,table tr.alt{background:#f8f8f7}
+table thead tr th,table tfoot tr th,table tbody tr td,table tr td,table tfoot tr td{line-height:1.6}
+h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6{line-height:1.2;word-spacing:-.05em}
+h1 strong,h2 strong,h3 strong,#toctitle strong,.sidebarblock>.content>.title strong,h4 strong,h5 strong,h6 strong{font-weight:400}
+.center{margin-left:auto;margin-right:auto}
+.stretch{width:100%}
+.clearfix::before,.clearfix::after,.float-group::before,.float-group::after{content:" ";display:table}
+.clearfix::after,.float-group::after{clear:both}
+:not(pre).nobreak{word-wrap:normal}
+:not(pre).nowrap{white-space:nowrap}
+:not(pre).pre-wrap{white-space:pre-wrap}
+:not(pre):not([class^=L])>code{font-size:.9375em;font-style:normal!important;letter-spacing:0;padding:.1em .5ex;word-spacing:-.15em;background:#f7f7f8;-webkit-border-radius:4px;border-radius:4px;line-height:1.45;text-rendering:optimizeSpeed}
+pre{color:rgba(0,0,0,.9);font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;line-height:1.45;text-rendering:optimizeSpeed}
+pre code,pre pre{color:inherit;font-size:inherit;line-height:inherit}
+pre>code{display:block}
+pre.nowrap,pre.nowrap pre{white-space:pre;word-wrap:normal}
+em em{font-style:normal}
+strong strong{font-weight:400}
+.keyseq{color:rgba(51,51,51,.8)}
+kbd{font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;display:inline-block;color:rgba(0,0,0,.8);font-size:.65em;line-height:1.45;background:#f7f7f7;border:1px solid #ccc;-webkit-border-radius:3px;border-radius:3px;-webkit-box-shadow:0 1px 0 rgba(0,0,0,.2),0 0 0 .1em white inset;box-shadow:0 1px 0 rgba(0,0,0,.2),0 0 0 .1em #fff inset;margin:0 .15em;padding:.2em .5em;vertical-align:middle;position:relative;top:-.1em;white-space:nowrap}
+.keyseq kbd:first-child{margin-left:0}
+.keyseq kbd:last-child{margin-right:0}
+.menuseq,.menuref{color:#000}
+.menuseq b:not(.caret),.menuref{font-weight:inherit}
+.menuseq{word-spacing:-.02em}
+.menuseq b.caret{font-size:1.25em;line-height:.8}
+.menuseq i.caret{font-weight:bold;text-align:center;width:.45em}
+b.button::before,b.button::after{position:relative;top:-1px;font-weight:400}
+b.button::before{content:"[";padding:0 3px 0 2px}
+b.button::after{content:"]";padding:0 2px 0 3px}
+p a>code:hover{color:rgba(0,0,0,.9)}
+#header,#content,#footnotes,#footer{width:100%;margin-left:auto;margin-right:auto;margin-top:0;margin-bottom:0;max-width:62.5em;*zoom:1;position:relative;padding-left:.9375em;padding-right:.9375em}
+#header::before,#header::after,#content::before,#content::after,#footnotes::before,#footnotes::after,#footer::before,#footer::after{content:" ";display:table}
+#header::after,#content::after,#footnotes::after,#footer::after{clear:both}
+#content{margin-top:1.25em}
+#content::before{content:none}
+#header>h1:first-child{color:rgba(0,0,0,.85);margin-top:2.25rem;margin-bottom:0}
+#header>h1:first-child+#toc{margin-top:8px;border-top:1px solid #dddddf}
+#header>h1:only-child,body.toc2 #header>h1:nth-last-child(2){border-bottom:1px solid #dddddf;padding-bottom:8px}
+#header .details{border-bottom:1px solid #dddddf;line-height:1.45;padding-top:.25em;padding-bottom:.25em;padding-left:.25em;color:rgba(0,0,0,.6);display:-ms-flexbox;display:-webkit-flex;display:flex;-ms-flex-flow:row wrap;-webkit-flex-flow:row wrap;flex-flow:row wrap}
+#header .details span:first-child{margin-left:-.125em}
+#header .details span.email a{color:rgba(0,0,0,.85)}
+#header .details br{display:none}
+#header .details br+span::before{content:"\00a0\2013\00a0"}
+#header .details br+span.author::before{content:"\00a0\22c5\00a0";color:rgba(0,0,0,.85)}
+#header .details br+span#revremark::before{content:"\00a0|\00a0"}
+#header #revnumber{text-transform:capitalize}
+#header #revnumber::after{content:"\00a0"}
+#content>h1:first-child:not([class]){color:rgba(0,0,0,.85);border-bottom:1px solid #dddddf;padding-bottom:8px;margin-top:0;padding-top:1rem;margin-bottom:1.25rem}
+#toc{border-bottom:1px solid #e7e7e9;padding-bottom:.5em}
+#toc>ul{margin-left:.125em}
+#toc ul.sectlevel0>li>a{font-style:italic}
+#toc ul.sectlevel0 ul.sectlevel1{margin:.5em 0}
+#toc ul{font-family:"Open Sans","DejaVu Sans",sans-serif;list-style-type:none}
+#toc li{line-height:1.3334;margin-top:.3334em}
+#toc a{text-decoration:none}
+#toc a:active{text-decoration:underline}
+#toctitle{color:#7a2518;font-size:1.2em}
+@media screen and (min-width:768px){#toctitle{font-size:1.375em}
+body.toc2{padding-left:15em;padding-right:0}
+#toc.toc2{margin-top:0!important;background:#f8f8f7;position:fixed;width:15em;left:0;top:0;border-right:1px solid #e7e7e9;border-top-width:0!important;border-bottom-width:0!important;z-index:1000;padding:1.25em 1em;height:100%;overflow:auto}
+#toc.toc2 #toctitle{margin-top:0;margin-bottom:.8rem;font-size:1.2em}
+#toc.toc2>ul{font-size:.9em;margin-bottom:0}
+#toc.toc2 ul ul{margin-left:0;padding-left:1em}
+#toc.toc2 ul.sectlevel0 ul.sectlevel1{padding-left:0;margin-top:.5em;margin-bottom:.5em}
+body.toc2.toc-right{padding-left:0;padding-right:15em}
+body.toc2.toc-right #toc.toc2{border-right-width:0;border-left:1px solid #e7e7e9;left:auto;right:0}}
+@media screen and (min-width:1280px){body.toc2{padding-left:20em;padding-right:0}
+#toc.toc2{width:20em}
+#toc.toc2 #toctitle{font-size:1.375em}
+#toc.toc2>ul{font-size:.95em}
+#toc.toc2 ul ul{padding-left:1.25em}
+body.toc2.toc-right{padding-left:0;padding-right:20em}}
+#content #toc{border-style:solid;border-width:1px;border-color:#e0e0dc;margin-bottom:1.25em;padding:1.25em;background:#f8f8f7;-webkit-border-radius:4px;border-radius:4px}
+#content #toc>:first-child{margin-top:0}
+#content #toc>:last-child{margin-bottom:0}
+#footer{max-width:none;background:rgba(0,0,0,.8);padding:1.25em}
+#footer-text{color:rgba(255,255,255,.8);line-height:1.44}
+#content{margin-bottom:.625em}
+.sect1{padding-bottom:.625em}
+@media screen and (min-width:768px){#content{margin-bottom:1.25em}
+.sect1{padding-bottom:1.25em}}
+.sect1:last-child{padding-bottom:0}
+.sect1+.sect1{border-top:1px solid #e7e7e9}
+#content h1>a.anchor,h2>a.anchor,h3>a.anchor,#toctitle>a.anchor,.sidebarblock>.content>.title>a.anchor,h4>a.anchor,h5>a.anchor,h6>a.anchor{position:absolute;z-index:1001;width:1.5ex;margin-left:-1.5ex;display:block;text-decoration:none!important;visibility:hidden;text-align:center;font-weight:400}
+#content h1>a.anchor::before,h2>a.anchor::before,h3>a.anchor::before,#toctitle>a.anchor::before,.sidebarblock>.content>.title>a.anchor::before,h4>a.anchor::before,h5>a.anchor::before,h6>a.anchor::before{content:"\00A7";font-size:.85em;display:block;padding-top:.1em}
+#content h1:hover>a.anchor,#content h1>a.anchor:hover,h2:hover>a.anchor,h2>a.anchor:hover,h3:hover>a.anchor,#toctitle:hover>a.anchor,.sidebarblock>.content>.title:hover>a.anchor,h3>a.anchor:hover,#toctitle>a.anchor:hover,.sidebarblock>.content>.title>a.anchor:hover,h4:hover>a.anchor,h4>a.anchor:hover,h5:hover>a.anchor,h5>a.anchor:hover,h6:hover>a.anchor,h6>a.anchor:hover{visibility:visible}
+#content h1>a.link,h2>a.link,h3>a.link,#toctitle>a.link,.sidebarblock>.content>.title>a.link,h4>a.link,h5>a.link,h6>a.link{color:#ba3925;text-decoration:none}
+#content h1>a.link:hover,h2>a.link:hover,h3>a.link:hover,#toctitle>a.link:hover,.sidebarblock>.content>.title>a.link:hover,h4>a.link:hover,h5>a.link:hover,h6>a.link:hover{color:#a53221}
+details,.audioblock,.imageblock,.literalblock,.listingblock,.stemblock,.videoblock{margin-bottom:1.25em}
+details>summary:first-of-type{cursor:pointer;display:list-item;outline:none;margin-bottom:.75em}
+.admonitionblock td.content>.title,.audioblock>.title,.exampleblock>.title,.imageblock>.title,.listingblock>.title,.literalblock>.title,.stemblock>.title,.openblock>.title,.paragraph>.title,.quoteblock>.title,table.tableblock>.title,.verseblock>.title,.videoblock>.title,.dlist>.title,.olist>.title,.ulist>.title,.qlist>.title,.hdlist>.title{text-rendering:optimizeLegibility;text-align:left;font-family:"Noto Serif","DejaVu Serif",serif;font-size:1rem;font-style:italic}
+table.tableblock.fit-content>caption.title{white-space:nowrap;width:0}
+.paragraph.lead>p,#preamble>.sectionbody>[class="paragraph"]:first-of-type p{font-size:1.21875em;line-height:1.6;color:rgba(0,0,0,.85)}
+table.tableblock #preamble>.sectionbody>[class="paragraph"]:first-of-type p{font-size:inherit}
+.admonitionblock>table{border-collapse:separate;border:0;background:none;width:100%}
+.admonitionblock>table td.icon{text-align:center;width:80px}
+.admonitionblock>table td.icon img{max-width:none}
+.admonitionblock>table td.icon .title{font-weight:bold;font-family:"Open Sans","DejaVu Sans",sans-serif;text-transform:uppercase}
+.admonitionblock>table td.content{padding-left:1.125em;padding-right:1.25em;border-left:1px solid #dddddf;color:rgba(0,0,0,.6);word-wrap:anywhere}
+.admonitionblock>table td.content>:last-child>:last-child{margin-bottom:0}
+.exampleblock>.content{border-style:solid;border-width:1px;border-color:#e6e6e6;margin-bottom:1.25em;padding:1.25em;background:#fff;-webkit-border-radius:4px;border-radius:4px}
+.exampleblock>.content>:first-child{margin-top:0}
+.exampleblock>.content>:last-child{margin-bottom:0}
+.sidebarblock{border-style:solid;border-width:1px;border-color:#dbdbd6;margin-bottom:1.25em;padding:1.25em;background:#f3f3f2;-webkit-border-radius:4px;border-radius:4px}
+.sidebarblock>:first-child{margin-top:0}
+.sidebarblock>:last-child{margin-bottom:0}
+.sidebarblock>.content>.title{color:#7a2518;margin-top:0;text-align:center}
+.exampleblock>.content>:last-child>:last-child,.exampleblock>.content .olist>ol>li:last-child>:last-child,.exampleblock>.content .ulist>ul>li:last-child>:last-child,.exampleblock>.content .qlist>ol>li:last-child>:last-child,.sidebarblock>.content>:last-child>:last-child,.sidebarblock>.content .olist>ol>li:last-child>:last-child,.sidebarblock>.content .ulist>ul>li:last-child>:last-child,.sidebarblock>.content .qlist>ol>li:last-child>:last-child{margin-bottom:0}
+.literalblock pre,.listingblock>.content>pre{-webkit-border-radius:4px;border-radius:4px;overflow-x:auto;padding:1em;font-size:.8125em}
+@media screen and (min-width:768px){.literalblock pre,.listingblock>.content>pre{font-size:.90625em}}
+@media screen and (min-width:1280px){.literalblock pre,.listingblock>.content>pre{font-size:1em}}
+.literalblock pre,.listingblock>.content>pre:not(.highlight),.listingblock>.content>pre[class="highlight"],.listingblock>.content>pre[class^="highlight "]{background:#f7f7f8}
+.literalblock.output pre{color:#f7f7f8;background:rgba(0,0,0,.9)}
+.listingblock>.content{position:relative}
+.listingblock code[data-lang]::before{display:none;content:attr(data-lang);position:absolute;font-size:.75em;top:.425rem;right:.5rem;line-height:1;text-transform:uppercase;color:inherit;opacity:.5}
+.listingblock:hover code[data-lang]::before{display:block}
+.listingblock.terminal pre .command::before{content:attr(data-prompt);padding-right:.5em;color:inherit;opacity:.5}
+.listingblock.terminal pre .command:not([data-prompt])::before{content:"$"}
+.listingblock pre.highlightjs{padding:0}
+.listingblock pre.highlightjs>code{padding:1em;-webkit-border-radius:4px;border-radius:4px}
+.listingblock pre.prettyprint{border-width:0}
+.prettyprint{background:#f7f7f8}
+pre.prettyprint .linenums{line-height:1.45;margin-left:2em}
+pre.prettyprint li{background:none;list-style-type:inherit;padding-left:0}
+pre.prettyprint li code[data-lang]::before{opacity:1}
+pre.prettyprint li:not(:first-child) code[data-lang]::before{display:none}
+table.linenotable{border-collapse:separate;border:0;margin-bottom:0;background:none}
+table.linenotable td[class]{color:inherit;vertical-align:top;padding:0;line-height:inherit;white-space:normal}
+table.linenotable td.code{padding-left:.75em}
+table.linenotable td.linenos{border-right:1px solid currentColor;opacity:.35;padding-right:.5em}
+pre.pygments .lineno{border-right:1px solid currentColor;opacity:.35;display:inline-block;margin-right:.75em}
+pre.pygments .lineno::before{content:"";margin-right:-.125em}
+.quoteblock{margin:0 1em 1.25em 1.5em;display:table}
+.quoteblock:not(.excerpt)>.title{margin-left:-1.5em;margin-bottom:.75em}
+.quoteblock blockquote,.quoteblock p{color:rgba(0,0,0,.85);font-size:1.15rem;line-height:1.75;word-spacing:.1em;letter-spacing:0;font-style:italic;text-align:justify}
+.quoteblock blockquote{margin:0;padding:0;border:0}
+.quoteblock blockquote::before{content:"\201c";float:left;font-size:2.75em;font-weight:bold;line-height:.6em;margin-left:-.6em;color:#7a2518;text-shadow:0 1px 2px rgba(0,0,0,.1)}
+.quoteblock blockquote>.paragraph:last-child p{margin-bottom:0}
+.quoteblock .attribution{margin-top:.75em;margin-right:.5ex;text-align:right}
+.verseblock{margin:0 1em 1.25em}
+.verseblock pre{font-family:"Open Sans","DejaVu Sans",sans;font-size:1.15rem;color:rgba(0,0,0,.85);font-weight:300;text-rendering:optimizeLegibility}
+.verseblock pre strong{font-weight:400}
+.verseblock .attribution{margin-top:1.25rem;margin-left:.5ex}
+.quoteblock .attribution,.verseblock .attribution{font-size:.9375em;line-height:1.45;font-style:italic}
+.quoteblock .attribution br,.verseblock .attribution br{display:none}
+.quoteblock .attribution cite,.verseblock .attribution cite{display:block;letter-spacing:-.025em;color:rgba(0,0,0,.6)}
+.quoteblock.abstract blockquote::before,.quoteblock.excerpt blockquote::before,.quoteblock .quoteblock blockquote::before{display:none}
+.quoteblock.abstract blockquote,.quoteblock.abstract p,.quoteblock.excerpt blockquote,.quoteblock.excerpt p,.quoteblock .quoteblock blockquote,.quoteblock .quoteblock p{line-height:1.6;word-spacing:0}
+.quoteblock.abstract{margin:0 1em 1.25em;display:block}
+.quoteblock.abstract>.title{margin:0 0 .375em;font-size:1.15em;text-align:center}
+.quoteblock.excerpt>blockquote,.quoteblock .quoteblock{padding:0 0 .25em 1em;border-left:.25em solid #dddddf}
+.quoteblock.excerpt,.quoteblock .quoteblock{margin-left:0}
+.quoteblock.excerpt blockquote,.quoteblock.excerpt p,.quoteblock .quoteblock blockquote,.quoteblock .quoteblock p{color:inherit;font-size:1.0625rem}
+.quoteblock.excerpt .attribution,.quoteblock .quoteblock .attribution{color:inherit;text-align:left;margin-right:0}
+p.tableblock:last-child{margin-bottom:0}
+td.tableblock>.content{margin-bottom:1.25em;word-wrap:anywhere}
+td.tableblock>.content>:last-child{margin-bottom:-1.25em}
+table.tableblock,th.tableblock,td.tableblock{border:0 solid #dedede}
+table.grid-all>*>tr>*{border-width:1px}
+table.grid-cols>*>tr>*{border-width:0 1px}
+table.grid-rows>*>tr>*{border-width:1px 0}
+table.frame-all{border-width:1px}
+table.frame-ends{border-width:1px 0}
+table.frame-sides{border-width:0 1px}
+table.frame-none>colgroup+*>:first-child>*,table.frame-sides>colgroup+*>:first-child>*{border-top-width:0}
+table.frame-none>:last-child>:last-child>*,table.frame-sides>:last-child>:last-child>*{border-bottom-width:0}
+table.frame-none>*>tr>:first-child,table.frame-ends>*>tr>:first-child{border-left-width:0}
+table.frame-none>*>tr>:last-child,table.frame-ends>*>tr>:last-child{border-right-width:0}
+table.stripes-all tr,table.stripes-odd tr:nth-of-type(odd),table.stripes-even tr:nth-of-type(even),table.stripes-hover tr:hover{background:#f8f8f7}
+th.halign-left,td.halign-left{text-align:left}
+th.halign-right,td.halign-right{text-align:right}
+th.halign-center,td.halign-center{text-align:center}
+th.valign-top,td.valign-top{vertical-align:top}
+th.valign-bottom,td.valign-bottom{vertical-align:bottom}
+th.valign-middle,td.valign-middle{vertical-align:middle}
+table thead th,table tfoot th{font-weight:bold}
+tbody tr th{background:#f7f8f7}
+tbody tr th,tbody tr th p,tfoot tr th,tfoot tr th p{color:rgba(0,0,0,.8);font-weight:bold}
+p.tableblock>code:only-child{background:none;padding:0}
+p.tableblock{font-size:1em}
+ol{margin-left:1.75em}
+ul li ol{margin-left:1.5em}
+dl dd{margin-left:1.125em}
+dl dd:last-child,dl dd:last-child>:last-child{margin-bottom:0}
+ol>li p,ul>li p,ul dd,ol dd,.olist .olist,.ulist .ulist,.ulist .olist,.olist .ulist{margin-bottom:.625em}
+ul.checklist,ul.none,ol.none,ul.no-bullet,ol.no-bullet,ol.unnumbered,ul.unstyled,ol.unstyled{list-style-type:none}
+ul.no-bullet,ol.no-bullet,ol.unnumbered{margin-left:.625em}
+ul.unstyled,ol.unstyled{margin-left:0}
+ul.checklist{margin-left:.625em}
+ul.checklist li>p:first-child>.fa-square-o:first-child,ul.checklist li>p:first-child>.fa-check-square-o:first-child{width:1.25em;font-size:.8em;position:relative;bottom:.125em}
+ul.checklist li>p:first-child>input[type="checkbox"]:first-child{margin-right:.25em}
+ul.inline{display:-ms-flexbox;display:-webkit-box;display:flex;-ms-flex-flow:row wrap;-webkit-flex-flow:row wrap;flex-flow:row wrap;list-style:none;margin:0 0 .625em -1.25em}
+ul.inline>li{margin-left:1.25em}
+.unstyled dl dt{font-weight:400;font-style:normal}
+ol.arabic{list-style-type:decimal}
+ol.decimal{list-style-type:decimal-leading-zero}
+ol.loweralpha{list-style-type:lower-alpha}
+ol.upperalpha{list-style-type:upper-alpha}
+ol.lowerroman{list-style-type:lower-roman}
+ol.upperroman{list-style-type:upper-roman}
+ol.lowergreek{list-style-type:lower-greek}
+.hdlist>table,.colist>table{border:0;background:none}
+.hdlist>table>tbody>tr,.colist>table>tbody>tr{background:none}
+td.hdlist1,td.hdlist2{vertical-align:top;padding:0 .625em}
+td.hdlist1{font-weight:bold;padding-bottom:1.25em}
+td.hdlist2{word-wrap:anywhere}
+.literalblock+.colist,.listingblock+.colist{margin-top:-.5em}
+.colist td:not([class]):first-child{padding:.4em .75em 0;line-height:1;vertical-align:top}
+.colist td:not([class]):first-child img{max-width:none}
+.colist td:not([class]):last-child{padding:.25em 0}
+.thumb,.th{line-height:0;display:inline-block;border:solid 4px #fff;-webkit-box-shadow:0 0 0 1px #ddd;box-shadow:0 0 0 1px #ddd}
+.imageblock.left{margin:.25em .625em 1.25em 0}
+.imageblock.right{margin:.25em 0 1.25em .625em}
+.imageblock>.title{margin-bottom:0}
+.imageblock.thumb,.imageblock.th{border-width:6px}
+.imageblock.thumb>.title,.imageblock.th>.title{padding:0 .125em}
+.image.left,.image.right{margin-top:.25em;margin-bottom:.25em;display:inline-block;line-height:0}
+.image.left{margin-right:.625em}
+.image.right{margin-left:.625em}
+a.image{text-decoration:none;display:inline-block}
+a.image object{pointer-events:none}
+sup.footnote,sup.footnoteref{font-size:.875em;position:static;vertical-align:super}
+sup.footnote a,sup.footnoteref a{text-decoration:none}
+sup.footnote a:active,sup.footnoteref a:active{text-decoration:underline}
+#footnotes{padding-top:.75em;padding-bottom:.75em;margin-bottom:.625em}
+#footnotes hr{width:20%;min-width:6.25em;margin:-.25em 0 .75em;border-width:1px 0 0}
+#footnotes .footnote{padding:0 .375em 0 .225em;line-height:1.3334;font-size:.875em;margin-left:1.2em;margin-bottom:.2em}
+#footnotes .footnote a:first-of-type{font-weight:bold;text-decoration:none;margin-left:-1.05em}
+#footnotes .footnote:last-of-type{margin-bottom:0}
+#content #footnotes{margin-top:-.625em;margin-bottom:0;padding:.75em 0}
+.gist .file-data>table{border:0;background:#fff;width:100%;margin-bottom:0}
+.gist .file-data>table td.line-data{width:99%}
+div.unbreakable{page-break-inside:avoid}
+.big{font-size:larger}
+.small{font-size:smaller}
+.underline{text-decoration:underline}
+.overline{text-decoration:overline}
+.line-through{text-decoration:line-through}
+.aqua{color:#00bfbf}
+.aqua-background{background:#00fafa}
+.black{color:#000}
+.black-background{background:#000}
+.blue{color:#0000bf}
+.blue-background{background:#0000fa}
+.fuchsia{color:#bf00bf}
+.fuchsia-background{background:#fa00fa}
+.gray{color:#606060}
+.gray-background{background:#7d7d7d}
+.green{color:#006000}
+.green-background{background:#007d00}
+.lime{color:#00bf00}
+.lime-background{background:#00fa00}
+.maroon{color:#600000}
+.maroon-background{background:#7d0000}
+.navy{color:#000060}
+.navy-background{background:#00007d}
+.olive{color:#606000}
+.olive-background{background:#7d7d00}
+.purple{color:#600060}
+.purple-background{background:#7d007d}
+.red{color:#bf0000}
+.red-background{background:#fa0000}
+.silver{color:#909090}
+.silver-background{background:#bcbcbc}
+.teal{color:#006060}
+.teal-background{background:#007d7d}
+.white{color:#bfbfbf}
+.white-background{background:#fafafa}
+.yellow{color:#bfbf00}
+.yellow-background{background:#fafa00}
+span.icon>.fa{cursor:default}
+a span.icon>.fa{cursor:inherit}
+.admonitionblock td.icon [class^="fa icon-"]{font-size:2.5em;text-shadow:1px 1px 2px rgba(0,0,0,.5);cursor:default}
+.admonitionblock td.icon .icon-note::before{content:"\f05a";color:#19407c}
+.admonitionblock td.icon .icon-tip::before{content:"\f0eb";text-shadow:1px 1px 2px rgba(155,155,0,.8);color:#111}
+.admonitionblock td.icon .icon-warning::before{content:"\f071";color:#bf6900}
+.admonitionblock td.icon .icon-caution::before{content:"\f06d";color:#bf3400}
+.admonitionblock td.icon .icon-important::before{content:"\f06a";color:#bf0000}
+.conum[data-value]{display:inline-block;color:#fff!important;background:rgba(0,0,0,.8);-webkit-border-radius:50%;border-radius:50%;text-align:center;font-size:.75em;width:1.67em;height:1.67em;line-height:1.67em;font-family:"Open Sans","DejaVu Sans",sans-serif;font-style:normal;font-weight:bold}
+.conum[data-value] *{color:#fff!important}
+.conum[data-value]+b{display:none}
+.conum[data-value]::after{content:attr(data-value)}
+pre .conum[data-value]{position:relative;top:-.125em}
+b.conum *{color:inherit!important}
+.conum:not([data-value]):empty{display:none}
+dt,th.tableblock,td.content,div.footnote{text-rendering:optimizeLegibility}
+h1,h2,p,td.content,span.alt{letter-spacing:-.01em}
+p strong,td.content strong,div.footnote strong{letter-spacing:-.005em}
+p,blockquote,dt,td.content,span.alt{font-size:1.0625rem}
+p{margin-bottom:1.25rem}
+.sidebarblock p,.sidebarblock dt,.sidebarblock td.content,p.tableblock{font-size:1em}
+.exampleblock>.content{background:#fffef7;border-color:#e0e0dc;-webkit-box-shadow:0 1px 4px #e0e0dc;box-shadow:0 1px 4px #e0e0dc}
+.print-only{display:none!important}
+@page{margin:1.25cm .75cm}
+@media print{*{-webkit-box-shadow:none!important;box-shadow:none!important;text-shadow:none!important}
+html{font-size:80%}
+a{color:inherit!important;text-decoration:underline!important}
+a.bare,a[href^="#"],a[href^="mailto:"]{text-decoration:none!important}
+a[href^="http:"]:not(.bare)::after,a[href^="https:"]:not(.bare)::after{content:"(" attr(href) ")";display:inline-block;font-size:.875em;padding-left:.25em}
+abbr[title]::after{content:" (" attr(title) ")"}
+pre,blockquote,tr,img,object,svg{page-break-inside:avoid}
+thead{display:table-header-group}
+svg{max-width:100%}
+p,blockquote,dt,td.content{font-size:1em;orphans:3;widows:3}
+h2,h3,#toctitle,.sidebarblock>.content>.title{page-break-after:avoid}
+#header,#content,#footnotes,#footer{max-width:none}
+#toc,.sidebarblock,.exampleblock>.content{background:none!important}
+#toc{border-bottom:1px solid #dddddf!important;padding-bottom:0!important}
+body.book #header{text-align:center}
+body.book #header>h1:first-child{border:0!important;margin:2.5em 0 1em}
+body.book #header .details{border:0!important;display:block;padding:0!important}
+body.book #header .details span:first-child{margin-left:0!important}
+body.book #header .details br{display:block}
+body.book #header .details br+span::before{content:none!important}
+body.book #toc{border:0!important;text-align:left!important;padding:0!important;margin:0!important}
+body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-break-before:always}
+.listingblock code[data-lang]::before{display:block}
+#footer{padding:0 .9375em}
+.hide-on-print{display:none!important}
+.print-only{display:block!important}
+.hide-for-print{display:none!important}
+.show-for-print{display:inherit!important}}
+@media print,amzn-kf8{#header>h1:first-child{margin-top:1.25rem}
+.sect1{padding:0!important}
+.sect1+.sect1{border:0}
+#footer{background:none}
+#footer-text{color:rgba(0,0,0,.6);font-size:.9em}}
+@media amzn-kf8{#header,#content,#footnotes,#footer{padding:0}}
+</style>
+</head>
+<body class="article">
+<div id="header">
+<h1>Java Functional Programming (JSR 335)</h1>
+</div>
+<div id="content">
+<div class="sect1">
+<h2 id="_введение_stream_api">Введение Stream API</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Начиная с JDK 8 в Java появился новый API - <strong>Stream API</strong>. Его задача - упростить работу с наборами данных, в частности, упростить операции фильтрации, сортировки и другие манипуляции с данными. Вся основная функциональность данного API сосредоточена в пакете <code>java.util.stream</code>.</p>
+</div>
+<div class="paragraph">
+<p>Ключевым понятием в <strong>Stream API</strong> является <strong>поток данных</strong>. Вообще сам термин "поток" довольно перегружен в программировании в целом и в Java в частности. Применительно к <strong>Stream API</strong> поток представляет канал передачи данных из источника данных. Причем в качестве источника могут выступать как файлы, так и массивы и коллекции.</p>
+</div>
+<div class="paragraph">
+<p>Одной из отличительных черт <strong>Stream API</strong> является применение лямбда-выражений, которые позволяют значительно сократить запись выполняемых действий.</p>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src="/assets/img/java/core/java-stream.jpg" alt="Java Stream"></span></p>
+</div>
+<div class="paragraph">
+<p>При ближайшем рассмотрении можно найти в других технологиях программирования аналоги подобного <strong>API</strong>. В частности, в языке <strong>C#</strong> некоторым аналогом <strong>Stream API</strong> будет технология <strong>LINQ</strong>.</p>
+</div>
+<div class="paragraph">
+<p>Рассмотрим простейший пример. Допустим, у нас есть задача: найти в массиве количество всех чисел, которые больше <code>0</code>. До JDK 8 мы бы могли написать что-то наподобие следующего:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">public class Test {
+    public static void main(String[] args) {
+        int[] numbers = {-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5};
+        int count = 0;
+        for (int i : numbers) {
+            if (i &gt; 0) count++;
+        }
+        System.out.println(count);
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Теперь применим Stream API:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">import java.util.stream.IntStream;
+
+public class Test {
+    public static void main(String[] args) {
+        long count = IntStream.of(-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5)
+            .filter(w -&gt; w &gt; 0)
+            .count();
+        System.out.println(count);
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Теперь вместо цикла и кучи условных конструкций, которые мы бы использовали до JDK 8, мы можем записать цепочку методов, которые будут выполнять те же действия.</p>
+</div>
+<div class="paragraph">
+<p>При работе со Stream API важно понимать, что все операции с потоками бывают либо <strong>терминальными</strong> (<strong>terminal</strong>), либо <strong>промежуточными</strong> (<strong>intermediate</strong>). Промежуточные операции возвращают трансформированный поток. Например, выше в примере метод <code>filter</code> принимал поток чисел и возвращал уже преобразованный поток, в котором только числа больше <code>0</code>. К возвращенному потоку также можно применить ряд промежуточных операций.</p>
+</div>
+<div class="paragraph">
+<p>Терминальные операции возвращают конкретный результат. Например, в примере выше метод <code>count()</code> представляет терминальную операцию и возвращает число. После этого никаких промежуточных операций естественно применять нельзя.</p>
+</div>
+<div class="paragraph">
+<p>Все потоки производят вычисления, в том числе в промежуточных операциях, только тогда, когда к ним применяется терминальная операция. То есть в данном случае применяется отложенное выполнение.</p>
+</div>
+<div class="paragraph">
+<p>В основе Stream API лежит интерфейс <code>BaseStream</code>. Его полное определение:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">interface BaseStream&lt;T , S extends BaseStream&lt;T , S&gt;&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Здесь параметр <code>T</code> означает тип данных в потоке, а <code>S</code> - тип потока, который наследуется от интерфейса <code>BaseStream</code>.</p>
+</div>
+<div class="paragraph">
+<p><code>BaseStream</code> определяет базовый функционал для работы с потоками, которые реализуется через его методы:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>void close()</code> закрывает поток</p>
+</li>
+<li>
+<p><code>boolean isParallel()</code> возвращает true, если поток является параллельным</p>
+</li>
+<li>
+<p><code>Iterator&lt;Т&gt; iterator()</code> возвращает ссылку на итератор потока</p>
+</li>
+<li>
+<p><code>Spliterator&lt;Т&gt; spliterator()</code> возвращает ссылку на сплитератор потока</p>
+</li>
+<li>
+<p><code>S parallel()</code> возвращает параллельный поток (параллельные потоки могут задействовать несколько ядер процессора в многоядерных архитектурах)</p>
+</li>
+<li>
+<p><code>S sequential()</code> возвращает последовательный поток</p>
+</li>
+<li>
+<p><code>S unordered()</code> возвращает неупорядоченный поток</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>От интерфейса BaseStream наследуется ряд интерфейсов, предназначенных для создания конкретных потоков:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>Stream&lt;T&gt;</code> используется для потоков данных, представляющих любой ссылочный тип</p>
+</li>
+<li>
+<p><code>IntStream</code> используется для потоков с типом данных <code>int</code></p>
+</li>
+<li>
+<p><code>DoubleStream</code> используется для потоков с типом данных <code>double</code></p>
+</li>
+<li>
+<p><code>LongStream</code> используется для потоков с типом данных <code>long</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>При работе с потоками, которые представляют определенный примитивный тип - <code>double</code>, <code>int</code>, <code>long</code> проще использовать интерфейсы <code>DoubleStream</code>, <code>IntStream</code>, <code>LongStream</code>. Но в большинстве случаев, как правило, работа происходит с более сложными данными, для которых предназначен интерфейс <code>Stream&lt;T&gt;</code>. Рассмотрим некоторые его методы:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>boolean allMatch(Predicate&lt;? super T&gt; predicate)</code> возвращает <code>true</code>, если все элементы потока удовлетворяют условию в предикате</p>
+</li>
+<li>
+<p><code>boolean anyMatch(Predicate&lt;? super T&gt; predicate)</code> возвращает <code>true</code>, если хоть один элемент потока удовлетворяют условию в предикате</p>
+</li>
+<li>
+<p><code>&lt;R, A&gt; R collect(Collector&lt;? super T, A, R&gt; collector)</code> добавляет элементы в неизменяемый контейнер с типом <code>R</code>. <code>T</code> представляет тип данных из вызывающего потока, а <code>A</code> - тип данных в контейнере</p>
+</li>
+<li>
+<p><code>long count()</code> возвращает количество элементов в потоке</p>
+</li>
+<li>
+<p><code>Stream&lt;T&gt; concat​(Stream&lt;? extends T&gt; a, Stream&lt;? extends T&gt; b)</code> объединяет два потока</p>
+</li>
+<li>
+<p><code>Stream&lt;T&gt; distinct()</code> возвращает поток, в котором имеются только уникальные данные с типом <code>T</code></p>
+</li>
+<li>
+<p><code>Stream&lt;T&gt; dropWhile​(Predicate&lt;? super T&gt; predicate)</code> пропускает элементы, которые соответствуют условию в <code>predicate</code>, пока не попадется элемент, который не соответствует условию. Выбранные элементы возвращаются в виде потока</p>
+</li>
+<li>
+<p><code>Stream&lt;T&gt; filter(Predicate&lt;? super T&gt; predicate)</code> фильтрует элементы в соответствии с условием в предикате</p>
+</li>
+<li>
+<p><code>Optional&lt;T&gt; findFirst()</code> возвращает первый элемент из потока</p>
+</li>
+<li>
+<p><code>Optional&lt;T&gt; findAny()</code> возвращает первый попавшийся элемент из потока</p>
+</li>
+<li>
+<p><code>void forEach(Consumer&lt;? super T&gt; action)</code> для каждого элемента выполняется действие <code>action</code></p>
+</li>
+<li>
+<p><code>Stream&lt;T&gt; limit(long maxSize)</code> оставляет в потоке только <code>maxSize</code> элементов</p>
+</li>
+<li>
+<p><code>Optional&lt;T&gt; max(Comparator&lt;? super T&gt; comparator)</code> возвращает максимальный элемент из потока. Для сравнения элементов применяется компаратор comparator</p>
+</li>
+<li>
+<p><code>Optional&lt;T&gt; min(Comparator&lt;? super T&gt; comparator)</code> возвращает минимальный элемент из потока. Для сравнения элементов применяется компаратор comparator</p>
+</li>
+<li>
+<p><code>&lt;R&gt; Stream&lt;R&gt; map(Function&lt;? super T,? extends R&gt; mapper)</code> преобразует элементы типа <code>T</code> в элементы типа <code>R</code> и возвращает поток с элементами <code>R</code></p>
+</li>
+<li>
+<p><code>&lt;R&gt; Stream&lt;R&gt; flatMap(Function&lt;? super T, ? extends Stream&lt;? extends R&gt;&gt; mapper)</code> позволяет преобразовать элемент типа <code>T</code> в несколько элементов типа <code>R</code> и возвращает поток с элементами <code>R</code></p>
+</li>
+<li>
+<p><code>boolean noneMatch(Predicate&lt;? super T&gt; predicate)</code> возвращает true, если ни один из элементов в потоке не удовлетворяет условию в предикате</p>
+</li>
+<li>
+<p><code>Stream&lt;T&gt; skip(long n)</code> возвращает поток, в котором отсутствуют первые n элементов</p>
+</li>
+<li>
+<p><code>Stream&lt;T&gt; sorted()</code> возвращает отсортированный поток</p>
+</li>
+<li>
+<p><code>Stream&lt;T&gt; sorted(Comparator&lt;? super T&gt; comparator)</code> возвращает отсортированный в соответствии с компаратором поток</p>
+</li>
+<li>
+<p><code>Stream&lt;T&gt; takeWhile​(Predicate&lt;? super T&gt; predicate)</code> выбирает из потока элементы, пока они соответствуют условию в <code>predicate</code>. Выбранные элементы возвращаются в виде потока</p>
+</li>
+<li>
+<p><code>Object[] toArray()</code> возвращает массив из элементов потока</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Несмотря на то, что все эти операции позволяют взаимодействовать с потоком как неким набором данных наподобие коллекции, важно понимать отличие коллекций от потоков:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>потоки не хранят элементы. Элементы, используемые в потоках, могут храниться в коллекции, либо при необходимости могут быть напрямую сгенерированы</p>
+</li>
+<li>
+<p>операции с потоками не изменяют источника данных. Операции с потоками лишь возвращают новый поток с результатами этих операций</p>
+</li>
+<li>
+<p>для потоков характерно отложенное выполнение. То есть выполнение всех операций с потоком происходит лишь тогда, когда выполняется терминальная операция и возвращается конкретный результат, а не новый поток
+= Встроенные функциональные интерфейсы</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>В JDK 8 вместе с самой функциональностью лямбда-выражений также было добавлено некоторое количество встроенных функциональных интерфейсов, которые мы можем использовать в различных ситуациях и в различные API в рамках JDK 8. В частности, ряд далее рассматриваемых интерфейсов широко применяется в <code>Stream API</code> - новом прикладном интерфейсе для работы с данными. Рассмотрим основные из этих интерфейсов:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>Predicate&lt;T&gt;</code></p>
+</li>
+<li>
+<p><code>Consumer&lt;T&gt;</code></p>
+</li>
+<li>
+<p><code>Function&lt;T, R&gt;</code></p>
+</li>
+<li>
+<p><code>Supplier&lt;T&gt;</code></p>
+</li>
+<li>
+<p><code>UnaryOperator&lt;T&gt;</code></p>
+</li>
+<li>
+<p><code>BinaryOperator&lt;T&gt;</code></p>
+</li>
+</ul>
+</div>
+<div class="sect2">
+<h3 id="_predicatet"><code>Predicate&lt;T&gt;</code></h3>
+<div class="paragraph">
+<p>Функциональный интерфейс <code>Predicate&lt;T&gt;</code> проверяет соблюдение некоторого условия. Если оно соблюдается, то возвращается значение <code>true</code>. В качестве параметра лямбда-выражение принимает объект типа <code>T</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">public interface Predicate&lt;T&gt; {
+    boolean test(T t);
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Например:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">import java.util.function.Predicate;
+
+public class LambdaApp {
+    public static void main(String[] args) {
+        Predicate&lt;Integer&gt; isPositive = x -&gt; x &gt; 0;
+
+        System.out.println(isPositive.test(5)); // true
+        System.out.println(isPositive.test(-7)); // false
+    }
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_binaryoperatort"><code>BinaryOperator&lt;T&gt;</code></h3>
+<div class="paragraph">
+<p><code>BinaryOperator&lt;T&gt;</code> принимает в качестве параметра два объекта типа <code>T</code>, выполняет над ними бинарную операцию и возвращает ее результат также в виде объекта типа <code>T</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">public interface BinaryOperator&lt;T&gt; {
+    T apply(T t1, T t2);
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Например:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">import java.util.function.BinaryOperator;
+
+public class LambdaApp {
+    public static void main(String[] args) {
+        BinaryOperator&lt;Integer&gt; multiply = (x, y) -&gt; x * y;
+
+        System.out.println(multiply.apply(3, 5)); // 15
+        System.out.println(multiply.apply(10, -2)); // -20
+    }
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_unaryoperatort"><code>UnaryOperator&lt;T&gt;</code></h3>
+<div class="paragraph">
+<p><code>UnaryOperator&lt;T&gt;</code> принимает в качестве параметра объект типа <code>T</code>, выполняет над ними операции и возвращает результат операций в виде объекта типа <code>T</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">public interface UnaryOperator&lt;T&gt; {
+    T apply(T t);
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Например:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">import java.util.function.UnaryOperator;
+
+public class LambdaApp {
+    public static void main(String[] args) {
+        UnaryOperator&lt;Integer&gt; square = x -&gt; x * x;
+        System.out.println(square.apply(5)); // 25
+    }
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_functiont_r"><code>Function&lt;T, R&gt;</code></h3>
+<div class="paragraph">
+<p>Функциональный интерфейс <code>Function&lt;T, R&gt;</code> представляет функцию перехода от объекта типа <code>T</code> к объекту типа <code>R</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">public interface Function&lt;T, R&gt; {
+    R apply(T t);
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Например:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">import java.util.function.Function;
+
+public class LambdaApp {
+    public static void main(String[] args) {
+        Function&lt;Integer, String&gt; convert = x -&gt; String.valueOf(x) + " долларов";
+        System.out.println(convert.apply(5)); // 5 долларов
+    }
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_consumert"><code>Consumer&lt;T&gt;</code></h3>
+<div class="paragraph">
+<p><code>Consumer&lt;T&gt;</code> выполняет некоторое действие над объектом типа <code>T</code>, при этом ничего не возвращая:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">public interface Consumer&lt;T&gt; {
+    void accept(T t);
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Например:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">import java.util.function.Consumer;
+
+public class LambdaApp {
+    public static void main(String[] args) {
+        Consumer&lt;Integer&gt; printer = x -&gt; System.out.printf("%d долларов \n", x);
+        printer.accept(600); // 600 долларов
+    }
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_suppliert"><code>Supplier&lt;T&gt;</code></h3>
+<div class="paragraph">
+<p><code>Supplier&lt;T&gt;</code> не принимает никаких аргументов, но должен возвращать объект типа <code>T</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">public interface Supplier&lt;T&gt; {
+    T get();
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Например:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">import java.util.Scanner;
+import java.util.function.Supplier;
+
+public class LambdaApp {
+    public static void main(String[] args) {
+        Supplier&lt;User&gt; userFactory = () -&gt; {
+            Scanner in = new Scanner(System.in);
+            System.out.println("Введите имя: ");
+            String name = in.nextLine();
+            return new User(name);
+        };
+
+        User user1 = userFactory.get();
+        User user2 = userFactory.get();
+
+        System.out.println("Имя user1: " + user1.getName());
+        System.out.println("Имя user2: " + user2.getName());
+    }
+}
+
+class User {
+    private String name;
+
+    String getName() {
+        return name;
+    }
+
+    User(String n) {
+        this.name = n;
+    }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_создание_потока_данных">Создание потока данных</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Для создания потока данных можно применять различные методы. В качестве источника потока мы можем использовать коллекции. В частности, в JDK 8 в интерфейс <code>Collection</code>, который реализуется всеми классами коллекций, были добавлены два метода для работы с потоками:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>default Stream&lt;E&gt; stream</code> возвращается поток данных из коллекции</p>
+</li>
+<li>
+<p><code>default Stream&lt;E&gt; parallelStream</code> возвращается параллельный поток данных из коллекции</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Так, рассмотрим пример с <code>ArrayList</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">import java.util.ArrayList;
+import java.util.Collections;
+
+public class Test {
+    public static void main(String[] args) {
+        ArrayList&lt;String&gt; cities = new ArrayList&lt;String&gt;();
+        Collections.addAll(cities, "Париж", "Лондон", "Мадрид");
+        cities.stream() // получаем поток
+                .filter(s -&gt; s.length() == 6) // применяем фильтрацию по длине строки
+                .forEach(s -&gt; System.out.println(s)); // выводим отфильтрованные строки на консоль
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Здесь с помощью вызова <code>cities.stream()</code> получаем поток, который использует данные из списка <code>cities</code>. С помощью каждой промежуточной операции, которая применяется к потоку, мы также можем получить поток с учетом модификаций. Например, мы можем изменить предыдущий пример следующим образом:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">import java.util.ArrayList;
+import java.util.Collections;
+import java.util.stream.Stream;
+
+public class Test {
+    public static void main(String[] args) {
+        ArrayList&lt;String&gt; cities = new ArrayList&lt;String&gt;();
+        Collections.addAll(cities, "Париж", "Лондон", "Мадрид");
+        Stream&lt;String&gt; citiesStream = cities.stream(); // получаем поток
+        citiesStream = citiesStream.filter(s -&gt; s.length() == 6); // применяем фильтрацию по длине строки
+        citiesStream.forEach(s -&gt; System.out.println(s)); // выводим отфильтрованные строки на консоль
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Важно, что после использования терминальных операций другие терминальные или промежуточные операции к этому же потоку не могут быть применены, поток уже употреблен. Например, в следующем случае мы получим ошибку:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">citiesStream.forEach(s -&gt; System.out.println(s)); // терминальная операция употребляет поток
+long number = citiesStream.count(); // здесь ошибка, так как поток уже употреблен
+System.out.println(number);
+citiesStream = citiesStream.filter(s -&gt; s.length() &gt; 5); // тоже нельзя, так как поток уже употреблен</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Фактически жизненный цикл потока проходит следующие три стадии:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>создание потока</p>
+</li>
+<li>
+<p>применение к потоку ряда промежуточных операций</p>
+</li>
+<li>
+<p>применение к потоку терминальной операции и получение результата</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Кроме вышерассмотренных методов мы можем использовать еще ряд способов для создания потока данных. Один из таких способов представляет метод <code>Arrays.stream(T[] array)</code>, который создает поток данных из массива:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">Stream&lt;String&gt; citiesStream = Arrays.stream(new String[]{"Париж", "Лондон", "Мадрид"}) ;
+citiesStream.forEach(s -&gt; System.out.println(s)); // выводим все элементы массива</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Для создания потоков <code>IntStream</code>, <code>DoubleStream</code>, <code>LongStream</code> можно использовать соответствующие перегруженные версии этого метода:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">IntStream intStream = Arrays.stream(new int[]{1, 2, 4, 5, 7});
+intStream.forEach(i -&gt; System.out.println(i));
+
+LongStream longStream = Arrays.stream(new long[]{100, 250, 400, 5843787, 237});
+longStream.forEach(l -&gt; System.out.println(l));
+
+DoubleStream doubleStream = Arrays.stream(new double[]{3.4, 6.7, 9.5, 8.2345, 121});
+doubleStream.forEach(d -&gt; System.out.println(d));</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>И еще один способ создания потока представляет статический метод <code>of(T..values)</code> класса <code>Stream</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">Stream&lt;String&gt; citiesStream = Stream.of("Париж", "Лондон", "Мадрид");
+citiesStream.forEach(s -&gt; System.out.println(s));
+
+// можно передать массив
+String[] cities = {"Париж", "Лондон", "Мадрид"};
+Stream&lt;String&gt; citiesStream2 = Stream.of(cities);
+
+IntStream intStream = IntStream.of(1, 2, 4, 5, 7);
+intStream.forEach(i -&gt; System.out.println(i));
+
+LongStream longStream = LongStream.of(100, 250, 400, 5843787, 237);
+longStream.forEach(l -&gt; System.out.println(l));
+
+DoubleStream doubleStream = DoubleStream.of(3.4, 6.7, 9.5, 8.2345, 121);
+doubleStream.forEach(d -&gt; System.out.println(d));</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_фильтрация_перебор_элементов_и_отображение">Фильтрация, перебор элементов и отображение</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_foreach"><code>forEach()</code></h3>
+<div class="paragraph">
+<p>Для перебора элементов потока применяется метод <code>forEach()</code>, который представляет терминальную операцию. В качестве параметра он принимает объект <code>Consumer&lt;? super String&gt;</code>, который представляет действие, выполняемое для каждого элемента набора. Например:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">Stream&lt;String&gt; citiesStream = Stream.of("Париж", "Лондон", "Мадрид","Берлин", "Брюссель");
+citiesStream.forEach(s -&gt; System.out.println(s));</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Фактически это будет аналогично перебору всех элементов в цикле <code>for</code> и выполнению с ними действия, а именно вывод на консоль. В итоге консоль выведет:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-out" data-lang="out">Париж
+Лондон
+Мадрид
+Берлин
+Брюссель</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Кстати мы можем сократить в данном случае применение метода <code>forEach</code> следующим образом:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">Stream&lt;String&gt; citiesStream = Stream.of("Париж", "Лондон", "Мадрид","Берлин", "Брюссель");
+citiesStream.forEach(System.out::println);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Фактически здесь переадается ссылка на статический метод, который выводит строку на консоль.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_filter"><code>filter()</code></h3>
+<div class="paragraph">
+<p>Для фильтрации элементов в потоке применяется метод <code>filter()</code>, который представляет промежуточную операцию. Он принимает в качестве параметра некоторое условие в виде объекта <code>Predicate&lt;T&gt;</code> и возвращает новый поток из элементов, которые удовлетворяют этому условию:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">Stream&lt;String&gt; citiesStream = Stream.of("Париж", "Лондон", "Мадрид","Берлин", "Брюссель");
+citiesStream.filter(s -&gt; s.length() == 6).forEach(s -&gt; System.out.println(s));</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Здесь условие <code>s.length() == 6</code> возвращает <code>true</code> для тех элементов, длина которых равна <code>6</code> символам. То есть в итоге программа выведет:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-out" data-lang="out">Лондон
+Мадрид
+Берлин</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Рассмотрим еще один пример фильтрации с более сложными данными. Допустим, у нас есть следующий класс <code>Phone</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">class Phone {
+    private String name;
+    private int price;
+
+    public Phone(String name, int price) {
+        this.name = name;
+        this.price = price;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Отфильтруем набор телефонов по цене:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">Stream&lt;Phone&gt; phoneStream = Stream.of(
+    new Phone("iPhone 6 S", 54000),
+    new Phone("Lumia 950", 45000),
+    new Phone("Samsung Galaxy S 6", 40000)
+);
+
+phoneStream.filter(p -&gt; p.getPrice() &lt; 50000)
+        .forEach(p -&gt; System.out.println(p.getName()));</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_map"><code>map()</code></h3>
+<div class="paragraph">
+<p>Отображение или маппинг позволяет задать функцию преобразования одного объекта в другой, то есть получить из элемента одного типа элемент другого типа. Для отображения используется метод <code>map()</code>, который имеет следующее определение:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">&lt;R&gt; Stream&lt;R&gt; map(Function&lt;? super T, ? extends R&gt; mapper)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Передаваемая в метод <code>map()</code> функция задает преобразование от объектов типа <code>T</code> к типу <code>R</code>. И в результате возвращается новый поток с преобразованными объектами.</p>
+</div>
+<div class="paragraph">
+<p>Возьмем вышеопределенный класс телефонов и выполним преобразование от типа <code>Phone</code> к типу <code>String</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">Stream&lt;Phone&gt; phoneStream = Stream.of(
+    new Phone("iPhone 6 S", 54000),
+    new Phone("Lumia 950", 45000),
+    new Phone("Samsung Galaxy S 6", 40000)
+);
+phoneStream.map(p -&gt; p.getName()) // помещаем в поток только названия телефонов
+        .forEach(s -&gt; System.out.println(s));</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Операция <code>map(p &#8594; p.getName())</code> помещает в новый поток только названия телефонов. В итоге на консоли будут только названия:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-out" data-lang="out">iPhone 6 S
+Lumia 950
+Samsung Galaxy S 6</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Еще проведем преобразования:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">phoneStream
+        .map(p -&gt; "название: " + p.getName() + " цена: " + p.getPrice())
+        .forEach(s -&gt; System.out.println(s));</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Здесь также результирующий поток содержит только строки, только теперь названия соединяются с ценами.</p>
+</div>
+<div class="paragraph">
+<p>Для преобразования объектов в типы <code>Integer</code>, <code>Long</code>, <code>Double</code> определены специальные методы <code>mapToInt()</code>, <code>mapToLong()</code> и <code>mapToDouble()</code> соответственно.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_flatmap"><code>flatMap()</code></h3>
+<div class="paragraph">
+<p>Плоское отображение выполняется тогда, когда из одного элемента нужно получить несколько. Данную операцию выполняет метод <code>flatMap</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">&lt;R&gt; Stream&lt;R&gt; flatMap(Function&lt;? super T, ? extends Stream&lt;? extends R&gt;&gt; mapper)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Например, в примере выше мы выводим название телефона и его цену. Но что, если мы хотим установить для каждого телефона цену со скидкой и цену без скидки. То есть из одного объекта <code>Phone</code> нам надо получить два объекта с информацией, например, в виде строки. Для этого применим <code>flatMap</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">Stream&lt;Phone&gt; phoneStream = Stream.of(
+    new Phone("iPhone 6 S", 54000),
+    new Phone("Lumia 950", 45000),
+    new Phone("Samsung Galaxy S 6", 40000)
+);
+
+phoneStream
+        .flatMap(p -&gt; Stream.of(
+                String.format("название: %s  цена без скидки: %d", p.getName(), p.getPrice()),
+                String.format("название: %s  цена со скидкой: %d", p.getName(), p.getPrice() - (int) (p.getPrice() * 0.1))
+        ))
+        .forEach(s -&gt; System.out.println(s));</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Результат работы программы:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-out" data-lang="out">название: iPhone 6 S цена без скидки: 54000
+название: iPhone 6 S цена со скидкой: 48600
+название: Lumia 950 цена без скидки: 45000
+название: Lumia 950 цена со скидкой: 40500
+название: Samsung Galaxy S 6 цена без скидки: 40000
+название: Samsung Galaxy S 6 цена со скидкой: 36000</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_sorted"><code>sorted()</code></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Коллекции, на основе которых нередко создаются потоки, уже имеют специальные методы для сортировки содержимого. Однако класс <code>Stream</code> также включает возможность сортировки. Такую сортировку мы можем задействовать, когда у нас идет набор промежуточных операций с потоком, которые создают новые наборы данных, и нам надо эти наборы отсортировать.</p>
+</div>
+<div class="paragraph">
+<p>Для простой сортировки по возрастанию применяется метод <code>sorted()</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+public class Program {
+    public static void main(String[] args) {
+        List&lt;String&gt; phones = new ArrayList&lt;String&gt;();
+        Collections.addAll(phones, "iPhone X", "Nokia 9", "Huawei Nexus 6P",
+                "Samsung Galaxy S8", "LG G6", "Xiaomi MI6",
+                "ASUS Zenfone 3", "Sony Xperia Z5", "Meizu Pro 6",
+                "Pixel 2");
+
+        phones.stream()
+                .filter(p -&gt; p.length() &lt; 12)
+                .sorted() // сортировка по возрастанию
+                .forEach(s -&gt; System.out.println(s));
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Консольный вывод после сортировки объектов:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-sh" data-lang="sh">LG G6
+Meizu Pro 6
+Nokia 9
+Pixel 2
+Xiaomi MI6
+iPhone X</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Однако данный метод не всегда подходит. Уже по консольному выводу мы видим, что метод сортирует объекты по возрастанию, но при этом заглавные и строчные буквы рассматриваются отдельно.</p>
+</div>
+<div class="paragraph">
+<p>Кроме того, данный метод подходит только для сортировки тех объектов, которые реализуют интерфейс <code>Comparable</code>.</p>
+</div>
+<div class="paragraph">
+<p>Если же у нас классы объектов не реализуют этот интерфейс или мы хотим создать какую-то свою логику сортировки, то мы можем использовать другую версию метода <code>sorted()</code>, которая в качестве параметра принимает компаратор.</p>
+</div>
+<div class="paragraph">
+<p>Например, пусть у нас есть следующий класс <code>Phone</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">class Phone {
+    private String name;
+    private String company;
+    private int price;
+
+    public Phone(String name, String comp, int price) {
+        this.name = name;
+        this.company = comp;
+        this.price = price;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public String getCompany() {
+        return company;
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Отсортируем поток обектов <code>Phone</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">import java.util.Comparator;
+import java.util.stream.Stream;
+
+public class Program {
+    public static void main(String[] args) {
+        Stream&lt;Phone&gt; phoneStream = Stream.of(new Phone("iPhone X", "Apple", 600),
+            new Phone("Pixel 2", "Google", 500),
+            new Phone("iPhone 8", "Apple",450),
+            new Phone("Nokia 9", "HMD Global",150),
+            new Phone("Galaxy S9", "Samsung", 300));
+
+        phoneStream.sorted(new PhoneComparator())
+                .forEach(p-&gt;System.out.printf("%s (%s) - %d \n",
+                        p.getName(), p.getCompany(), p.getPrice()));
+    }
+}
+
+class PhoneComparator implements Comparator&lt;Phone&gt; {
+    public int compare(Phone a, Phone b) {
+        return a.getName().toUpperCase().compareTo(b.getName().toUpperCase());
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Здесь определен класс компаратора <code>PhoneComparator</code>, который сортирует объекты по полю <code>name</code>. В итоге мы получим следующий вывод:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-sh" data-lang="sh">Galaxy S9 (Samsung) - 300
+iPhone 8 (Apple) - 450
+iPhone X (Apple) - 600
+Nokia 9 (HMD Global) - 150
+Pixel 2 (Google) - 500</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_получение_подпотока_и_объединение_потоков">Получение подпотока и объединение потоков</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Ряд методов Stream API возвращают подпотоки или объединенные потоки на основе уже имеющихся потоков. Рассмотрим эти методы.</p>
+</div>
+<div class="sect2">
+<h3 id="_takewhile"><code>takeWhile()</code></h3>
+<div class="paragraph">
+<p>Метод <code>takeWhile()</code> выбирает из потока элементы, пока они соответствуют условию. Если попадается элемент, который не соответствует условию, то метод завершает свою работу. Выбранные элементы возвращаются в виде потока.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">import java.util.stream.Stream;
+
+public class Program {
+    public static void main(String[] args) {
+        Stream&lt;Integer&gt; numbers = Stream.of(-3, -2, -1, 0, 1, 2, 3, -4, -5);
+        numbers.takeWhile(n -&gt; n &lt; 0)
+            .forEach(n -&gt; System.out.println(n));
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>В данном случае программа выбирает из потока числа, пока они меньше нуля. Консольный вывод программы:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-out" data-lang="out">-3
+-2
+-1</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>При этом несмотря на то, что в потоке больше отрицательных чисел, но метод завершает работу, как только обнаружит первое число, которое не соответствует условию. В этом и состоит отличие, например, от метода <code>filter()</code>.</p>
+</div>
+<div class="paragraph">
+<p>Чтобы в данном случае охватить все элементы, которые меньше нуля, поток следует предварительно отсортировать:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">Stream&lt;Integer&gt; numbers = Stream.of(-3, -2, -1, 0, 1, 2, 3, -4, -5);
+numbers.sorted().takeWhile(n -&gt; n &lt; 0)
+        .forEach(n -&gt; System.out.println(n));</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Консольный вывод программы:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-out" data-lang="out">-5
+-4
+-3
+-2
+-1</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_dropwhile"><code>dropWhile()</code></h3>
+<div class="paragraph">
+<p>Метод <code>dropWhile()</code> выполняет обратную задачу - он пропускает элементы потока, которые соответствуют условию до тех пор, пока не встретит элемент, который НЕ соответствует условию:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">Stream&lt;Integer&gt; numbers = Stream.of(-3, -2, -1, 0, 1, 2, 3, -4, -5);
+numbers.sorted().dropWhile(n -&gt; n &lt; 0)
+    .forEach(n -&gt; System.out.println(n));</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Консольный вывод программы:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-out" data-lang="out">0
+1
+2
+3</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_stream_concat"><code>Stream.concat()</code></h3>
+<div class="paragraph">
+<p>Статический метод <code>concat()</code> объединяет элементы двух потоков, возвращая объединенный поток:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">import java.util.stream.Stream;
+
+public class Program {
+    public static void main(String[] args) {
+        Stream&lt;String&gt; people1 = Stream.of("Tom", "Bob", "Sam");
+        Stream&lt;String&gt; people2 = Stream.of("Alice", "Kate", "Sam");
+        Stream.concat(people1, people2).forEach(n -&gt; System.out.println(n));
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Консольный вывод:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-out" data-lang="out">Tom
+Bob
+Sam
+Alice
+Kate
+Sam</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_distinct"><code>distinct()</code></h3>
+<div class="paragraph">
+<p>Метод <code>distinct()</code> возвращает только ункальные элементы в виде потока:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">Stream&lt;String&gt; people = Stream.of("Tom", "Bob", "Sam", "Tom", "Alice", "Kate", "Sam");
+people.distinct().forEach(p -&gt; System.out.println(p));</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Консольный вывод:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-out" data-lang="out">Tom
+Bob
+Sam
+Alice
+Kate</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_skip_и_limit"><code>skip()</code> и <code>limit()</code></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Метод <code>skip(long n)</code> используется для пропуска <code>n</code> элементов. Этот метод возвращает новый поток, в котором пропущены первые <code>n</code> элементов.</p>
+</div>
+<div class="paragraph">
+<p>Метод <code>limit(long n)</code> применяется для выборки первых <code>n</code> элементов потоков. Этот метод также возвращает модифицированный поток, в котором не более <code>n</code> элементов.</p>
+</div>
+<div class="paragraph">
+<p>Зачастую эта пара методов используется вместе для создания эффекта постраничной навигации. Рассмотрим, как их применять:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">Stream&lt;String&gt; phoneStream = Stream.of("iPhone 6 S", "Lumia 950", "Samsung Galaxy S 6", "LG G 4", "Nexus 7");
+
+phoneStream.skip(1)
+    .limit(2)
+    .forEach(s -&gt; System.out.println(s));</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>В данном случае метод <code>skip()</code> пропускает один первый элемент, а метод <code>limit()</code> выбирает два следующих элемента. В итоге мы получим следующий консольный вывод:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-out" data-lang="out">Lumia 950
+Samsung Galaxy S 6</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Вполне может быть, что метод <code>skip()</code> может принимать в качестве параметра число большее, чем количество элементов в потоке. В этом случае будут пропущены все элементы, а в результирующем потоке будет <code>0</code> элементов.</p>
+</div>
+<div class="paragraph">
+<p>И если в метод <code>limit()</code> передается число, большее, чем количество элементов, то просто выбираются все элементы потока.</p>
+</div>
+<div class="paragraph">
+<p>Теперь рассмотрим, как создать постраничную навигацию:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.*;
+import java.util.Scanner;
+
+public class Program {
+    public static void main(String[] args) {
+        List&lt;String&gt; phones = new ArrayList&lt;String&gt;();
+        phones.addAll(Arrays.asList(new String[]
+                {"iPhone 6 S", "Lumia 950", "Huawei Nexus 6P",
+                "Samsung Galaxy S 6", "LG G 4", "Xiaomi MI 5",
+                "ASUS Zenfone 2", "Sony Xperia Z5", "Meizu Pro 5",
+                "Lenovo S 850"}));
+
+        int pageSize = 3; // количество элементов на страницу
+        Scanner scanner = new Scanner(System.in);
+        while(true) {
+            System.out.println("Введите номер страницы: ");
+            int page = scanner.nextInt();
+
+            if(page &lt; 1) {
+                break; // если число меньше 1, выходим из цикла
+            }
+
+            phones.stream().skip((page - 1) * pageSize)
+                .limit(pageSize)
+                .forEach(s -&gt; System.out.println(s));
+       }
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>В данном случае у нас набор из 10 элементов. С помощью переменной <code>pageSize</code> определяем количество элементов на странице - <code>3</code>. То есть у нас получится <code>4</code> страницы (на последней будет только один элемент).</p>
+</div>
+<div class="paragraph">
+<p>В бесконечном цикле получаем номер страницы и выбираем только те элементы, которые находятся на указанной странице.</p>
+</div>
+<div class="paragraph">
+<p>Теперь введем какие-нибудь номера страниц, например, <code>4</code> и <code>2</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-out" data-lang="out">Введите номер страницы:
+4
+Lenovo S 850
+Введите номер страницы:
+2
+Samsung Galaxy S 6
+LG G 4
+Xiaomi MI 5</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_операции_сведения">Операции сведения</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Операции сведения представляют терминальные операции, которые возвращают некоторое значение - результат операции. В Stream API есть ряд операций сведения.</p>
+</div>
+<div class="sect2">
+<h3 id="_count"><code>count()</code></h3>
+<div class="paragraph">
+<p>Метод <code>count()</code> возвращает количество элементов в потоке данных:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">import java.util.stream.Stream;
+import java.util.Optional;
+import java.util.*;
+public class Program {
+    public static void main(String[] args) {
+        ArrayList&lt;String&gt; names = new ArrayList&lt;String&gt;();
+        names.addAll(Arrays.asList(new String[]{"Tom", "Sam", "Bob", "Alice"}));
+        System.out.println(names.stream().count()); // 4
+
+        // количество элементов с длиной не больше 3 символов
+        System.out.println(names.stream()
+                .filter(n -&gt; n.length() &lt;= 3)
+                .count());  // 3
+    }
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_findfirst_и_findany"><code>findFirst()</code> и <code>findAny()</code></h3>
+<div class="paragraph">
+<p>Метод <code>findFirst()</code> извлекает из потока первый элемент, а <code>findAny()</code> извлекает случайный объект из потока (нередко так же первый):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">ArrayList&lt;String&gt; names = new ArrayList&lt;String&gt;();
+names.addAll(Arrays.asList(new String[]{"Tom", "Sam", "Bob", "Alice"}));
+
+Optional&lt;String&gt; first = names.stream().findFirst();
+System.out.println(first.get()); // Tom
+
+Optional&lt;String&gt; any = names.stream().findAny();
+System.out.println(first.get()); // Tom</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_allmatch_anymatch_nonematch"><code>allMatch()</code>, <code>anyMatch()</code>, <code>noneMatch()</code></h3>
+<div class="paragraph">
+<p>Еще одна группа операций сведения возвращает логическое значение <code>true</code> или <code>false</code>:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>boolean allMatch(Predicate&lt;? super T&gt; predicate)</code> возвращает <code>true</code>, если все элементы потока удовлетворяют условию в предикате</p>
+</li>
+<li>
+<p><code>boolean anyMatch(Predicate&lt;? super T&gt; predicate)</code> возвращает <code>true</code>, если хоть один элемент потока удовлетворяют условию в предикате</p>
+</li>
+<li>
+<p><code>boolean noneMatch(Predicate&lt;? super T&gt; predicate)</code> возвращает <code>true</code>, если ни один из элементов в потоке не удовлетворяет условию в предикате</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Пример использования функций:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">import java.util.stream.Stream;
+import java.util.Optional;
+import java.util.ArrayList;
+import java.util.Arrays;
+public class Program {
+    public static void main(String[] args) {
+        ArrayList&lt;String&gt; names = new ArrayList&lt;String&gt;();
+        names.addAll(Arrays.asList(new String[]{"Tom", "Sam", "Bob", "Alice"}));
+
+        // есть ли в потоке строка, длина которой больше 3
+        boolean any = names.stream().anyMatch(s -&gt; s.length() &gt; 3);
+        System.out.println(any); // true
+
+        // все ли строки имеют длину в 3 символа
+        boolean all = names.stream().allMatch(s -&gt; s.length() == 3);
+        System.out.println(all); // false
+
+        // НЕТ ЛИ в потоке строки "Bill". Если нет, то true, если есть, то false
+        boolean none = names.stream().noneMatch(s -&gt; s == "Bill");
+        System.out.println(none); // true
+    }
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_min_и_max"><code>min()</code> и <code>max()</code></h3>
+<div class="paragraph">
+<p>Методы <code>min()</code> и <code>max()</code> возвращают соответственно минимальное и максимальное значение. Поскольку данные в потоке могут представлять различные типы, в том числе сложные классы, то в качестве параметра в эти методы передается объект интерфейса <code>Comparator</code>, который указывает, как сравнивать объекты:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">Optional&lt;T&gt; min(Comparator&lt;? super T&gt; comparator)
+Optional&lt;T&gt; max(Comparator&lt;? super T&gt; comparator)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Оба метода возвращают элемент потока (минимальный или максимальный), обернутый в объект <code>Optional</code>.</p>
+</div>
+<div class="paragraph">
+<p>Например, найдем минимальное и максимальное число в числовом потоке:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">import java.util.stream.Stream;
+import java.util.Optional;
+import java.util.ArrayList;
+import java.util.Arrays;
+public class Program {
+    public static void main(String[] args) {
+        ArrayList&lt;Integer&gt; numbers = new ArrayList&lt;Integer&gt;();
+        numbers.addAll(Arrays.asList(new Integer[]{1, 2, 3, 4, 5, 6, 7, 8, 9}));
+
+        Optional&lt;Integer&gt; min = numbers.stream().min(Integer::compare);
+        Optional&lt;Integer&gt; max = numbers.stream().max(Integer::compare);
+        System.out.println(min.get()); // 1
+        System.out.println(max.get()); // 9
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Интерфейс <code>Comparator</code> - это функциональный интерфейс, который определяет один метод <code>compare()</code>, принимающий два сравниваемых объекта и возвращающий число (если первый объект больше, возвращается положительное число, иначе возвращается отрицательное число). Поэтому вместо конкретной реализации компаратора мы можем передать лямбда-вырашение или метод, который соответствует методу compare интерфейса <code>Comparator</code>. Поскольку сравниваются числа, то в метод передается в качестве компаратора статический метод <code>Integer.compare()</code>.</p>
+</div>
+<div class="paragraph">
+<p>При этом методы <code>min()</code> и <code>max()</code> возвращают именно <code>Optional</code>, и чтобы получить непосредственно результат операции из <code>Optional</code>, необходимо вызвать метод <code>get()</code>.</p>
+</div>
+<div class="paragraph">
+<p>Рассмотрим более сложный случай, когда нам надо сравнивать более сложные объекты:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">import java.util.stream.Stream;
+import java.util.Optional;
+import java.util.ArrayList;
+import java.util.Arrays;
+public class Program {
+    public static void main(String[] args) {
+        ArrayList&lt;Phone&gt; phones = new ArrayList&lt;Phone&gt;();
+        phones.addAll(Arrays.asList(new Phone[] {
+            new Phone("iPhone 8", 52000),
+            new Phone("Nokia 9", 35000),
+            new Phone("Samsung Galaxy S9", 48000),
+            new Phone("HTC U12", 36000)
+        }));
+
+        Phone min = phones.stream().min(Phone::compare).get();
+        Phone max = phones.stream().max(Phone::compare).get();
+        System.out.printf("MIN Name: %s Price: %d \n", min.getName(), min.getPrice());
+        System.out.printf("MAX Name: %s Price: %d \n", max.getName(), max.getPrice());
+    }
+}
+
+class Phone {
+    private String name;
+    private int price;
+
+    public Phone(String name, int price) {
+        this.name = name;
+        this.price = price;
+    }
+
+    public static int compare (Phone p1, Phone p2) {
+        if(p1.getPrice() &gt; p2.getPrice()) {
+            return 1;
+        }
+        return -1;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>В данном случае мы находим минимальный и максимальный объект <code>Phone</code>: фактически объекты с максимальной и минимальной ценой. Для определения функциональности сравнения в классе <code>Phone</code> реализован статический метод <code>compare()</code>, который соответствует сигнатуре метода compare интерфейса <code>Comparator</code>. И в методах <code>min()</code> и <code>max()</code> применяем этот статический метод для сравнения объектов.</p>
+</div>
+<div class="paragraph">
+<p>Консольный вывод:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-out" data-lang="out">MIN Name: Nokia 9 Price: 35000
+MAX Name: iPhone 8 Price: 52000</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_reduce"><code>reduce()</code></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Метод <code>reduce()</code> выполняет терминальные операции сведения, возвращая некоторое значение - результат операции. Он имеет следующие формы:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">Optional&lt;T&gt; reduce(BinaryOperator&lt;T&gt; accumulator)
+T reduce(T identity, BinaryOperator&lt;T&gt; accumulator)
+U reduce(U identity, BiFunction&lt;U,? super T,U&gt; accumulator, BinaryOperator&lt;U&gt; combiner)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Первая форма возвращает результат в виде объекта <code>Optional&lt;T&gt;</code>. Например, вычислим произведение набора чисел:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">import java.util.stream.Stream;
+import java.util.Optional;
+
+public class Program {
+    public static void main(String[] args) {
+        Stream&lt;Integer&gt; numbersStream = Stream.of(1, 2, 3, 4, 5, 6);
+        Optional&lt;Integer&gt; result = numbersStream.reduce((x, y) -&gt; x * y);
+        System.out.println(result.get()); // 720
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Объект <code>BinaryOperator&lt;T&gt;</code> представляет функцию, которая принимает два элемента и выполняет над ними некоторую операцию, возвращая результат. При этом метод <code>reduce()</code> сохраняет результат и затем опять же применяет к этому результату и следующему элементу в наборе бинарную операцию. Фактически в данном случае мы получим результат, который будет равен: <code>n1 op n2 op n3 op n4 op n5 op n6</code>, где <code>op</code> - это операция (в данном случае умножения), а <code>n1</code>, <code>n2</code>, &#8230;&#8203; - элементы из потока.</p>
+</div>
+<div class="paragraph">
+<p>Затем с помощью метода <code>get()</code> мы можем получить собственно результат вычислений: <code>result.get()</code></p>
+</div>
+<div class="paragraph">
+<p>Или еще один пример - объединение слов в предложение:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">Stream&lt;String&gt; wordsStream = Stream.of("мама", "мыла", "раму");
+Optional&lt;String&gt; sentence = wordsStream.reduce((x, y) -&gt; x + " " + y);
+System.out.println(sentence.get());</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Если нам надо, чтобы первым элементом в наборе было какое-то определенное значение, то мы можем использовать вторую версию метода <code>reduce()</code>, которая в качестве первого параметра принимает <code>T identity</code>. Этот параметр хранит значение, с которого будет начинаться цепочка бинарных операций. Например:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">Stream&lt;String&gt; wordsStream = Stream.of("мама", "мыла", "раму");
+String sentence = wordsStream.reduce("Результат:", (x, y) -&gt; x + " " + y);
+System.out.println(sentence); // Результат: мама мыла раму</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Фактически здесь выполняется следующая цепь операций: <code>identity op n1 op n2 op n3 op n4&#8230;&#8203;</code></p>
+</div>
+<div class="paragraph">
+<p>Использование параметра <code>identity</code> также подходит для тех случаев, когда надо предоставить значение по умолчанию, если поток пустой и не содержит элементов.</p>
+</div>
+<div class="paragraph">
+<p>В предыдущих примерах тип возвращаемых объектов совпадал с типом элементов, которые входят в поток. Однако это не всегда удобно. Возможно, мы захотим возвратить результат, тип которого отличается от типа объектов потока. Например, пусть у нас есть следующий класс <code>Phone</code>, представляющий телефон:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">class Phone {
+    private String name;
+    private int price;
+
+    public Phone(String name, int price) {
+        this.name = name;
+        this.price = price;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>И мы хотим найти сумму цен тех телефонов, у которых цена меньше определенного значения. Для этого используем третью версию метода <code>reduce()</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">Stream&lt;Phone&gt; phoneStream = Stream.of(
+    new Phone("iPhone 6 S", 54000),
+    new Phone("Lumia 950", 45000),
+    new Phone("Samsung Galaxy S 6", 40000),
+    new Phone("LG G 4", 32000)
+);
+
+int sum = phoneStream.reduce(0,
+            (x, y) -&gt; (y.getPrice() &lt; 50000) ? x + y.getPrice() : x + 0,
+            (x, y) -&gt; x + y);
+
+System.out.println(sum); // 117000</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Опять же здесь в качестве первого параметра идет значение по умолчанию - <code>0</code>. Второй параметр производит бинарную операцию, которая получает промежуточное значение - суммарную цену текущего и предыдущего телефонов. Третий параметр представляет бинарную операцию, которая суммирует все промежуточные вычисления.
+= Класс <code>Optional</code></p>
+</div>
+<div class="paragraph">
+<p>Ряд операций сведения, такие как <code>min()</code>, <code>max()</code>, <code>reduce()</code>, возвращают объект <code>Optional&lt;T&gt;</code>. Этот объект фактически обертывает результат операции. После выполнения операции с помощью метода <code>get()</code> объекта <code>Optional</code> мы можем получить его значение:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">import java.util.Optional;
+import java.util.ArrayList;
+import java.util.Arrays;
+public class Program {
+    public static void main(String[] args) {
+        ArrayList&lt;Integer&gt; numbers = new ArrayList&lt;Integer&gt;();
+        numbers.addAll(Arrays.asList(new Integer[] {1, 2, 3, 4, 5, 6, 7, 8, 9}));
+        Optional&lt;Integer&gt; min = numbers.stream()
+            .min(Integer::compare);
+        System.out.println(min.get()); // 1
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Но что, если поток не содержит вообще никаких данных:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">// список numbers пустой
+ArrayList&lt;Integer&gt; numbers = new ArrayList&lt;Integer&gt;();
+Optional&lt;Integer&gt; min = numbers.stream()
+    .min(Integer::compare);
+System.out.println(min.get());  // java.util.NoSuchElementException</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>В этом случае программа выдаст исключение <code>java.util.NoSuchElementException</code>. Что мы можем сделать, чтобы избежать выброса исключения? Для этого класс <code>Optional</code> предоставляет ряд методов.</p>
+</div>
+<div class="paragraph">
+<p>Самой простой способ избежать подобной ситуации - это предварительная проверка наличия значения в <code>Optional</code> с помощью метода <code>isPresent()</code>. Он возврашает <code>true</code>, если значение присутствует в <code>Optional</code>, и <code>false</code>, если значение отсутствует:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">ArrayList&lt;Integer&gt; numbers = new ArrayList&lt;Integer&gt;();
+Optional&lt;Integer&gt; min = numbers.stream()
+    .min(Integer::compare);
+if (min.isPresent()) {
+    System.out.println(min.get());
+}</code></pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_orelse"><code>orElse()</code></h3>
+<div class="paragraph">
+<p>Метод <code>orElse()</code> позволяет определить альтернативное значение, которое будет возвращаться, если <code>Optional</code> не получит из потока какого-нибудь значения:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">// пустой список
+ArrayList&lt;Integer&gt; numbers = new ArrayList&lt;Integer&gt;();
+Optional&lt;Integer&gt; min = numbers.stream()
+    .min(Integer::compare);
+System.out.println(min.orElse(-1)); // -1
+
+// непустой список
+numbers.addAll(Arrays.asList(new Integer[] {4, 5, 6, 7, 8, 9}));
+min = numbers.stream()
+    .min(Integer::compare);
+System.out.println(min.orElse(-1)); // 4</code></pre>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_orelseget"><code>orElseGet()</code></h4>
+<div class="paragraph">
+<p>Метод <code>orElseGet()</code> позволяет задать функцию, которая будет возвращать значение по умолчанию:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">import java.util.Optional;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Random;
+
+public class Program {
+    public static void main(String[] args) {
+        ArrayList&lt;Integer&gt; numbers = new ArrayList&lt;Integer&gt;();
+        Optional&lt;Integer&gt; min = numbers.stream()
+            .min(Integer::compare);
+        Random rnd = new Random();
+        System.out.println(min.orElseGet(() -&gt; rnd.nextInt(100)));
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>В данном случае возвращаемое значение генерируется с помощью метода <code>nextInt()</code> класса <code>Random</code>, который возвращает случайное число.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_orelsethrow"><code>orElseThrow()</code></h3>
+<div class="paragraph">
+<p>Еще один метод - <code>orElseThrow()</code> позволяет сгенерировать исключение, если <code>Optional</code> не содержит значения:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">ArrayList&lt;Integer&gt; numbers = new ArrayList&lt;Integer&gt;();
+Optional&lt;Integer&gt; min = numbers.stream()
+    .min(Integer::compare);
+// генеррация исключения IllegalStateException
+System.out.println(min.orElseThrow(IllegalStateException::new));</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_ifpresent"><code>ifPresent()</code></h3>
+<div class="paragraph">
+<p>Метод <code>ifPresent()</code> определяет действия со значением в <code>Optional</code>, если значение имеется:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">ArrayList&lt;Integer&gt; numbers = new ArrayList&lt;Integer&gt;();
+numbers.addAll(Arrays.asList(new Integer[]{4,5,6,7,8,9}));
+Optional&lt;Integer&gt; min = numbers.stream().min(Integer::compare);
+min.ifPresent(v-&gt;System.out.println(v)); // 4</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>В метод <code>ifPresent()</code> передается функция, которая принимает один параметр - значение из <code>Optional</code>. В данном случае полученное минимальное число выводится на консоль. Но если бы массив numbers был бы пустым, и соответственно <code>Optional</code> не сдержало бы никакого значения, то никакой ошибки бы не было.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_ifpresentorelse"><code>ifPresentOrElse()</code></h3>
+<div class="paragraph">
+<p>Метод <code>ifPresentOrElse()</code> позволяет определить альтернативную логику на случай, если значение в <code>Optional</code> отсутствует:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">ArrayList&lt;Integer&gt; numbers = new ArrayList&lt;Integer&gt;();
+Optional&lt;Integer&gt; min = numbers.stream()
+    .min(Integer::compare);
+min.ifPresentOrElse(v -&gt; System.out.println(v), () -&gt; System.out.println("Value not found"));</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>В метод <code>ifPresentOrElse()</code> передается две функции. Первая обрабатывает значение в <code>Optional</code>, если оно присутствует. Вторая функция представляет действия, которые выполняются, если значение в <code>Optional</code> отсутствует.
+= <code>Stream.collect()</code></p>
+</div>
+<div class="paragraph">
+<p>Большинство операций класса <code>Stream</code>, которые модифицируют набор данных, возвращают этот набор в виде потока. Однако бывают ситуации, когда хотелось бы получить данные не в виде потока, а в виде обычной коллекции, например, <code>ArrayList</code> или <code>HashSet</code>. И для этого у класса <code>Stream</code> определен метод <code>collect</code>. Первая версия метода принимает в качестве параметра функцию преобразования к коллекции:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">&lt;R, A&gt; R collect(Collector&lt;? super T, A, R&gt; collector)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Параметр <code>R</code> представляет тип результата метода, параметр <code>Т</code> - тип элемента в потоке, а параметр <code>А</code> - тип промежуточных накапливаемых данных. В итоге параметр <code>collector</code> представляет функцию преобразования потока в коллекцию.</p>
+</div>
+<div class="paragraph">
+<p>Эта функция представляет объект <code>Collector</code>, который определен в пакете <code>java.util.stream</code>. Мы можем написать свою реализацию функции, однако Java уже предоставляет ряд встроенных функций, определенных в классе <code>Collectors</code>:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>toList()</code> преобразование к типу <code>List</code></p>
+</li>
+<li>
+<p><code>toSet()</code> преобразование к типу <code>Set</code></p>
+</li>
+<li>
+<p><code>toMap()</code> преобразование к типу <code>Map</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Например, преобразуем набор в потоке в список:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
+
+public class Program {
+    public static void main(String[] args) {
+        List&lt;String&gt; phones = new ArrayList&lt;String&gt;();
+        Collections.addAll(phones, "iPhone 8", "HTC U12", "Huawei Nexus 6P",
+                "Samsung Galaxy S9", "LG G6", "Xiaomi MI6", "ASUS Zenfone 2",
+                "Sony Xperia Z5", "Meizu Pro 6", "Lenovo S850");
+        List&lt;String&gt; filteredPhones = phones.stream()
+                .filter(s -&gt; s.length() &lt; 10)
+                .collect(Collectors.toList());
+
+        for(String s : filteredPhones) {
+            System.out.println(s);
+        }
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Использование метода <code>toSet()</code> аналогично.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">Set&lt;String&gt; filteredPhones = phones.stream()
+                .filter(s -&gt; s.length() &lt; 10)
+                .collect(Collectors.toSet());</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Для применения метода <code>toMap()</code> надо задать ключ и значение. Например, пусть у нас есть следующая модель:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">class Phone {
+    private String name;
+    private int price;
+
+    public Phone(String name, int price) {
+        this.name = name;
+        this.price = price;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Теперь применим метод <code>toMap()</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+public class Program {
+    public static void main(String[] args) {
+        Stream&lt;Phone&gt; phoneStream = Stream.of(new Phone("iPhone 8", 54000),
+            new Phone("Nokia 9", 45000),
+            new Phone("Samsung Galaxy S9", 40000),
+            new Phone("LG G6", 32000));
+
+
+        Map&lt;String, Integer&gt; phones = phoneStream
+            .collect(Collectors.toMap(p -&gt; p.getName(), t -&gt; t.getPrice()));
+
+        phones.forEach((k, v) -&gt; System.out.println(k + " " + v));
+    }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">class Phone {
+    private String name;
+    private int price;
+
+    public Phone(String name, int price) {
+        this.name=name;
+        this.price=price;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Лямбда-выражение <code>p &#8594; p.getName()</code> получает значение для ключа элемента, а <code>t &#8594; t.getPrice()</code> - извлекает значение элемента.</p>
+</div>
+<div class="paragraph">
+<p>Если нам надо создать какой-то определенный тип коллекции, например, <code>HashSet</code>, то мы можем использовать специальные функции, которые определены в классах-коллекций. Например, получим объект <code>HashSet</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">import java.util.TreeSet;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+public class Program {
+    public static void main(String[] args) {
+        Stream&lt;String&gt; phones = Stream.of("iPhone 8", "HTC U12", "Huawei Nexus 6P",
+                "Samsung Galaxy S9", "LG G6", "Xiaomi MI6", "ASUS Zenfone 2",
+                "Sony Xperia Z5", "Meizu Pro 6", "Lenovo S850");
+
+        TreeSet&lt;String&gt; filteredPhones = phones.filter(s -&gt; s.length() &lt; 12).
+                                    collect(Collectors.toCollection(TreeSet::new));
+
+        filteredPhones.forEach(s -&gt; System.out.println(s));
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Выражение <code>HashSet::new</code> представляет функцию создания коллекции. Аналогичным образом можно получать другие коллекции, например, <code>ArrayList</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">ArrayList&lt;String&gt; result = phones.collect(Collectors.toCollection(ArrayList::new));</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Вторая форма метода <code>&lt;R&gt; R collect(Supplier&lt;R&gt; supplier, BiConsumer&lt;R,? super T&gt; accumulator, BiConsumer&lt;R,R&gt; combiner)</code> имеет три параметра:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>supplier</code> создает объект коллекции</p>
+</li>
+<li>
+<p><code>accumulator</code> добавляет элемент в коллекцию</p>
+</li>
+<li>
+<p><code>combiner</code> бинарная функция, которая объединяет два объекта</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Применим эту версию метода <code>collect()</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">import java.util.ArrayList;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+public class Program {
+    public static void main(String[] args) {
+        Stream&lt;String&gt; phones = Stream.of("iPhone 8", "HTC U12", "Huawei Nexus 6P",
+                "Samsung Galaxy S9", "LG G6", "Xiaomi MI6", "ASUS Zenfone 2",
+                "Sony Xperia Z5", "Meizu Pro 6", "Lenovo S850");
+
+        ArrayList&lt;String&gt; filteredPhones = phones.filter(s -&gt; s.length() &lt; 12)
+            .collect(
+                ()-&gt; new ArrayList&lt;String&gt;(), // создаем ArrayList
+                (list, item) -&gt; list.add(item), // добавляем в список элемент
+                (list1, list2) -&gt; list1.addAll(list2)); // добавляем в список другой список
+
+        filteredPhones.forEach(s -&gt; System.out.println(s));
+    }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_класс_collectors">Класс <code>Collectors</code></h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_groupingby"><code>groupingBy()</code></h3>
+<div class="paragraph">
+<p>Чтобы сгруппировать данные по какому-нибудь признаку, нам надо использовать в связке метод <code>collect()</code> объекта <code>Stream</code> и метод <code>Collectors.groupingBy()</code>. Допустим, у нас есть следующий класс:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">class Phone {
+    private String name;
+    private String company;
+    private int price;
+
+    public Phone(String name, String comp, int price) {
+        this.name = name;
+        this.company = comp;
+        this.price = price;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public String getCompany() {
+        return company;
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>И, к примеру, у нас есть набор объектов <code>Phone</code>, которые мы хотим сгруппировать по компании:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">import java.util.List;
+import java.util.Map;
+import java.util.stream.Stream;
+import java.util.stream.Collectors;
+
+public class Program {
+    public static void main(String[] args) {
+        Stream&lt;Phone&gt; phoneStream = Stream.of(
+            new Phone("iPhone X", "Apple", 600),
+            new Phone("Pixel 2", "Google", 500),
+            new Phone("iPhone 8", "Apple",450),
+            new Phone("Galaxy S9", "Samsung", 440),
+            new Phone("Galaxy S8", "Samsung", 340)
+        );
+
+        Map&lt;String, List&lt;Phone&gt;&gt; phonesByCompany = phoneStream.collect(
+                Collectors.groupingBy(Phone::getCompany));
+
+        for(Map.Entry&lt;String, List&lt;Phone&gt;&gt; item : phonesByCompany.entrySet()) {
+            System.out.println(item.getKey());
+            for(Phone phone : item.getValue()) {
+                System.out.println(phone.getName());
+            }
+            System.out.println();
+        }
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Консольный вывод:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-out" data-lang="out">Google
+Pixel 2
+
+Apple
+iPhone X
+iPhone 8
+
+Samsung
+Galaxy S9
+Galaxy S8</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Итак, для создания групп в метод <code>phoneStream.collect()</code> передается вызов функции <code>Collectors.groupingBy()</code>, которая с помощью выражения <code>Phone::getCompany</code> группирует объекты по компании. В итоге будет создан объект <code>Map</code>, в котором ключами являются названия компаний, а значениями - список связанных с компаниями телефонов.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_partitioningby"><code>partitioningBy()</code></h3>
+<div class="paragraph">
+<p>Метод <code>Collectors.partitioningBy()</code> имеет похожее действие, только он делит элементы на группы по принципу, соответствует ли элемент определенному условию. Например:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">Map&lt;Boolean, List&lt;Phone&gt;&gt; phonesByCompany = phoneStream.collect(
+                Collectors.partitioningBy(p -&gt; p.getCompany() == "Apple"));
+
+for(Map.Entry&lt;Boolean, List&lt;Phone&gt;&gt; item : phonesByCompany.entrySet()) {
+    System.out.println(item.getKey());
+    for(Phone phone : item.getValue()) {
+        System.out.println(phone.getName());
+    }
+    System.out.println();
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>В данном случае с помощью условия <code>p &#8594; p.getCompany() == "Apple"</code> мы смотрим, принадлежит ли телефон компании <code>Apple</code>. Если телефон принадлежит этой компании, то он попадает в одну группу, если нет, то в другую.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_counting"><code>counting()</code></h3>
+<div class="paragraph">
+<p>Метод <code>Collectors.counting()</code> применяется в <code>Collectors.groupingBy()</code> для вычисления количества элементов в каждой группе:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">Map&lt;String, Long&gt; phonesByCompany = phoneStream.collect(
+        Collectors.groupingBy(Phone::getCompany, Collectors.counting()));
+
+for(Map.Entry&lt;String, Long&gt; item : phonesByCompany.entrySet()) {
+    System.out.println(item.getKey() + " - " + item.getValue());
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Консольный вывод:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-out" data-lang="out">Google -1
+Apple - 2
+Samsung - 2</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_summing"><code>summing()</code></h3>
+<div class="paragraph">
+<p>Метод <code>Collectors.summing()</code> применяется для подсчета суммы. В зависимости от типа данных, к которым применяется метод, он имеет следующие формы: <code>summingInt()</code>, <code>summingLong()</code>, <code>summingDouble()</code>. Применим этот метод для подсчета стоимости всех смартфонов по компаниям:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">Map&lt;String, Integer&gt; phonesByCompany = phoneStream.collect(
+        Collectors.groupingBy(Phone::getCompany, Collectors.summingInt(Phone::getPrice)));
+
+for(Map.Entry&lt;String, Integer&gt; item : phonesByCompany.entrySet()) {
+    System.out.println(item.getKey() + " - " + item.getValue());
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>С помощью выражения <code>Collectors.summingInt(Phone::getPrice))</code> мы указываем, что для каждой компании будет вычислять совокупная цена всех ее смартфонов. И поскольку вычисляется результат - сумма для значений типа <code>int</code>, то в качестве типа возвращаемой коллекции используется тип <code>Map&lt;String, Integer&gt;</code></p>
+</div>
+<div class="paragraph">
+<p>Консольный вывод:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-out" data-lang="out">Google - 500
+Apple - 1050
+Samsung - 780</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_maxby_и_minby"><code>maxBy()</code> и <code>minBy()</code></h3>
+<div class="paragraph">
+<p>Методы <code>maxBy()</code> и <code>minBy()</code> применяются для подсчета минимального и максимального значения в каждой группе. В качестве параметра эти методы принимают функцию компаратора, которая нужна для сравнения значений. Например, найдем для каждой компании телефон с минимальной ценой:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">Map&lt;String, Optional&lt;Phone&gt;&gt; phonesByCompany = phoneStream.collect(
+        Collectors.groupingBy(Phone::getCompany,
+                Collectors.minBy(Comparator.comparing(Phone::getPrice))));
+
+for(Map.Entry&lt;String, Optional&lt;Phone&gt;&gt; item : phonesByCompany.entrySet()) {
+    System.out.println(item.getKey() + " - " + item.getValue().get().getName());
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Консольный вывод:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-out" data-lang="out">Google - Pixel 2
+Apple - iPhone 8
+Samsung - Galaxy S8</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>В качестве возвращаемого значения операции группировки используется объект <code>Map&lt;String, Optional&lt;Phone&gt;&gt;</code>. Опять же поскольку группируем по компаниям, то ключом будет выступать строка, а значением - объект <code>Optional&lt;Phone&gt;</code>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_summarizing"><code>summarizing()</code></h3>
+<div class="paragraph">
+<p>Методы <code>summarizingInt()</code> / <code>summarizingLong()</code> / <code>summarizingDouble()</code> позволяют объединить в набор значения соответствующих типов:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">Map&lt;String, java.util.IntSummaryStatistics&gt; priceSummary = phoneStream.collect(
+    Collectors.groupingBy(Phone::getCompany,
+        Collectors.summarizingInt(Phone::getPrice)));
+
+for(Map.Entry&lt;String, java.util.IntSummaryStatistics&gt; item : priceSummary.entrySet()) {
+    System.out.println(item.getKey() + " - " + item.getValue().getAverage());
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Метод <code>Collectors.summarizingInt(Phone::getPrice))</code> создает набор, в который помещаются цены для всех телефонов каждой из групп. Данный набор инкапсулируется в объекте <code>IntSummaryStatistics</code>. Соответственно если бы мы применяли методы <code>summarizingLong()</code> или <code>summarizingDouble()</code>, то соответственно бы получали объекты <code>LongSummaryStatistics</code> или <code>DoubleSummaryStatistics</code>.</p>
+</div>
+<div class="paragraph">
+<p>У этих объектов есть ряд методов, который позволяют выполнить различные атомарные операции над набором:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>getAverage()</code> возвращает среднее значение</p>
+</li>
+<li>
+<p><code>getCount()</code> возвращает количество элементов в наборе</p>
+</li>
+<li>
+<p><code>getMax()</code> возвращает максимальное значение</p>
+</li>
+<li>
+<p><code>getMin()</code> возвращает минимальное значение</p>
+</li>
+<li>
+<p><code>getSum()</code> возвращает сумму элементов</p>
+</li>
+<li>
+<p><code>accept()</code> добавляет в набор новый элемент</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>В данном случае мы получаем среднюю цену смартфонов для каждой группы.</p>
+</div>
+<div class="paragraph">
+<p>Консольный вывод:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-out" data-lang="out">Google - 500.0
+Apple - 525.0
+Samsung - 390.0</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_mapping"><code>mapping()</code></h3>
+<div class="paragraph">
+<p>Метод <code>mapping()</code> позволяет дополнительно обработать данные и задать функцию отображения объектов из потока на какой-нибудь другой тип данных. Например:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">Map&lt;String, List&lt;String&gt;&gt; phonesByCompany = phoneStream.collect(
+    Collectors.groupingBy(Phone::getCompany,
+    Collectors.mapping(Phone::getName, Collectors.toList())));
+
+for(Map.Entry&lt;String, List&lt;String&gt;&gt; item : phonesByCompany.entrySet()) {
+    System.out.println(item.getKey());
+    for(String name : item.getValue()) {
+        System.out.println(name);
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Выражение <code>Collectors.mapping(Phone::getName, Collectors.toList())</code> указывает, что в группу будут выделятся названия смартфонов, причем группа будет представлять объект <code>List</code>.
+= Параллельные потоки</p>
+</div>
+<div class="paragraph">
+<p>Кроме последовательных потоков <strong>Stream API</strong> поддерживает параллельные потоки. Распараллеливание потоков позволяет задействовать несколько ядер процессора (если целевая машина многоядерная) и тем самым может повысить производительность и ускорить вычисления. В то же время говорить, что применение параллельных потоков на многоядерных машинах однозначно повысит производительность - не совсем корректно. В каждом конкретном случае надо проверять и тестировать.</p>
+</div>
+<div class="paragraph">
+<p>Чтобы сделать обычный последовательный поток параллельным, надо вызвать у объекта <code>Stream</code> метод <code>parallel()</code>. Кроме того, можно также использовать метод <code>parallelStream()</code> интерфейса <code>Collection</code> для создания параллельного потока из коллекции.</p>
+</div>
+<div class="paragraph">
+<p>В то же время если рабочая машина не является многоядерной, то поток будет выполняться как последовательный.</p>
+</div>
+<div class="paragraph">
+<p>Применение параллельных потоков во многих случаях будет аналогично. Например:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">import java.util.Optional;
+import java.util.stream.Stream;
+
+public class Program {
+    public static void main(String[] args) {
+        Stream&lt;Integer&gt; numbersStream = Stream.of(1, 2, 3, 4, 5, 6);
+        Optional&lt;Integer&gt; result = numbersStream.parallel().reduce((x, y) -&gt; x * y);
+        System.out.println(result.get()); // 720
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Однако не все функции можно без ущерба для точности вычисления перенести с последовательных потоков на параллельные. Прежде всего такие функции должны быть без сохранения состояния и ассоциативными, то есть при выполнении слева направо давать тот же результат, что и при выполнении справа налево, как в случае с произведением чисел. Например:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">Stream&lt;String&gt; wordsStream = Stream.of("мама", "мыла", "раму");
+String sentence = wordsStream.parallel().reduce("Результат:", (x, y) -&gt; x + " " + y);
+System.out.println(sentence);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Результатом этой функции будет консольный вывод:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-out" data-lang="out">Результат: мама Результат: мыла Результат: раму</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_sequential"><code>sequential()</code></h3>
+<div class="paragraph">
+<p>Данный вывод не является правильным. Если же мы не уверены, что на каком-то этапе работы с параллельным потоком он адекватно сможет выполнить какую-нибудь операцию, то мы можем преобразовать этот поток в последовательный посредством вызова метода <code>sequential()</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">Stream&lt;String&gt; wordsStream = Stream.of("мама", "мыла", "раму", "hello world");
+String sentence = wordsStream.parallel()
+        .filter(s-&gt;s.length()&lt;10) // фильтрация над параллельным потоком
+        .sequential()
+        .reduce("Результат:", (x, y) -&gt; x + " " + y); // операция над последовательным потоком
+System.out.println(sentence);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>И возьмем другой пример:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">Stream&lt;Integer&gt; numbersStream = Stream.of(1, 2, 3, 4, 5, 6);
+Integer result = numbersStream.parallel().reduce(1, (x, y) -&gt; x * y);
+System.out.println(result);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Фактически здесь происходит перемножение чисел. При этом нет разницы между <code>1 * 2 * 3 * 4 * (5 * 6)</code> или <code>5 * 6 * 1 * (2 * 3) * 4</code>. Мы можем расставить скобки любым образом, разместить последовательность чисел в любом порядке, и все равно мы получим один и тот же результат. То есть данная операция является ассоциативной и поэтому может быть распараллелена.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_вопросы_производительности_в_параллельных_операциях">Вопросы производительности в параллельных операциях</h3>
+<div class="paragraph">
+<p>Фактически применение параллельных потоков сводится к тому, что данные в потоке будут разделены на части, каждая часть обрабатывается на отдельном ядре процессора, и в конце эти части соединяются, и над ними выполняются финальные операции. Рассмотрим некоторые критерии, которые могут повлиять на производительность в параллельных потоках:</p>
+</div>
+<div class="paragraph">
+<p>Размер данных. Чем больше данных, тем сложнее сначала разделять данные, а потом их соединять.</p>
+</div>
+<div class="paragraph">
+<p>Количество ядер процессора. Теоретически, чем больше ядер в компьютере, тем быстрее программа будет работать. Если на машине одно ядро, нет смысла применять параллельные потоки.</p>
+</div>
+<div class="paragraph">
+<p>Чем проще структура данных, с которой работает поток, тем быстрее будут происходить операции. Например, данные из <code>ArrayList</code> легко использовать, так как структура данной коллекции предполагает последовательность несвязанных данных. А вот коллекция типа <code>LinkedList</code> - не лучший вариант, так как в последовательном списке все элементы связаны с предыдущими/последующими. И такие данные трудно распараллелить.</p>
+</div>
+<div class="paragraph">
+<p>Над данными примитивных типов операции будут производиться быстрее, чем над объектами классов</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_упорядоченность_в_параллельных_потоках">Упорядоченность в параллельных потоках</h3>
+<div class="paragraph">
+<p>Как правило, элементы передаются в поток в том же порядке, в котором они определены в источнике данных. При работе с параллельными потоками система сохраняет порядок следования элементов. Исключение составляет метод <code>forEach()</code>, который может выводить элементы в произвольном порядке. И чтобы сохранить порядок следования, необходимо применять метод <code>forEachOrdered()</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">phones.parallelStream()
+    .sorted()
+    .forEachOrdered(s -&gt; System.out.println(s));</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Сохранение порядка в параллельных потоках увеличивает издержки при выполнении. Но если нам порядок не важен, то мы можем отключить его сохранение и тем самым увеличить производительность, использовав метод <code>unordered()</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">phones.parallelStream()
+    .sorted()
+    .unordered()
+    .forEach(s -&gt; System.out.println(s));</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_параллельные_операции_над_массивами">Параллельные операции над массивами</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>В JDK 8 к классу <code>Arrays</code> было добавлено ряд методов, которые позволяют в параллельном режиме совершать обработку элементов массива. И хотя данные методы формально не входят в <strong>Stream API</strong>, но реализуют схожую функциональность, что и параллельные потоки:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>parallelSetAll()</code> устанавливает элементы массива с помощью лямбда-выражения</p>
+</li>
+<li>
+<p><code>parallelSort()</code> сортирует массив</p>
+</li>
+<li>
+<p><code>parallelPrefix()</code> вычисляет некоторое значение для элементов массива (например, сумму элементов)</p>
+</li>
+</ul>
+</div>
+<div class="sect2">
+<h3 id="_parallelsetall"><code>parallelSetAll()</code></h3>
+<div class="paragraph">
+<p>Используем метод <code>parallelSetAll()</code> для установки элементов массива:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">import java.util.Arrays;
+public class Program {
+    public static void main(String[] args) {
+        int[] numbers = initializeArray(6);
+        for(int i : numbers) {
+            System.out.println(i);
+        }
+    }
+
+    public static int[] initializeArray(int size) {
+        int[] values = new int[size];
+        Arrays.parallelSetAll(values, i -&gt; i * 10);
+        return values;
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>В метод <code>Arrays.parallelSetAll()</code> передается два параметра: изменяемый массив и функция, которая устанавливает элементы массива. Эта функция перебирает все элементы и в качестве параметра получает индекс текущего перебираемого элемента. Выражение <code>i &#8594; i * 10</code> означает, что по каждому индексу в массиве будет хранится число, равное <code>i * 10</code>. В итоге мы получим следующий вывод:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-out" data-lang="out">0
+10
+20
+30
+40
+50</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Рассмотрим более сложный пример. Пусть у нас есть следующий класс <code>Phone</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">class Phone {
+    private String name;
+    private int price;
+
+    public Phone(String name, int price) {
+        this.name = name;
+        this.price = price;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String val) {
+        this.name = val;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int val) {
+        this.price = val;
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Теперь произведем манипуляции с массивом объектов <code>Phone</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">Phone[] phones = new Phone[] {
+    new Phone("iPhone 8", 54000),
+    new Phone("Pixel 2", 45000),
+    new Phone("Samsung Galaxy S9", 40000),
+    new Phone("Nokia 9", 32000)
+};
+
+Arrays.parallelSetAll(phones, i -&gt; {
+    phones[i].setPrice(phones[i].getPrice() - 10000);
+    return phones[i];
+});
+
+for(Phone p : phones) {
+    System.out.printf("%s - %d \n", p.getName(), p.getPrice());
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Теперь лямбда-выражение в методе <code>Arrays.parallelSetAll()</code> представляет блок кода. И так как лямбда-выражение должно возвращать объект, то нам надо явным образом использовать оператор <code>return</code>. В этом лямбда-выражении опять же функция получает индексы перебираемых элементов, и по этим индексам мы можем обратиться к элементам массива и их изменить. Конкретно в данном случае происходит уменьшение цены смартфонов на <code>10000</code> единиц. В итоге мы получим следующий консольный вывод:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-out" data-lang="out">iPhone 8 - 44000
+Pixel 2 - 35000
+Samsung Galaxy S9 - 30000
+Nokia 9 - 22000</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_parallelsort"><code>parallelSort()</code></h3>
+<div class="paragraph">
+<p>Отсортируем массив чисел в параллельном режиме:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">int[] nums = {30, -4, 5, 29, 7, -8};
+Arrays.parallelSort(nums);
+for(int i : nums) {
+    System.out.println(i);
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Метод <code>Arrays.parallelSort()</code> в качестве параметра принимает массив и сортирует его по возрастанию:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-out" data-lang="out">-8
+-4
+5
+7
+29
+30</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Если же нам надо как-то по-другому отсортировать объекты, например, по модулю числа, или у нас более сложные объекты, то мы можем создать свой компаратор и передать его в качестве второго параметра в <code>Arrays.parallelSort()</code>. Например, возьмем выше определенный класс <code>Phone</code> и создадим для него компаратор:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">import java.util.Arrays;
+import java.util.Comparator;
+public class Program {
+    public static void main(String[] args) {
+        Phone[] phones = new Phone[]{new Phone("iPhone 8", 54000),
+        new Phone("Pixel 2", 45000),
+        new Phone("Samsung Galaxy S9", 40000),
+        new Phone("Nokia 9", 32000)};
+
+        Arrays.parallelSort(phones,new PhoneComparator());
+
+        for(Phone p : phones) {
+        System.out.println(p.getName());
+        }
+    }
+}
+
+class PhoneComparator implements Comparator&lt;Phone&gt; {
+    public int compare(Phone a, Phone b) {
+        return a.getName().toUpperCase().compareTo(b.getName().toUpperCase());
+    }
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_parallelprefix"><code>parallelPrefix()</code></h3>
+<div class="paragraph">
+<p>Метод <code>parallelPrefix()</code> походит для тех случаев, когда надо получить элемент массива или объект того же типа, что и элементы массива, который обладает некоторыми признаками. Например, в массиве чисел это может быть максимальное, минимальное значения и т.д. Например, найдем произведение чисел:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">int[] numbers = {1, 2, 3, 4, 5, 6};
+Arrays.parallelPrefix(numbers, (x, y) -&gt; x * y);
+
+for(int i : numbers) {
+    System.out.println(i);
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Мы получим следующий результат:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-out" data-lang="out">1
+2
+6
+24
+120
+720</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>То есть, как мы видим из консольного вывода, лямбда-выражение из <code>Arrays.parallelPrefix()</code>, которое представляет бинарную функцию, получает два элемента и выполняет над ними операцию. Результат операции сохраняется и передается в следующий вызов бинарной функции.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</body>
+</html>
