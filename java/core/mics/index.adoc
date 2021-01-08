@@ -26,6 +26,8 @@ include::annotations.adoc[]
 
 include::reflection-api.adoc[]
 
+include::properties.adoc[]
+
 include::javadoc.adoc[]
 
 include::nio.adoc[]
