@@ -1,19 +1,6 @@
 = wiki
-Dmitry Rakovets
-:favicon: favicon.ico
 
 Wikis for different courses. Use 'AsciiDoc' and 'Asciidoctor' for converting to 'HTML'.
-
-== Wiki for courses
-
-* link:/common[Common]
-* Java:
-** link:/java/core[Core Java.]
-** link:/java/common[Java Common.]
-** link:/java/data-persistence[Data Persistence in Java.]
-** link:/java/jakarta-ee[Java with Jakarta EE.]
-** link:/java/spring[Java with Spring.]
-** link:/java/tools[Java Tools.]
 
 == Code of Conduct
 
