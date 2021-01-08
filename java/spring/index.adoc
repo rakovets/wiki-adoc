@@ -1,0 +1,15 @@
+= Java with Spring
+Dmitry Rakovets
+:source-highlighter: prettify
+:sectnums:
+:toc: left
+:toclevels: 2
+//:data-uri:
+
+:toc!:
+
+Wiki for course "Java with Spring".
+
+:leveloffset: +1
+
+// include::intro.adoc[]

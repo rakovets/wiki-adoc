@@ -1,0 +1,273 @@
+= Пример Enterprise JavaBeans
+
+Рассмотрим простой пример использования компонента *Enterprise JavaBeans* с выводом стандартного сообщения типа `Hello World`. Для этого создадим три проекта :
+
+* `slon-app` - проект enterprise (*Enterprise Application Project*), связывающий модули *EJB* с приложениями *WEB*
+* `slon-module` - проект с компонентами *EJB*
+* `slon-web` - *WEB* приложение, использующее компоненты *EJB*
+
+Разработку будем вести в среде *Eclipse* (использую версию Luna Service Release 2 (4.4.2)), которая предоставляет Wizard для одновременного создания подобных проектов.
+
+== Создание проектов
+
+Выбираем *Wizard* и создаем структуры проектов :
+
+1. _File_ => _New_ => _Other_ (Ctrl+N). В раскрывшемся окне выбираем Java EE, Enterprise Application Project, жмем Next и переходим к следующему шагу.
+2. Определяем наименование проекта `slon-app`, Target runtime (использую JBoss 7.1) и к следующему шагу (Next).
+3. На этом шаге в открывшемся окне можно выбрать модули из существующих или создать новые. Создаем новые - нажимаем на «New module ...».
+4. В открывшемся окне «New Java EE Module» выбираем «EJB module» и «Web module». Определяем наименования как _slon-module_ и _slon-web_. Нажимаем на кнопку Finish, после чего окно закрывается, создаются новые проекты (модули), которые появляются в списке проектов. Устанавливаем флаг «Generate `application.xml` deployment descriptor» и завершаем разработку структуры проектов (жмем Finish).
+
+Не прилагая чрезмерных усилий создали проект `slon-app` типа _Enterprise Application Project_, включающий два проекта. На следующем скриншоте представлена структура созданных проектов в IDE Eclipse.
+
+image:/assets/img/java/jakarta-ee/javabean/ejb.png[Структуры проектов приложения Enterprise Application Project]
+
+Приложение `slon-app` включает только файл конфигурации приложения `application.xml`, в котором определены модули.
+
+== Листинг `application.xml`
+
+[source, xml]
+----
+<?xml version="1.0" encoding="UTF-8"?>
+<application xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xmlns="http://java.sun.com/xml/ns/javaee"
+             xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+               http://java.sun.com/xml/ns/javaee/application_6.xsd"
+             id="Application_ID" version="6">
+    <display-name>slon-app</display-name>
+    <module>
+        <web>
+            <web-uri>slon-web.war</web-uri>
+            <context-root>slon-web</context-root>
+        </web>
+    </module>
+    <module>
+        <ejb>slon-module.jar</ejb>
+    </module>
+</application>
+----
+
+== Создание компонента EJB
+
+Компонент EJB создаем в модуле `slon-module`. Для этого включаем в проект интерфейс `IHelloWorld.java` (_New_ -> _Interface_) и класс `HelloWorldBean.java` (_New_ -> _Class_), представляющий сеансовый компонент *EJB*.
+
+=== Листинг интерфейса `IHelloWorld`
+
+[source, java]
+----
+package modules;
+
+import javax.ejb.Local;
+
+@Local
+public interface IHelloWorld
+{
+    public String sayHello(String name);
+}
+----
+
+Интерфейс `IHelloWorld.java` включает только один метод `sayHello()` и помечен аннотацией `@Local`.
+
+> *Примечание* : аннотация `@Local` к интерфейсу сообщает контейнеру, что реализация IHelloWorld может быть доступна локально, посредством интерфейса. В этом есть определенный смысл, если интерфейс и использующие его компоненты EJB находятся в одном и том же приложении. Аннотацию `@Local` можно опустить; в этом случае интерфейс все равно будет интерпретироваться контейнером как локальный.
+
+=== Листинг компонента EJB
+
+[source, java]
+----
+package modules;
+
+import javax.ejb.Stateless;
+
+// Сеансовый компонент без сохранения состояния
+@Stateless
+public class HelloWorldBean implements IHelloWorld {
+    @Override
+    public String sayHello(String name) {
+        return String.format("Hello %s, welcome to EJB 3.1!", name);
+    }
+}
+----
+
+В листинге `HelloWorldBean.java` представлен законченный, действующий компонент *EJB*, являющийся обычным Java-классом. Аннотация `@Stateless` обеспечивает преобразование простого Java-объекта (*POJO*) в полноценный сеансовый компонент EJB без сохранения состояния. Фактически, аннотации несут в себе дополнительную информацию в «форме комментария», которая добавляется в код.
+
+> *Примечание* : аннотация `@Stateless` сообщает контейнеру EJB, что HelloWorldBean является сеансовым компонентом без сохранения состояния. Контейнер приложений автоматически добавит в компонент поддержку многопоточной модели выполнения, транзакций и возможность размещения в пулах. Поддержка многопоточности и транзакций гарантируют возможность использования любых ресурсов, таких как база данных или очередь сообщений, без необходимости разработки кода для обслуживания «конкуренции» или транзакций. Поддержка размещения в пулах гарантирует надежность даже при очень высоких нагрузках. При необходимости в компонент можно также добавить поддержку дополнительных служб EJB, таких как безопасность, планирование и интерцепторы.
+
+== Аннотации в EJB
+
+Необходимо несколько слов сказать об использовании аннотаций при создании компонентов _EJB_. Аннотации появивились в Java SE 5. До их появления единственным средством определения конфигурации приложений были файлы XML. Однако, использование файлов XML влечет за собой множество проблем :
+
+* формат XML чересчур многословен, трудно читаем и в нем очень легко допустить ошибку;
+* XML никак не поддерживает одну из сильнейших сторон Java – строгий контроль типов;
+* конфигурационные файлы XML часто получаются монолитными и они отделяют информацию о настройках от программного кода, использующего ее, что усложняет сопровождение.
+
+Аннотации были созданы специально, чтобы ослабить эти проблемы. EJB 3 стала первой распространенной технологией на основе языка Java, проложившей путь к применению аннотаций. С тех пор по ее стопам пошли многие другие технологии типа JPA, JSF, Servlets, JUnit, Spring и т.д.
+
+Благодаря нацеленности на простоту использования в EJB 3 применение аннотаций преобладает над применением конфигурации объектов в формате XML.
+
+=== Основные аннотации EJB (версия 3)
+
+* `@EJB` — помечается используемый в классе компонент EJB;
+* `@Stateless` — определяется stateless session bean;
+* `@Stateful` — определяется stateful session bean;
+* `@Singleton` — определяется singleton session bean;
+* `@Local` — определяется local session bean;
+* `@LocalBean` — определяется bean, который будет использован локально, следовательно его не нужно сериализовать;
+* `@Remote` — компонент доступен через RMI (Remote Method Invocation);
+* `@Remove` — помеченный данной аннотацией метод говорит контейнеру, что после его исполнения нет больше смысла хранить компонент EJB, т.е. его состояние сбрасывается;
+* `@Entity` — аннотация говорит контейнеру, что класс будет сущностью БД.
+
+Таким образом, аннотации компонентов _EJB 3_ можно рассматривать по сути как параметры настройки, присваивающие фрагментам кода (объявление класса или метода) определенные атрибуты. Когда контейнер _EJB_ обнаруживает эти атрибуты, он добавляет соответствующие им службы. Этот подход иначе называют «декларативным программированием» - разработчик указывает, что должно быть сделано, а система добавляет необходимый код.
+
+== Создание WEB приложения
+
+В WEB-приложении slon-web нам необходимо обратиться к компоненту *EJB*, определенному в другом приложении и размещенном в контейнере приложений *JBoss* (который я использую). Для этого создадим сервлет `ServletHello` с компонентом *EJB*, и страницу `index.jsp`, из которой отправим запрос сервлету.
+
+Создаем сервлет _New_ -> _Servlet_. В сервлете определяем компонент *EJB* `hello` типа `IHelloWorld` с аннотацией `@EJB`. Контейнер приложений сам инициализирует переменную `hello` и свяжет ее с компонентом `HelloWorldBean`, реализующим интерфейс `IHelloWorld`.
+
+=== Определение зависимости
+
+На этапе разработки *IDE Eclipse* не определит тип интерфейса `IHelloWorld`. Поэтому необходимо к проекту slon-web подключить проект slon-module. Для этого откройте свойства проекта _Properties_ и в _Deployment Assembly_ подключите (_Add ..._) проект `slon-module`.
+
+=== Листинг `ServletHello.java`
+
+[source, java]
+----
+package servlets;
+
+import java.io.IOException;
+
+import javax.ejb.EJB;
+import javax.servlet.ServletException;
+import javax.servlet.RequestDispatcher;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import modules.IHelloWorld;
+
+public class ServletHello extends HttpServlet {
+    private static final long serialVersionUID = 1L;
+
+    @EJB
+    private IHelloWorld hello;
+
+    @Override
+    protected void doPost(HttpServletRequest request,
+                          HttpServletResponse response)
+                          throws ServletException, IOException {
+        try {
+            String answer = hello.sayHello(request.getParameter("name"));
+            request.getSession().setAttribute("answer", answer);
+            RequestDispatcher rd;
+            rd = request.getRequestDispatcher("index.jsp");
+            rd.forward(request, response);
+        } catch (Exception e) {
+            throw new ServletException(e.getMessage());
+        }
+    }
+}
+----
+
+В сервлете переопределен метод `doPost()`. В методу вызывается функция `sayHello()` компонента _EJB_, которая возвращает ответ. Сервлет размещает ответ в странице `index.jsp`.
+
+_Следует обратить внимание, что компонент EJB (hello) не инициализируется, а сразу же вызывается его метод._
+
+== Листинг `index.jsp`
+
+Создаем страницу `index.jsp` _New_ -> _JSP File_
+
+[source, html]
+----
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+                         pageEncoding="UTF-8"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                      "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>EJB 3.1</title>
+</head>
+<body>
+    <h3>Enterprise JavaBeans 3</h3>
+    <p>${answer}</p>
+    <form action="sayHello" method="post">
+        Введите имя : <input type="text" name="name" value=""/>
+        <input type="submit" value="OK"/>
+    </form>
+</body>
+</html>
+----
+
+На странице index.jsp определяем поле для ответа answer и форму запроса (form). При нажатии на кнопку OK будет выполнено действие `sayHello()`, определенное в дескрипторе приложений `web.xml`, которое вернет ответ от сервера (сервлет => EJB).
+
+Подробное описание синтаксиса страниц JSP (Java Server Page) представлено link:http://java-online.ru/jsp.xhtml[здесь].
+
+== Листинг `web.xml`
+
+[source, xml]
+----
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version= "2.5"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://java.sun.com/xml/ns/javaee"
+         xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+         http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+    <display-name>Servlet Hello</display-name>
+    <servlet>
+        <servlet-name>ServletHello</servlet-name>
+        <servlet-class>servlets.ServletHello</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ServletHello</servlet-name>
+        <url-pattern>/sayHello</url-pattern>
+    </servlet-mapping>
+
+    <welcome-file-list>
+        <welcome-file>index.jsp</welcome-file>
+    </welcome-file-list>
+</web-app>
+----
+
+В дескрипторе приложения определен сервлет и действие (pattern sayHello), по которому он будет вызван.
+
+На этом можно сказать разработка закончилась. Теперь осталось запустить приложение slon-app на исполнение (Run As => Run on Server) и увидеть следующую картинку в браузере.
+
+image:/assets/img/java/jakarta-ee/javabean/ejb-jsp.png[Интерфейс страницы JSP]
+
+NOTE: скриншот снят после ввода имени Alex и нажатия на кнопку OK, т.е. после получения ответа от сервера.
+
+На этом можно было бы и закончить повествование, но хочется взглянуть и на сервер приложений. А как он реагирует на наши приложения?
+
+== Сервер приложений
+
+После запуска приложения slon-app также стартуют 2 приложения : slon-module и slon-web. В логах сервера приложений JBoss увидим следующую информацию :
+
+[source, out]
+----
+JNDI bindings for session bean named HelloWorldBean in deployment unit
+              subdeployment "slon-module.jar" of deployment "slon-app.ear"
+              are as follows:
+
+
+java:global/slon-app/slon-module/HelloWorldBean!modules.IHelloWorld
+java:app/slon-module/HelloWorldBean!modules.IHelloWorld
+java:module/HelloWorldBean!modules.IHelloWorld
+java:global/slon-app/slon-module/HelloWorldBean
+java:app/slon-module/HelloWorldBean
+java:module/HelloWorldBean
+
+
+JNDI bindings for session bean named HelloWorldBean in deployment unit
+              subdeployment "slon-web.war" of deployment "slon-app.ear"
+              are as follows:
+
+
+java:global/slon-app/slon-web/HelloWorldBean!modules.IHelloWorld
+java:app/slon-web/HelloWorldBean!modules.IHelloWorld
+java:module/HelloWorldBean!modules.IHelloWorld
+java:global/slon-app/slon-web/HelloWorldBean
+java:app/slon-web/HelloWorldBean
+java:module/HelloWorldBean
+----
+
+Таким образом, сервер приложения «принял» наш компонент EJB. О формате именования компонентов EJB можно почитать  link:http://java-online.ru/ejb.xhtml#jndi-ejb[здесь]

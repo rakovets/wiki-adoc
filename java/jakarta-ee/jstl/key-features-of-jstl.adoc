@@ -1,0 +1,157 @@
+= Основные возможности JSTL
+
+Рассмотрим некоторые основные возможности *JSTL*.
+
+== Цикл
+
+Вывод в цикле элементов массива или коллекции:
+
+[source, html]
+----
+<c:forEach var="user" items="${users}">
+    <p>${user}</p>
+</c:forEach>
+----
+
+В данном случае параметр `items` указывает на коллекцию, элементы которой выводятся. А параметр `var` задает переменную, через которую доступен текущий перебираемый элемент.
+
+Например, в сервлет передается массив строк:
+
+[source, java]
+----
+public class HelloServlet extends HttpServlet {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+        throws ServletException, IOException {
+        String[] users = new String[]{"Tom", "Bob", "Sam"};
+        request.setAttribute("users", users);
+        getServletContext().getRequestDispatcher("/index.jsp").forward(request, response);
+    }
+}
+----
+
+В jsp мы можем получить и вывести элементы массива следующим образом:
+
+[source, html]
+----
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>User Info</title>
+</head>
+<body>
+    <ul>
+        <c:forEach var="user" items="${users}">
+            <li><c:out value="${user}" /></li>
+        </c:forEach>
+    </ul>
+</body>
+</html>
+----
+
+image:/assets/img/java/jakarta-ee/jstl/jstl5.png[Цикл в JSTL в JSP]
+
+Еще один пример - вывод в цикле всех куки:
+
+[source, html]
+----
+<ul>
+<c:forEach var="cook" items="${cookie}">
+    <li>
+        <p><c:out value="${cook.value.name}" /></p>
+        <p><c:out value="${cook.value.value}" /></p>
+    </li>
+</c:forEach>
+</ul>
+----
+
+== Условные выражения
+
+Выражение `if`:
+
+[source, html]
+----
+<c:if test="${isVisible == true}">
+    <p>Visible</p>
+</c:if>
+----
+
+В данном случае если атрибут `isVisible` равен `true`, то выводится код, который расположен между тегами `<c:if>` и `</c:if>`
+
+Если надо задать альтернативную логику, то можно добавить тег `c:if`, который проверяет противоположное условие:
+
+[source, html]
+----
+<c:if test="${isVisible == true}">
+    <p>Visible</p>
+</c:if>
+<c:if test="${isVisible == false}">
+    <p>Invisible</p>
+</c:if>
+----
+
+== Тег `choose`
+
+Тег  `c:choose`  подобно конструкции switch...case в Java проверяет объект на соответствие одному из значений. Например
+
+[source, html]
+----
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>JSTL in JSP</title>
+</head>
+<body>
+    <c:choose>
+    <c:when test="${val == 1}">
+        <p>Equals to 1</p>
+    </c:when>
+    <c:when test="${val == 2}">
+        <p>Equals to 2</p>
+    </c:when>
+    <c:otherwise>
+        <p>Undefined</p>
+    </c:otherwise>
+    </c:choose>
+</body>
+</html>
+----
+
+В данном случае тег `c:choose` проверяет значение атрибута `val`. Для проверки применяются вложенные теги  `c:when`, которые аналогичны блокам `case` в конструкции `switch..case`. С помощью их параметра  `test`  значение атрибута сравнивается с определенным значением. И если выражения сравнения истинно, то выводится код, который размещен внутри данного элемента `c:when`. Таким образом мы можем определить несколько блоков `c:when`. Дополнительный тег `<c:otherwise>` выполняется, если условия проверки значения во всех тегах `c:when` ложно.
+
+== Тег url
+
+Тег `<c:url>` позволяет создать адрес относительно корня приложения. Этот тег может применяться, например, при создании ссылок.
+
+[source, html]
+----
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>JSTL in JSP</title>
+</head>
+<body>
+    <a href='<c:url value="/edit" />'><c:url value="/edit" /></a>
+</body>
+</html>
+----
+
+Параметр `value` содержит часть адреса, которая добавляется к корню приложения.
+
+image:/assets/img/java/jakarta-ee/jstl/jstl6.png[url in JSTL in JSP]
+
+== `redirect`
+
+С помощью тега  `redirect`  можно установить редирект на другой адрес. Например, в случае если атрибут `val` не определен, то делаем редирект на страницу `notfound.jsp`:
+
+[source, html]
+----
+<c:if test="${val == null}">
+    <c:redirect url="/notfound.jsp" />
+</c:if>
+----

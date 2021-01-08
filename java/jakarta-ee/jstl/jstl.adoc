@@ -1,0 +1,86 @@
+= JSTL
+
+*JSP* по умолчанию позволяет встраивать код на java в разметку html. Однако иногда использование стандартных способов для ряда операций, например, для ывод на страницу элементов из списка и т.д., может быть несколько громоздким. Чтобы упростить встраивание кода java в JSP была разработана специальная библиотека - *JSTL*. *JSTL* (*JSP Standard Tag Library*) предоставляет теги для базовых задач JSP (цикл, условные выражения и т.д.)
+
+Эта библиотека не является частью инфраструктуры Java EE, поэтому ее необходимо добавлять в проект самостоятельно. Библиотеку можно найти по адресу link:http://central.maven.org/maven2/javax/servlet/jstl/1.2/[maven artifact]. Из репозитория нам необходимо загрузить файл *jstl-1.2.jar*.
+
+image:/assets/img/java/jakarta-ee/jstl/jstl1.png[download jstl in java ee]
+
+В проекте Eclipse эту библиотеку необходимо добавить в папку  *WebContent/WEB-INF/lib*:
+
+image:/assets/img/java/jakarta-ee/jstl/jstl2.png[JSTL в Java EE]
+
+Несмотря на то, что JSTL часто называется библиотекой, на самом деле она содержит ряд библиотек:
+
+* *Core*: содержит основные теги для наиболее распространенных задач. Использует префикс `c` и uri `http://java.sun.com/jsp/jstl/core`
+* *Formatting*: предоставляет теги для форматирования чисел, дат, времени. Использует префикс `fmt` и uri `http://java.sun.com/jsp/jstl/fmt`
+* *SQL*: предоставляет теги для sql-запросами и источниками данных. Использует префикс `sql` и uri `http://java.sun.com/jsp/jstl/sql`
+* *XML*: предоставляет теги для работы с xml. Использует префикс `x` и uri `http://java.sun.com/jsp/jstl/xml`
+* *Functions*: предоставляет функции для работы со строками. Использует префикс `fn` и uri `http://java.sun.com/jsp/jstl/functions`
+
+Для подключения функционала этих библиотек на страницу jsp применяется директива  *taglib*. Например, подключения основной библиотеки:
+
+[source, html]
+----
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+----
+
+Рассмотрим некоторые базовые и наиболее используемые возможности JSTL.
+
+== Защита от внедрения кода
+
+Стандартный синтаксис EL не позволяет нам экранировать теги. Например, допустим, в сервлете в jsp передается некоторый текст, который содержит код html:
+
+[source, java]
+----
+public class HelloServlet extends HttpServlet {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+        throws ServletException, IOException {
+        request.setAttribute("message", "<script>alert('Hello gold')</script>");
+        getServletContext().getRequestDispatcher("/index.jsp").forward(request, response);
+    }
+}
+----
+
+Передаваемая здесь строка содержит javascript-код, который отображает диалоговое окно. Но естественно код мог бы быть менее безобидным. И если в jsp для вывода атрибута message применяется только стандартный *EL*:
+
+[source, html]
+----
+<p>${message}</p>
+----
+
+то в результате этот html-код будет внедрен напрямую в страницу:
+
+image:/assets/img/java/jakarta-ee/jstl/jstl3.png[XSS in JSP in Java EE]
+
+Теперь используем возможности JSTL:
+
+[source, html]
+----
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>JSTL</title>
+</head>
+<body>
+    <p><c:out value="${message}" /></p>
+</body>
+</html>
+----
+
+Тег `c:out` позволяет декодировать теги html. Его атрибут `value` указывает на выводимое значение. В итоге мы получим совсем другой вывод:
+
+image:/assets/img/java/jakarta-ee/jstl/jstl4.png[Защита от XSS в JSP в Java EE]
+
+== Значение по умолчанию
+
+Через атрибуты сервлет передает данные в *JSP*. Однако вполне возможно, что из-за каких-то условий нужное значение не будет передано. В этом случае мы можем установить для тега `<c:out>` значение по умолчанию, используя его параметр  `default`:
+
+[source, html]
+----
+<p><c:out value="${message2}" default="Hello world"/></p>
+----
+
+И если значение для атрибута `message2` не передано, то для него будет использоваться строка `"Hello world"`.

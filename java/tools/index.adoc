@@ -1,0 +1,15 @@
+= Java Tools
+Dmitry Rakovets
+:source-highlighter: prettify
+:sectnums:
+:toc: left
+:toclevels: 2
+//:data-uri:
+
+:toc!:
+
+Wiki for course "Java Tools".
+
+:leveloffset: +1
+
+include::lombok.adoc[]

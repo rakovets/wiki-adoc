@@ -1,0 +1,23 @@
+= Jakarta Servlet
+
+:leveloffset: +1
+
+include::intro.adoc[]
+
+include::how-works-servlet.adoc[]
+
+include::retrieving-data-in-servlet.adoc[]
+
+include::forwarding-and-redirection-request.adoc[]
+
+include::web.xml-and-servlet-mapping.adoc[]
+
+include::servlet-initialization-parameters.adoc[]
+
+include::error-processing.adoc[]
+
+include::cookies.adoc[]
+
+include::sessions.adoc[]
+
+:leveloffset: -1

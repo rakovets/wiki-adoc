@@ -1,0 +1,21 @@
+= InetAddress
+
+Для работы с IP-адресами в библиотеке `java.net` имеется класс `InetAddress`. С помощью `InetAddress` можно определить адрес IP локального узла, а также адреса удаленного узла, заданного доменным именем. Наиболее распространенные методы класса `InetAddress`:
+
+* `InetAddress getLocalHost()`
+* `InetAddress getByName(String host)`
+* `InetAddress[] getAllByName(String host)`
+* `byte[] getAddress()`
+* `String toString()`
+* `String getHostName()`
+* `boolean equals(Object obj)`
+
+При разработке сетевых приложений на начальном этапе, как правило, используют один компьютер (*host*). Для этого создатели протокола IP определили специальный адрес, называемый `localhost` - это IP-адрес "*локальной заглушки*" (*local loopback*) для работы приложений без использования сети. Общий порядок получения этого адреса в Java следующий:
+
+[source, java]
+----
+InetAddress address = InetAddress.getByName(null);
+address = InetAddress.getByName("localhost");
+----
+
+Если методу `getByName()` передать значение `null`, то по умолчанию будет использоваться `localhost`. Cодержимым `InetAddress` нельзя манипулировать. Для создания `InetArddress` можно использовать один из перегруженных статических методов класса `getByName()`, `getAllByName()` или `getLocalHost()`.

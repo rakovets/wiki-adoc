@@ -1,0 +1,43 @@
+= Core Java
+Dmitry Rakovets
+:source-highlighter: prettify
+:sectnums:
+:toc: left
+:toclevels: 2
+//:data-uri:
+
+:toc!:
+
+Wiki for course "Core Java".
+
+:leveloffset: +1
+
+include::intro.adoc[]
+
+include::first-program.adoc[]
+
+include::language/index.adoc[]
+
+include::oop/index.adoc[]
+
+include::mics/index.adoc[]
+
+include::exception-handling.adoc[]
+
+include::generics/index.adoc[]
+
+include::collections/index.adoc[]
+
+include::fp/index.adoc[]
+
+include::datetime/index.adoc[]
+
+include::io/index.adoc[]
+
+include::concurrency/index.adoc[]
+
+include::concurrent/index.adoc[]
+
+include::java.net/index.adoc[]
+
+include::javadoc.adoc[]

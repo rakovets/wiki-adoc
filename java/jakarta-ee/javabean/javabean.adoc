@@ -1,0 +1,102 @@
+= JavaBean
+
+Класс *JavaBean* должен соответствовать ряду ограничений:
+
+* иметь конструктор, который не принимает никаких параметров
+* определять для всех свойств, которые используются в *jsp*, методы геттеры и сеттеры
+* названия геттеров и сеттеров должны соответствовать условностям: перед именем переменной добавляется `get` (для геттера) и `set` (для сеттера), а название переменной включается с большой буквы. Например, если переменная называется `firstName`, то функции геттера и сеттера должны называться соответственно `getFirstName()` и `setFirstName()`.
+* для переменных типа `boolean` для функции геттера используется вместо `get` приставка `is`. Например, переменная `enabled` и геттер `isEnabled()`.
+* реализовать интерфейс `Serializable` или `Externalizable`
+
+Рассмотрим, как использовать классы *JavaBean*. Допустим, у нас есть следующая структура:
+
+image:/assets/img/java/jakarta-ee/javabean/file-javabean.png[Project structure]
+
+В папке `Java Resources/src` расположен класс `User` со следующим кодом:
+
+[source, java]
+----
+import java.io.Serializable;
+
+public class User implements Serializable {
+    private static final long serialVersionUID = 2041275512219239990L;
+
+    private String name;
+    private int age;
+
+    public User() {
+        this.name = "";
+        this.age = 0;
+    }
+
+    public User(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+}
+----
+
+Данный класс представляет пользователя и является классом *JavaBean*: он реализует интерфейс `Serializable`, имеет конструктор без параметров, а его методы - геттеры и сеттеры, которые предоставляют доступ к переменным `name` и `age`, соответствуют условностям.
+
+В папке `WebContent` определена страница `user.jsp`. Определим в ней следующий код:
+
+[source, html]
+----
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>User Java Bean Page</title>
+</head>
+<body>
+    <div>
+		<p>Name: ${user.name}</p>
+		<p>Age: ${user.age}</p>
+    </div>
+</body>
+</html>
+----
+
+Данная страница *jsp* получает извне объект `user` и с помощью синтаксиса *EL* выводит значения его свойств. Стоит обратить внимание, что здесь идет обращение к переменным `name` и `age`, хотя они являются приватными.
+
+В папке `Java Resources/src` в файле `HelloServlet.java` определен сервлет `HelloServlet`:
+
+[source, java]
+----
+import java.io.IOException;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+@WebServlet("/hello")
+public class HelloServlet extends HttpServlet {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        User tom = new User("Tom", 25);
+        request.setAttribute("user", tom);
+        getServletContext().getRequestDispatcher("/user.jsp").forward(request, response);
+    }
+}
+----
+
+Сервлет создает объект `User`. Для передачи его на страницу `user.jsp` устанавливается атрибут `user` через вызов `request.setAttribute("user", tom)`. Далее происходит перенаправление на страницу `user.jsp`. И, таким образом, страница получит данные из сервлета.
+
+image:/assets/img/java/jakarta-ee/javabean/page-javabean.png[Page JavaBean]

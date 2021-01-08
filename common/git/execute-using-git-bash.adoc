@@ -1,0 +1,53 @@
+= Command for Git
+
+== Precondition
+
+* Все команды кроме `git clone` выполняются в `terminal`/`cmd` в directory с проектом
+* Команда `git clone` выполняется в directory `dev`, которая должна быть создана в пользовательской directory
+* Команды для работы в `cmd`:
+** `cd ..` - изменить directory на directory выше
+** `cd dir_name` - изменить directory на directory с именем `dir_name` - directory в которую необходимо перейти и которая находится в текущей directory
+** `c:` - перейти на диск `c`
+
+== Workflow
+
+image:/assets/img/common/git/execute-using-git-bash.svg[Git basic operation]
+
+== Q&A
+
+[qanda]
+Как копировать *remote repository* когда его нет на компьютере?::
+	*Необходимо делать единожды*: `git clone https://github.com/GITHUB_USERNAME/GITHUB_REPOSITORY.git`, где `https://github.com/GITHUB_USERNAME/GITHUB_REPOSITORY.git` - ссылка на НУЖНЫЙ репозиторий
+
+Как сконфигурировать `user.name` в git?::
+	*Необходимо делать единожды*: `git config --global user.name 'YOUR FULLNAME'`, где `YOUR FULLNAME` - ваше имя и фамилия
+
+Как сконфигурировать `user.email` в git?::
+	*Необходимо делать единожды*: `git config --global user.email 'YOUR_EMAIL'`, где `YOUR_EMAIL` - ваш email
+
+Как посмотреть состояние *working directory*?::
+	`git status`
+
+Как посмотреть *commits* для *local repository*?::
+	`git log`
+
+Как переключать *branch*?::
+	`git checkout BRANCH_NAME`, где `BRANCH_NAME` - имя `branch` в который необходимо переключиться
+
+Как добавить файлы из *working directory* в *staging area* для предстоящего *commit*?::
+	`git add .`, где `.` - все файлы, можно также использовать имя файла, для добавления только файла
+
+Как добавить файлы из `staging area` в `local repository` с определенным заголовком?::
+	`git commit -m "YOUR_COMMIT_MEASSAGE"`,	где `YOUR_COMMIT_MEASSAGE` - залоговок который НУЖНО использовать
+
+Как отправить изменения из *local repository* в *remote repository*?::
+	`git push GITHUB_REPOSITORY`, где `GITHUB_REPOSITORY` - краткое имя *remote repository*
+
+Как узнать о произошедших изменениях в *remote repository*?::
+	`git fetch GITHUB_REPOSITORY`, где `GITHUB_REPOSITORY` - краткое имя *remote repository*
+
+Как обновить текущий *local repository*, если произошли изменения в *remote repository*?::
+	`git pull GITHUB_REPOSITORY`, где `GITHUB_REPOSITORY` - краткое имя *remote repository*
+
+Как добавить дополнительный *remote repository*?::
+	`git remote add GITHUB_USERNAME https://github.com/GITHUB_USERNAME/GITHUB_REPOSITORY.git`, где `https://github.com/GITHUB_USERNAME/GITHUB_REPOSITORY.git` - ссылка на *remote repository*

@@ -1,0 +1,21 @@
+= Common
+Dmitry Rakovets
+:source-highlighter: prettify
+:sectnums:
+:toc: left
+:toclevels: 2
+//:data-uri:
+
+:toc!:
+
+Wiki for common java theme.
+
+:leveloffset: +1
+
+include::code-convention.adoc[]
+
+include::checkstyle-plugin-intellij-idea.adoc[]
+
+include::intellij-idea.adoc[]
+
+include::javaee-vs-spring-framework.adoc[]

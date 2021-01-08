@@ -1,0 +1,122 @@
+= Получение подпотока и объединение потоков
+
+Ряд методов Stream API возвращают подпотоки или объединенные потоки на основе уже имеющихся потоков. Рассмотрим эти методы.
+
+== `takeWhile()`
+
+Метод `takeWhile()` выбирает из потока элементы, пока они соответствуют условию. Если попадается элемент, который не соответствует условию, то метод завершает свою работу. Выбранные элементы возвращаются в виде потока.
+
+[source, java]
+----
+import java.util.stream.Stream;
+
+public class Program {
+    public static void main(String[] args) {
+        Stream<Integer> numbers = Stream.of(-3, -2, -1, 0, 1, 2, 3, -4, -5);
+        numbers.takeWhile(n -> n < 0)
+            .forEach(n -> System.out.println(n));
+    }
+}
+----
+
+В данном случае программа выбирает из потока числа, пока они меньше нуля. Консольный вывод программы:
+
+[source, out]
+----
+-3
+-2
+-1
+----
+
+При этом несмотря на то, что в потоке больше отрицательных чисел, но метод завершает работу, как только обнаружит первое число, которое не соответствует условию. В этом и состоит отличие, например, от метода `filter()`.
+
+Чтобы в данном случае охватить все элементы, которые меньше нуля, поток следует предварительно отсортировать:
+
+[source, java]
+----
+Stream<Integer> numbers = Stream.of(-3, -2, -1, 0, 1, 2, 3, -4, -5);
+numbers.sorted().takeWhile(n -> n < 0)
+        .forEach(n -> System.out.println(n));
+----
+
+Консольный вывод программы:
+
+[source, out]
+----
+-5
+-4
+-3
+-2
+-1
+----
+
+== `dropWhile()`
+
+Метод `dropWhile()` выполняет обратную задачу - он пропускает элементы потока, которые соответствуют условию до тех пор, пока не встретит элемент, который НЕ соответствует условию:
+
+[source, java]
+----
+Stream<Integer> numbers = Stream.of(-3, -2, -1, 0, 1, 2, 3, -4, -5);
+numbers.sorted().dropWhile(n -> n < 0)
+    .forEach(n -> System.out.println(n));
+----
+
+Консольный вывод программы:
+
+[source, out]
+----
+0
+1
+2
+3
+----
+
+== `Stream.concat()`
+
+Статический метод `concat()` объединяет элементы двух потоков, возвращая объединенный поток:
+
+[source, java]
+----
+import java.util.stream.Stream;
+
+public class Program {
+    public static void main(String[] args) {
+        Stream<String> people1 = Stream.of("Tom", "Bob", "Sam");
+        Stream<String> people2 = Stream.of("Alice", "Kate", "Sam");
+        Stream.concat(people1, people2).forEach(n -> System.out.println(n));
+    }
+}
+----
+
+Консольный вывод:
+
+[source, out]
+----
+Tom
+Bob
+Sam
+Alice
+Kate
+Sam
+----
+
+== `distinct()`
+
+Метод `distinct()` возвращает только ункальные элементы в виде потока:
+
+[source, java]
+----
+Stream<String> people = Stream.of("Tom", "Bob", "Sam", "Tom", "Alice", "Kate", "Sam");
+people.distinct().forEach(p -> System.out.println(p));
+----
+
+Консольный вывод:
+
+[source, out]
+----
+Tom
+Bob
+Sam
+Alice
+Kate
+----

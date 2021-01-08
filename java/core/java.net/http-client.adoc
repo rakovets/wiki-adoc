@@ -1,0 +1,118 @@
+= Cтандартизированный HTTP-client API (@since 11)
+
+Одной из функций, которые будут включены в предстоящий выпуск *JDK 11*, является стандартизированный *HTTP-client API*, целью которого является замена унаследованного класса `HttpUrlConnection` , который присутствует в JDK с самых ранних лет Java. Проблема с старым API, главным образом, в том, что он  старый и сложный в использовании.
+
+Новый API поддерживает как *HTTP/1.1*, так и *HTTP/2*. Более новая версия протокола HTTP предназначена для повышения общей производительности отправки запросов клиентом и получения ответов от сервера. Это достигается путем внесения ряда изменений, таких как мультиплексирование потоков, сжатие заголовков и push promises. Кроме того, новый HTTP-клиент также изначально поддерживает *WebSockets*.
+
+Новый модуль `java.net.http` который экспортирует пакет с тем же именем, определен в *JDK 11*, который содержит клиентские интерфейсы:
+
+[source, java]
+----
+module java.net.http {
+    exports java.net.http;
+}
+----
+
+Пакет содержит следующие классы:
+
+* `HttpClient` главная точка входа API. Это HTTP-клиент, который используется для отправки запросов и получения ответов. Он поддерживает отправку запросов как синхронно, так и асинхронно, вызывая его методы `send()` и `sendAsync()`, соответственно. Создать экземпляр можно с помощью `Builder` для `HttpClient`. После создания экземпляр является неизменным
+* `HttpRequest` инкапсулирует HTTP-запрос, включая целевой `URI`, метод (`GET`, `POST` и т.д.), заголовки и другую информацию. Запрос создается с использованием `Builder`, является неизменным после создания и может быть отправлен несколько раз
+* `HttpRequest.BodyPublisher` если запрос имеет тело (например, в запросах `POST`), это объект, ответственный за публикацию содержимого тела из данного источника, например, из строки, файла и т д.
+* `HttpResponse` инкапсулирует ответ HTTP, включая заголовки и тело сообщения, если оно есть. Это то, что клиент получает после отправки `HttpRequest`
+* `HttpResponse.BodyHandler` функциональный интерфейс, который принимает некоторую информацию об ответе (код состояния и заголовки) и возвращает a `BodySubscriber`, который сам обрабатывает использование тела ответа `HttpResponse.BodySubscriber` подписывается на тело ответа и использует его байты в какой-либо другой форме (строка, файл или некоторый другой тип хранения)
+
+`BodyPublisher` это подинтерфейс `Flow.Publisher`, введенный в Java 9. Аналогично, `BodySubscriber` это подинтерфейс `Flow.Subscriber`. Это означает, что эти интерфейсы согласованы с подходом *reactive streams*, который подходит для асинхронной отправки запросов с использованием `HTTP/2`.
+
+Реализации для распространенных `publishers`, `handlers` и  `subscribers` для тела response предварительно определены в фабричных классах  `BodyPublishers`, `BodyHandlers` и `BodySubscribers`.
+
+Например, чтобы создать объект, `BodyHandler` который обрабатывает байты тела ответа (через нижележащий `BodySubscriber` элемент) как строку, метод `BodyHandlers.ofString()` может использоваться для создания такой реализации. Если тело ответа необходимо сохранить в файл, `BodyHandlers.ofFile()` можно использовать метод.
+
+== Указание версии HTTP Protocol
+
+Чтобы создать HTTP-клиент, который предпочитает HTTP/2 (по умолчанию, поэтому его `version()` можно опустить):
+
+[source, java]
+----
+HttpClient httpClient = HttpClient.newBuilder()
+               .version(Version.HTTP_2)  // this is the default
+               .build();
+----
+
+Если указан *HTTP/2*, первый запрос к исходному серверу попытается использовать его.
+
+Если сервер поддерживает новую версию протокола, то ответ будет отправлен с использованием этой версии. Все последующие запросы/ответы на этот сервер будут использовать *HTTP/2*.
+
+Если сервер не поддерживает *HTTP/2*, будет использоваться *HTTP/1.1*.
+
+== Указание Proxy
+
+Чтобы установить прокси для запроса, используется `builder` метод `proxy()`  для предоставления `ProxySelector`. Если хост и порт прокси фиксированы, селектор прокси может быть жестко закодирован в селекторе:
+
+[source, java]
+----
+HttpClient httpClient = HttpClient.newBuilder()
+               .proxy(ProxySelector.of(new InetSocketAddress(proxyHost, proxyPort)))
+               .build();
+----
+
+== GET Request
+
+Методы запроса имеют соответствующие `builder` методы, основанные на их фактических именах. В приведенном ниже примере `GET()` необязательно:
+
+[source, java]
+----
+HttpRequest request = HttpRequest.newBuilder()
+               .uri(URI.create("https://http2.github.io/"))
+               .GET()   // this is the default
+               .build();
+----
+
+== POST Request с телом запросв
+
+Чтобы создать запрос с телом, `BodyPublisher` требуется преобразовать источник тела в байты. Один из предопределенных издателей может быть создан из статических методов фабрики в `BodyPublishers`:
+
+[source, java]
+----
+HttpRequest mainRequest = HttpRequest.newBuilder()
+               .uri(URI.create("https://http2.github.io/"))
+               .POST(BodyPublishers.ofString(json))
+               .build();
+----
+
+== Отправка HTTP Request
+
+Существует два способа отправки запроса:
+
+* синхронно (блокировка до получения ответа)
+* асинхронно
+
+=== Synchronously HTTP request
+
+Для отправки в режиме блокировки мы вызываем `send()` метод на HTTP-клиенте, предоставляя экземпляр запроса и `BodyHandler`. Вот пример, который получает ответ, представляющий тело в виде строки:
+
+[source, java]
+----
+HttpRequest request = HttpRequest.newBuilder()
+               .uri(URI.create("https://http2.github.io/"))
+               .build();
+HttpResponse<String> response = httpClient.send(request, BodyHandlers.ofString());
+logger.info("Response status code: " + response.statusCode());
+logger.info("Response headers: " + response.headers());
+logger.info("Response body: " + response.body());
+----
+
+=== Asynchronously HTTP Request
+
+Иногда полезно избегать блокировок, пока ответ не будет возвращен сервером. В этом случае мы можем вызвать метод `sendAsync()`, который возвращает `CompletableFuture`. A `CompletableFuture` предоставляет механизм для цепочки последующих действий, которые должны быть запущены после его завершения. В этом контексте возвращенное `CompletableFuture` завершено, когда `HttpResponse` получен.
+
+[source, java]
+----
+httpClient.sendAsync(request, BodyHandlers.ofString())
+          .thenAccept(response -> {
+       logger.info("Response status code: " + response.statusCode());
+       logger.info("Response headers: " + response.headers());
+       logger.info("Response body: " + response.body());
+});
+----
+
+В приведенном выше примере, `sendAsyn()` вернет `CompletableFuture<HttpResponse<String>>`, a метод `thenAccept()` добавляет `Consumer`, который сработает, когда вернется ответ.

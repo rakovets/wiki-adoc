@@ -644,5 +644,10 @@ class CountThread implements Runnable {
 <p>Результат работы в данном случае будет аналогичен примеру выше с блоком <code>synchronized</code>. Здесь опять в дело вступает монитор объекта <code>CommonResource</code> - общего объекта для всех потоков. Поэтому синхронизированным объявляется не метод <code>run()</code> в классе <code>CountThread</code>, а метод <code>increment()</code> класса <code>CommonResource</code>. Когда первый поток начинает выполнение метода <code>increment()</code>, он захватывает монитор объекта <code>CommonResource</code>. А все потоки также продолжают ожидать его освобождения.</p>
 </div>
 </div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2021-01-08 09:12:36 UTC
+</div>
+</div>
 </body>
 </html>

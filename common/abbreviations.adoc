@@ -1,0 +1,89 @@
+= Abbreviations
+
+== Common
+
+* `ACID` - Atomicity, Consistency, Isolation, Durability
+* `AOP` - Aspect-Oriented Programming
+* `API` - Application Programming Interface
+* `BIOS` - Basic Input/Output System
+* `CHS` - Cylinder Head Sector
+* `CIFS` - Common Internet File System
+* `DAO` - Data Access Object
+* `DD` - DataDog
+* `DI` - Dependency Injection
+* `DNS` - Domain Name System
+* `DOM` - Document Object Model
+* `DRY` - Don't Repeat Yourself
+* `DTD` - Document Type Definition
+* `ESP` - `EFI` System Partition
+* `FTP` - File Transfer Protocol
+* `FUSE` - File System in User Scope
+* `GPG` - `GNU` Privacy Guard
+* `GPT` - Globally UID Partition Table
+* `GRUB` - GRand Unified Boot loader
+* `HTTP`- HyperText Transfer Protocol
+* `IaaS` - Infrastructure as a Service
+* `IoC` - Inversion of Control
+* `IP` - Internet Protocol
+* `LAN` - Local area network
+* `LBA` - Logical Block Addressing
+* `MBR` - Master Boot Record
+* `MVC` - Model–View–Controller
+* `NAT` - Network Address Translation
+* `NTLM` - NT Lan Manager
+* `ODBC` - Open DataBase Connectivity
+* `ORM` - Object-Relational Mapping
+* `OSI` - Open Systems Interconnection model
+* `REST` - REpresentational State Transfer
+* `SCSI` - Small Computer System Interface
+* `SGML` - Standard Generalized Markup Language
+* `SMB` - Server Message Block
+* `SOA` - Service-Oriented Architecture
+* `SOAP` - Simple Object Access Protocol
+* `SPI` - Service Provider Interface
+* `TSP` - Transmission Control Protocol
+* `UDP` - User Datagram Protocol
+* `UEFI` - Unified Extensible Firmware Interface
+* `UID` - Unique Identifier
+* `UUID` - Universally Unique Identifier
+* `VFS` - Virtual File System
+* `W3C` - World Wide Web Consortium
+* `WLAN` - Wireless LAN
+* `WSDL` - Web Service Description Language
+* `XML` - eXtensible Markup Language
+* `XPath` - XML Path Language
+* `XSD` - XML Schema Definition
+* `XSL` - eXtensible Stylesheet Language
+* `XSLT` - eXtensible Stylesheet Language Transformations
+
+== Amazon Web Services
+
+* `AWS` - Amazon Web Services
+* `EC2` - Elastic Compute Cloud
+* `EBS` - Elastic Block Store
+* `AMI` - Amazon Machine Image
+* `IAM` - Identity and Access Management
+* `VPC` - Virtual Private Cloud
+* `SAN` - Storage-Area Network
+* `EFS` - Elastic File Store
+* `CIDR` - Classes Inter-Domain Routing
+* `SQS` - Simple Queue Service
+* `STS` - Simple Token Service
+
+== Java
+
+* `BPP` - BeanPostProcessor
+* `EJB` - Enterprise JavaBeans
+* `EL` - Expression Language
+* `JAX-WS` - Java API for XML Web Services
+* `JAXB` - Java Architecture for XML Binding
+* `JDBC` - Java DataBase Connectivity
+* `JDO` - Java Data Objects
+* `JNDI` - Java Naming and Directory Interface
+* `JPA` - Java Persistence API
+* `JSF` - JavaServer Faces
+* `JSP` - JavaServer Pages
+* `JSTL` - JSP Standard Tag Library
+* `JTA` - Java Transaction API
+* `POJO` - Plain Old Java Object
+* `RMI` - Remote Method Invocation

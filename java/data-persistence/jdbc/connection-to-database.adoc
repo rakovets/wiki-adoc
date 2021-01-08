@@ -1,0 +1,131 @@
+= Подключение к БД
+
+Вначале создадим на сервере MySQL пустую базу данных, которую назовем `store` и с которой мы будет работать в приложении на Java. Для создания базы данных применяется выражение SQL:
+
+[source, sql]
+----
+CREATE DATABASE store;
+----
+
+Его можно выполнить либо из консольного клиента *MySQL Command Line Client*, либо из графического клиента *MySQL Workbench*, которые устанавливются вместе с сервером MySQL. Так же можно использовать другое программное обеспечение для работы с СУБД.
+
+Для подключения к базе данных необходимо создать объект `java.sql.Connection`. Для его создаия применяется метод:
+
+[source, java]
+----
+Connection DriverManager.getConnection(url, username, password)
+----
+
+Метод `DriverManager.getConnection()` в качестве параметров принимает адрес источника данных, логин и пароль. В качестве логина и пароля передаются логин и пароль от СУБД. Адрес локальной базы данных MySQL указывается в следующем формате: `jdbc:mysql://localhost/название_базы данных`
+
+Пример создания подключения к созданной выше локальной базе данных `store`:
+
+[source, java]
+----
+Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/store", "root", "password");
+----
+
+После завершения работы с подключением его следует закрыть с помощью метода `close()`:
+
+[source, java]
+----
+Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/store", "root", "password");
+// работа с БД
+connection.close();
+----
+
+Либо мы можем использовать конструкцию `try-with-resources`:
+
+[source, java]
+----
+try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/store", "root", "password")) {
+    // работа с базой данных
+}
+----
+
+== Возможные проблемы с часовыми поясами и SSL
+
+При подключении к базе данных MySQL мы можем столкнуться с рядом проблем. Например, определим следующий код подключения:
+
+[source, java]
+----
+import java.sql.Connection;
+import java.sql.DriverManager;
+
+public class Program {
+    public static void main(String[] args) {
+        try {
+            String url = "jdbc:mysql://localhost/store";
+            String username = "root";
+            String password = "password";
+            Class.forName("com.mysql.cj.jdbc.Driver").getDeclaredConstructor().newInstance();
+            try (Connection conn = DriverManager.getConnection(url, username, password)) {
+                System.out.println("Connection to Store DB succesfull!");
+            }
+        } catch (Exception ex) {
+            System.out.println("Connection failed...");
+            System.out.println(ex);
+        }
+    }
+}
+----
+
+Даже если указаны правильно адрес базы данных, логин, пароль, мы все равно можем столкнуться с ошибками time zone и SSL. Чтобы решить данную проблему, необходимо указать в адресе подключения часовой пояс бд и параметры для использования ssl. Например можно указать, что SSL не будет использоваться и что часовым поясом будет минский часовой пояс:
+
+[source, java]
+----
+String url = "jdbc:mysql://localhost/store?serverTimezone=Europe/Minsk&useSSL=false";
+----
+
+Параметры подключения указываются после вопросительного знака после названия базы данных. Параметр `serverTimezone` указывает на название часового пояса сервера БД. В данном случае `Europe/Minsk`. Параметр `useSSL=false` указывает, что SSL не будет применяться.
+
+== Файлы конфигурации
+
+Мы можем определить все данные для подключения непосредственно в программе. Однако что если какие-то данные были изменены? В этом случае потребуется перекомпиляция приложения. Иногда это не всегда удобно, например, отсутствует досуп к исходникам, или перекомпиляция займет довольно продолжительное время. В этом случае мы можем хранить настройки в файле.
+
+Так, создадим в папке программы новый текстовый файл `database.properties`, в котором определим настройки подключения:
+
+[source, properties]
+----
+url = jdbc:mysql://localhost/store?serverTimezone=Europe/Minsk&useSSL=false
+username = root
+password = password
+----
+
+Загрузим эти настройки в программе:
+[source, java]
+----
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.util.Properties;
+
+public class Program {
+    public static void main(String[] args) {
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver").getDeclaredConstructor().newInstance();
+            try (Connection conn = getConnection()) {
+                System.out.println("Connection to Store DB succesfull!");
+            }
+        } catch (Exception ex) {
+            System.out.println("Connection failed...");
+            System.out.println(ex);
+        }
+    }
+
+    public static Connection getConnection() throws SQLException, IOException {
+        Properties props = new Properties();
+        try (InputStream in = Files.newInputStream(Paths.get("database.properties"))) {
+            props.load(in);
+        }
+        String url = props.getProperty("url");
+        String username = props.getProperty("username");
+        String password = props.getProperty("password");
+        return DriverManager.getConnection(url, username, password);
+    }
+}
+----

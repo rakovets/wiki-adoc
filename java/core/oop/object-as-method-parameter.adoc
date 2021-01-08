@@ -1,0 +1,88 @@
+= Объекты как параметры методов
+
+Объекты классов, как и данные примитивных типов могут передаваться в методы. Однако в данном случае есть одна особенность - при передаче объектов в качестве значения передается копия ссылки на область в памяти, где рассположен этот объект. Рассмотрим небольшой пример. Пусть у нас есть следующий класс `Person`:
+
+[source, java]
+----
+public class Program {
+    public static void main(String[] args) {
+        Person kate = new Person("Kate");
+        System.out.println(kate.getName()); // "Kate"
+        changeName(kate);
+        System.out.println(kate.getName()); // "Alice"
+    }
+
+    static void changeName(Person p) {
+        p.setName("Alice");
+    }
+}
+
+class Person {
+    private String name;
+
+    Person(String name) {
+        this.name = name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+}
+----
+
+Здесь в метод `changeName` передается объект `Person`, у которого изменяется имя. Так как в метод будет передаваться копия ссылки на область памяти, в которой находится объект `Person`, то переменная `kate` и параметр `p` метода `changeName()` будут указывать на один и тот же объект в памяти. Поэтому после выполнения метода у объекта `kate`, который передается в метод, будет изменено имя с `"Kate"` на `"Alice"`.
+
+От этого случая следует отличать другой случай:
+
+[source, java]
+----
+public class Program {
+    public static void main(String[] args) {
+        Person kate = new Person("Kate");
+        System.out.println(kate.getName()); // "Kate"
+        changePerson(kate);
+        System.out.println(kate.getName()); // "Kate" - изменения не произошло, т.к. 'kate' хранит ссылку на старый объект
+    }
+
+    static void changePerson(Person p) {
+        p = new Person("Alice"); // 'p' указывает на новый объект
+        p.setName("Ann");
+    }
+
+    static void changeName(Person p) {
+        p.setName("Alice");
+    }
+}
+
+class Person {
+    private String name;
+
+    Person(String name) {
+        this.name = name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+}
+----
+
+В метод `changePerson()` также передается копия ссылки на объект `Person`. Однако в самом методе мы изменяем не отдельные значения объекта, а пересоздаем объект с помощью конструктора и оператора `new`. В результате в памяти будет выделено новое место для нового объекта `Person`, и ссылка на этот объект будет присвоена параметру `p`:
+
+[source, java]
+----
+static void changePerson(Person p) {
+    p = new Person("Alice"); // 'p' указывает на новый объект
+    p.setName("Ann"); // изменяется новый объект
+}
+----
+
+То есть после создания нового объекта `Person` параметр `p` и переменная `kate` в методе `main()` будут хранить ссылки на разные объекты. Переменная `kate`, которая передавалась в метод, продолжит хранить ссылку на старый объект в памяти. Поэтому ее значение не меняется.

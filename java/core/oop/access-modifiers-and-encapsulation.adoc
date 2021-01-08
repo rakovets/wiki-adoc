@@ -1,0 +1,66 @@
+= Модификаторы доступа
+
+Все члены класса в языке *Java* - поля и методы - имеют модификаторы доступа. *Модификаторы доступа* позволяют задать допустимую область видимости для членов класса, то есть контекст, в котором можно употреблять данную переменную или метод.
+
+В Java используются следующие модификаторы доступа:
+
+* `public` - публичный, общедоступный класс или член класса. Поля и методы, объявленные с модификатором `public`, видны другим классам из текущего пакета и из внешних пакетов.
+* `private` - закрытый класс или член класса, противоположность модификатору `public`. Закрытый класс или член класса доступен только из кода в том же классе.
+* `protected` - такой класс или член класса доступен из любого места в текущем классе или пакете или в производных классах, даже если они находятся в других пакетах
+* *default* (*package*): отсутствие модификатора у поля или метода класса предполагает применение к нему модификатора по умолчанию. Такие поля или методы видны всем классам в текущем пакете.
+
+Рассмотрим модификаторы доступа на примере следующей программы:
+
+[source, java]
+----
+public class Program {
+    public static void main(String[] args) {
+        Person kate = new Person("Kate", 32, "Baker Street", "+12334567");
+        kate.displayName(); // норм, метод public
+        kate.displayAge(); // норм, метод имеет модификатор по умолчанию
+        kate.displayPhone(); // норм, метод protected
+        kate.displayAddress(); // ! Ошибка, метод private
+
+        System.out.println(kate.name); // норм, модификатор по умолчанию
+        System.out.println(kate.address); // норм, модификатор public
+        System.out.println(kate.age); // норм, модификатор protected
+        System.out.println(kate.phone); // ! Ошибка, модификатор private
+    }
+}
+
+class Person {
+    String name;
+    protected int age;
+    public String address;
+    private String phone;
+
+    public Person(String name, int age, String address, String phone) {
+        this.name = name;
+        this.age = age;
+        this.address = address;
+        this.phone = phone;
+    }
+
+    public void displayName() {
+        System.out.printf("Name: %s \n", name);
+    }
+
+    void displayAge() {
+        System.out.printf("Age: %d \n", age);
+    }
+
+    private void displayAddress() {
+        System.out.printf("Address: %s \n", address);
+    }
+
+    protected void displayPhone() {
+        System.out.printf("Phone: %s \n", phone);
+    }
+}
+----
+
+В данном случае оба класса расположены в одном пакете - *пакете по умолчанию*, поэтому в классе `Program` мы можем использовать все методы и переменные класса `Person`, которые имеют *модификатор по умолчанию*, `public` и `protected`. А поля и методы с модификатором `private` в классе `Program` не будут доступны.
+
+Если бы класс `Program` располагался бы в другом пакете, то ему были бы доступны только поля и методы с модификатором `public`.
+
+Модификатор доступа должен предшествовать остальной части определения переменной или метода.

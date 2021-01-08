@@ -1,0 +1,199 @@
+= Создание и выполнение потоков
+
+Для создания нового потока мы можем создать новый класс, либо наследуя его от класса `Thread`, либо реализуя в классе интерфейс `Runnable`.
+
+== Наследование от класса `Thread`
+
+Создадим свой класс на основе `Thread`:
+
+[source, java]
+----
+class JThread extends Thread {
+    JThread(String name) {
+        super(name);
+    }
+
+    public void run() {
+        System.out.printf("%s started... \n", Thread.currentThread().getName());
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            System.out.println("Thread has been interrupted");
+        }
+        System.out.printf("%s fiished... \n", Thread.currentThread().getName());
+    }
+}
+
+public class Program {
+    public static void main(String[] args) {
+        System.out.println("Main thread started...");
+        new JThread("JThread").start();
+        System.out.println("Main thread finished...");
+    }
+}
+----
+
+Класс потока называется `JThread`. Предполагается, что в конструктор класса передается имя потока, которое затем передается в конструктор базового класса. В конструктор своего класса потока мы можем передать различные данные, но главное, чтобы в нем вызывался конструктор базового класса `Thread`, в который передается имя потока.
+
+И также в `JThread` переопределяется метод `run()`, код которого собственно и будет представлять весь тот код, который выполняется в потоке.
+
+В методе `main()` для запуска потока `JThread` у него вызывается метод `start()`, после чего начинается выполнение того кода, который определен в методе `run()`:
+
+[source, java]
+----
+new JThread("JThread").start();
+----
+
+[source, out]
+----
+Main thread started...
+Main thread finished...
+JThread started...
+JThread finished...
+----
+
+Здесь в методе `main()` в конструктор `JThread` передается произвольное название потока, и затем вызывается метод `start()`. По сути этот метод как раз и вызывает переопределенный метод `run()` класса `JThread`.
+
+Обратите внимание, что главный поток завершает работу раньше, чем порожденный им дочерний поток `JThread`.
+
+Аналогично созданию одного потока мы можем запускать сразу несколько потоков:
+
+[source, java]
+----
+public static void main(String[] args) {
+    System.out.println("Main thread started...");
+    for (int i = 1; i < 6; i++)
+        new JThread("JThread " + i).start();
+    System.out.println("Main thread finished...");
+}
+----
+
+[source, out]
+----
+Main thread started...
+Main thread finished...
+JThread 2 started...
+JThread 5 started...
+JThread 4 started...
+JThread 1 started...
+JThread 3 started...
+JThread 1 finished...
+JThread 2 finished...
+JThread 5 finished...
+JThread 4 finished...
+JThread 3 finished...
+----
+
+== Ожидание завершения потока
+
+При запуске потоков в примерах выше `Main` `thread` завершался до дочернего потока. Как правило, более распространенной ситуацией является случай, когда `Main` thread завершается самым последним. Для этого надо применить метод `join()`. В этом случае текущий поток будет ожидать завершения потока, для которого вызван метод `join()`:
+
+[source, java]
+----
+public class Program {
+    public static void main(String[] args) {
+        System.out.println("Main thread started...");
+        JThread t = new JThread("JThread ");
+        t.start();
+        try {
+            t.join();
+        } catch (InterruptedException e) {
+            System.out.printf("%s has been interrupted", t.getName());
+        }
+        System.out.println("Main thread finished...");
+    }
+}
+----
+
+Метод `join()` заставляет вызвавший поток (в данном случае `Main thread`) ожидать завершения вызываемого потока, для которого и применяется метод `join()` (в данном случае `JThread`).
+
+[source, out]
+----
+Main thread started...
+JThread  started...
+JThread  finished...
+Main thread finished...
+----
+
+Если в программе используется несколько дочерних потоков, и надо, чтобы `Main thread` завершался после дочерних, то для каждого дочернего потока надо вызвать метод `join()`.
+
+== Реализация интерфейса `Runnable`
+
+Другой способ определения потока представляет реализация интерфейса `Runnable`. Этот интерфейс имеет один метод `run()`:
+
+[source, java]
+----
+interface Runnable {
+    void run();
+}
+----
+
+В методе `run()` собственно определяется весь тот код, который выполняется при запуске потока.
+
+После определения объекта `Runnable` он передается в один из конструкторов класса `Thread`:
+
+[source, java]
+----
+Thread(Runnable runnable, String threadName)
+----
+
+Для реализации интерфейса определим следующий класс `MyThread`:
+
+[source, java]
+----
+class MyThread implements Runnable {
+    public void run() {
+        System.out.printf("%s started... \n", Thread.currentThread().getName());
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            System.out.println("Thread has been interrupted");
+        }
+        System.out.printf("%s finished... \n", Thread.currentThread().getName());
+    }
+}
+
+public class Program {
+    public static void main(String[] args) {
+        System.out.println("Main thread started...");
+        Thread myThread = new Thread(new MyThread(), "MyThread");
+        myThread.start();
+        System.out.println("Main thread finished...");
+    }
+}
+----
+
+Реализация интерфейса `Runnable` во многом аналогична переопределению класса `Thread`. Также в методе `run()` определяется простейший код, который усыпляет поток на `500` миллисекунд.
+
+В методе `main()` вызывается конструктор `Thread`, в который передается объект `MyThread`. И чтобы запустить поток, вызывается метод `start()`. В итоге консоль выведет что-то наподобие следующего:
+
+[source, out]
+----
+Main thread started...
+Main thread finished...
+MyThread started...
+MyThread finished...
+----
+
+Поскольку `Runnable` фактически представляет функциональный интерфейс, который определяет один метод, то объект этого интерфейса мы можем представить в виде лямбда-выражения:
+
+[source, java]
+----
+public class Program {
+    public static void main(String[] args) {
+        System.out.println("Main thread started...");
+        Runnable r = () -> {
+            System.out.printf("%s started... \n", Thread.currentThread().getName());
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                System.out.println("Thread has been interrupted");
+            }
+            System.out.printf("%s finished... \n", Thread.currentThread().getName());
+        };
+        Thread myThread = new Thread(r, "MyThread");
+        myThread.start();
+        System.out.println("Main thread finished...");
+    }
+}
+----

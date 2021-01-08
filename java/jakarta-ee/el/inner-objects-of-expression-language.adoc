@@ -1,0 +1,160 @@
+= Встроенные объекты Expression Language
+
+По умолчанию *Expression Language* предоставляет ряд встроенных объектов, которые позволяют использовать различные аспекты запроса:
+
+* `param` объект, который хранит все переданные странице параметры
+* `paramValues` хранит массив значений для определенного параметра (если для параметра передается сразу несколько значений)
+* `header` хранит все заголовки запроса
+* `headerValues` предоставляет массив значений для определенного заголовка запроса
+* `cookie` предоставляет доступ к отправленным в запросе кукам
+* `initParam` возвращает значение для определенного параметра из элемента `context-param` из файла `web.xml`
+* `pageContext` предоставляет доступ к объекту `PageContext`, который представляет контекст текущей страницы jsp
+
+== Получение параметров запроса
+
+Определим следующую страницу `postuser.jsp`:
+
+[source, html]
+----
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>User Info</title>
+    </head>
+    <body>
+        <p>Name: ${param.name}</p>
+        <p>Age: ${param.age}</p>
+    </body>
+</html>
+----
+
+Через объект param здесь получаем из запроса значения параметров name и age. Значения для параметров можно передать как через строку запроса, так и через отправку формы. Например, передача через строку запроса:
+
+image:/assets/img/java/jakarta-ee/jsp/el-jsp.png[Expression Language in JSP]
+
+Также мы можем определить форму, например:
+
+[source, html]
+----
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>User Form</title>
+</head>
+<body>
+    <form action="postuser.jsp" method="post">
+        Name: <input name="name" />
+        <br><br>
+        Age: <input name="age" type="number" min=1 />
+        <br><br>
+        <input type="submit" value="Submit" />
+    </form>
+</body>
+</html>
+----
+
+И через эту форму передать данные в jsp:
+
+image:/assets/img/java/jakarta-ee/el/params-el.png[Params in Expression Language]
+
+Если с одним параметром связано несколько значений, то можно использовать объект `paramValues`. Например, на станице html есть форма, где пользователь может ввести несколько своих телефонов:
+
+[source, html]
+----
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>User Form</title>
+</head>
+<body>
+    <form action="postuser.jsp" method="post">
+        Name: <input name="name" />
+        <br><br>
+        Main Phone: <input name="phone" />
+        <br><br>
+        Additional Phone: <input name="phone" />
+        <br><br>
+        <input type="submit" value="Submit" />
+    </form>
+</body>
+</html>
+----
+
+И на странице `postuser.jsp` мы можем получить все введенные телефоны через `paramValues`:
+
+[source, html]
+----
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>User Info</title>
+</head>
+<body>
+    <p>Name: ${param.name}</p>
+    <p>Phone 1: ${paramValues.phone[0]}</p>
+    <p>Phone 2: ${paramValues.phone[1]}</p>
+</body>
+</html>
+----
+
+После `paramValues` идет название параметра, причем параметр фактически представляет массив, и через индексы мы можем получить отдельные введенные данные.
+
+image:/assets/img/java/jakarta-ee/el/param-values-jsp.png[ParamValues in JSP in Java EE]
+
+== Получение куки
+
+Допустим, в сервлете устанавливаются куки:
+
+[source, java]
+----
+public class HelloServlet extends HttpServlet {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        Cookie cookie = new Cookie("userName", "Sam");
+        response.addCookie(cookie);
+    }
+}
+----
+
+Получение этой куки в jsp:
+
+[source, html]
+----
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Java Server Page</title>
+</head>
+<body>
+    <div>
+        <p>From cookie: ${cookie.userName.value}</p>
+    </div>
+</body>
+</html>
+----
+
+== Получение заголовков HTTP
+
+Получим даные о юзер-агенте пользователя:
+
+[source, html]
+----
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>User Info</title>
+    </head>
+    <body>
+        <p>User-Agent: ${header["User-Agent"]}</p>
+        <p>Host: ${header.host}</p>
+    </body>
+</html>
+----
+
+Если название заголовка представляет сложное слово с дефисами, как `User-Agent`, то для получения его значения используется конструкция `header["название_заголовка"]`

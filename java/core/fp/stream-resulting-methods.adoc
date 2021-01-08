@@ -1,0 +1,176 @@
+= Операции сведения
+
+Операции сведения представляют терминальные операции, которые возвращают некоторое значение - результат операции. В Stream API есть ряд операций сведения.
+
+== `count()`
+
+Метод `count()` возвращает количество элементов в потоке данных:
+
+[source, java]
+----
+import java.util.stream.Stream;
+import java.util.Optional;
+import java.util.*;
+public class Program {
+    public static void main(String[] args) {
+        ArrayList<String> names = new ArrayList<String>();
+        names.addAll(Arrays.asList(new String[]{"Tom", "Sam", "Bob", "Alice"}));
+        System.out.println(names.stream().count()); // 4
+
+        // количество элементов с длиной не больше 3 символов
+        System.out.println(names.stream()
+                .filter(n -> n.length() <= 3)
+                .count());  // 3
+    }
+}
+----
+
+== `findFirst()` и `findAny()`
+
+Метод `findFirst()` извлекает из потока первый элемент, а `findAny()` извлекает случайный объект из потока (нередко так же первый):
+
+[source, java]
+----
+ArrayList<String> names = new ArrayList<String>();
+names.addAll(Arrays.asList(new String[]{"Tom", "Sam", "Bob", "Alice"}));
+
+Optional<String> first = names.stream().findFirst();
+System.out.println(first.get()); // Tom
+
+Optional<String> any = names.stream().findAny();
+System.out.println(first.get()); // Tom
+----
+
+== `allMatch()`, `anyMatch()`, `noneMatch()`
+
+Еще одна группа операций сведения возвращает логическое значение `true` или `false`:
+
+* `boolean allMatch(Predicate<? super T> predicate)` возвращает `true`, если все элементы потока удовлетворяют условию в предикате
+* `boolean anyMatch(Predicate<? super T> predicate)` возвращает `true`, если хоть один элемент потока удовлетворяют условию в предикате
+* `boolean noneMatch(Predicate<? super T> predicate)` возвращает `true`, если ни один из элементов в потоке не удовлетворяет условию в предикате
+
+Пример использования функций:
+
+[source, java]
+----
+import java.util.stream.Stream;
+import java.util.Optional;
+import java.util.ArrayList;
+import java.util.Arrays;
+public class Program {
+    public static void main(String[] args) {
+        ArrayList<String> names = new ArrayList<String>();
+        names.addAll(Arrays.asList(new String[]{"Tom", "Sam", "Bob", "Alice"}));
+
+        // есть ли в потоке строка, длина которой больше 3
+        boolean any = names.stream().anyMatch(s -> s.length() > 3);
+        System.out.println(any); // true
+
+        // все ли строки имеют длину в 3 символа
+        boolean all = names.stream().allMatch(s -> s.length() == 3);
+        System.out.println(all); // false
+
+        // НЕТ ЛИ в потоке строки "Bill". Если нет, то true, если есть, то false
+        boolean none = names.stream().noneMatch(s -> s == "Bill");
+        System.out.println(none); // true
+    }
+}
+----
+
+== `min()` и `max()`
+
+Методы `min()` и `max()` возвращают соответственно минимальное и максимальное значение. Поскольку данные в потоке могут представлять различные типы, в том числе сложные классы, то в качестве параметра в эти методы передается объект интерфейса `Comparator`, который указывает, как сравнивать объекты:
+
+[source, java]
+----
+Optional<T> min(Comparator<? super T> comparator)
+Optional<T> max(Comparator<? super T> comparator)
+----
+
+Оба метода возвращают элемент потока (минимальный или максимальный), обернутый в объект `Optional`.
+
+Например, найдем минимальное и максимальное число в числовом потоке:
+
+[source, java]
+----
+import java.util.stream.Stream;
+import java.util.Optional;
+import java.util.ArrayList;
+import java.util.Arrays;
+public class Program {
+    public static void main(String[] args) {
+        ArrayList<Integer> numbers = new ArrayList<Integer>();
+        numbers.addAll(Arrays.asList(new Integer[]{1, 2, 3, 4, 5, 6, 7, 8, 9}));
+
+        Optional<Integer> min = numbers.stream().min(Integer::compare);
+        Optional<Integer> max = numbers.stream().max(Integer::compare);
+        System.out.println(min.get()); // 1
+        System.out.println(max.get()); // 9
+    }
+}
+----
+
+Интерфейс `Comparator` - это функциональный интерфейс, который определяет один метод `compare()`, принимающий два сравниваемых объекта и возвращающий число (если первый объект больше, возвращается положительное число, иначе возвращается отрицательное число). Поэтому вместо конкретной реализации компаратора мы можем передать лямбда-вырашение или метод, который соответствует методу compare интерфейса `Comparator`. Поскольку сравниваются числа, то в метод передается в качестве компаратора статический метод `Integer.compare()`.
+
+При этом методы `min()` и `max()` возвращают именно `Optional`, и чтобы получить непосредственно результат операции из `Optional`, необходимо вызвать метод `get()`.
+
+Рассмотрим более сложный случай, когда нам надо сравнивать более сложные объекты:
+
+[source, java]
+----
+import java.util.stream.Stream;
+import java.util.Optional;
+import java.util.ArrayList;
+import java.util.Arrays;
+public class Program {
+    public static void main(String[] args) {
+        ArrayList<Phone> phones = new ArrayList<Phone>();
+        phones.addAll(Arrays.asList(new Phone[] {
+            new Phone("iPhone 8", 52000),
+            new Phone("Nokia 9", 35000),
+            new Phone("Samsung Galaxy S9", 48000),
+            new Phone("HTC U12", 36000)
+        }));
+
+        Phone min = phones.stream().min(Phone::compare).get();
+        Phone max = phones.stream().max(Phone::compare).get();
+        System.out.printf("MIN Name: %s Price: %d \n", min.getName(), min.getPrice());
+        System.out.printf("MAX Name: %s Price: %d \n", max.getName(), max.getPrice());
+    }
+}
+
+class Phone {
+    private String name;
+    private int price;
+
+    public Phone(String name, int price) {
+        this.name = name;
+        this.price = price;
+    }
+
+    public static int compare (Phone p1, Phone p2) {
+        if(p1.getPrice() > p2.getPrice()) {
+            return 1;
+        }
+        return -1;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+}
+----
+
+В данном случае мы находим минимальный и максимальный объект `Phone`: фактически объекты с максимальной и минимальной ценой. Для определения функциональности сравнения в классе `Phone` реализован статический метод `compare()`, который соответствует сигнатуре метода compare интерфейса `Comparator`. И в методах `min()` и `max()` применяем этот статический метод для сравнения объектов.
+
+Консольный вывод:
+
+[source, out]
+----
+MIN Name: Nokia 9 Price: 35000
+MAX Name: iPhone 8 Price: 52000
+----

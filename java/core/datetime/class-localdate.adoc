@@ -1,0 +1,161 @@
+= Класс `LocalDate`
+
+Класс `LocalDate` представляет время с годом, месяцем и днем месяца. Например `2015-08-25`.
+
+Для создания объекта класса используется метод `of()`:
+
+[source, java]
+----
+LocalDate newYear2001 = LocalDate.of(2001, 1, 1);
+LocalDate newYear2002 = LocalDate.of(2002, Month.JANUARY, 1);
+----
+
+Для создания объекта, отображающего текущую дату, используется метод `now()`:
+
+[source, java]
+----
+LocalDate today = LocalDate.now();
+----
+
+Следующий пример показывает получение года, месяца, дня месяца:
+
+[source, java]
+----
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.Month;
+
+public class LocalDateDemo2 {
+    public static void main(String[] args) {
+        LocalDate today = LocalDate.now();
+
+        int year = today.getYear();
+        int month = today.getMonthValue();
+        Month monthAsEnum = today.getMonth(); // как перечисление
+        int dayYear = today.getDayOfYear();
+        int dayMonth = today.getDayOfMonth();
+        DayOfWeek dayWeekEnum = today.getDayOfWeek(); // как перечисление
+
+        System.out.println("Год: " + year);
+        System.out.println("Месяц: " + month);
+        System.out.println("Название месяца: " + monthAsEnum);
+        System.out.println("День в году: " + dayYear);
+        System.out.println("День месяца: " + dayMonth);
+        System.out.println("День недели: " + dayWeekEnum);
+    }
+}
+----
+
+Еще один вариант получение года, месяца, дня месяца:
+
+[source, java]
+----
+import java.time.LocalDate;
+import java.time.temporal.ChronoField;
+
+public class LocalDateDemo3 {
+    public static void main(String[] args) {
+        LocalDate today = LocalDate.now();
+
+        int year = today.get(ChronoField.YEAR);
+        int month = today.get(ChronoField.MONTH_OF_YEAR);
+        int dayYear = today.get(ChronoField.DAY_OF_YEAR);
+        int dayMonth = today.get(ChronoField.DAY_OF_MONTH);
+        int dayWeek = today.get(ChronoField.DAY_OF_WEEK);
+
+        System.out.println("Год: " + year);
+        System.out.println("Месяц: " + month);
+        System.out.println("День в году: " + dayYear);
+        System.out.println("День месяца: " + dayMonth);
+        System.out.println("День недели: " + dayWeek);
+    }
+}
+----
+
+Для сравнения дат используются методы `isAfter()`, `isBefore()`, `equals()`, `isLeapYear()`:
+
+[source, java]
+----
+import java.time.LocalDate;
+import java.time.Month;
+
+public class CompareLocalDateDemo1 {
+    public static void main(String[] args) {
+        LocalDate newYear2001 = LocalDate.of(2001, 1, 1);
+        LocalDate newYear2002 = LocalDate.of(2002, Month.JANUARY, 1);
+
+        boolean after = newYear2001.isAfter(newYear2002);
+        boolean before = newYear2001.isBefore(newYear2002);
+        boolean equal = newYear2001.equals(newYear2002);
+        boolean leapYear = newYear2001.isLeapYear();
+
+        System.out.println("newYear2001.isAfter(newYear2002): " + after);
+        System.out.println("newYear2001.isBefore(newYear2002): " + before);
+        System.out.println("newYear2001.equals(newYear2002): " + equal);
+        System.out.println("newYear2001.isLeapYear(): " + leapYear);
+    }
+}
+----
+
+Следующий пример показывает использование методов `with()` для изменения отдельно года, месяца, дня:
+
+[source, java]
+----
+import java.time.LocalDate;
+import java.time.temporal.ChronoField;
+
+public class WithLocalDateDemo {
+    public static void main(String[] args) {
+        LocalDate newYear2001 = LocalDate.of(2001, 1, 1);
+
+        LocalDate newYear2003 = newYear2001.with(ChronoField.YEAR, 2003);
+        LocalDate newYear2004 = newYear2001.withYear(2004);
+        LocalDate december2001 = newYear2001.withMonth(12);
+        LocalDate february2001 = newYear2001.withDayOfYear(32);
+        LocalDate xmas2001 = newYear2001.withMonth(12).withDayOfMonth(25);
+
+        System.out.println("newYear2003 " + newYear2003);
+        System.out.println("newYear2004 " + newYear2004);
+        System.out.println("december2001 " + december2001);
+        System.out.println("february2001 " + february2001);
+        System.out.println("xmas2001 " + xmas2001);
+    }
+}
+----
+
+Методы `plus()`, `minus()` используются для добавления или вычитания года, месяца или дня:
+
+[source, java]
+----
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
+
+public class PlusMinusLocalDateDemo {
+    public static void main(String[] args) {
+        LocalDate newYear2001 = LocalDate.of(2001, 1, 1);
+        LocalDate newYear2005 = newYear2001.plusYears(4);
+        LocalDate march2001 = newYear2001.plusMonths(2);
+        LocalDate january15Year2001 = newYear2001.plusDays(14);
+        LocalDate lastWeekJanuary2001 = newYear2001.plusWeeks(3);
+        LocalDate newYear2006 = newYear2001.plus(5, ChronoUnit.YEARS);
+
+        LocalDate newYear2000 = newYear2001.minusYears(1);
+        LocalDate nov2000 = newYear2001.minusMonths(2);
+        LocalDate dec30Year2000 = newYear2001.minusDays(2);
+        LocalDate lastWeekDec2001 = newYear2001.minusWeeks(1);
+        LocalDate newYear1999 = newYear2001.minus(2, ChronoUnit.YEARS);
+
+        System.out.println("newYear2005: " + newYear2005);
+        System.out.println("march2001: " + march2001);
+        System.out.println("january15Year2001: " + january15Year2001);
+        System.out.println("lastWeekJanuary2001: " + lastWeekJanuary2001);
+        System.out.println("newYear2006: " + newYear2006);
+
+        System.out.println("newYear2000: " + newYear2000);
+        System.out.println("nov2000: " + nov2000);
+        System.out.println("dec30Year2000: " + dec30Year2000);
+        System.out.println("lastWeekDec2001: " + lastWeekDec2001);
+        System.out.println("newYear1999: " + newYear1999);
+    }
+}
+----

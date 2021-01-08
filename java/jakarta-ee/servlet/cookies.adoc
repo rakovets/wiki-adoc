@@ -1,0 +1,127 @@
+= Cookies
+
+*Куки* представляют простейший способ хранения данных приложения. *Куки* хранятся в браузере польвователя в виде пары ключ-значение: с каждым уникальным ключом сопоставлется определенное значение. По ключу мы можем получить сохраненное в куках значение. Приложение на сервере может устанавливать куки и отправлять в ответе пользователю, после чего куки сохраняются в браузере. Когда клиент отправляет запроск приложению, то в запросе также отправляются и те куки, которые установлены данным приложением.
+
+*Куки* могут быть двух типов:
+
+* сеансовые куки, т.е. когда пользователь закрывает вкладку браузера и прекращает работать с приложением, то куки сеанса уничтожаются.
+* постоянные куки - хранятся в течение продолжительного времени (до `3` лет).
+
+Следует учитывать некоторые ограничения. Прежде всего куки нередко ограничены по размеру (обычно не более *4 килобайт*). Кроме того, обычно браузеры принимают не более *20* кук с одного сайта. Более того, в некоторых браузерах может быть отключена поддержка кук.
+
+Для работы с куками сервлеты могут используют класс `javax.servlet.http.Cookie`. Для создания куки надо создать объект этого класса с помощью констуктора `Cookie(String name, String value)`, где `name` - ключ, а `value` - значение, которое сохраняется в куках. Стоит отметить, что мы можем сохранить в куках только строки.
+
+Чтобы добавить куки в ответ клиенту у объекта `HttpServletResponse` применяется метод `addCookie(Cookie c)`.
+
+При создании куки мы можем использовать ряд методов объекта `Cookie` для установки и получения отдельных параметров:
+
+* `setMaxAge(int maxAgeInSeconds)` устанавливает время в секундах, в течение которого будут существовать куки. Специальное значение `-1` указывает, что куки будут существовать только в течение сессии и после закрытия браузера будут удалены.
+* `setValue(String value)` устанавливает хранимое значение.
+* `getMaxAge()` возвращает время хранения кук.
+* `getName()` возвращает ключ кук.
+* `getValue()` возвращает значение кук.
+
+Например, установка куки с названием `user` и значением `Tom`:
+
+[source, java]
+----
+Cookie cookie = new Cookie("user", "Tom");
+response.addCookie(cookie);
+----
+
+Чтобы получить куки, которые приходят в запросе от клиента, применяется метод `getCookies()` класса `HttpServletRequest`.
+
+Например, получение куки по имени:
+
+[source, java]
+----
+Cookie[] cookies = request.getCookies();
+String cookieName = "user";
+Cookie cookie = null;
+if(cookies != null) {
+    for(Cookie c: cookies) {
+        if(cookieName.equals(c.getName())) {
+            cookie = c;
+            break;
+        }
+    }
+}
+----
+
+Получение куки по имени немного громоздко, поскольку нам надо перебрать набор полученных кук и сравнить их с нужным ключом. Поэтому при частном использовании, как правило, определяют вспомогаельные методы, которые инкапсулируют подобную функционалность.
+
+Например, определим сервлет `SetServlet`, который будет устанавливать куки:
+
+[source, java]
+----
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+@WebServlet("/set")
+public class SetServlet extends HttpServlet {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        PrintWriter out = response.getWriter();
+        try {
+            response.addCookie(new Cookie("user", "Tom"));
+            out.println("Cookie is set");
+        }
+        finally {
+            out.close();
+        }
+    }
+}
+----
+
+В данном случае устанавливается куки `user`, которая хранит строку `Tom`.
+
+Определим сервлет `HelloServlet`, который получает эту куку:
+
+[source, java]
+----
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+@WebServlet("/hello")
+public class HelloServlet extends HttpServlet {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        Cookie[] cookies = request.getCookies();
+        String cookieName = "user";
+        Cookie cookie = null;
+        if(cookies != null) {
+            for(Cookie c: cookies) {
+                if(cookieName.equals(c.getName())) {
+                    cookie = c;
+                    break;
+                }
+            }
+        }
+        PrintWriter out = response.getWriter();
+        try {
+            out.println("Name: " + cookie.getValue());
+        }
+        finally {
+            out.close();
+        }
+    }
+}
+----
+
+Таким образом, при обращении к сервлету `SetServlet` произойдет установка кук, а при обращении к сервлету `HelloServlet` мы получим установленные куки:
+
+image:/assets/img/java/jakarta-ee/servlet/cookies.png[Cookies]

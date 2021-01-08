@@ -1,0 +1,11 @@
+= Generics (JSR-14)
+
+:leveloffset: +1
+
+include::generics.adoc[]
+
+include::wildcard-for-generics.adoc[]
+
+include::inheritance-and-generics.adoc[]
+
+:leveloffset: -1
