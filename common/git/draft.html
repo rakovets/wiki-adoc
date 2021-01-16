@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.12">
-<title>Checkstyle plugin for IntelliJ IDEA</title>
+<title>Разработка соглашения об именах репозитория Git</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -440,37 +440,130 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </head>
 <body class="article">
 <div id="header">
-<h1>Checkstyle plugin for IntelliJ IDEA</h1>
+<h1>Разработка соглашения об именах репозитория Git</h1>
 </div>
 <div id="content">
+<div id="preamble">
+<div class="sectionbody">
 <div class="paragraph">
-<p>In files manager:</p>
+<p>На Git-hosting каждому репозиторию нужно имя, поэтому, естественно, он должен соответствовать следующим критериям:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>copy content from <a href="https://raw.githubusercontent.com/rakovets/java-theory/master/res/checkstyle.xml">checkstyle.xml</a> to <code>checkstyle.xml</code> in <code>${WORK_DIR_IDEA}/config/codestyles/</code></p>
+<p>Описательный</p>
+</li>
+<li>
+<p>Удобочитаемый</p>
+</li>
+<li>
+<p>Последовательный</p>
+</li>
+<li>
+<p>Контекстуальный</p>
+</li>
+<li>
+<p>Ориентированный на будущее</p>
+</li>
+<li>
+<p>Расширяемый</p>
+</li>
+<li>
+<p>Многоразовый</p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
-<p>In IntelliJ IDEA:</p>
+<p>Для многих проектов, которые используют Git, по их названию нельзя ничего сказать о них. Так может есть стандарт, которому нужно следовать? Ответ: нет. Поэтому следует придерживаться здравого смысла, а если быть точнее, название репозитория зависит от проекта и языка программирование, который используется для него.</p>
+</div>
+<div class="paragraph">
+<p>Если проект предназначен для веб-сайтов, то можно использовать <strong>domain name</strong> как название проекта. Например:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>go to <em>File</em> &#8594; <em>Settings</em> &#8594; <em>Plugins</em></p>
+<p><code><a href="http://domain.com" class="bare">http://domain.com</a></code></p>
+<div class="literalblock">
+<div class="content">
+<pre>domain.com</pre>
+</div>
+</div>
 </li>
 <li>
-<p>install <em>CheckStyle-IDEA</em></p>
-</li>
-<li>
-<p>go to <em>File</em> &#8594; <em>Settings</em> &#8594; <em>CheckStyle</em></p>
-</li>
-<li>
-<p>add <code>checkstyle.xml</code> as new configuration file</p>
+<p><code><a href="http://sub.domain.com" class="bare">http://sub.domain.com</a></code></p>
+<div class="literalblock">
+<div class="content">
+<pre>sub.domain.com</pre>
+</div>
+</div>
 </li>
 </ul>
+</div>
+<div class="paragraph">
+<p>Если проект разрабатывается на Java, то лучше использовать имя конечного <strong>artifact</strong> (<code>.war</code>,  <code>.jar</code>).</p>
+</div>
+<div class="paragraph">
+<p>По умолчанию лучше использовать:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>строчные буквы</p>
+</li>
+<li>
+<p>дефисы (как разделители)</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>the-fellowship-of-the-ring
+the-two-towers
+the-return-of-the-king</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_как_использовать_git_для_клонирования">Как использовать Git для клонирования</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>Клонирование <strong>repository</strong> в директорию с таким же названием как Git <strong>project</strong>:</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-shell script" data-lang="shell script">git clone git@github.com:username/project-name.git</code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Клонирование <strong>repository</strong> в директорию с названием <code>project</code>:</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-shell script" data-lang="shell script">git clone git@github.com:username/project-name.git project</code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Клонирование <strong>repository</strong> в текущую директорию (она должна быть пуста):</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-shell script" data-lang="shell script">git clone git@github.com:username/project-name.git .</code></pre>
+</div>
+</div>
+</div>
 </div>
 </div>
 <div id="footer">
