@@ -2,8 +2,10 @@
 
 :leveloffset: +1
 
-include::javabean.adoc[]
+include::javabeans.adoc[]
 
 include::example-enterprise-javabeans.adoc[]
+
+include::pojo-poji-javabean.adoc[]
 
 :leveloffset: -1

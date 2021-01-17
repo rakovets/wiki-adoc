@@ -1,0 +1,110 @@
+= POJI, POJO и JavaBean.
+
+== POJI.
+
+Является аббревиатурой от *Plain Old Java Interface*, который соответствует стандартному интерфейсу Java, что означает, что эти интерфейсы находятся в контексте предоставления услуг в *JEE*. Например, услуга *OSGI* предлагается через *POJI* в *JEE*.
+
+Другими словами, мы можем сказать, что *POJI* — это обычный интерфейс без какой-либо специальности, которая не унаследована от какого-либо специального *API*-интерфейса технологии или интерфейсов платформы.
+
+[source,java]
+----
+interface myCustomInterface {
+    public void myMethod();
+}
+----
+
+[source,java]
+----
+interface mySecondCustomInterface extends myCustomInterface {
+    public void mySecondMethod();
+}
+----
+
+Оба интерфейса будут называться *POJI*, поскольку они не наследуют какой-либо технологический интерфейс.
+
+[source,java]
+----
+interface GFG1 extends java.rmi.Remote {
+    public void myMethod();
+}
+----
+
+[source,java]
+----
+interface GFG2 extends java.beans.AppletInitializer {
+    public void mySecondMethod();
+}
+----
+
+Оба интерфейса не будут называться *POJI*, поскольку они наследуют специфический для технологии интерфейс.
+
+== POJO.
+
+Как мы знаем, в Java *POJO* ссылается на простой старый объект Java. *POJO* и класс *JavaBean* в Java имеют некоторые общие черты, а именно:
+
+Оба класса должны быть общедоступными, т.е. доступными для всех.
+
+* Свойства или переменные, определенные в обоих классах, должны быть закрытыми, то есть не могут быть доступны напрямую.
+* Оба класса должны иметь конструктор по умолчанию, т.е. не иметь аргумента конструктора.
+* `public` *getters* и *setters* должны присутствовать в обоих классах для доступа к переменным/свойствам.
+* Единственное различие между обоими классами состоит в том, что Java делает объекты *JavaBean* сериализованными, чтобы в случае необходимости можно было сохранить состояние класса *JavaBeans*. Поэтому из-за этого класс *JavaBeans* должен реализовывать интерфейс `Serializable` или `Externalizable`.
+
+В связи с этим указывается, что все *JavaBean*-компоненты являются *POJO*, но не все *POJO*-объекты являются *JavaBean*-компонентами.
+
+Пример класса *JavaBean*:
+
+[source,java]
+----
+public class Employee implements java.io.Serializable {
+    private int id;
+    private String name;
+
+    public Employee() {
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+}
+----
+
+Пример класса *POJO*:
+
+[source,java]
+----
+public class Employee {
+    String name;
+    public String id;
+    private double salary;
+
+    public Employee(String name, String id,double salary) {
+        this.name = name;
+        this.id = id;
+        this.salary = salary;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public Double getSalary() {
+        return salary;
+    }
+}
+----

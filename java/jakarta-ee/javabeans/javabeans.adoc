@@ -1,4 +1,4 @@
-= JavaBean
+= JavaBeans
 
 Класс *JavaBean* должен соответствовать ряду ограничений:
 
@@ -10,7 +10,7 @@
 
 Рассмотрим, как использовать классы *JavaBean*. Допустим, у нас есть следующая структура:
 
-image:/assets/img/java/jakarta-ee/javabean/file-javabean.png[Project structure]
+image:../../../assets/img/java/jakarta-ee/javabeans/file-javabean.png[Project structure]
 
 В папке `Java Resources/src` расположен класс `User` со следующим кодом:
 
@@ -92,11 +92,12 @@ public class HelloServlet extends HttpServlet {
             throws ServletException, IOException {
         User tom = new User("Tom", 25);
         request.setAttribute("user", tom);
-        getServletContext().getRequestDispatcher("/user.jsp").forward(request, response);
+        getServletContext().getRequestDispatcher("/user.jsp")
+                .forward(request, response);
     }
 }
 ----
 
 Сервлет создает объект `User`. Для передачи его на страницу `user.jsp` устанавливается атрибут `user` через вызов `request.setAttribute("user", tom)`. Далее происходит перенаправление на страницу `user.jsp`. И, таким образом, страница получит данные из сервлета.
 
-image:/assets/img/java/jakarta-ee/javabean/page-javabean.png[Page JavaBean]
+image::../../../assets/img/java/jakarta-ee/javabeans/page-javabean.png[Page JavaBean]

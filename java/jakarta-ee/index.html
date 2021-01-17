@@ -498,8 +498,9 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </li>
 <li><a href="#_javabean">7. JavaBean</a>
 <ul class="sectlevel2">
-<li><a href="#_javabean_2">7.1. JavaBean</a></li>
+<li><a href="#_javabeans">7.1. JavaBeans</a></li>
 <li><a href="#_пример_enterprise_javabeans">7.2. Пример Enterprise JavaBeans</a></li>
+<li><a href="#_poji_pojo_и_javabean">7.3. POJI, POJO и JavaBean.</a></li>
 </ul>
 </li>
 <li><a href="#_служба_имен_и_каталогов_jndi">8. Служба имен и каталогов JNDI</a>
@@ -3686,7 +3687,7 @@ request.setAttribute("users", users);</code></pre>
 <h2 id="_javabean">7. JavaBean</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_javabean_2">7.1. JavaBean</h3>
+<h3 id="_javabeans">7.1. JavaBeans</h3>
 <div class="paragraph">
 <p>Класс <strong>JavaBean</strong> должен соответствовать ряду ограничений:</p>
 </div>
@@ -3713,7 +3714,7 @@ request.setAttribute("users", users);</code></pre>
 <p>Рассмотрим, как использовать классы <strong>JavaBean</strong>. Допустим, у нас есть следующая структура:</p>
 </div>
 <div class="paragraph">
-<p><span class="image"><img src="/assets/img/java/jakarta-ee/javabean/file-javabean.png" alt="Project structure"></span></p>
+<p><span class="image"><img src="../../../assets/img/java/jakarta-ee/javabeans/file-javabean.png" alt="Project structure"></span></p>
 </div>
 <div class="paragraph">
 <p>В папке <code>Java Resources/src</code> расположен класс <code>User</code> со следующим кодом:</p>
@@ -3800,7 +3801,8 @@ public class HelloServlet extends HttpServlet {
             throws ServletException, IOException {
         User tom = new User("Tom", 25);
         request.setAttribute("user", tom);
-        getServletContext().getRequestDispatcher("/user.jsp").forward(request, response);
+        getServletContext().getRequestDispatcher("/user.jsp")
+                .forward(request, response);
     }
 }</code></pre>
 </div>
@@ -3808,14 +3810,16 @@ public class HelloServlet extends HttpServlet {
 <div class="paragraph">
 <p>Сервлет создает объект <code>User</code>. Для передачи его на страницу <code>user.jsp</code> устанавливается атрибут <code>user</code> через вызов <code>request.setAttribute("user", tom)</code>. Далее происходит перенаправление на страницу <code>user.jsp</code>. И, таким образом, страница получит данные из сервлета.</p>
 </div>
-<div class="paragraph">
-<p><span class="image"><img src="/assets/img/java/jakarta-ee/javabean/page-javabean.png" alt="Page JavaBean"></span></p>
+<div class="imageblock">
+<div class="content">
+<img src="../../../assets/img/java/jakarta-ee/javabeans/page-javabean.png" alt="Page JavaBean">
+</div>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_пример_enterprise_javabeans">7.2. Пример Enterprise JavaBeans</h3>
 <div class="paragraph">
-<p>Рассмотрим простой пример использования компонента <strong>Enterprise JavaBeans</strong> с выводом стандартного сообщения типа <code>Hello World</code>. Для этого создадим три проекта :</p>
+<p>Рассмотрим простой пример использования компонента <strong>Enterprise JavaBeans</strong> с выводом стандартного сообщения типа <code>Hello World</code>. Для этого создадим три проекта:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -3831,34 +3835,36 @@ public class HelloServlet extends HttpServlet {
 </ul>
 </div>
 <div class="paragraph">
-<p>Разработку будем вести в среде <strong>Eclipse</strong> (использую версию Luna Service Release 2 (4.4.2)), которая предоставляет Wizard для одновременного создания подобных проектов.</p>
+<p>Разработку будем вести в среде <strong>Eclipse</strong>, которая предоставляет <em>Wizard</em> для одновременного создания подобных проектов.</p>
 </div>
 <div class="sect3">
 <h4 id="_создание_проектов">7.2.1. Создание проектов</h4>
 <div class="paragraph">
-<p>Выбираем <strong>Wizard</strong> и создаем структуры проектов :</p>
+<p>Выбираем <strong>Wizard</strong> и создаем структуры проектов:</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p><em>File</em> &#8658; <em>New</em> &#8658; <em>Other</em> (Ctrl+N). В раскрывшемся окне выбираем Java EE, Enterprise Application Project, жмем Next и переходим к следующему шагу.</p>
+<p><em>File</em> &#8594; <em>New</em> &#8594; <em>Other (Ctrl+N)</em>. В раскрывшемся окне выбираем <em>Java EE, Enterprise Application Project</em>, жмем <em>Next</em> и переходим к следующему шагу.</p>
 </li>
 <li>
-<p>Определяем наименование проекта <code>slon-app</code>, Target runtime (использую JBoss 7.1) и к следующему шагу (Next).</p>
+<p>Определяем наименование проекта <code>slon-app</code>, <em>Target runtime</em> (использую JBoss 7.1) и к следующему шагу (<em>Next</em>).</p>
 </li>
 <li>
-<p>На этом шаге в открывшемся окне можно выбрать модули из существующих или создать новые. Создаем новые - нажимаем на «New module &#8230;&#8203;».</p>
+<p>На этом шаге в открывшемся окне можно выбрать модули из существующих или создать новые. Создаем новые - нажимаем на <em>New module &#8230;&#8203;</em>.</p>
 </li>
 <li>
-<p>В открывшемся окне «New Java EE Module» выбираем «EJB module» и «Web module». Определяем наименования как <em>slon-module</em> и <em>slon-web</em>. Нажимаем на кнопку Finish, после чего окно закрывается, создаются новые проекты (модули), которые появляются в списке проектов. Устанавливаем флаг «Generate <code>application.xml</code> deployment descriptor» и завершаем разработку структуры проектов (жмем Finish).</p>
+<p>В открывшемся окне <em>New Java EE Module</em> &#8594; <em>EJB module</em> &#8594; <em>Web module</em>. Определяем наименования как <code>slon-module</code> и <code>slon-web</code>. Нажимаем на кнопку <em>Finish</em>, после чего окно закрывается, создаются новые проекты (модули), которые появляются в списке проектов. Устанавливаем флаг <em>Generate <code>application.xml</code> deployment descriptor</em> и завершаем разработку структуры проектов (жмем <em>Finish</em>).</p>
 </li>
 </ol>
 </div>
 <div class="paragraph">
 <p>Не прилагая чрезмерных усилий создали проект <code>slon-app</code> типа <em>Enterprise Application Project</em>, включающий два проекта. На следующем скриншоте представлена структура созданных проектов в IDE Eclipse.</p>
 </div>
-<div class="paragraph">
-<p><span class="image"><img src="/assets/img/java/jakarta-ee/javabean/ejb.png" alt="Структуры проектов приложения Enterprise Application Project"></span></p>
+<div class="imageblock">
+<div class="content">
+<img src="../../../assets/img/java/jakarta-ee/javabeans/ejb.png" alt="Структуры проектов приложения Enterprise Application Project">
+</div>
 </div>
 <div class="paragraph">
 <p>Приложение <code>slon-app</code> включает только файл конфигурации приложения <code>application.xml</code>, в котором определены модули.</p>
@@ -3891,7 +3897,7 @@ public class HelloServlet extends HttpServlet {
 <div class="sect3">
 <h4 id="_создание_компонента_ejb">7.2.3. Создание компонента EJB</h4>
 <div class="paragraph">
-<p>Компонент EJB создаем в модуле <code>slon-module</code>. Для этого включаем в проект интерфейс <code>IHelloWorld.java</code> (<em>New</em> &#8594; <em>Interface</em>) и класс <code>HelloWorldBean.java</code> (<em>New</em> &#8594; <em>Class</em>), представляющий сеансовый компонент <strong>EJB</strong>.</p>
+<p>Компонент <strong>EJB</strong> создаем в модуле <code>slon-module</code>. Для этого включаем в проект интерфейс <code>IHelloWorld.java</code> (<em>New</em> &#8594; <em>Interface</em>) и класс <code>HelloWorldBean</code> (<em>New</em> &#8594; <em>Class</em>), представляющий сеансовый компонент <strong>EJB</strong>.</p>
 </div>
 <div class="sect4">
 <h5 id="_листинг_интерфейса_ihelloworld">Листинг интерфейса <code>IHelloWorld</code></h5>
@@ -3902,21 +3908,25 @@ public class HelloServlet extends HttpServlet {
 import javax.ejb.Local;
 
 @Local
-public interface IHelloWorld
-{
-    public String sayHello(String name);
+public interface IHelloWorld {
+    String sayHello(String name);
 }</code></pre>
 </div>
 </div>
 <div class="paragraph">
 <p>Интерфейс <code>IHelloWorld.java</code> включает только один метод <code>sayHello()</code> и помечен аннотацией <code>@Local</code>.</p>
 </div>
-<div class="quoteblock">
-<blockquote>
-<div class="paragraph">
-<p><strong>Примечание</strong> : аннотация <code>@Local</code> к интерфейсу сообщает контейнеру, что реализация IHelloWorld может быть доступна локально, посредством интерфейса. В этом есть определенный смысл, если интерфейс и использующие его компоненты EJB находятся в одном и том же приложении. Аннотацию <code>@Local</code> можно опустить; в этом случае интерфейс все равно будет интерпретироваться контейнером как локальный.</p>
-</div>
-</blockquote>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+Аннотация <code>@Local</code> к интерфейсу сообщает контейнеру, что реализация <code>IHelloWorld</code> может быть доступна локально, посредством интерфейса. В этом есть определенный смысл, если интерфейс и использующие его компоненты <strong>EJB</strong> находятся в одном и том же приложении. Аннотацию <code>@Local</code> можно опустить; в этом случае интерфейс все равно будет интерпретироваться контейнером как локальный.
+</td>
+</tr>
+</table>
 </div>
 </div>
 <div class="sect4">
@@ -3938,47 +3948,52 @@ public class HelloWorldBean implements IHelloWorld {
 </div>
 </div>
 <div class="paragraph">
-<p>В листинге <code>HelloWorldBean.java</code> представлен законченный, действующий компонент <strong>EJB</strong>, являющийся обычным Java-классом. Аннотация <code>@Stateless</code> обеспечивает преобразование простого Java-объекта (<strong>POJO</strong>) в полноценный сеансовый компонент EJB без сохранения состояния. Фактически, аннотации несут в себе дополнительную информацию в «форме комментария», которая добавляется в код.</p>
+<p>В листинге <code>HelloWorldBean.java</code> представлен законченный, действующий компонент <strong>EJB</strong>, являющийся обычным Java-классом. Аннотация <code>@Stateless</code> обеспечивает преобразование простого Java-объекта (<strong>POJO</strong>) в полноценный сеансовый компонент <strong>EJB</strong> без сохранения состояния. Фактически, аннотации несут в себе дополнительную информацию в «форме комментария», которая добавляется в код.</p>
 </div>
-<div class="quoteblock">
-<blockquote>
-<div class="paragraph">
-<p><strong>Примечание</strong> : аннотация <code>@Stateless</code> сообщает контейнеру EJB, что HelloWorldBean является сеансовым компонентом без сохранения состояния. Контейнер приложений автоматически добавит в компонент поддержку многопоточной модели выполнения, транзакций и возможность размещения в пулах. Поддержка многопоточности и транзакций гарантируют возможность использования любых ресурсов, таких как база данных или очередь сообщений, без необходимости разработки кода для обслуживания «конкуренции» или транзакций. Поддержка размещения в пулах гарантирует надежность даже при очень высоких нагрузках. При необходимости в компонент можно также добавить поддержку дополнительных служб EJB, таких как безопасность, планирование и интерцепторы.</p>
-</div>
-</blockquote>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+Аннотация <code>@Stateless</code> сообщает контейнеру <strong>EJB</strong>, что <code>HelloWorldBean</code> является сеансовым компонентом без сохранения состояния. Контейнер приложений автоматически добавит в компонент поддержку многопоточной модели выполнения, транзакций и возможность размещения в пулах. Поддержка многопоточности и транзакций гарантируют возможность использования любых ресурсов, таких как база данных или очередь сообщений, без необходимости разработки кода для обслуживания «конкуренции» или транзакций. Поддержка размещения в пулах гарантирует надежность даже при очень высоких нагрузках. При необходимости в компонент можно также добавить поддержку дополнительных служб <strong>EJB</strong>. Например: безопасность, планирование и интерцепторы.
+</td>
+</tr>
+</table>
 </div>
 </div>
 </div>
 <div class="sect3">
 <h4 id="_аннотации_в_ejb">7.2.4. Аннотации в EJB</h4>
 <div class="paragraph">
-<p>Необходимо несколько слов сказать об использовании аннотаций при создании компонентов <em>EJB</em>. Аннотации появивились в Java SE 5. До их появления единственным средством определения конфигурации приложений были файлы XML. Однако, использование файлов XML влечет за собой множество проблем :</p>
+<p>Необходимо несколько слов сказать об использовании аннотаций при создании компонентов <strong>EJB</strong>. Аннотации появились в <strong>Java SE 5</strong>. До их появления единственным средством определения конфигурации приложений были файлы <strong>XML</strong>. Однако, использование файлов <strong>XML</strong> влечет за собой множество проблем:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>формат XML чересчур многословен, трудно читаем и в нем очень легко допустить ошибку;</p>
+<p>формат <strong>XML</strong> чересчур многословен, трудно читаем и в нем очень легко допустить ошибку;</p>
 </li>
 <li>
-<p>XML никак не поддерживает одну из сильнейших сторон Java – строгий контроль типов;</p>
+<p><strong>XML</strong> никак не поддерживает одну из сильнейших сторон Java – строгий контроль типов;</p>
 </li>
 <li>
-<p>конфигурационные файлы XML часто получаются монолитными и они отделяют информацию о настройках от программного кода, использующего ее, что усложняет сопровождение.</p>
+<p>конфигурационные файлы <strong>XML</strong> часто получаются монолитными и они отделяют информацию о настройках от программного кода, использующего ее, что усложняет сопровождение.</p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
-<p>Аннотации были созданы специально, чтобы ослабить эти проблемы. EJB 3 стала первой распространенной технологией на основе языка Java, проложившей путь к применению аннотаций. С тех пор по ее стопам пошли многие другие технологии типа JPA, JSF, Servlets, JUnit, Spring и т.д.</p>
+<p>Аннотации были созданы специально, чтобы ослабить эти проблемы. <strong>EJB 3</strong> стала первой распространенной технологией на основе языка Java, проложившей путь к применению аннотаций. С тех пор по ее стопам пошли многие другие технологии типа <strong>JPA</strong>, <strong>JSF</strong>, <strong>Servlets</strong>, <strong>JUnit</strong>, <strong>Spring</strong> и т.д.</p>
 </div>
 <div class="paragraph">
-<p>Благодаря нацеленности на простоту использования в EJB 3 применение аннотаций преобладает над применением конфигурации объектов в формате XML.</p>
+<p>Благодаря нацеленности на простоту использования в <strong>EJB 3</strong> применение аннотаций преобладает над применением конфигурации объектов в формате <strong>XML</strong>.</p>
 </div>
 <div class="sect4">
-<h5 id="_основные_аннотации_ejb_версия_3">Основные аннотации EJB (версия 3)</h5>
+<h5 id="_основные_аннотации_ejb_3">Основные аннотации EJB 3</h5>
 <div class="ulist">
 <ul>
 <li>
-<p><code>@EJB</code> — помечается используемый в классе компонент EJB;</p>
+<p><code>@EJB</code> — помечается используемый в классе компонент <strong>EJB</strong>;</p>
 </li>
 <li>
 <p><code>@Stateless</code> — определяется stateless session bean;</p>
@@ -3993,28 +4008,28 @@ public class HelloWorldBean implements IHelloWorld {
 <p><code>@Local</code> — определяется local session bean;</p>
 </li>
 <li>
-<p><code>@LocalBean</code> — определяется bean, который будет использован локально, следовательно его не нужно сериализовать;</p>
+<p><code>@LocalBean</code> — определяется bean, который будет использован локально, следовательно, его не нужно сериализовать;</p>
 </li>
 <li>
 <p><code>@Remote</code> — компонент доступен через RMI (Remote Method Invocation);</p>
 </li>
 <li>
-<p><code>@Remove</code> — помеченный данной аннотацией метод говорит контейнеру, что после его исполнения нет больше смысла хранить компонент EJB, т.е. его состояние сбрасывается;</p>
+<p><code>@Remove</code> — помеченный данной аннотацией метод говорит контейнеру, что после его исполнения нет больше смысла хранить компонент <strong>EJB</strong>, т.е. его состояние сбрасывается;</p>
 </li>
 <li>
-<p><code>@Entity</code> — аннотация говорит контейнеру, что класс будет сущностью БД.</p>
+<p><code>@Entity</code> — аннотация говорит контейнеру, что класс будет сущностью <strong>БД</strong>.</p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
-<p>Таким образом, аннотации компонентов <em>EJB 3</em> можно рассматривать по сути как параметры настройки, присваивающие фрагментам кода (объявление класса или метода) определенные атрибуты. Когда контейнер <em>EJB</em> обнаруживает эти атрибуты, он добавляет соответствующие им службы. Этот подход иначе называют «декларативным программированием» - разработчик указывает, что должно быть сделано, а система добавляет необходимый код.</p>
+<p>Таким образом, аннотации компонентов <strong>EJB 3</strong> можно рассматривать по сути как параметры настройки, присваивающие фрагментам кода (объявление класса или метода) определенные атрибуты. Когда контейнер <strong>EJB</strong> обнаруживает эти атрибуты, он добавляет соответствующие им службы. Этот подход иначе называют «декларативным программированием» - разработчик указывает, что должно быть сделано, а система добавляет необходимый код.</p>
 </div>
 </div>
 </div>
 <div class="sect3">
 <h4 id="_создание_web_приложения">7.2.5. Создание WEB приложения</h4>
 <div class="paragraph">
-<p>В WEB-приложении slon-web нам необходимо обратиться к компоненту <strong>EJB</strong>, определенному в другом приложении и размещенном в контейнере приложений <strong>JBoss</strong> (который я использую). Для этого создадим сервлет <code>ServletHello</code> с компонентом <strong>EJB</strong>, и страницу <code>index.jsp</code>, из которой отправим запрос сервлету.</p>
+<p>В WEB-приложении <code>slon-web</code> нам необходимо обратиться к компоненту <strong>EJB</strong>, определенному в другом приложении и размещенном в контейнере приложений <strong>JBoss</strong> (который я использую). Для этого создадим сервлет <code>ServletHello</code> с компонентом <strong>EJB</strong>, и страницу <code>index.jsp</code>, из которой отправим запрос сервлету.</p>
 </div>
 <div class="paragraph">
 <p>Создаем сервлет <em>New</em> &#8594; <em>Servlet</em>. В сервлете определяем компонент <strong>EJB</strong> <code>hello</code> типа <code>IHelloWorld</code> с аннотацией <code>@EJB</code>. Контейнер приложений сам инициализирует переменную <code>hello</code> и свяжет ее с компонентом <code>HelloWorldBean</code>, реализующим интерфейс <code>IHelloWorld</code>.</p>
@@ -4022,7 +4037,7 @@ public class HelloWorldBean implements IHelloWorld {
 <div class="sect4">
 <h5 id="_определение_зависимости">Определение зависимости</h5>
 <div class="paragraph">
-<p>На этапе разработки <strong>IDE Eclipse</strong> не определит тип интерфейса <code>IHelloWorld</code>. Поэтому необходимо к проекту slon-web подключить проект slon-module. Для этого откройте свойства проекта <em>Properties</em> и в <em>Deployment Assembly</em> подключите (<em>Add &#8230;&#8203;</em>) проект <code>slon-module</code>.</p>
+<p>На этапе разработки <strong>IDE Eclipse</strong> не определит тип интерфейса <code>IHelloWorld</code>. Поэтому необходимо к проекту <code>slon-web</code> подключить проект <code>slon-module</code>. Для этого откройте свойства проекта <em>Properties</em> и в <em>Deployment Assembly</em> подключите (<em>Add &#8230;&#8203;</em>) проект <code>slon-module</code>.</p>
 </div>
 </div>
 <div class="sect4">
@@ -4066,10 +4081,10 @@ public class ServletHello extends HttpServlet {
 </div>
 </div>
 <div class="paragraph">
-<p>В сервлете переопределен метод <code>doPost()</code>. В методу вызывается функция <code>sayHello()</code> компонента <em>EJB</em>, которая возвращает ответ. Сервлет размещает ответ в странице <code>index.jsp</code>.</p>
+<p>В сервлете переопределен метод <code>doPost()</code>. В методу вызывается функция <code>sayHello()</code> компонента <strong>EJB</strong>, которая возвращает ответ. Сервлет размещает ответ в странице <code>index.jsp</code>.</p>
 </div>
 <div class="paragraph">
-<p><em>Следует обратить внимание, что компонент EJB (hello) не инициализируется, а сразу же вызывается его метод.</em></p>
+<p><em>Следует обратить внимание, что компонент <strong>EJB</strong> (<code>hello</code>) не инициализируется, а сразу же вызывается его метод.</em></p>
 </div>
 </div>
 </div>
@@ -4101,10 +4116,7 @@ public class ServletHello extends HttpServlet {
 </div>
 </div>
 <div class="paragraph">
-<p>На странице index.jsp определяем поле для ответа answer и форму запроса (form). При нажатии на кнопку OK будет выполнено действие <code>sayHello()</code>, определенное в дескрипторе приложений <code>web.xml</code>, которое вернет ответ от сервера (сервлет &#8658; EJB).</p>
-</div>
-<div class="paragraph">
-<p>Подробное описание синтаксиса страниц JSP (Java Server Page) представлено <a href="http://java-online.ru/jsp.xhtml">здесь</a>.</p>
+<p>На странице <code>index.jsp</code> определяем поле для ответа answer и форму запроса (form). При нажатии на кнопку <em>OK</em> будет выполнено действие <code>sayHello()</code>, определенное в дескрипторе приложений <code>web.xml</code>, которое вернет ответ от сервера (сервлет &#8594; EJB).</p>
 </div>
 </div>
 <div class="sect3">
@@ -4135,13 +4147,13 @@ public class ServletHello extends HttpServlet {
 </div>
 </div>
 <div class="paragraph">
-<p>В дескрипторе приложения определен сервлет и действие (pattern sayHello), по которому он будет вызван.</p>
+<p>В дескрипторе приложения определен сервлет и действие (pattern <code>sayHello</code>), по которому он будет вызван.</p>
 </div>
 <div class="paragraph">
-<p>На этом можно сказать разработка закончилась. Теперь осталось запустить приложение slon-app на исполнение (Run As &#8658; Run on Server) и увидеть следующую картинку в браузере.</p>
+<p>На этом можно сказать разработка закончилась. Теперь осталось запустить приложение <code>slon-app</code> на исполнение (<em>Run As</em> &#8594; <em>Run on Server</em>) и увидеть следующую картинку в браузере.</p>
 </div>
 <div class="paragraph">
-<p><span class="image"><img src="/assets/img/java/jakarta-ee/javabean/ejb-jsp.png" alt="Интерфейс страницы JSP"></span></p>
+<p><span class="image"><img src="../../../assets/img/java/jakarta-ee/javabeans/ejb-jsp.png" alt="Интерфейс страницы JSP"></span></p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -4150,23 +4162,33 @@ public class ServletHello extends HttpServlet {
 <div class="title">Note</div>
 </td>
 <td class="content">
-скриншот снят после ввода имени Alex и нажатия на кнопку OK, т.е. после получения ответа от сервера.
+Скриншот снят после ввода имени <code>Alex</code> и нажатия на кнопку <em>OK</em>, т.е. после получения ответа от сервера.
 </td>
 </tr>
 </table>
-</div>
-<div class="paragraph">
-<p>На этом можно было бы и закончить повествование, но хочется взглянуть и на сервер приложений. А как он реагирует на наши приложения?</p>
 </div>
 </div>
 <div class="sect3">
 <h4 id="_сервер_приложений">7.2.8. Сервер приложений</h4>
 <div class="paragraph">
-<p>После запуска приложения slon-app также стартуют 2 приложения : slon-module и slon-web. В логах сервера приложений JBoss увидим следующую информацию :</p>
+<p>После запуска приложения <code>slon-app</code> также стартуют 2 приложения:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>slon-module</code></p>
+</li>
+<li>
+<p><code>slon-web</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>В логах сервера приложений <strong>JBoss</strong> увидим следующую информацию:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code data-lang="out">JNDI bindings for session bean named HelloWorldBean in deployment unit
+<pre>JNDI bindings for session bean named HelloWorldBean in deployment unit
               subdeployment "slon-module.jar" of deployment "slon-app.ear"
               are as follows:
 
@@ -4189,11 +4211,145 @@ java:app/slon-web/HelloWorldBean!modules.IHelloWorld
 java:module/HelloWorldBean!modules.IHelloWorld
 java:global/slon-app/slon-web/HelloWorldBean
 java:app/slon-web/HelloWorldBean
-java:module/HelloWorldBean</code></pre>
+java:module/HelloWorldBean</pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Таким образом, сервер приложения «принял» наш компонент EJB. О формате именования компонентов EJB можно почитать  <a href="http://java-online.ru/ejb.xhtml#jndi-ejb">здесь</a></p>
+<p>Таким образом, сервер приложения «принял» наш компонент <strong>EJB</strong>.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_poji_pojo_и_javabean">7.3. POJI, POJO и JavaBean.</h3>
+<div class="sect3">
+<h4 id="_poji">7.3.1. POJI.</h4>
+<div class="paragraph">
+<p>Является аббревиатурой от <strong>Plain Old Java Interface</strong>, который соответствует стандартному интерфейсу Java, что означает, что эти интерфейсы находятся в контексте предоставления услуг в <strong>JEE</strong>. Например, услуга <strong>OSGI</strong> предлагается через <strong>POJI</strong> в <strong>JEE</strong>.</p>
+</div>
+<div class="paragraph">
+<p>Другими словами, мы можем сказать, что <strong>POJI</strong> — это обычный интерфейс без какой-либо специальности, которая не унаследована от какого-либо специального <strong>API</strong>-интерфейса технологии или интерфейсов платформы.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="java">interface myCustomInterface {
+    public void myMethod();
+}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="java">interface mySecondCustomInterface extends myCustomInterface {
+    public void mySecondMethod();
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Оба интерфейса будут называться <strong>POJI</strong>, поскольку они не наследуют какой-либо технологический интерфейс.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="java">interface GFG1 extends java.rmi.Remote {
+    public void myMethod();
+}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="java">interface GFG2 extends java.beans.AppletInitializer {
+    public void mySecondMethod();
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Оба интерфейса не будут называться <strong>POJI</strong>, поскольку они наследуют специфический для технологии интерфейс.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_pojo">7.3.2. POJO.</h4>
+<div class="paragraph">
+<p>Как мы знаем, в Java <strong>POJO</strong> ссылается на простой старый объект Java. <strong>POJO</strong> и класс <strong>JavaBean</strong> в Java имеют некоторые общие черты, а именно:</p>
+</div>
+<div class="paragraph">
+<p>Оба класса должны быть общедоступными, т.е. доступными для всех.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Свойства или переменные, определенные в обоих классах, должны быть закрытыми, то есть не могут быть доступны напрямую.</p>
+</li>
+<li>
+<p>Оба класса должны иметь конструктор по умолчанию, т.е. не иметь аргумента конструктора.</p>
+</li>
+<li>
+<p><code>public</code> <strong>getters</strong> и <strong>setters</strong> должны присутствовать в обоих классах для доступа к переменным/свойствам.</p>
+</li>
+<li>
+<p>Единственное различие между обоими классами состоит в том, что Java делает объекты <strong>JavaBean</strong> сериализованными, чтобы в случае необходимости можно было сохранить состояние класса <strong>JavaBeans</strong>. Поэтому из-за этого класс <strong>JavaBeans</strong> должен реализовывать интерфейс <code>Serializable</code> или <code>Externalizable</code>.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>В связи с этим указывается, что все <strong>JavaBean</strong>-компоненты являются <strong>POJO</strong>, но не все <strong>POJO</strong>-объекты являются <strong>JavaBean</strong>-компонентами.</p>
+</div>
+<div class="paragraph">
+<p>Пример класса <strong>JavaBean</strong>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="java">public class Employee implements java.io.Serializable {
+    private int id;
+    private String name;
+
+    public Employee() {
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Пример класса <strong>POJO</strong>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="java">public class Employee {
+    String name;
+    public String id;
+    private double salary;
+
+    public Employee(String name, String id,double salary) {
+        this.name = name;
+        this.id = id;
+        this.salary = salary;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public Double getSalary() {
+        return salary;
+    }
+}</code></pre>
+</div>
 </div>
 </div>
 </div>
@@ -4451,7 +4607,7 @@ career: javax.naming.directory.DirContext
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2021-01-17 05:35:09 UTC
+Last updated 2021-01-17 09:27:38 UTC
 </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/run_prettify.min.js"></script>

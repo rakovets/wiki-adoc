@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.12">
-<title>Создание и выполнение потоков</title>
+<title>JavaBeans</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -440,236 +440,134 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </head>
 <body class="article">
 <div id="header">
-<h1>Создание и выполнение потоков</h1>
+<h1>JavaBeans</h1>
 </div>
 <div id="content">
-<div id="preamble">
-<div class="sectionbody">
 <div class="paragraph">
-<p>Для создания нового потока мы можем создать новый класс, либо наследуя его от класса <code>Thread</code>, либо реализуя в классе интерфейс <code>Runnable</code>.</p>
+<p>Класс <strong>JavaBean</strong> должен соответствовать ряду ограничений:</p>
 </div>
+<div class="ulist">
+<ul>
+<li>
+<p>иметь конструктор, который не принимает никаких параметров</p>
+</li>
+<li>
+<p>определять для всех свойств, которые используются в <strong>jsp</strong>, методы геттеры и сеттеры</p>
+</li>
+<li>
+<p>названия геттеров и сеттеров должны соответствовать условностям: перед именем переменной добавляется <code>get</code> (для геттера) и <code>set</code> (для сеттера), а название переменной включается с большой буквы. Например, если переменная называется <code>firstName</code>, то функции геттера и сеттера должны называться соответственно <code>getFirstName()</code> и <code>setFirstName()</code>.</p>
+</li>
+<li>
+<p>для переменных типа <code>boolean</code> для функции геттера используется вместо <code>get</code> приставка <code>is</code>. Например, переменная <code>enabled</code> и геттер <code>isEnabled()</code>.</p>
+</li>
+<li>
+<p>реализовать интерфейс <code>Serializable</code> или <code>Externalizable</code></p>
+</li>
+</ul>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_наследование_от_класса_thread">Наследование от класса <code>Thread</code></h2>
-<div class="sectionbody">
 <div class="paragraph">
-<p>Создадим свой класс на основе <code>Thread</code>:</p>
+<p>Рассмотрим, как использовать классы <strong>JavaBean</strong>. Допустим, у нас есть следующая структура:</p>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src="../../../assets/img/java/jakarta-ee/javabeans/file-javabean.png" alt="Project structure"></span></p>
+</div>
+<div class="paragraph">
+<p>В папке <code>Java Resources/src</code> расположен класс <code>User</code> со следующим кодом:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">class JThread extends Thread {
-    JThread(String name) {
-        super(name);
+<pre class="highlight"><code class="language-java" data-lang="java">import java.io.Serializable;
+
+public class User implements Serializable {
+    private static final long serialVersionUID = 2041275512219239990L;
+
+    private String name;
+    private int age;
+
+    public User() {
+        this.name = "";
+        this.age = 0;
     }
 
-    public void run() {
-        System.out.printf("%s started... \n", Thread.currentThread().getName());
-        try {
-            Thread.sleep(500);
-        } catch (InterruptedException e) {
-            System.out.println("Thread has been interrupted");
-        }
-        System.out.printf("%s fiished... \n", Thread.currentThread().getName());
+    public User(String name, int age) {
+        this.name = name;
+        this.age = age;
     }
-}
 
-public class Program {
-    public static void main(String[] args) {
-        System.out.println("Main thread started...");
-        new JThread("JThread").start();
-        System.out.println("Main thread finished...");
+    public String getName() {
+        return name;
     }
-}</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Класс потока называется <code>JThread</code>. Предполагается, что в конструктор класса передается имя потока, которое затем передается в конструктор базового класса. В конструктор своего класса потока мы можем передать различные данные, но главное, чтобы в нем вызывался конструктор базового класса <code>Thread</code>, в который передается имя потока.</p>
-</div>
-<div class="paragraph">
-<p>И также в <code>JThread</code> переопределяется метод <code>run()</code>, код которого собственно и будет представлять весь тот код, который выполняется в потоке.</p>
-</div>
-<div class="paragraph">
-<p>В методе <code>main()</code> для запуска потока <code>JThread</code> у него вызывается метод <code>start()</code>, после чего начинается выполнение того кода, который определен в методе <code>run()</code>:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">new JThread("JThread").start();</code></pre>
-</div>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-out" data-lang="out">Main thread started...
-Main thread finished...
-JThread started...
-JThread finished...</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Здесь в методе <code>main()</code> в конструктор <code>JThread</code> передается произвольное название потока, и затем вызывается метод <code>start()</code>. По сути этот метод как раз и вызывает переопределенный метод <code>run()</code> класса <code>JThread</code>.</p>
-</div>
-<div class="paragraph">
-<p>Обратите внимание, что главный поток завершает работу раньше, чем порожденный им дочерний поток <code>JThread</code>.</p>
-</div>
-<div class="paragraph">
-<p>Аналогично созданию одного потока мы можем запускать сразу несколько потоков:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">public static void main(String[] args) {
-    System.out.println("Main thread started...");
-    for (int i = 1; i &lt; 6; i++)
-        new JThread("JThread " + i).start();
-    System.out.println("Main thread finished...");
-}</code></pre>
-</div>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-out" data-lang="out">Main thread started...
-Main thread finished...
-JThread 2 started...
-JThread 5 started...
-JThread 4 started...
-JThread 1 started...
-JThread 3 started...
-JThread 1 finished...
-JThread 2 finished...
-JThread 5 finished...
-JThread 4 finished...
-JThread 3 finished...</code></pre>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_ожидание_завершения_потока">Ожидание завершения потока</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>При запуске потоков в примерах выше <code>Main</code> <code>thread</code> завершался до дочернего потока. Как правило, более распространенной ситуацией является случай, когда <code>Main</code> thread завершается самым последним. Для этого надо применить метод <code>join()</code>. В этом случае текущий поток будет ожидать завершения потока, для которого вызван метод <code>join()</code>:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">public class Program {
-    public static void main(String[] args) {
-        System.out.println("Main thread started...");
-        JThread t = new JThread("JThread ");
-        t.start();
-        try {
-            t.join();
-        } catch (InterruptedException e) {
-            System.out.printf("%s has been interrupted", t.getName());
-        }
-        System.out.println("Main thread finished...");
-    }
-}</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Метод <code>join()</code> заставляет вызвавший поток (в данном случае <code>Main thread</code>) ожидать завершения вызываемого потока, для которого и применяется метод <code>join()</code> (в данном случае <code>JThread</code>).</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-out" data-lang="out">Main thread started...
-JThread  started...
-JThread  finished...
-Main thread finished...</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Если в программе используется несколько дочерних потоков, и надо, чтобы <code>Main thread</code> завершался после дочерних, то для каждого дочернего потока надо вызвать метод <code>join()</code>.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_реализация_интерфейса_runnable">Реализация интерфейса <code>Runnable</code></h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Другой способ определения потока представляет реализация интерфейса <code>Runnable</code>. Этот интерфейс имеет один метод <code>run()</code>:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">interface Runnable {
-    void run();
-}</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>В методе <code>run()</code> собственно определяется весь тот код, который выполняется при запуске потока.</p>
-</div>
-<div class="paragraph">
-<p>После определения объекта <code>Runnable</code> он передается в один из конструкторов класса <code>Thread</code>:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">Thread(Runnable runnable, String threadName)</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Для реализации интерфейса определим следующий класс <code>MyThread</code>:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">class MyThread implements Runnable {
-    public void run() {
-        System.out.printf("%s started... \n", Thread.currentThread().getName());
-        try {
-            Thread.sleep(500);
-        } catch (InterruptedException e) {
-            System.out.println("Thread has been interrupted");
-        }
-        System.out.printf("%s finished... \n", Thread.currentThread().getName());
-    }
-}
 
-public class Program {
-    public static void main(String[] args) {
-        System.out.println("Main thread started...");
-        Thread myThread = new Thread(new MyThread(), "MyThread");
-        myThread.start();
-        System.out.println("Main thread finished...");
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
     }
 }</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Реализация интерфейса <code>Runnable</code> во многом аналогична переопределению класса <code>Thread</code>. Также в методе <code>run()</code> определяется простейший код, который усыпляет поток на <code>500</code> миллисекунд.</p>
+<p>Данный класс представляет пользователя и является классом <strong>JavaBean</strong>: он реализует интерфейс <code>Serializable</code>, имеет конструктор без параметров, а его методы - геттеры и сеттеры, которые предоставляют доступ к переменным <code>name</code> и <code>age</code>, соответствуют условностям.</p>
 </div>
 <div class="paragraph">
-<p>В методе <code>main()</code> вызывается конструктор <code>Thread</code>, в который передается объект <code>MyThread</code>. И чтобы запустить поток, вызывается метод <code>start()</code>. В итоге консоль выведет что-то наподобие следующего:</p>
+<p>В папке <code>WebContent</code> определена страница <code>user.jsp</code>. Определим в ней следующий код:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-out" data-lang="out">Main thread started...
-Main thread finished...
-MyThread started...
-MyThread finished...</code></pre>
+<pre class="highlight"><code class="language-html" data-lang="html">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;title&gt;User Java Bean Page&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;div&gt;
+		&lt;p&gt;Name: ${user.name}&lt;/p&gt;
+		&lt;p&gt;Age: ${user.age}&lt;/p&gt;
+    &lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Поскольку <code>Runnable</code> фактически представляет функциональный интерфейс, который определяет один метод, то объект этого интерфейса мы можем представить в виде лямбда-выражения:</p>
+<p>Данная страница <strong>jsp</strong> получает извне объект <code>user</code> и с помощью синтаксиса <strong>EL</strong> выводит значения его свойств. Стоит обратить внимание, что здесь идет обращение к переменным <code>name</code> и <code>age</code>, хотя они являются приватными.</p>
+</div>
+<div class="paragraph">
+<p>В папке <code>Java Resources/src</code> в файле <code>HelloServlet.java</code> определен сервлет <code>HelloServlet</code>:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">public class Program {
-    public static void main(String[] args) {
-        System.out.println("Main thread started...");
-        Runnable r = () -&gt; {
-            System.out.printf("%s started... \n", Thread.currentThread().getName());
-            try {
-                Thread.sleep(500);
-            } catch (InterruptedException e) {
-                System.out.println("Thread has been interrupted");
-            }
-            System.out.printf("%s finished... \n", Thread.currentThread().getName());
-        };
-        Thread myThread = new Thread(r, "MyThread");
-        myThread.start();
-        System.out.println("Main thread finished...");
+<pre class="highlight"><code class="language-java" data-lang="java">import java.io.IOException;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+@WebServlet("/hello")
+public class HelloServlet extends HttpServlet {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        User tom = new User("Tom", 25);
+        request.setAttribute("user", tom);
+        getServletContext().getRequestDispatcher("/user.jsp")
+                .forward(request, response);
     }
 }</code></pre>
 </div>
 </div>
+<div class="paragraph">
+<p>Сервлет создает объект <code>User</code>. Для передачи его на страницу <code>user.jsp</code> устанавливается атрибут <code>user</code> через вызов <code>request.setAttribute("user", tom)</code>. Далее происходит перенаправление на страницу <code>user.jsp</code>. И, таким образом, страница получит данные из сервлета.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../../../assets/img/java/jakarta-ee/javabeans/page-javabean.png" alt="Page JavaBean">
 </div>
 </div>
 </div>

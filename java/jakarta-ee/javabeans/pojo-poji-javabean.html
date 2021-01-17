@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.12">
-<title>JavaBean</title>
+<title>POJI, POJO и JavaBean.</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -440,137 +440,148 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </head>
 <body class="article">
 <div id="header">
-<h1>JavaBean</h1>
+<h1>POJI, POJO и JavaBean.</h1>
 </div>
 <div id="content">
+<div class="sect1">
+<h2 id="_poji">POJI.</h2>
+<div class="sectionbody">
 <div class="paragraph">
-<p>Класс <strong>JavaBean</strong> должен соответствовать ряду ограничений:</p>
+<p>Является аббревиатурой от <strong>Plain Old Java Interface</strong>, который соответствует стандартному интерфейсу Java, что означает, что эти интерфейсы находятся в контексте предоставления услуг в <strong>JEE</strong>. Например, услуга <strong>OSGI</strong> предлагается через <strong>POJI</strong> в <strong>JEE</strong>.</p>
+</div>
+<div class="paragraph">
+<p>Другими словами, мы можем сказать, что <strong>POJI</strong> — это обычный интерфейс без какой-либо специальности, которая не унаследована от какого-либо специального <strong>API</strong>-интерфейса технологии или интерфейсов платформы.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">interface myCustomInterface {
+    public void myMethod();
+}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">interface mySecondCustomInterface extends myCustomInterface {
+    public void mySecondMethod();
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Оба интерфейса будут называться <strong>POJI</strong>, поскольку они не наследуют какой-либо технологический интерфейс.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">interface GFG1 extends java.rmi.Remote {
+    public void myMethod();
+}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">interface GFG2 extends java.beans.AppletInitializer {
+    public void mySecondMethod();
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Оба интерфейса не будут называться <strong>POJI</strong>, поскольку они наследуют специфический для технологии интерфейс.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_pojo">POJO.</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Как мы знаем, в Java <strong>POJO</strong> ссылается на простой старый объект Java. <strong>POJO</strong> и класс <strong>JavaBean</strong> в Java имеют некоторые общие черты, а именно:</p>
+</div>
+<div class="paragraph">
+<p>Оба класса должны быть общедоступными, т.е. доступными для всех.</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>иметь конструктор, который не принимает никаких параметров</p>
+<p>Свойства или переменные, определенные в обоих классах, должны быть закрытыми, то есть не могут быть доступны напрямую.</p>
 </li>
 <li>
-<p>определять для всех свойств, которые используются в <strong>jsp</strong>, методы геттеры и сеттеры</p>
+<p>Оба класса должны иметь конструктор по умолчанию, т.е. не иметь аргумента конструктора.</p>
 </li>
 <li>
-<p>названия геттеров и сеттеров должны соответствовать условностям: перед именем переменной добавляется <code>get</code> (для геттера) и <code>set</code> (для сеттера), а название переменной включается с большой буквы. Например, если переменная называется <code>firstName</code>, то функции геттера и сеттера должны называться соответственно <code>getFirstName()</code> и <code>setFirstName()</code>.</p>
+<p><code>public</code> <strong>getters</strong> и <strong>setters</strong> должны присутствовать в обоих классах для доступа к переменным/свойствам.</p>
 </li>
 <li>
-<p>для переменных типа <code>boolean</code> для функции геттера используется вместо <code>get</code> приставка <code>is</code>. Например, переменная <code>enabled</code> и геттер <code>isEnabled()</code>.</p>
-</li>
-<li>
-<p>реализовать интерфейс <code>Serializable</code> или <code>Externalizable</code></p>
+<p>Единственное различие между обоими классами состоит в том, что Java делает объекты <strong>JavaBean</strong> сериализованными, чтобы в случае необходимости можно было сохранить состояние класса <strong>JavaBeans</strong>. Поэтому из-за этого класс <strong>JavaBeans</strong> должен реализовывать интерфейс <code>Serializable</code> или <code>Externalizable</code>.</p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
-<p>Рассмотрим, как использовать классы <strong>JavaBean</strong>. Допустим, у нас есть следующая структура:</p>
+<p>В связи с этим указывается, что все <strong>JavaBean</strong>-компоненты являются <strong>POJO</strong>, но не все <strong>POJO</strong>-объекты являются <strong>JavaBean</strong>-компонентами.</p>
 </div>
 <div class="paragraph">
-<p><span class="image"><img src="/assets/img/java/jakarta-ee/javabean/file-javabean.png" alt="Project structure"></span></p>
-</div>
-<div class="paragraph">
-<p>В папке <code>Java Resources/src</code> расположен класс <code>User</code> со следующим кодом:</p>
+<p>Пример класса <strong>JavaBean</strong>:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">import java.io.Serializable;
-
-public class User implements Serializable {
-    private static final long serialVersionUID = 2041275512219239990L;
-
+<pre class="highlight"><code class="language-java" data-lang="java">public class Employee implements java.io.Serializable {
+    private int id;
     private String name;
-    private int age;
 
-    public User() {
-        this.name = "";
-        this.age = 0;
+    public Employee() {
     }
 
-    public User(String name, int age) {
-        this.name = name;
-        this.age = age;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public int getId() {
+        return id;
     }
 
     public void setName(String name) {
         this.name = name;
     }
 
-    public int getAge() {
-        return age;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
+    public String getName() {
+        return name;
     }
 }</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Данный класс представляет пользователя и является классом <strong>JavaBean</strong>: он реализует интерфейс <code>Serializable</code>, имеет конструктор без параметров, а его методы - геттеры и сеттеры, которые предоставляют доступ к переменным <code>name</code> и <code>age</code>, соответствуют условностям.</p>
-</div>
-<div class="paragraph">
-<p>В папке <code>WebContent</code> определена страница <code>user.jsp</code>. Определим в ней следующий код:</p>
+<p>Пример класса <strong>POJO</strong>:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-html" data-lang="html">&lt;!DOCTYPE html&gt;
-&lt;html&gt;
-&lt;head&gt;
-    &lt;meta charset="UTF-8"&gt;
-    &lt;title&gt;User Java Bean Page&lt;/title&gt;
-&lt;/head&gt;
-&lt;body&gt;
-    &lt;div&gt;
-		&lt;p&gt;Name: ${user.name}&lt;/p&gt;
-		&lt;p&gt;Age: ${user.age}&lt;/p&gt;
-    &lt;/div&gt;
-&lt;/body&gt;
-&lt;/html&gt;</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Данная страница <strong>jsp</strong> получает извне объект <code>user</code> и с помощью синтаксиса <strong>EL</strong> выводит значения его свойств. Стоит обратить внимание, что здесь идет обращение к переменным <code>name</code> и <code>age</code>, хотя они являются приватными.</p>
-</div>
-<div class="paragraph">
-<p>В папке <code>Java Resources/src</code> в файле <code>HelloServlet.java</code> определен сервлет <code>HelloServlet</code>:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">import java.io.IOException;
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+<pre class="highlight"><code class="language-java" data-lang="java">public class Employee {
+    String name;
+    public String id;
+    private double salary;
 
-@WebServlet("/hello")
-public class HelloServlet extends HttpServlet {
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        User tom = new User("Tom", 25);
-        request.setAttribute("user", tom);
-        getServletContext().getRequestDispatcher("/user.jsp").forward(request, response);
+    public Employee(String name, String id,double salary) {
+        this.name = name;
+        this.id = id;
+        this.salary = salary;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public Double getSalary() {
+        return salary;
     }
 }</code></pre>
 </div>
 </div>
-<div class="paragraph">
-<p>Сервлет создает объект <code>User</code>. Для передачи его на страницу <code>user.jsp</code> устанавливается атрибут <code>user</code> через вызов <code>request.setAttribute("user", tom)</code>. Далее происходит перенаправление на страницу <code>user.jsp</code>. И, таким образом, страница получит данные из сервлета.</p>
 </div>
-<div class="paragraph">
-<p><span class="image"><img src="/assets/img/java/jakarta-ee/javabean/page-javabean.png" alt="Page JavaBean"></span></p>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2021-01-17 05:35:09 UTC
+Last updated 2021-01-17 09:27:38 UTC
 </div>
 </div>
 </body>
