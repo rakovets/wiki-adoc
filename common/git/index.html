@@ -470,6 +470,112 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </div>
 <div class="sect1">
+<h2 id="_именование_git_репозиториев">Именование git-репозиториев.</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>На Git-hosting каждому репозиторию нужно имя, поэтому, естественно, он должен соответствовать следующим критериям:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Описательный, т.е. однозначно описывать содержимое репозитория</p>
+</li>
+<li>
+<p>Удобочитаемый</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Для многих проектов, которые используют Git, по их названию нельзя ничего сказать о них. Так может есть стандарт, которому нужно следовать? Ответ: нет. Поэтому следует придерживаться здравого смысла, а если быть точнее, название репозитория зависит от проекта и языка программирование, который используется для него.</p>
+</div>
+<div class="paragraph">
+<p>Если проект предназначен для веб-сайтов, то можно использовать <strong>domain name</strong> как название проекта. Например:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code><a href="http://domain.com" class="bare">http://domain.com</a></code></p>
+<div class="literalblock">
+<div class="content">
+<pre>domain.com</pre>
+</div>
+</div>
+</li>
+<li>
+<p><code><a href="http://sub.domain.com" class="bare">http://sub.domain.com</a></code></p>
+<div class="literalblock">
+<div class="content">
+<pre>sub.domain.com</pre>
+</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Если проект разрабатывается на Java, то лучше использовать имя конечного <strong>artifact</strong> (<code>.war</code>,  <code>.jar</code>).</p>
+</div>
+<div class="paragraph">
+<p>По умолчанию лучше использовать:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>строчные буквы</p>
+</li>
+<li>
+<p>дефисы (как разделители)</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>the-fellowship-of-the-ring
+the-two-towers
+the-return-of-the-king</pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_клонирование_git_repositories">Клонирование git-repositories</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Клонирование <strong>repository</strong> в директорию с таким же названием как Git <strong>project</strong>:</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-shell script" data-lang="shell script">git clone git@github.com:username/project-name.git</code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Клонирование <strong>repository</strong> в директорию с названием <code>project</code>:</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-shell script" data-lang="shell script">git clone git@github.com:username/project-name.git project</code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Клонирование <strong>repository</strong> в текущую директорию (она должна быть пуста):</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-shell script" data-lang="shell script">git clone git@github.com:username/project-name.git .</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
 <h2 id="_command_for_git">Command for Git</h2>
 <div class="sectionbody">
 <div class="sect2">
@@ -643,7 +749,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2021-01-16 16:30:53 UTC
+Last updated 2021-01-17 05:35:09 UTC
 </div>
 </div>
 </body>

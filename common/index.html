@@ -460,8 +460,9 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_git">2. Git</a>
 <ul class="sectlevel2">
 <li><a href="#_git_2">2.1. Git</a></li>
-<li><a href="#_command_for_git">2.2. Command for Git</a></li>
-<li><a href="#_how_to_perform_a_technical_specification">2.3. How to perform a technical specification?</a></li>
+<li><a href="#_именование_git_репозиториев">2.2. Именование git-репозиториев.</a></li>
+<li><a href="#_command_for_git">2.3. Command for Git</a></li>
+<li><a href="#_how_to_perform_a_technical_specification">2.4. How to perform a technical specification?</a></li>
 </ul>
 </li>
 <li><a href="#_web">3. WEB</a>
@@ -1293,9 +1294,113 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </div>
 <div class="sect2">
-<h3 id="_command_for_git">2.2. Command for Git</h3>
+<h3 id="_именование_git_репозиториев">2.2. Именование git-репозиториев.</h3>
+<div class="paragraph">
+<p>На Git-hosting каждому репозиторию нужно имя, поэтому, естественно, он должен соответствовать следующим критериям:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Описательный, т.е. однозначно описывать содержимое репозитория</p>
+</li>
+<li>
+<p>Удобочитаемый</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Для многих проектов, которые используют Git, по их названию нельзя ничего сказать о них. Так может есть стандарт, которому нужно следовать? Ответ: нет. Поэтому следует придерживаться здравого смысла, а если быть точнее, название репозитория зависит от проекта и языка программирование, который используется для него.</p>
+</div>
+<div class="paragraph">
+<p>Если проект предназначен для веб-сайтов, то можно использовать <strong>domain name</strong> как название проекта. Например:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code><a href="http://domain.com" class="bare">http://domain.com</a></code></p>
+<div class="literalblock">
+<div class="content">
+<pre>domain.com</pre>
+</div>
+</div>
+</li>
+<li>
+<p><code><a href="http://sub.domain.com" class="bare">http://sub.domain.com</a></code></p>
+<div class="literalblock">
+<div class="content">
+<pre>sub.domain.com</pre>
+</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Если проект разрабатывается на Java, то лучше использовать имя конечного <strong>artifact</strong> (<code>.war</code>,  <code>.jar</code>).</p>
+</div>
+<div class="paragraph">
+<p>По умолчанию лучше использовать:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>строчные буквы</p>
+</li>
+<li>
+<p>дефисы (как разделители)</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>the-fellowship-of-the-ring
+the-two-towers
+the-return-of-the-king</pre>
+</div>
+</div>
 <div class="sect3">
-<h4 id="_precondition">2.2.1. Precondition</h4>
+<h4 id="_клонирование_git_repositories">2.2.1. Клонирование git-repositories</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>Клонирование <strong>repository</strong> в директорию с таким же названием как Git <strong>project</strong>:</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="shell script">git clone git@github.com:username/project-name.git</code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Клонирование <strong>repository</strong> в директорию с названием <code>project</code>:</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="shell script">git clone git@github.com:username/project-name.git project</code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Клонирование <strong>repository</strong> в текущую директорию (она должна быть пуста):</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="shell script">git clone git@github.com:username/project-name.git .</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_command_for_git">2.3. Command for Git</h3>
+<div class="sect3">
+<h4 id="_precondition">2.3.1. Precondition</h4>
 <div class="ulist">
 <ul>
 <li>
@@ -1324,13 +1429,13 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </div>
 <div class="sect3">
-<h4 id="_workflow">2.2.2. Workflow</h4>
+<h4 id="_workflow">2.3.2. Workflow</h4>
 <div class="paragraph">
 <p><span class="image"><img src="/assets/img/common/git/execute-using-git-bash.svg" alt="Git basic operation"></span></p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_qa">2.2.3. Q&amp;A</h4>
+<h4 id="_qa">2.3.3. Q&amp;A</h4>
 <div class="qlist qanda">
 <ol>
 <li>
@@ -1386,61 +1491,61 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </div>
 <div class="sect2">
-<h3 id="_how_to_perform_a_technical_specification">2.3. How to perform a technical specification?</h3>
+<h3 id="_how_to_perform_a_technical_specification">2.4. How to perform a technical specification?</h3>
 <div class="sect3">
-<h4 id="_sign_in_github">2.3.1. Sign in <a href="https://github.com/">GitHub</a></h4>
+<h4 id="_sign_in_github">2.4.1. Sign in <a href="https://github.com/">GitHub</a></h4>
 <div class="paragraph">
 <p><span class="image"><img src="/assets/img/common/github/sign-in.png" alt="Git workflow"></span></p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_make_fork_for_repository">2.3.2. Make "Fork" for repository</h4>
+<h4 id="_make_fork_for_repository">2.4.2. Make "Fork" for repository</h4>
 <div class="paragraph">
 <p><span class="image"><img src="/assets/img/common/github/make-fork-for-repository.png" alt="Git workflow"></span></p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_change_branch_according_lesson">2.3.3. Change branch according lesson</h4>
+<h4 id="_change_branch_according_lesson">2.4.3. Change branch according lesson</h4>
 <div class="paragraph">
 <p><span class="image"><img src="/assets/img/common/github/change-branch.png" alt="Git workflow"></span></p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_download_zip_archive">2.3.4. Download ZIP-archive</h4>
+<h4 id="_download_zip_archive">2.4.4. Download ZIP-archive</h4>
 <div class="paragraph">
 <p><span class="image"><img src="/assets/img/common/github/download-zip.png" alt="Git workflow"></span></p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_extract_archive">2.3.5. Extract archive</h4>
+<h4 id="_extract_archive">2.4.5. Extract archive</h4>
 <div class="paragraph">
 <p><span class="image"><img src="/assets/img/common/github/extract-archive.png" alt="Git workflow"></span></p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_open_directory_for_lesson_in_vscode">2.3.6. Open directory for lesson in VSCode</h4>
+<h4 id="_open_directory_for_lesson_in_vscode">2.4.6. Open directory for lesson in VSCode</h4>
 <div class="paragraph">
 <p><span class="image"><img src="/assets/img/common/github/open-with-vscode.png" alt="Git workflow"></span></p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_perform_technical_specification">2.3.7. Perform technical specification</h4>
+<h4 id="_perform_technical_specification">2.4.7. Perform technical specification</h4>
 
 </div>
 <div class="sect3">
-<h4 id="_upload_on_github">2.3.8. Upload on GitHub</h4>
+<h4 id="_upload_on_github">2.4.8. Upload on GitHub</h4>
 <div class="paragraph">
 <p><span class="image"><img src="/assets/img/common/github/upload-to-github.png" alt="Git workflow"></span></p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_make_commit">2.3.9. Make commit</h4>
+<h4 id="_make_commit">2.4.9. Make commit</h4>
 <div class="paragraph">
 <p><span class="image"><img src="/assets/img/common/github/make-commit.png" alt="Git workflow"></span></p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_create_pull_request">2.3.10. Create Pull Request</h4>
+<h4 id="_create_pull_request">2.4.10. Create Pull Request</h4>
 <div class="paragraph">
 <p><span class="image"><img src="/assets/img/common/github/create-pull-request.png" alt="Git workflow"></span></p>
 </div>
@@ -1449,13 +1554,13 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </div>
 <div class="sect3">
-<h4 id="_wait_feedback">2.3.11. Wait feedback</h4>
+<h4 id="_wait_feedback">2.4.11. Wait feedback</h4>
 <div class="paragraph">
 <p><span class="image"><img src="/assets/img/common/github/feedback.png" alt="Git workflow"></span></p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_fix_if_necessary">2.3.12. Fix if necessary</h4>
+<h4 id="_fix_if_necessary">2.4.12. Fix if necessary</h4>
 
 </div>
 </div>
@@ -4757,7 +4862,7 @@ ID,Имя,Фамилия,Адресс,Телефон
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2021-01-16 16:30:53 UTC
+Last updated 2021-01-17 05:35:09 UTC
 </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/run_prettify.min.js"></script>
