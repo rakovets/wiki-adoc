@@ -41,3 +41,5 @@ include::concurrent/index.adoc[]
 include::java.net/index.adoc[]
 
 include::javadoc.adoc[]
+
+include::l10n-and-i18n.adoc[]
