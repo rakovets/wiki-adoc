@@ -24,6 +24,6 @@ include::jstl/index.adoc[]
 
 include::el/index.adoc[]
 
-include::javabean/index.adoc[]
+include::javabeans/index.adoc[]
 
 include::jndi.adoc[]
