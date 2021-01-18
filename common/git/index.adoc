@@ -11,3 +11,10 @@ include::execute-using-git-bash.adoc[]
 include::execute-using-github-ui.adoc[]
 
 :leveloffset: -1
+
+== Links
+
+* link:https://www.atlassian.com/ru/git/tutorials[Станьте
+гуру в Git. (by Atlassian)]
+* link:https://git-scm.com/book/ru/v2[Pro Git book v2]
+* link:https://learn.javascript.ru/screencast/git[Скринкаст по Git]
