@@ -5,8 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.12">
-<meta name="author" content="Dmitry Rakovets">
-<title>Java Tools</title>
+<title>Современные лучшие практики для тестирования на Java</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -438,79 +437,22 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 #footer-text{color:rgba(0,0,0,.6);font-size:.9em}}
 @media amzn-kf8{#header,#content,#footnotes,#footer{padding:0}}
 </style>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.min.css">
 </head>
-<body class="article toc2 toc-left">
+<body class="article">
 <div id="header">
-<h1>Java Tools</h1>
-<div class="details">
-<span id="author" class="author">Dmitry Rakovets</span><br>
-</div>
-<div id="toc" class="toc2">
-<div id="toctitle">Table of Contents</div>
-<ul class="sectlevel1">
-<li><a href="#_lombok">1. Lombok</a>
-<ul class="sectlevel2">
-<li><a href="#_install_lombok_plugin_for_intellij_idea">1.1. Install Lombok Plugin for IntelliJ IDEA</a></li>
-</ul>
-</li>
-<li><a href="#_современные_лучшие_практики_для_тестирования_на_java">2. Современные лучшие практики для тестирования на Java</a>
-<ul class="sectlevel2">
-<li><a href="#_too_long_didnt_read_tldr">2.1. Too Long; Didn&#8217;t Read (TL;DR)</a></li>
-<li><a href="#_главное">2.2. Главное</a></li>
-<li><a href="#_пишите_небольшие_и_узкоспециализированные_тесты">2.3. Пишите небольшие и узкоспециализированные тесты</a></li>
-<li><a href="#_автономные_тесты">2.4. Автономные тесты</a></li>
-</ul>
-</li>
-</ul>
-</div>
+<h1>Современные лучшие практики для тестирования на Java</h1>
 </div>
 <div id="content">
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p>Wiki for course "Java Tools".</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_lombok">1. Lombok</h2>
-<div class="sectionbody">
-<div class="sect2">
-<h3 id="_install_lombok_plugin_for_intellij_idea">1.1. Install Lombok Plugin for IntelliJ IDEA</h3>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p><em>File &gt; Settings &gt; Plugins</em></p>
-</li>
-<li>
-<p>Search Plugin <strong>Lombok</strong></p>
-</li>
-<li>
-<p>Install Plugin <strong>Lombok</strong></p>
-</li>
-<li>
-<p><em>File &gt; Settings &gt; Build, Execution, Deployment &gt; Compiler &gt; Annotation Processors</em></p>
-</li>
-<li>
-<p>Set flag <em>Enable annotation processing</em></p>
-</li>
-<li>
-<p>Restart IDE</p>
-</li>
-</ol>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_современные_лучшие_практики_для_тестирования_на_java">2. Современные лучшие практики для тестирования на Java</h2>
-<div class="sectionbody">
-<div class="paragraph">
 <p>Поддерживаемый и читаемый тестовый код имеет решающее значение для обеспечения хорошего тестового покрытия, которое, в свою очередь, позволяет внедрять новые функции и выполнять рефакторинг, не опасаясь что-то сломать. Некоторые рекомендации могут быть очевидны для вас, но некоторые могут противоречить тому, что вы читали в книгах о разработке и тестировании программного обеспечения.</p>
 </div>
-<div class="sect2">
-<h3 id="_too_long_didnt_read_tldr">2.1. Too Long; Didn&#8217;t Read (TL;DR)</h3>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_too_long_didnt_read_tldr">Too Long; Didn&#8217;t Read (TL;DR)</h2>
+<div class="sectionbody">
 <div class="ulist">
 <ul>
 <li>
@@ -537,10 +479,12 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </ul>
 </div>
 </div>
+</div>
+<div class="sect1">
+<h2 id="_главное">Главное</h2>
+<div class="sectionbody">
 <div class="sect2">
-<h3 id="_главное">2.2. Главное</h3>
-<div class="sect3">
-<h4 id="_given_when_then">2.2.1. Given, When, Then</h4>
+<h3 id="_given_when_then">Given, When, Then</h3>
 <div class="paragraph">
 <p>Тест должен содержать три блока, разделенных одной пустой строкой. Каждый блок кода должен быть как можно короче. Используйте подметоды, чтобы сократить эти блоки.</p>
 </div>
@@ -559,7 +503,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code data-lang="java">// Do
+<pre class="highlight"><code class="language-java" data-lang="java">// Do
 @Test
 public void findProduct() {
     insertIntoDatabase(new Product(100, "Smartphone"));
@@ -571,11 +515,11 @@ public void findProduct() {
 </div>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_используйте_префиксы_actual_и_expected">2.2.2. Используйте префиксы <code>actual*</code> и <code>expected*</code>.</h4>
+<div class="sect2">
+<h3 id="_используйте_префиксы_actual_и_expected">Используйте префиксы <code>actual*</code> и <code>expected*</code>.</h3>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code data-lang="java">// Don't
+<pre class="highlight"><code class="language-java" data-lang="java">// Don't
 ProductDTO product1 = requestProduct(1);
 
 ProductDTO product2 = new ProductDTO("1", List.of(State.ACTIVE, State.REJECTED))
@@ -587,7 +531,7 @@ assertThat(product1).isEqualTo(product2);</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code data-lang="java">// Do
+<pre class="highlight"><code class="language-java" data-lang="java">// Do
 ProductDTO actualProduct = requestProduct(1);
 
 ProductDTO expectedProduct = new ProductDTO("1", List.of(State.ACTIVE, State.REJECTED))
@@ -595,14 +539,14 @@ assertThat(actualProduct).isEqualTo(expectedProduct); // nice and clear.</code><
 </div>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_используйте_фиксированные_данные_вместо_случайных_данных">2.2.3. Используйте фиксированные данные вместо случайных данных</h4>
+<div class="sect2">
+<h3 id="_используйте_фиксированные_данные_вместо_случайных_данных">Используйте фиксированные данные вместо случайных данных</h3>
 <div class="paragraph">
 <p>Избегайте случайных данных, так как это может привести к переключению тестов, которые может быть сложно отладить, и пропуску сообщений об ошибках, которые затрудняют отслеживание ошибки до кода.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code data-lang="java">// Don't
+<pre class="highlight"><code class="language-java" data-lang="java">// Don't
 Instant ts1 = Instant.now(); // 1557582788
 Instant ts2 = ts1.plusSeconds(1); // 1557582789
 int randomAmount = new Random().nextInt(500); // 232
@@ -624,7 +568,7 @@ UUID uuid = UUID.randomUUID(); // d5d1f61b-0a8b-42be-b05a-bd458bb563ad</code></p
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code data-lang="java">// Do
+<pre class="highlight"><code class="language-java" data-lang="java">// Do
 Instant ts1 = Instant.ofEpochSecond(1550000001);
 Instant ts2 = Instant.ofEpochSecond(1550000002);
 int amount = 50;
@@ -633,16 +577,18 @@ UUID uuid = UUID.fromString("00000000-000-0000-0000-000000000001");</code></pre>
 </div>
 </div>
 </div>
+</div>
+<div class="sect1">
+<h2 id="_пишите_небольшие_и_узкоспециализированные_тесты">Пишите небольшие и узкоспециализированные тесты</h2>
+<div class="sectionbody">
 <div class="sect2">
-<h3 id="_пишите_небольшие_и_узкоспециализированные_тесты">2.3. Пишите небольшие и узкоспециализированные тесты</h3>
-<div class="sect3">
-<h4 id="_активно_используйте_вспомогательные_функции">2.3.1. Активно используйте вспомогательные функции</h4>
+<h3 id="_активно_используйте_вспомогательные_функции">Активно используйте вспомогательные функции</h3>
 <div class="paragraph">
 <p>Извлеките детали или повторяющийся код в подфункции и дайте им описательное имя. Это мощное средство, позволяющее сделать тесты короткими, а основы теста легкими для понимания с первого взгляда.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code data-lang="java">// Don't
+<pre class="highlight"><code class="language-java" data-lang="java">// Don't
 @Test
 public void categoryQueryParameter() throws Exception {
     List&lt;ProductEntity&gt; products = List.of(
@@ -669,7 +615,7 @@ public void categoryQueryParameter() throws Exception {
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code data-lang="java">// Do
+<pre class="highlight"><code class="language-java" data-lang="java">// Do
 @Test
 public void categoryQueryParameter2() throws Exception {
     insertIntoDatabase(
@@ -701,14 +647,14 @@ public void categoryQueryParameter2() throws Exception {
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code data-lang="java">// Do (Java)
+<pre class="highlight"><code class="language-java" data-lang="java">// Do (Java)
 var ts = toInstant(1); // Instant.ofEpochSecond(1550000001)
 var id = toUUID(1); // UUID.fromString("00000000-0000-0000-a000-000000000001")</code></pre>
 </div>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code data-lang="kotlin">// Do (Kotlin)
+<pre class="highlight"><code class="language-kotlin" data-lang="kotlin">// Do (Kotlin)
 val ts = 1.toInstant()
 val id = 1.toUUID()</code></pre>
 </div>
@@ -718,20 +664,20 @@ val id = 1.toUUID()</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code data-lang="kotlin">fun Int.toInstant(): Instant = Instant.ofEpochSecond(this.toLong())
+<pre class="highlight"><code class="language-kotlin" data-lang="kotlin">fun Int.toInstant(): Instant = Instant.ofEpochSecond(this.toLong())
 
 fun Int.toUUID(): UUID = UUID.fromString("00000000-0000-0000-a000-${this.toString().padStart(11, '0')}")</code></pre>
 </div>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_не_злоупотребляйте_переменными">2.3.2. Не злоупотребляйте переменными</h4>
+<div class="sect2">
+<h3 id="_не_злоупотребляйте_переменными">Не злоупотребляйте переменными</h3>
 <div class="paragraph">
 <p>Обычный рефлекс разработчика — извлекать значения, которые многократно используются, в переменные.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code data-lang="java">// Don't
+<pre class="highlight"><code class="language-java" data-lang="java">// Don't
 @Test
 public void variables() throws Exception {
     String relevantCategory = "Office";
@@ -770,7 +716,7 @@ public void variables() throws Exception {
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code data-lang="java">// Do
+<pre class="highlight"><code class="language-java" data-lang="java">// Do
 @Test
 public void variables() throws Exception {
     insertIntoDatabase(
@@ -791,11 +737,11 @@ public void variables() throws Exception {
 <p>Если сделать тесты маленькими, что очень рекомендуется, то легко увидеть, где используются те же значения. Кроме того, тестовый метод будет еще короче и поэтому его будет легче понять. Так же будет легче отследить код, содержащий ошибку, используя сообщения об ошибках.</p>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_не_расширяйте_существующие_тесты_чтобы_просто_протестировать_еще_одну_маленькую_вещь">2.3.3. Не расширяйте существующие тесты, чтобы «просто протестировать еще одну маленькую вещь»</h4>
+<div class="sect2">
+<h3 id="_не_расширяйте_существующие_тесты_чтобы_просто_протестировать_еще_одну_маленькую_вещь">Не расширяйте существующие тесты, чтобы «просто протестировать еще одну маленькую вещь»</h3>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code data-lang="java">// Don't
+<pre class="highlight"><code class="language-java" data-lang="java">// Don't
 public class ProductControllerTest {
     @Test
     public void happyPath() {
@@ -809,7 +755,7 @@ public class ProductControllerTest {
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code data-lang="java">// Do
+<pre class="highlight"><code class="language-java" data-lang="java">// Do
 public class ProductControllerTest {
     @Test
     public void multipleProductsAreReturned() {
@@ -833,8 +779,8 @@ public class ProductControllerTest {
 <p>Вместо этого создайте новый тестовый метод с описательным именем, которое расскажет все об ожидаемом поведении. Да, это больше усилий, но зато можно создать индивидуальный и понятный тест, который проверяет только соответствующее поведение. Опять же, <strong>вспомогательные функции</strong> могут снизить трудоемкость. И, наконец, добавление специализированных тестов с описательными именами — отличный способ документировать реализованное поведение.</p>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_проверяйте_только_то_что_нужно_протестировать">2.3.4. Проверяйте только то, что нужно протестировать</h4>
+<div class="sect2">
+<h3 id="_проверяйте_только_то_что_нужно_протестировать">Проверяйте только то, что нужно протестировать</h3>
 <div class="paragraph">
 <p>Подумайте, что вы действительно хотите протестировать. Не нужно проверять все случаи только потому, что вы можете это сделать. Более того, нужно иметь в виду то, что уже тестировалось в предыдущих тестах; нет нужды проверять это снова и снова в каждом тесте. Это делает тесты короткими, четкими и явно указывает ожидаемое поведение.</p>
 </div>
@@ -860,7 +806,7 @@ public class ProductControllerTest {
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code data-lang="java">String responseJson = requestProducts();
+<pre class="highlight"><code class="language-java" data-lang="java">String responseJson = requestProducts();
 
 ProductDTO expectedDTO1 = new ProductDTO("1", "evelope", new Category("office"),
                                 List.of(States.ACTIVE, States.REJECTED));
@@ -880,7 +826,7 @@ assertThat(toDTOs(responseJson))
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code data-lang="java">String responseJson = requestProductsByCategory("Office");
+<pre class="highlight"><code class="language-java" data-lang="java">String responseJson = requestProductsByCategory("Office");
 
 assertThat(toDTOs(responseJson))
         .extracting(ProductDTO::getId)
@@ -896,18 +842,20 @@ assertThat(toDTOs(responseJson))
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code data-lang="java">assertThat(actualProduct.getPrice()).isEqualTo(100);</code></pre>
+<pre class="highlight"><code class="language-java" data-lang="java">assertThat(actualProduct.getPrice()).isEqualTo(100);</code></pre>
 </div>
 </div>
 </div>
 </div>
+</div>
+<div class="sect1">
+<h2 id="_автономные_тесты">Автономные тесты</h2>
+<div class="sectionbody">
 <div class="sect2">
-<h3 id="_автономные_тесты">2.4. Автономные тесты</h3>
-<div class="sect3">
-<h4 id="_не_скрывайте_соответствующие_параметры_в_вспомогательных_функциях">2.4.1. Не скрывайте соответствующие параметры (в вспомогательных функциях)</h4>
+<h3 id="_не_скрывайте_соответствующие_параметры_в_вспомогательных_функциях">Не скрывайте соответствующие параметры (в вспомогательных функциях)</h3>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code data-lang="java">// Don't
+<pre class="highlight"><code class="language-java" data-lang="java">// Don't
 insertIntoDatabase(createProduct());
 List&lt;ProductDTO&gt; actualProducts = requestProductsByCategory();
 assertThat(actualProducts).containsOnly(new ProductDTO("1", "Office"));</code></pre>
@@ -918,7 +866,7 @@ assertThat(actualProducts).containsOnly(new ProductDTO("1", "Office"));</code></
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code data-lang="java">// Do
+<pre class="highlight"><code class="language-java" data-lang="java">// Do
 insertIntoDatabase(createProduct("1", "Office"));
 List&lt;ProductDTO&gt; actualProducts = requestProductsByCategory("Office");
 assertThat(actualProducts).containsOnly(new ProductDTO("1", "Office"));</code></pre>
@@ -934,7 +882,7 @@ assertThat(actualProducts).containsOnly(new ProductDTO("1", "Office"));</code></
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code data-lang="java">// Don't
+<pre class="highlight"><code class="language-java" data-lang="java">// Don't
 class SimpleBaseTest {}
 class AdvancedBaseTest extends SimpleBaseTest {}
 class AllInklusiveBaseTest extends AdvancedBaseTest {}
@@ -945,8 +893,8 @@ class MyTest extends AllInklusiveBaseTest {}</code></pre>
 <p>Эти иерархии трудно понять, и вы, вероятно, в конечном итоге расширите базовый тест, который содержит много вещей, которые текущему тесту не нужны. Это отвлекает читателя и может привести к ошибкам. Наследование не является гибким: невозможно использовать все, AllInklusiveBaseTestно ничего из его суперкласса AdvancedBaseTest? Более того, читателю приходится переключаться между несколькими базовыми классами, чтобы понять общую картину.</p>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_предпочитайте_дублирование_неправильной_абстракции_санди_мец_см_стену_мудрости_кодирования">2.4.2. «Предпочитайте дублирование неправильной абстракции». Санди Мец. См. «Стену мудрости кодирования»</h4>
+<div class="sect2">
+<h3 id="_предпочитайте_дублирование_неправильной_абстракции_санди_мец_см_стену_мудрости_кодирования">«Предпочитайте дублирование неправильной абстракции». Санди Мец. См. «Стену мудрости кодирования»</h3>
 <div class="paragraph">
 <p>Вместо этого я рекомендую использовать композицию. Напишите небольшие фрагменты кода и классы для каждой конкретной работы с приспособлениями (запустите тестовую базу данных, создайте схему, вставьте данные, запустите фиктивный веб-сервер). Повторно используйте эти части в своих тестах в @BeforeAllметоде или назначив созданные объекты полям тестового класса. Таким образом, вы собираете каждый новый тестовый класс, повторно используя эти части; как кирпичи лего. Таким образом, каждый тест имеет свое собственное приспособление, которое легко понять, и не происходит ничего постороннего. Тестовый класс самодостаточен, потому что все необходимое находится прямо в тестовом классе.</p>
 </div>
@@ -1425,12 +1373,10 @@ private Clock clock;</p>
 </div>
 </div>
 </div>
-</div>
 <div id="footer">
 <div id="footer-text">
 Last updated 2021-01-18 05:06:02 UTC
 </div>
 </div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/run_prettify.min.js"></script>
 </body>
 </html>

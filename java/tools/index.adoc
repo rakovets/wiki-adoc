@@ -13,3 +13,5 @@ Wiki for course "Java Tools".
 :leveloffset: +1
 
 include::lombok.adoc[]
+
+include::unit-testing.adoc[]
