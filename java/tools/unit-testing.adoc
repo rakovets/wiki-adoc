@@ -1,0 +1,889 @@
+= Лучшие практики тестирования на Java
+:imagesdir: ../../assets/img/java/tools
+
+Поддерживаемый и читаемый тестовый код имеет решающее значение для обеспечения хорошего тестового покрытия, которое, в свою очередь, позволяет внедрять новые функции и выполнять рефакторинг, не опасаясь что-то сломать. Некоторые рекомендации могут быть очевидны для, но некоторые могут противоречить тому, что можно прочитать в книгах о разработке и тестировании программного обеспечения.
+
+== Too Long; Didn't Read (TL;DR)
+
+* Пишите небольшие и специфические тесты, активно используя вспомогательные функции, параметризованные тесты, мощные утверждения *AssertJ*, не злоупотребляя переменными, проверяя только то, что имеет значение, и избегайте одного теста для всех пограничных случаев.
+* Пишите автономные тесты, раскрывая все соответствующие параметры, вставляйте данные прямо в тест и предпочитайте композицию наследованию.
+* Пишите тупые тесты, избегая повторного использования производственного кода и сосредотачиваясь на сравнении выходных значений с жестко заданными значениями.
+* *KISS* > *DRY*
+* Тестируйте в окружении близком к производству, сосредотачиваясь на тестировании всей функции, в том числе всех ее слоев, и избегайте использования *in-memory DB*.
+* *JUnit5* и *AssertJ* - очень хороший выбор.
+* Инвестируйте в тестируемую реализацию, избегая статического доступа, используя внедрение по средствам конструктора, используя *Clock* и отделяйте синхронную бизнес-логику от асинхронного выполнения.
+
+== Главное
+
+=== Given, When, Then
+
+Тест должен содержать три блока, разделенных одной пустой строкой. Каждый блок кода должен быть как можно короче. Используйте вспомогательные методы, чтобы сократить эти блоки.
+
+* *Given* (*Input*): подготовка к тесту, например создание данных или настройка макетов
+* *When* (*Action*): вызовите метод или действие, которое вы хотите протестировать.
+* *Then* (*Output*): выполнить *assertions*, чтобы проверить правильность вывода или поведения действия.
+
+[source,java]
+----
+// Do
+@Test
+public void findProduct() {
+    insertIntoDatabase(new Product(100, "Smartphone"));
+
+    Product product = dao.findProduct(100);
+
+    assertThat(product.getName()).isEqualTo("Smartphone");
+}
+----
+
+=== Используйте префиксы `actual*` и `expected*`.
+
+
+[source,java]
+----
+// Don't
+ProductDTO product1 = requestProduct(1);
+
+ProductDTO product2 = new ProductDTO("1", List.of(State.ACTIVE, State.REJECTED))
+assertThat(product1).isEqualTo(product2);
+----
+
+Если вы собираетесь использовать переменные в утверждении равенства, поставьте перед переменными префикс `actual*` и `expected*`. Это увеличивает удобочитаемость и проясняет назначение переменной. Более того, их сложнее перепутать в *assertions* равенства.
+
+
+[source,java]
+----
+// Do
+ProductDTO actualProduct = requestProduct(1);
+
+ProductDTO expectedProduct = new ProductDTO("1", List.of(State.ACTIVE, State.REJECTED))
+assertThat(actualProduct).isEqualTo(expectedProduct); // nice and clear.
+----
+
+=== Используйте фиксированные данные вместо случайных данных
+
+Избегайте случайных данных, так как это может привести к:
+
+* переключению тестов, которые может быть сложно отладить
+* пропуску сообщений об ошибках, которые затрудняют отслеживание ошибки до кода.
+
+
+[source,java]
+----
+// Don't
+Instant ts1 = Instant.now(); // 1557582788
+Instant ts2 = ts1.plusSeconds(1); // 1557582789
+int randomAmount = new Random().nextInt(500); // 232
+UUID uuid = UUID.randomUUID(); // d5d1f61b-0a8b-42be-b05a-bd458bb563ad
+----
+
+Вместо этого используйте фиксированные значения для всего, потому что они будут создавать:
+
+* Легко воспроизводимые тесты, которые легко отлаживать.
+* Сообщения об ошибках, которые можно легко отследить до соответствующей строки кода.
+
+
+[source,java]
+----
+// Do
+Instant ts1 = Instant.ofEpochSecond(1550000001);
+Instant ts2 = Instant.ofEpochSecond(1550000002);
+int amount = 50;
+UUID uuid = UUID.fromString("00000000-000-0000-0000-000000000001");
+----
+
+== Пишите небольшие и узкоспециализированные тесты
+
+=== Активно используйте вспомогательные функции
+
+Извлеките детали или повторяющийся код в подфункции и дайте им описательное имя. Это мощное средство, позволяющее сделать тесты короткими, а основы теста легкими для понимания с первого взгляда.
+
+
+[source,java]
+----
+// Don't
+@Test
+public void categoryQueryParameter() throws Exception {
+    List<ProductEntity> products = List.of(
+            new ProductEntity().setId("1").setName("Envelope").setCategory("Office")
+                    .setDescription("An Envelope").setStockAmount(1),
+            new ProductEntity().setId("2").setName("Pen").setCategory("Office")
+                    .setDescription("A Pen").setStockAmount(1),
+            new ProductEntity().setId("3").setName("Notebook").setCategory("Hardware")
+                    .setDescription("A Notebook").setStockAmount(2)
+    );
+    for (ProductEntity product : products) {
+        template.execute(createSqlInsertStatement(product));
+    }
+
+    String responseJson = client.perform(get("/products?category=Office"))
+            .andExpect(status().is(200))
+            .andReturn().getResponse().getContentAsString();
+
+    assertThat(toDTOs(responseJson))
+            .extracting(ProductDTO::getId)
+            .containsOnly("1", "2");
+}
+----
+
+[source,java]
+----
+// Do
+@Test
+public void categoryQueryParameter2() throws Exception {
+    insertIntoDatabase(
+            createProductWithCategory("1", "Office"),
+            createProductWithCategory("2", "Office"),
+            createProductWithCategory("3", "Hardware")
+    );
+
+    String responseJson = requestProductsByCategory("Office");
+
+    assertThat(toDTOs(responseJson))
+            .extracting(ProductDTO::getId)
+            .containsOnly("1", "2");
+}
+----
+
+* Используйте *вспомогательные функции* для создания данных/объектов (e.g.: `createProductWithCategory()`) и сложных утверждений. Передавайте вспомогательным функциям только те параметры, которые имеют отношение к вашим тестам. Используйте разумные значения по умолчанию для других значений. В Kotlin это легко сделать с помощью аргументов по умолчанию. В Java вы должны использовать цепочку методов и перегрузку для имитации аргументов по умолчанию.
+* *varargs* может сделать ваш тестовый код еще более лаконичным (e.g.: `ìnsertIntoDatabase()`).
+* *Вспомогательные функции* также можно использовать для более простого создания простых значений. Это очень удобно в *Kotlin*, где для этого можно использовать *функции расширения*.
+
+[source,java]
+----
+// Do (Java)
+var ts = toInstant(1); // Instant.ofEpochSecond(1550000001)
+var id = toUUID(1); // UUID.fromString("00000000-0000-0000-a000-000000000001")
+----
+
+[source,kotlin]
+----
+// Do (Kotlin)
+val ts = 1.toInstant()
+val id = 1.toUUID()
+----
+
+*Вспомогательные функции* могут быть реализованы в *Kotlin* следующим образом:
+
+[source,kotlin]
+----
+fun Int.toInstant(): Instant = Instant.ofEpochSecond(this.toLong())
+
+fun Int.toUUID(): UUID = UUID.fromString("00000000-0000-0000-a000-${this.toString().padStart(11, '0')}")
+----
+
+=== Не злоупотребляйте переменными
+
+Обычный рефлекс разработчика — извлекать значения, которые многократно используются, в переменные.
+
+[source,java]
+----
+// Don't
+@Test
+public void variables() throws Exception {
+    String relevantCategory = "Office";
+    String id1 = "4243";
+    String id2 = "1123";
+    String id3 = "9213";
+    String irrelevantCategory = "Hardware";
+    insertIntoDatabase(
+        createProductWithCategory(id1, relevantCategory),
+        createProductWithCategory(id2, relevantCategory),
+        createProductWithCategory(id3, irrelevantCategory)
+    );
+
+    String responseJson = requestProductsByCategory(relevantCategory);
+
+    assertThat(toDTOs(responseJson))
+            .extracting(ProductDTO::getId)
+            .containsOnly(id1, id2);
+}
+----
+
+К сожалению, это значительно раздувает тестовый код. Более того, учитывая сообщение об ошибке теста, сложнее понять в какой строчке кода проблема.
+
+NOTE: *KISS* > *DRY*
+
+[source,java]
+----
+// Do
+@Test
+public void variables() throws Exception {
+    insertIntoDatabase(
+        createProductWithCategory("4243", "Office"),
+        createProductWithCategory("1123", "Office"),
+        createProductWithCategory("9213", "Hardware")
+    );
+
+    String responseJson = requestProductsByCategory("Office");
+
+    assertThat(toDTOs(responseJson))
+            .extracting(ProductDTO::getId)
+            .containsOnly("4243", "1123");
+}
+----
+
+Если сделать тесты маленькими, что очень рекомендуется, то легко увидеть, где используются те же значения. Кроме того, тестовый метод будет еще короче и поэтому его будет легче понять. Так же будет легче отследить код, содержащий ошибку, используя сообщения об ошибках.
+
+=== Не расширяйте существующие тесты, чтобы «просто протестировать еще одну маленькую вещь»
+
+[source,java]
+----
+// Don't
+public class ProductControllerTest {
+    @Test
+    public void happyPath() {
+        // a lot of code comes here...
+    }
+}
+----
+Заманчиво добавить угловой тест к существующему тесту (счастливый путь). Но этот тест становится все сложнее и сложнее. Становится трудно понять все соответствующие тестовые случаи, которые охватываются этим большим тестом. Вы можете определить эти тесты по общим названиям, например, «тест счастливого пути». Если этот тест не пройден, трудно понять, что именно сломано.
+
+[source,java]
+----
+// Do
+public class ProductControllerTest {
+    @Test
+    public void multipleProductsAreReturned() {
+    }
+
+    @Test
+    public void allProductValuesAreReturned() {
+    }
+
+    @Test
+    public void filterByCategory() {
+    }
+
+    @Test
+    public void filterByDateCreated() {
+    }
+}
+----
+
+Вместо этого создайте новый тестовый метод с описательным именем, которое расскажет все об ожидаемом поведении. Да, это больше усилий, но зато можно создать индивидуальный и понятный тест, который проверяет только соответствующее поведение. Опять же, *вспомогательные функции* могут снизить трудоемкость. И, наконец, добавление специализированных тестов с описательными именами — отличный способ документировать реализованное поведение.
+
+=== Проверяйте только то, что нужно протестировать
+
+Подумайте, что вы действительно хотите протестировать. Не нужно проверять все случаи только потому, что вы можете это сделать. Более того, нужно иметь в виду то, что уже тестировалось в предыдущих тестах; нет нужды проверять это снова и снова в каждом тесте. Это делает тесты короткими, четкими и явно указывает ожидаемое поведение.
+
+Рассмотрим пример: тестирование HTTP endpoint, который возвращает продукты. Набор тестов должен содержать следующие тесты:
+
+* Крупный «тест сопоставления», который проверяет, что все значения из базы данных правильно возвращаются как JSON и правильно отображаются в правильный формат. Это можно легко сделать, используя *AssertJ*, если `equals()` реализован правильно:
+** `isEqualTo()` - для одного элемента
+** `containsOnly()` - для нескольких элементов.
+
+[source,java]
+----
+String responseJson = requestProducts();
+
+ProductDTO expectedDTO1 = new ProductDTO("1", "evelope", new Category("office"),
+                                List.of(States.ACTIVE, States.REJECTED));
+ProductDTO expectedDTO2 = new ProductDTO("2", "evelope", new Category("smartphone"),
+                                List.of(States.ACTIVE));
+
+assertThat(toDTOs(responseJson))
+        .containsOnly(expectedDTO1, expectedDTO2);
+----
+
+* Тест, проверяющие правильность поведения параметра запроса `?category`. Итак, нужно проверить правильность фильтрации, для этого не нужно проверять что все свойства установлены правильно. Это уже сделано в приведенном выше тесте. Следовательно, достаточно сравнить только возвращенные идентификаторы товаров.
+
+[source,java]
+----
+String responseJson = requestProductsByCategory("Office");
+
+assertThat(toDTOs(responseJson))
+        .extracting(ProductDTO::getId)
+        .containsOnly("1", "2");
+----
+
+* Тесты, проверяющие пограничные случаи или специальную бизнес-логику. Например, проверка правильности значений, которые высчитываются. В этом случае интересно только определенное поле в JSON. Поэтому необходимо проверить только соответствующее поле, чтобы четко указать и задокументировать объем тестируемой логики. Опять же, нет необходимости снова проверять все поля, потому что это проверяется не здесь.
+
+[source,java]
+----
+assertThat(actualProduct.getPrice()).isEqualTo(100);
+----
+
+== Автономные тесты
+
+=== Не скрывайте соответствующие параметры (во вспомогательных методах)
+
+[source,java]
+----
+// Don't
+insertIntoDatabase(createProduct());
+List<ProductDTO> actualProducts = requestProductsByCategory();
+assertThat(actualProducts).containsOnly(new ProductDTO("1", "Office"));
+----
+
+Необходимо использовать вспомогательные функции для создания данных и *asserts*, но нужно параметризовать их. Определите параметр для всего, что важно для теста и это должно контролироваться из теста, а не вспомогательного метода. Не заставляйте того, кто читает тест, переходить во вспомогательный метод, чтобы понять тест. Эмпирическое правило: необходимо понимать суть теста, глядя только на тестовый метод.
+
+[source,java]
+----
+// Do
+insertIntoDatabase(createProduct("1", "Office"));
+List<ProductDTO> actualProducts = requestProductsByCategory("Office");
+assertThat(actualProducts).containsOnly(new ProductDTO("1", "Office"));
+----
+
+=== Вставьте тестовые данные прямо в тестовый метод
+
+В методе тестирования все должно быть правильно. Заманчиво переместить в `@Before` метод повторно используемый код для вставки данных, но это заставит читателя перейти в этот метод, чтобы полностью понять, что происходит. Вспомогательные методы для вставки данных могут помочь сделать эту повторяющуюся задачу в одну строку.
+
+=== Предпочитайте композицию над наследованием
+
+Не создавайте сложные иерархии наследования для тестовых классов.
+
+[source,java]
+----
+// Don't
+class SimpleBaseTest {}
+class AdvancedBaseTest extends SimpleBaseTest {}
+class AllInclusiveBaseTest extends AdvancedBaseTest {}
+class MyTest extends AllInklusiveBaseTest {}
+----
+
+Эти иерархии трудно понять, и в конечном итоге, произойдет расширение базового теста. Базовый тест и так содержит много вещей, которые текущему тесту не нужны. Это будет отвлекать при написании тестов и может привести к ошибкам. Наследование не является гибким: навряд ли понадобиться использовать все возможности `AllInclusiveBaseTest` и его superclass `AdvancedBaseTest`. Более того, приходится переключаться между несколькими базовыми классами, чтобы понять общую картину.
+
+[quote, Sandi Metz, Wall of Coding Wisdom]
+Предпочитайте дублирование неправильной абстракции
+
+Вместо этого следует использовать композицию. Напишите небольшие фрагменты кода и классы для каждой конкретной задачи (например: запустите тестовую базу данных, создайте схему, вставьте данные, запустите фиктивный веб-сервер). Повторно используйте эти части в своих тестах в `@BeforeAll` методе или назначив созданные объекты полям тестового класса. Таким образом, каждый новый тестовый класс собирается повторно использовав эти части, как кубики лего. Таким образом, каждый тест имеет свой собственный состав, его легко понять и в нем нет ничего лишнего. Тестовый класс самодостаточен, потому что все необходимое находится прямо в тестовом классе.
+
+[source,java]
+----
+// Do
+public class MyTest {
+    // composition instead of inheritance
+    private JdbcTemplate template;
+    private MockWebServer taxService;
+
+    @BeforeAll
+    public void setupDatabaseSchemaAndMockWebServer() throws IOException {
+        this.template = new DatabaseFixture().startDatabaseAndCreateSchema();
+        this.taxService = new MockWebServer();
+        taxService.start();
+    }
+}
+
+// In a different File
+public class DatabaseFixture {
+    public JdbcTemplate startDatabaseAndCreateSchema() throws IOException {
+        PostgreSQLContainer db = new PostgreSQLContainer("postgres:11.2-alpine");
+        db.start();
+        DataSource dataSource = DataSourceBuilder.create()
+                .driverClassName("org.postgresql.Driver")
+                .username(db.getUsername())
+                .password(db.getPassword())
+                .url(db.getJdbcUrl())
+                .build();
+        JdbcTemplate template = new JdbcTemplate(dataSource);
+        SchemaCreator.createSchema(template);
+        return template;
+    }
+}
+----
+
+Очередной раз:
+
+NOTE: *KISS* > *DRY*
+
+== Тупые тесты — это хорошо: сравнивайте результат с жестко заданными значениями
+
+=== Не используйте производственный код в тестовом
+
+Тест должен тестировать производственный код, а не использовать его повторно. Если повторно использовать производственный код в тесте, то можно пропустить ошибку, которая совершена в производственном коде и используется в тестируемом. Это происходит потому что код, который должен тестироваться, сам используется для тестирования.
+
+[source,java]
+----
+// Don't
+boolean isActive = true;
+boolean isRejected = true;
+insertIntoDatabase(new Product(1, isActive, isRejected));
+
+ProductDTO actualDTO = requestProduct(1);
+
+// production code reuse ahead
+List<State> expectedStates = ProductionCode.mapBooleansToEnumList(isActive, isRejected);
+assertThat(actualDTO.states).isEqualTo(expectedStates);
+----
+
+Вместо этого, при написании тестов, необходимо думать о *Input* и *Output*. Тест устанавливает *input* данные и сравнивает *actual* *output* данные с жестко заданными *expected* значениями. В большинстве случаев повторное использование кода не требуется.
+
+[source,java]
+----
+// Do
+assertThat(actualDTO.states).isEqualTo(List.of(States.ACTIVE, States.REJECTED));
+----
+
+=== Не переписывайте производственную логику
+
+Маппинг — это типичный пример, когда логика тестов переписывается. Например: тест содержит метод `mapEntityToDto()`. Результат этого метода используется для *assert*, который проверяет, что возвращенный *DTO* содержит те же значения, что и вставленные в начале теста сущности. В этом случае скорее всего, захочется написать такую же логику, как и в производственную коде, а этот код может содержать ошибки.
+
+[source,java]
+----
+// Don't
+ProductEntity inputEntity = new ProductEntity(1, "evelope", "office", false, true, 200, 10.0);
+insertIntoDatabase(input);
+
+ProductDTO actualDTO = requestProduct(1);
+
+// mapEntityToDto() contains the same mapping logic as the production code
+ProductDTO expectedDTO = mapEntityToDto(inputEntity);
+assertThat(actualDTO).isEqualTo(expectedDTO);
+----
+
+Решением, для этого случая, является сравнение `actualDTO` с созданным вручную ссылочным объектом с жестко заданными значениями. Это предельно просто, легко понимается и менее подвержено ошибкам.
+
+[source,java]
+----
+// Do
+ProductDTO expectedDTO = new ProductDTO("1", "evelope", new Category("office"), List.of(States.ACTIVE, States.REJECTED))
+assertThat(actualDTO).isEqualTo(expectedDTO);
+----
+
+Если не нужно сравнивать все значения и не хочется создавать полный объект ссылки, то можно сравнивать только подобъекты или только соответствующие значения.
+
+=== Не пишите слишком много логики
+
+Тестирование в основном касается *input* и *output: предоставление *input* данных и сравнение *actual* *output* с *expected* значениями. Следовательно, не нужно писать много логики в тестах. Если реализуется логика с большим количеством циклов и условий, то тесты станут сложнее для понимания и более подвержены ошибкам. Более того, в случае сложной логики проверки, *AssertJ* может сделать всю тяжелую работу.
+
+== Тест близок к реальности
+
+=== Сосредоточьтесь на тестировании полного вертикального слайда
+
+Обычно рекомендуется тестировать каждый класс изолированно с помощью *mocks*. Однако у него есть недостатки:
+
+* не тестируются все классы при интеграции
+* рефакторинг компонентов сломает все тесты, где они используются в качестве *mocks*
+* необходимо написать и поддерживать несколько тестов
+
+.Модульное тестирование каждого класса изолированно и с помощью *mocks* имеет недостатки
+image::mock-based-testing.svg[Модульное тестирование каждого класса изолированно и с помощью имитаций]
+
+Поэтому лучше сосредоточиться на *интеграционных тестах*. Под *интеграционными тестами* (или *тестированием компонентов*) имеется в виду объединение всех классов (как в производственной среде) и тестирование полного вертикального вызова, проходящего через все технические уровни (HTTP, бизнес-логика, база данных). Таким образом, тестируется поведение, а не реализацию. Эти тесты близки к производственным и устойчивы к рефакторингу внутренних компонентов. В идеале нужно написать только один тестовый класс.
+
+.Интеграционное тестирование (соединение реальных объектов вместе и тестирование всех сразу)
+image::integration-test.svg[Интеграционное тестирование (= соединение реальных объектов вместе и тестирование всех сразу)]
+
+Тем не менее, модульные тесты полезны, и бывают ситуации, когда модульный тест является лучшим выбором или когда имеет смысл комбинировать оба подхода. Но в большинстве случаев интеграционный тест является лучшим и достаточным выбором.
+
+=== Не используйте базы данных в памяти для тестов
+
+.Используя базу данных в памяти, проводиться тестирование с другой базой данных, чем та, которая используется в производственной среде.
+image::in-memory-database-vs-real-database-tests.svg[База данных для тестов против базы данных для производства]
+
+Использование *in-memory DB* (*H2*, *HSQLDB*, *Fongo*) для тестов снижает надежность и объем тестов. *In-memory DB* и *DB*, используемая в производственной среде, ведут себя по-разному и могут возвращать разные результаты. Таким образом, правильный (зеленый/*green*) тест на основе *in-memory DB* не является гарантией правильного поведения приложения в производственной среде. Более того, можно легко столкнуться с ситуациями, когда нельзя использовать (или протестировать) определенную (специфичную для базы данных) функцию, потому что *in-memory DB* не поддерживает ее или действует иначе.
+
+Решение состоит в том, чтобы выполнить тесты на реальной базе данных. К счастью, библиотека *Testcontainers* предоставляет отличный Java API для управления контейнером прямо в тестовом коде.
+
+== Java / JVM
+
+=== Используйте `-noverify -XX:TieredStopAtLevel=1`
+
+Всегда добавляйте параметры *JVM* `-noverify -XX:TieredStopAtLevel=1` в конфигурации запуска. Это сэкономит 1-2 секунды при запуске *JVM* до выполнения теста. Это особенно полезно во время первоначальной разработки теста, когда часто запускаются тесты через *IDE*.
+
+WARNING: Начиная с Java 13, `-noverify` не рекомендуется.
+
+TIP: Можно добавить аргументы в шаблон конфигурации запуска _JUnit_ в _IntelliJ IDEA_, чтобы не приходилось добавлять их для каждой новой конфигурации запуска.
+
+image::idea-run-config-template-default-vm-options-marked.png[Run tests with IntelliJ IDEA settings]
+
+=== Используйте `AssertJ`
+
+link:http://joel-costigliola.github.io/assertj/[AssertJ] - чрезвычайно мощная и зрелая библиотека *asserts* с удобным типо-безопасным API, огромным разнообразием *asserts* и описательных сообщений об ошибках. Есть *asserts* для всего, что необходимо сделать. Это не дает писать сложную логику *asserts* с циклами и условиями, сохраняя при этом тестовые методы короткими. Вот некоторые примеры:
+
+[source,java]
+----
+assertThat(actualProduct)
+        .isEqualToIgnoringGivenFields(expectedProduct, "id");
+
+assertThat(actualProductList).containsExactly(
+    createProductDTO("1", "Smartphone", 250.00),
+    createProductDTO("1", "Smartphone", 250.00)
+);
+
+assertThat(actualProductList)
+        .usingElementComparatorIgnoringFields("id")
+        .containsExactly(expectedProduct1, expectedProduct2);
+
+assertThat(actualProductList)
+        .extracting(Product::getId)
+        .containsExactly("1", "2");
+
+assertThat(actualProductList)
+        .anySatisfy(product -> assertThat(product.getDateCreated())
+                .isBetween(instant1, instant2));
+
+assertThat(actualProductList)
+        .filteredOn(product -> product.getCategory().equals("Smartphone"))
+        .allSatisfy(product -> assertThat(product.isLiked()).isTrue());
+----
+
+=== Избегайте `assertTrue()` и `assertFalse()`
+
+Избегайте простых `assertTrue()` или `assertFalse()` *asserts*, поскольку они выдают загадочные сообщения об ошибках:
+
+[source,java]
+----
+// Don't
+assertTrue(actualProductList.contains(expectedProduct));
+assertTrue(actualProductList.size() == 5);
+assertTrue(actualProduct instanceof Product);
+----
+
+----
+expected: <true> but was: <false>
+----
+
+Вместо этого используйте *asserts* из *AssertJ*, которые сразу же создают понятные сообщения об ошибках.
+
+[source,java]
+----
+// Do
+assertThat(actualProductList).contains(expectedProduct);
+assertThat(actualProductList).hasSize(5);
+assertThat(actualProduct).isInstanceOf(Product.class);
+----
+
+----
+Expecting:
+<[Product[id=1, name='Samsung Galaxy']]>
+to contain:
+<[Product[id=2, name='iPhone']]>
+but could not find:
+<[Product[id=2, name='iPhone']]>
+----
+
+Если действительно нужно проверить логическое значение, необходимо подумать о *AssertJ*, чтобы улучшить сообщение об ошибке.
+
+=== Используйте JUnit 5
+
+*JUnit 5* - это новейший продукт для (модульного) тестирования. Он активно развивается и предоставляет множество мощных функций (например, параметризованные тесты, группирование, условные тесты, управление жизненным циклом).
+
+==== Используйте параметризованные тесты
+
+*Параметризованные тесты* позволяют повторно запускать один тест несколько раз с разными значениями. Таким образом, можно легко протестировать несколько случаев без написания тестового кода. *JUnit 5* предоставляет большое количество средств, чтобы написать эти тесты с `@ValueSource`, `@EnumSource`, `@CsvSource` и `@MethodSource`.
+
+[source,java]
+----
+// Do
+@ParameterizedTest
+@ValueSource(strings = ["§ed2d", "sdf_", "123123", "§_sdf__dfww!"])
+public void rejectedInvalidTokens(String invalidToken) {
+    client.perform(get("/products")
+            .param("token", invalidToken))
+            .andExpect(status().is(400))
+}
+----
+
+[source,java]
+----
+@ParameterizedTest
+@EnumSource(WorkflowState::class, mode = EnumSource.Mode.INCLUDE, names = ["FAILED", "SUCCEEDED"])
+public void dontProcessWorkflowInCaseOfAFinalState(WorkflowState itemsInitialState) {
+    // ...
+}
+----
+
+Таким образом, желательно использовать параметризованные тесты, потому что можно протестировать больше случаев с минимальными усилиями.
+
+Так же рекомендуется использовать `@CsvSource` и `@MethodSource`, которые можно использовать для более сложных сценариев параметризованного тестирования, где вы также можете контролировать ожидаемый результат с помощью параметра.
+
+[source,java]
+----
+@ParameterizedTest
+@CsvSource({
+    "1, 1, 2",
+    "5, 3, 8",
+    "10, -20, -10"
+})
+public void add(int summand1, int summand2, int expectedSum) {
+    assertThat(calculator.add(summand1, summand2)).isEqualTo(expectedSum);
+}
+----
+
+`@MethodSource` - является мощным в сочетании со специальным тестовым объектом, содержащим все соответствующие тестовые параметры и ожидаемый результат.
+
+[source,java]
+----
+class TestData {
+    String input;
+    Token expected;
+}
+
+@ParameterizedTest
+@MethodSource("validTokenProvider")
+void parseValidTokens(TestData data) {
+    assertThat(parse(data.input)).isEqualTo(data.expected);
+}
+
+static Stream<Arguments> validTokenProvider() {
+    return Stream.of(
+            Arguments.of(new TestData("1511443755_2", new Token(1511443755, "2"))),
+            Arguments.of(new TestData("151175_13521", new Token(151175, "13521"))),
+            Arguments.of(new TestData("151144375_id", new Token(151144375, "id"))),
+            Arguments.of(new TestData("15114437599_1", new Token(15114437599, "1"))),
+            Arguments.of(new TestData(null, null))
+    );
+}
+----
+
+=== Сгруппируйте тесты
+
+`@Nested` полезен для группировки методов тестирования. Полезной группировкой может быть группировка по типам тестов (например: `InputIsXY`, `ErrorCases`) или одна группа для каждого тестируемого метода (`GetDesign` и `UpdateDesign`).
+
+[source,java]
+----
+public class DesignControllerTest {
+    @Nested
+    class GetDesigns {
+        @Test
+        void allFieldsAreIncluded() {}
+
+        @Test
+        void limitParameter() {}
+
+        @Test
+        void filterParameter() {}
+    }
+
+    @Nested
+    class DeleteDesign {
+        @Test
+        void designIsRemovedFromDb() {}
+
+        @Test
+        void return404OnInvalidIdParameter() {}
+
+        @Test
+        void return401IfNotAuthorized() {}
+    }
+}
+----
+
+.Сгруппируйте методы тестирования с помощью `@Nested`
+image::group-test-methods.png[Сгруппируйте методы тестирования с помощью `@Nested`]
+
+=== Читаемые имена тестов с `@DisplayName` или обратными кавычками Kotlin
+
+В Java используйте `@DisplayName` для создания читаемых описаний тестов.
+
+[source,java]
+----
+public class DisplayNameTest {
+    @Test
+    @DisplayName("Design is removed from database")
+    void designIsRemoved() {}
+
+    @Test
+    @DisplayName("Return 404 in case of an invalid parameter")
+    void return404() {}
+
+    @Test
+    @DisplayName("Return 401 if the request is not authorized")
+    void return401() {}
+}
+----
+
+.Читаемые имена методов тестирования с использованием `@DisplayName`
+image::annotation-display-name.png[Читаемые имена тестовых методов с использованием `@DisplayName`]
+
+
+В *Kotlin* можно помещать имена методов в обратные кавычки, которые могут содержать пробелы. Это обеспечивает хорошую читаемость без избыточности.
+
+[source,java]
+----
+@Test
+fun `design is removed from db`() {}
+----
+
+=== Имитация удаленной службы
+
+Чтобы протестировать HTTP-клиентов, нужно имитировать удаленный сервис. Для этой цели часто используют link:https://github.com/square/okhttp/tree/master/mockwebserver[OkHttp's WebMockServer]. Альтернативы - link:http://wiremock.org/[WireMock] или link:https://www.testcontainers.org/modules/mockserver/[Mockserver Testcontainer].
+
+[source,java]
+----
+MockWebServer serviceMock = new MockWebServer();
+serviceMock.start();
+HttpUrl baseUrl = serviceMock.url("/v1/");
+ProductClient client = new ProductClient(baseUrl.host(), baseUrl.port());
+serviceMock.enqueue(new MockResponse()
+        .addHeader("Content-Type", "application/json")
+        .setBody("{\"name\": \"Smartphone\"}"));
+
+ProductDTO productDTO = client.retrieveProduct("1");
+
+assertThat(productDTO.getName()).isEqualTo("Smartphone");
+----
+
+=== Используйте Awaitility для asserts асинхронного кода
+
+link:https://github.com/awaitility/awaitility[Awaitility] - это библиотека для тестирования асинхронного кода. Вы можете легко определить, как часто *assert* будет повторяться до тех пор, пока окончательно не завершится ошибкой.
+
+[source,java]
+----
+private static final ConditionFactory WAIT = await()
+        .atMost(Duration.ofSeconds(6))
+        .pollInterval(Duration.ofSeconds(1))
+        .pollDelay(Duration.ofSeconds(1));
+
+@Test
+public void waitAndPoll(){
+    triggerAsyncEvent();
+    WAIT.untilAsserted(() -> {
+        assertThat(findInDatabase(1).getState()).isEqualTo(State.SUCCESS);
+    });
+}
+----
+
+Таким образом, можно избежать использования `Thread.sleep()` в тестах.
+
+Однако тестировать синхронный код намного проще. Вот почему необходимо попытаться разделить синхронный и асинхронный код, чтобы протестировать их отдельно.
+
+=== Нет необходимости загружать DI (Spring)
+
+*Bootstrapping* (*Spring*) *DI* занимает несколько секунд, прежде чем можно будет начать тест. Это замедляет цикл обратной связи, особенно на начальном этапе разработки теста.
+
+Вот почему не стоит использовать *DI* в своих интеграционных тестах. Можно создавать экземпляры требуемых объектов вручную, вызывая `new` их и объединяя их вместе. Если использовать инъекцию по средствам конструктора, это очень просто. В большинстве случаев необходимо протестировать написанную бизнес-логику. Для этого не нужен *DI*.
+
+Более того, *Spring Boot 2.2* предоставляет простой способ использования ленивой инициализации bean-компонентов, что должно значительно ускорить тесты на основе *DI*.
+
+== Сделайте реализацию тестируемой
+
+=== Не используйте статический доступ
+
+*Статический доступ* — это анти-шаблон.
+
+Во-первых, он скрывает зависимости и побочные эффекты, что затрудняет понимание всего кода и делает его более подверженным ошибкам.
+
+Во-вторых, статический доступ вредит тестируемости, так как нельзя больше подменять значения. Но в тесте хотелось бы использовать *mocks* или реальные объекты с другой конфигурацией (например, объект *DAO*, указывающий на тестовую базу данных).
+
+Поэтому вместо статического доступа к коду поместите его в нестатические методы, создайте экземпляр класса и передайте объект конструктору объекта там, где он вам нужен.
+
+[source,java]
+----
+// Don't
+public class ProductController {
+    public List<ProductDTO> getProducts() {
+        List<ProductEntity> products = ProductDAO.getProducts();
+        return mapToDTOs(products);
+    }
+}
+----
+
+[source,java]
+----
+// Do
+public class ProductController {
+    private ProductDAO dao;
+
+    public ProductController(ProductDAO dao) {
+        this.dao = dao;
+    }
+
+    public List<ProductDTO> getProducts() {
+        List<ProductEntity> products = dao.getProducts();
+        return mapToDTOs(products);
+    }
+}
+----
+
+К счастью, фреймворки *DI*, например *Spring*, предоставляют простой способ избежать статического доступа, поскольку они обрабатывают создание и связывание всех объектов за разработчика.
+
+=== Параметризация
+
+Сделайте все соответствующие части класса контролируемыми этим тестом. Это можно сделать, создав параметр для конструктора из этой части.
+
+Например, *DAO* имеет фиксированный лимит в 1000 запросов. Для проверки этого ограничения потребуется создать 1001 запись в базе данных. Используя параметр конструктора для этого ограничения, можно сделаете его настраиваемым. В производстве этот параметр равен 1000. В тесте можно использовать 2. Это требует только 3 тестовых записи для тестирования метода ограничения.
+
+=== Используйте внедрение через конструктор
+
+*Field injection* — зло из-за плохой тестируемости. Вы должны сделать *bootstrap* *DI* в тестах или использовать Reflection API. Таким образом, внедрение через конструктор является предпочтительным способом, поскольку оно позволяет легко управлять зависимым объектом в тесте.
+
+[source,java]
+----
+// Do
+public class ProductController {
+    private ProductDAO dao;
+    private TaxClient client;
+
+    public CustomerResource(ProductDAO dao, TaxClient client) {
+        this.dao = dao;
+        this.client = client;
+    }
+}
+----
+
+В *Kotlin* то же самое гораздо лаконичнее.
+
+[source,java]
+----
+// Do
+class ProductController(
+    private val dao: ProductDAO,
+    private val client: TaxClient
+) {
+    // ...
+}
+----
+
+=== Не используйте `Instant.now()` или `new Date()`
+
+Не получайте текущее время, вызывая `Instant.now()` или `new Date()` в производственном коде, если нужно проверить это поведение.
+
+[source,java]
+----
+// Don't
+public class ProductDAO {
+    public void updateDateModified(String productId) {
+        Instant now = Instant.now(); // !
+        Update update = Update().set("dateModified", now);
+        Query query = Query().addCriteria(where("_id").eq(productId));
+        return mongoTemplate.updateOne(query, update, ProductEntity.class);
+    }
+}
+----
+
+Проблема в том, что созданная временная метка не может контролироваться тестом. Нельзя проверять точное значение, потому что оно всегда разное при каждом выполнении теста. Вместо этого можно использовать класс `Clock`.
+
+[source,java]
+----
+// Do
+public class ProductDAO {
+    private Clock clock;
+
+    public ProductDAO(Clock clock) {
+        this.clock = clock;
+    }
+
+    public void updateProductState(String productId, State state) {
+        Instant now = clock.instant();
+        // ...
+    }
+}
+----
+
+В тесте теперь можно создать *mock* часов, передать его в `ProductDAO` и настроить *mock* часов, чтобы он возвращал фиксированную метку времени. После вызова `updateProductState()` проверяется, попала ли указанная временная метка в базу данных.
+
+=== Разделяйте асинхронное и не асинхронное выполнение
+
+Тестировать асинхронный код сложно. Такие библиотеки, как *Awaitility*, могут помочь, но они по-прежнему громоздки, и тесты все еще могут переключаться. Если возможно, имеет смысл отделить (часто синхронную) бизнес-логику от асинхронного выполнения этой логики.
+
+Например, поместив бизнес-логику в `ProductController`, можно протестировать ее синхронно, что легко. *Asynchronous* и *parallelization* логику разместить в `ProductScheduler`, которую можно тестировать изолированно.
+
+[source,java]
+----
+// Do
+public class ProductScheduler {
+    private ProductController controller;
+
+    @Scheduled
+    public void start() {
+        CompletableFuture<String> usFuture = CompletableFuture.supplyAsync(() -> controller.doBusinessLogic(Locale.US));
+        CompletableFuture<String> germanyFuture = CompletableFuture.supplyAsync(() -> controller.doBusinessLogic(Locale.GERMANY));
+        String usResult = usFuture.get();
+        String germanyResult = germanyFuture.get();
+    }
+}
+----
