@@ -446,6 +446,9 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
+<p>Original topic: <a href="https://phauer.com/2019/modern-best-practices-testing-java/" class="bare">https://phauer.com/2019/modern-best-practices-testing-java/</a></p>
+</div>
+<div class="paragraph">
 <p>Поддерживаемый и читаемый тестовый код имеет решающее значение для обеспечения хорошего тестового покрытия, которое, в свою очередь, позволяет внедрять новые функции и выполнять рефакторинг, не опасаясь что-то сломать. Некоторые рекомендации могут быть очевидны для вас, но некоторые могут противоречить тому, что вы читали в книгах о разработке и тестировании программного обеспечения.</p>
 </div>
 </div>
@@ -836,7 +839,7 @@ assertThat(toDTOs(responseJson))
 <div class="ulist">
 <ul>
 <li>
-<p>Tесты проверяющие пограничные случаи или специальную бизнес-логику. Например, проверка правильности значений, которые высчитываются. В этом случае интересно только определенное поле в JSON. Поэтому необходимо проверить только соответствующее поле, чтобы четко указать и задокументировать объем тестируемой логики. Опять же, нет необходимости снова проверять все поля, потому что это проверяется не здесь.</p>
+<p>Тесты, проверяющие пограничные случаи или специальную бизнес-логику. Например, проверка правильности значений, которые высчитываются. В этом случае интересно только определенное поле в JSON. Поэтому необходимо проверить только соответствующее поле, чтобы четко указать и задокументировать объем тестируемой логики. Опять же, нет необходимости снова проверять все поля, потому что это проверяется не здесь.</p>
 </li>
 </ul>
 </div>
@@ -852,7 +855,7 @@ assertThat(toDTOs(responseJson))
 <h2 id="_автономные_тесты">Автономные тесты</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_не_скрывайте_соответствующие_параметры_в_вспомогательных_функциях">Не скрывайте соответствующие параметры (в вспомогательных функциях)</h3>
+<h3 id="_не_скрывайте_соответствующие_параметры_во_вспомогательных_методах">Не скрывайте соответствующие параметры (во вспомогательных методах)</h3>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight"><code class="language-java" data-lang="java">// Don't
@@ -862,7 +865,7 @@ assertThat(actualProducts).containsOnly(new ProductDTO("1", "Office"));</code></
 </div>
 </div>
 <div class="paragraph">
-<p>Да, вы должны использовать вспомогательные функции для создания данных и утверждений, но вы должны параметризовать их. Определите параметр для всего, что важно для теста и должно контролироваться тестом. Не заставляйте читателя переходить к определению функции, чтобы понять тест. Эмпирическое правило: вы должны понимать суть теста, глядя только на метод тестирования.</p>
+<p>Необходимо использовать вспомогательные функции для создания данных и <strong>asserts</strong>, но нужно параметризовать их. Определите параметр для всего, что важно для теста и это должно контролироваться из теста, а не вспомогательного метода. Не заставляйте того, кто читает тест, переходить во вспомогательный метод, чтобы понять тест. Эмпирическое правило: необходимо понимать суть теста, глядя только на тэстовый метод.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -872,501 +875,707 @@ List&lt;ProductDTO&gt; actualProducts = requestProductsByCategory("Office");
 assertThat(actualProducts).containsOnly(new ProductDTO("1", "Office"));</code></pre>
 </div>
 </div>
-<div class="paragraph">
-<p>Вставьте тестовые данные прямо в метод тестирования
-В методе тестирования все должно быть правильно. Заманчиво переместить в @Beforeметод повторно используемый код для вставки данных , но это заставит читателя прыгать, чтобы полностью понять, что происходит. Опять же, вспомогательные функции для вставки данных могут помочь сделать эту повторяющуюся задачу однострочным.</p>
 </div>
+<div class="sect2">
+<h3 id="_вставьте_тестовые_данные_прямо_в_тестовый_метод">Вставьте тестовые данные прямо в тестовый метод</h3>
 <div class="paragraph">
-<p>Предпочитайте композицию над наследованием
-Не создавайте сложные иерархии наследования для тестовых классов.</p>
+<p>В методе тестирования все должно быть правильно. Заманчиво переместить в <code>@Before</code> метод повторно используемый код для вставки данных, но это заставит читателя перейти в этот метод, чтобы полностью понять, что происходит. Вспомогательные методы для вставки данных могут помочь сделать эту повторяющуюся задачу в одну строку.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_предпочитайте_композицию_над_наследованием">Предпочитайте композицию над наследованием</h3>
+<div class="paragraph">
+<p>Не создавайте сложные иерархии наследования для тестовых классов.</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight"><code class="language-java" data-lang="java">// Don't
 class SimpleBaseTest {}
 class AdvancedBaseTest extends SimpleBaseTest {}
-class AllInklusiveBaseTest extends AdvancedBaseTest {}
+class AllInclusiveBaseTest extends AdvancedBaseTest {}
 class MyTest extends AllInklusiveBaseTest {}</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Эти иерархии трудно понять, и вы, вероятно, в конечном итоге расширите базовый тест, который содержит много вещей, которые текущему тесту не нужны. Это отвлекает читателя и может привести к ошибкам. Наследование не является гибким: невозможно использовать все, AllInklusiveBaseTestно ничего из его суперкласса AdvancedBaseTest? Более того, читателю приходится переключаться между несколькими базовыми классами, чтобы понять общую картину.</p>
+<p>Эти иерархии трудно понять, и в конечном итоге, произойдет расширение базового теста. Базовый тест и так содержит много вещей, которые текущему тесту не нужны. Это будет отвлекать при написании тестов и может привести к ошибкам. Наследование не является гибким: навряд ли понадобиться использовать все возможности <code>AllInclusiveBaseTest</code> и его суперкласса <code>AdvancedBaseTest</code>. Более того, приходится переключаться между несколькими базовыми классами, чтобы понять общую картину.</p>
+</div>
+<div class="quoteblock">
+<blockquote>
+Предпочитайте дублирование неправильной абстракции
+</blockquote>
+<div class="attribution">
+&#8212; Sandi Metz<br>
+<cite>Wall of Coding Wisdom</cite>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_предпочитайте_дублирование_неправильной_абстракции_санди_мец_см_стену_мудрости_кодирования">«Предпочитайте дублирование неправильной абстракции». Санди Мец. См. «Стену мудрости кодирования»</h3>
 <div class="paragraph">
-<p>Вместо этого я рекомендую использовать композицию. Напишите небольшие фрагменты кода и классы для каждой конкретной работы с приспособлениями (запустите тестовую базу данных, создайте схему, вставьте данные, запустите фиктивный веб-сервер). Повторно используйте эти части в своих тестах в @BeforeAllметоде или назначив созданные объекты полям тестового класса. Таким образом, вы собираете каждый новый тестовый класс, повторно используя эти части; как кирпичи лего. Таким образом, каждый тест имеет свое собственное приспособление, которое легко понять, и не происходит ничего постороннего. Тестовый класс самодостаточен, потому что все необходимое находится прямо в тестовом классе.</p>
+<p>Вместо этого следует использовать композицию. Напишите небольшие фрагменты кода и классы для каждой конкретной задачи (например: запустите тестовую базу данных, создайте схему, вставьте данные, запустите фиктивный веб-сервер). Повторно используйте эти части в своих тестах в <code>@BeforeAll</code> методе или назначив созданные объекты полям тестового класса. Таким образом, каждый новый тестовый класс собирается повторно использовав эти части, как кубики лего. Таким образом, каждый тест имеет свой собственный состав, его легко понять и в нем нет ничего лишнего. Тестовый класс самодостаточен, потому что все необходимое находится прямо в тестовом классе.</p>
 </div>
-<div class="paragraph">
-<p>public class MyTest {
-private JdbcTemplate template;
-private MockWebServer taxService;</p>
-</div>
-<div class="literalblock">
+<div class="listingblock">
 <div class="content">
-<pre>    @BeforeAll
+<pre class="highlight"><code class="language-java" data-lang="java">// Do
+public class MyTest {
+    // composition instead of inheritance
+    private JdbcTemplate template;
+    private MockWebServer taxService;
+
+    @BeforeAll
     public void setupDatabaseSchemaAndMockWebServer() throws IOException {
         this.template = new DatabaseFixture().startDatabaseAndCreateSchema();
         this.taxService = new MockWebServer();
         taxService.start();
     }
-}</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>public class DatabaseFixture {
-public JdbcTemplate startDatabaseAndCreateSchema() throws IOException {
-PostgreSQLContainer db = new PostgreSQLContainer("postgres:11.2-alpine");
-db.start();
-DataSource dataSource = DataSourceBuilder.create()
-.driverClassName("org.postgresql.Driver")
-.username(db.getUsername())
-.password(db.getPassword())
-.url(db.getJdbcUrl())
-.build();
-JdbcTemplate template = new JdbcTemplate(dataSource);
-SchemaCreator.createSchema(template);
-return template;
 }
-}
-Очередной раз:</p>
+
+// In a different File
+public class DatabaseFixture {
+    public JdbcTemplate startDatabaseAndCreateSchema() throws IOException {
+        PostgreSQLContainer db = new PostgreSQLContainer("postgres:11.2-alpine");
+        db.start();
+        DataSource dataSource = DataSourceBuilder.create()
+                .driverClassName("org.postgresql.Driver")
+                .username(db.getUsername())
+                .password(db.getPassword())
+                .url(db.getJdbcUrl())
+                .build();
+        JdbcTemplate template = new JdbcTemplate(dataSource);
+        SchemaCreator.createSchema(template);
+        return template;
+    }
+}</code></pre>
+</div>
 </div>
 <div class="paragraph">
-<p>KISS&gt; СУХОЙ</p>
+<p>Очередной раз:</p>
 </div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<strong>KISS</strong> &gt; <strong>DRY</strong>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_тупые_тесты_это_хорошо_сравнивайте_результат_с_жестко_заданными_значениями">Тупые тесты — это хорошо: сравнивайте результат с жестко заданными значениями</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_не_используйте_производственный_код_в_тестовом">Не используйте производственный код в тестовом</h3>
 <div class="paragraph">
-<p>Глупые тесты - это здорово: сравните результат с жестко заданными значениями
-Не используйте производственный код повторно
-Тест должен тестировать производственный код; не используйте его повторно. Если вы повторно используете производственный код в тесте, вы можете пропустить ошибку, которая появляется в повторно используемом коде, потому что вы больше не тестируете этот код.</p>
+<p>Тест должен тестировать производственный код, а не использовать его повторно. Если повторно использовать производственный код в тесте, то можно пропустить ошибку, которая совершена в производственном коде и используется в тестируемом. Это происходит потому что код, который должен тестироваться, сам используется для тестирования.</p>
 </div>
-<div class="paragraph">
-<p>boolean isActive = true;
-boolean isRejected = true;
-insertIntoDatabase(new Product(1, isActive, isRejected));</p>
-</div>
-<div class="paragraph">
-<p>ProductDTO actualDTO = requestProduct(1);</p>
-</div>
-<div class="paragraph">
-<p>List&lt;State&gt; expectedStates = ProductionCode.mapBooleansToEnumList(isActive, isRejected);
-assertThat(actualDTO.states).isEqualTo(expectedStates);
-Вместо этого при написании тестов думайте о вводе и выводе. Тест устанавливает входные данные и сравнивает фактические выходные данные с жестко запрограммированными значениями. В большинстве случаев повторное использование кода не требуется.</p>
-</div>
-<div class="paragraph">
-<p>assertThat(actualDTO.states).isEqualTo(List.of(States.ACTIVE, States.REJECTED));
-Не переписывайте производственную логику
-Код сопоставления - это типичный пример, когда логика тестов переписывается. Итак, давайте предположим, что наши тесты содержат метод, mapEntityToDto()результат которого используется для утверждения, что возвращенный DTO содержит те же значения, что и сущности, которые были вставлены в начале теста. В этом случае вы, скорее всего, закончите переписывать производственную логику в тестовом коде, который может содержать ошибки.</p>
-</div>
-<div class="paragraph">
-<p>ProductEntity inputEntity = new ProductEntity(1, "evelope", "office", false, true, 200, 10.0);
-insertIntoDatabase(input);</p>
-</div>
-<div class="paragraph">
-<p>ProductDTO actualDTO = requestProduct(1);</p>
-</div>
-<div class="literalblock">
+<div class="listingblock">
 <div class="content">
-<pre> // mapEntityToDto() contains the same mapping logic as the production code
+<pre class="highlight"><code class="language-java" data-lang="java">// Don't
+boolean isActive = true;
+boolean isRejected = true;
+insertIntoDatabase(new Product(1, isActive, isRejected));
+
+ProductDTO actualDTO = requestProduct(1);
+
+// production code reuse ahead
+List&lt;State&gt; expectedStates = ProductionCode.mapBooleansToEnumList(isActive, isRejected);
+assertThat(actualDTO.states).isEqualTo(expectedStates);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Вместо этого, при написании тестов, необходимо думать о <strong>Input</strong> и <strong>Output</strong>. Тест устанавливает <strong>input</strong> данные и сравнивает <strong>actual</strong> <strong>output</strong> данные с жестко заданными <strong>expected</strong> значениями. В большинстве случаев повторное использование кода не требуется.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">// Do
+assertThat(actualDTO.states).isEqualTo(List.of(States.ACTIVE, States.REJECTED));</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_не_переписывайте_производственную_логику">Не переписывайте производственную логику</h3>
+<div class="paragraph">
+<p>Маппинг — это типичный пример, когда логика тестов переписывается. Например: тест содержит метод <code>mapEntityToDto()</code>. Результат этого метода используется для <strong>assert</strong>, который проверяет, что возвращенный <strong>DTO</strong> содержит те же значения, что и вставленные в начале теста сущности. В этом случае скорее всего, захочется написать такую же логику, как и в производственную коде, а этот код может содержать ошибки.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">// Don't
+ProductEntity inputEntity = new ProductEntity(1, "evelope", "office", false, true, 200, 10.0);
+insertIntoDatabase(input);
+
+ProductDTO actualDTO = requestProduct(1);
+
+// mapEntityToDto() contains the same mapping logic as the production code
 ProductDTO expectedDTO = mapEntityToDto(inputEntity);
-assertThat(actualDTO).isEqualTo(expectedDTO);
-Опять же, решение состоит в том, чтобы сравнить фактический DTO с созданным вручную ссылочным объектом с жестко заданными значениями. Это предельно просто, легко понять и менее подвержено ошибкам.</pre>
+assertThat(actualDTO).isEqualTo(expectedDTO);</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>ProductDTO expectedDTO = new ProductDTO("1", "evelope", new Category("office"), List.of(States.ACTIVE, States.REJECTED))
-assertThat(actualDTO).isEqualTo(expectedDTO);
-Если вы не хотите сравнивать все значения и поэтому не хотите создавать полный объект ссылки, подумайте о том, чтобы сравнивать только подобъекты или только соответствующие значения.</p>
+<p>Решением, для этого случая, является сравнение <code>actualDTO</code> с созданным вручную ссылочным объектом с жестко заданными значениями. Это предельно просто, легко понимается и менее подвержено ошибкам.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">// Do
+ProductDTO expectedDTO = new ProductDTO("1", "evelope", new Category("office"), List.of(States.ACTIVE, States.REJECTED))
+assertThat(actualDTO).isEqualTo(expectedDTO);</code></pre>
+</div>
 </div>
 <div class="paragraph">
-<p>Не пишите слишком много логики
-Опять же, тестирование в основном касается ввода и вывода: предоставление вводимых данных и сравнение фактического вывода с ожидаемыми значениями. Следовательно, нам не нужно кодировать много логики в наших тестах, да и не следует. Если вы реализуете логику с большим количеством циклов и условий, вы сделаете тесты сложнее для понимания и более подверженными ошибкам. Более того, в случае сложной логики утверждений мощные утверждения AssertJ могут сделать за вас тяжелую работу.</p>
+<p>Если не нужно сравнивать все значения и не хочется создавать полный объект ссылки, то можно сравнивать только подобъекты или только соответствующие значения.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_не_пишите_слишком_много_логики">Не пишите слишком много логики</h3>
+<div class="paragraph">
+<p>Тестирование в основном касается <strong>input</strong> и <strong>output: предоставление *input</strong> данных и сравнение <strong>actual</strong> <strong>output</strong> с <strong>expected</strong> значениями. Следовательно, не нужно писать много логики в тестах. Если реализуется логика с большим количеством циклов и условий, то тесты станут сложнее для понимания и более подвержены ошибкам. Более того, в случае сложной логики проверки, <strong>AssertJ</strong> может сделать всю тяжелую работу.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_тест_близок_к_реальности">Тест близок к реальности</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_сосредоточьтесь_на_тестировании_полного_вертикального_слайда">Сосредоточьтесь на тестировании полного вертикального слайда</h3>
+<div class="paragraph">
+<p>Обычно рекомендуется тестировать каждый класс изолированно с помощью <strong>mocks</strong>. Однако у него есть недостатки:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>не тестируются все классы при интеграции</p>
+</li>
+<li>
+<p>рефакторинг компонентов сломает все тесты, где они используются в качестве <strong>mocks</strong></p>
+</li>
+<li>
+<p>необходимо написать и поддерживать несколько тестов</p>
+</li>
+</ul>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../../assets/img/java/tools/mock-based-testing.svg" alt="Модульное тестирование каждого класса изолированно и с помощью имитаций">
+</div>
+<div class="title">Figure 1. Модульное тестирование каждого класса изолированно и с помощью <strong>mocks</strong> имеет недостатки</div>
 </div>
 <div class="paragraph">
-<p>Тест близок к реальности
-Сосредоточьтесь на тестировании полного вертикального слайда
-Обычно рекомендуется тестировать каждый класс изолированно с помощью имитаций. Однако у него есть недостатки : вы не тестируете все классы при интеграции, а рефакторинг внутренних компонентов сломает все тесты, потому что есть тест для каждого внутреннего класса. И, наконец, вы должны написать и поддерживать несколько тестов.</p>
+<p>Поэтому лучше сосредоточиться на <strong>интеграционных тестах</strong>. Под <strong>интеграционными тестами</strong> (или <strong>тестированием компонентов</strong>) имеется в виду объединение всех классов (как в производственной среде) и тестирование полного вертикального вызова, проходящего через все технические уровни (HTTP, бизнес-логика, база данных). Таким образом, тестируется поведение, а не реализацию. Эти тесты близки к производственным и устойчивы к рефакторингу внутренних компонентов. В идеале нужно написать только один тестовый класс.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../../assets/img/java/tools/integration-test.svg" alt="Интеграционное тестирование (= соединение реальных объектов вместе и тестирование всех сразу)">
+</div>
+<div class="title">Figure 2. Интеграционное тестирование (соединение реальных объектов вместе и тестирование всех сразу)</div>
 </div>
 <div class="paragraph">
-<p>Модульное тестирование каждого класса изолированно и с помощью имитаций имеет недостатки.
-Модульное тестирование каждого класса изолированно и с помощью имитаций имеет недостатки.</p>
+<p>Тем не менее, модульные тесты полезны, и бывают ситуации, когда модульный тест является лучшим выбором или когда имеет смысл комбинировать оба подхода. Но в большинстве случаев интеграционный тест является лучшим и достаточным выбором.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_не_используйте_базы_данных_в_памяти_для_тестов">Не используйте базы данных в памяти для тестов</h3>
+<div class="imageblock">
+<div class="content">
+<img src="../../assets/img/java/tools/in-memory-database-vs-real-database-tests.svg" alt="База данных для тестов против базы данных для производства">
+</div>
+<div class="title">Figure 3. Используя базу данных в памяти, проводиться тестирование с другой базой данных, чем та, которая используется в производственной среде.</div>
 </div>
 <div class="paragraph">
-<p>Вместо этого я предлагаю сосредоточиться на интеграционных тестах . Под «интеграционными тестами» (или «тестированием компонентов») я имею в виду объединение всех классов (как в производственной среде) и тестирование полного вертикального слайда, проходящего через все технические уровни (HTTP, бизнес-логика, база данных). Таким образом, вы тестируете поведение, а не реализацию. Эти тесты точны, близки к производственным и устойчивы к рефакторингу внутренних компонентов. В идеале нам нужно написать только один тестовый класс.</p>
+<p>Использование <strong>in-memory DB</strong> (<strong>H2</strong>, <strong>HSQLDB</strong>, <strong>Fongo</strong>) для тестов снижает надежность и объем тестов. <strong>in-memory DB</strong> и <strong>DB</strong>, используемая в производственной среде, ведут себя по-разному и могут возвращать разные результаты. Таким образом, правильный (зеленый/<strong>green</strong>) тест на основе <strong>in-memory DB</strong> не является гарантией правильного поведения приложения в производственной среде. Более того, можно легко столкнуться с ситуациями, когда нельзя использовать (или протестировать) определенную (специфичную для базы данных) функцию, потому что <strong>in-memory DB</strong> не поддерживает ее или действует иначе.</p>
 </div>
 <div class="paragraph">
-<p>Я рекомендую сосредоточиться на интеграционном тестировании (= соединение реальных объектов вместе и тестирование всех сразу)
-Я рекомендую сосредоточиться на интеграционном тестировании (= соединение реальных объектов вместе и тестирование всех сразу)</p>
+<p>Решение состоит в том, чтобы выполнить тесты на реальной базе данных. К счастью, библиотека <strong>Testcontainers</strong> предоставляет отличный Java API для управления контейнером прямо в тестовом коде.</p>
 </div>
-<div class="paragraph">
-<p>Тем не менее, модульные тесты полезны, и бывают ситуации, когда модульный тест является лучшим выбором или когда имеет смысл комбинировать оба подхода. Однако мой опыт показывает, что в большинстве случаев интеграционный тест является лучшим и достаточным выбором.</p>
 </div>
-<div class="paragraph">
-<p>По этой теме можно сказать гораздо больше. Ознакомьтесь с моим сообщением в блоге «Сосредоточьтесь на тестах интеграции вместо тестов на основе макетов» для получения более подробной информации.</p>
 </div>
-<div class="paragraph">
-<p>Не используйте базы данных в памяти для тестов
-Используя базу данных в памяти, вы проводите тестирование с другой базой данных, чем в производственной среде.
-Используя базу данных в памяти, вы проводите тестирование с другой базой данных, чем в производственной среде.</p>
 </div>
+<div class="sect1">
+<h2 id="_java_jvm">Java / JVM</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_используйте_noverify_xxtieredstopatlevel1">Используйте <code>-noverify -XX:TieredStopAtLevel=1</code></h3>
 <div class="paragraph">
-<p>Использование базы данных в памяти ( H2 , HSQLDB , Fongo ) для тестов снижает надежность и объем ваших тестов. База данных в памяти и база данных, используемая в производственной среде, ведут себя по-разному и могут возвращать разные результаты. Таким образом, зеленый тест на основе базы данных в памяти не является гарантией правильного поведения вашего приложения в производственной среде. Более того, вы можете легко столкнуться с ситуациями, когда вы не можете использовать (или протестировать) определенную (специфичную для базы данных) функцию, потому что база данных в памяти не поддерживает ее или действует иначе. Подробнее об этом читайте в статье «Не использовать базы данных в памяти для тестов» .</p>
+<p>Всегда добавляйте параметры <strong>JVM</strong> <code>-noverify -XX:TieredStopAtLevel=1</code> в конфигурации запуска. Это сэкономит 1-2 секунды при запуске <strong>JVM</strong> до выполнения теста. Это особенно полезно во время первоначальной разработки теста, когда часто запускаются тесты через <strong>IDE</strong>.</p>
 </div>
-<div class="paragraph">
-<p>Решение состоит в том, чтобы выполнить тесты на реальной базе данных. К счастью, библиотека Testcontainers предоставляет отличный Java API для управления контейнером прямо в тестовом коде. Чтобы увеличить скорость выполнения, см. Здесь .</p>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Warning</div>
+</td>
+<td class="content">
+Начиная с Java 13, <code>-noverify</code> не рекомендуется.
+</td>
+</tr>
+</table>
 </div>
-<div class="paragraph">
-<p>Java / JVM
-Использовать -noverify -XX:TieredStopAtLevel=1
-Всегда добавляйте параметры JVM -noverify -XX:TieredStopAtLevel=1в свои конфигурации запуска. Это сэкономит 1-2 секунды при запуске JVM до выполнения теста. Это особенно полезно во время первоначальной разработки теста, когда вы часто запускаете тест через IDE.</p>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Tip</div>
+</td>
+<td class="content">
+Можно добавить аргументы в шаблон конфигурации запуска <em>JUnit</em> в <em>IntelliJ IDEA</em>, чтобы не приходилось добавлять их для каждой новой конфигурации запуска.
+</td>
+</tr>
+</table>
 </div>
-<div class="paragraph">
-<p>Обновление: Начиная с Java 13, -noverifyне рекомендуется.</p>
+<div class="imageblock">
+<div class="content">
+<img src="../../assets/img/java/tools/idea-run-config-template-default-vm-options-marked.png" alt="Run tests with IntelliJ IDEA settings">
 </div>
-<div class="paragraph">
-<p>Совет: Вы можете добавить аргументы в шаблон конфигурации запуска «JUnit» в IntelliJ IDEA, чтобы вам не приходилось добавлять их для каждой новой конфигурации запуска.</p>
 </div>
-<div class="paragraph">
-<p>Используйте AssertJ
-AssertJ - чрезвычайно мощная и зрелая библиотека утверждений с плавным типобезопасным API, огромным разнообразием утверждений и описательных сообщений об ошибках. Есть утверждение для всего, что вы хотите сделать. Это не дает вам писать сложную логику утверждения с циклами и условиями, сохраняя при этом короткий тестовый код. Вот некоторые примеры:</p>
 </div>
+<div class="sect2">
+<h3 id="_используйте_assertj">Используйте <code>AssertJ</code></h3>
 <div class="paragraph">
-<p>assertThat(actualProduct)
-.isEqualToIgnoringGivenFields(expectedProduct, "id");</p>
+<p><a href="http://joel-costigliola.github.io/assertj/">AssertJ</a> - чрезвычайно мощная и зрелая библиотека <strong>asserts</strong> с удобным типо-безопасным API, огромным разнообразием <strong>asserts</strong> и описательных сообщений об ошибках. Есть <strong>asserts</strong> для всего, что необходимо сделать. Это не дает писать сложную логику <strong>asserts</strong> с циклами и условиями, сохраняя при этом тестовые методы короткими. Вот некоторые примеры:</p>
 </div>
-<div class="paragraph">
-<p>assertThat(actualProductList).containsExactly(
-createProductDTO("1", "Smartphone", 250.00),
-createProductDTO("1", "Smartphone", 250.00)
-);</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">assertThat(actualProduct)
+        .isEqualToIgnoringGivenFields(expectedProduct, "id");
+
+assertThat(actualProductList).containsExactly(
+    createProductDTO("1", "Smartphone", 250.00),
+    createProductDTO("1", "Smartphone", 250.00)
+);
+
+assertThat(actualProductList)
+        .usingElementComparatorIgnoringFields("id")
+        .containsExactly(expectedProduct1, expectedProduct2);
+
+assertThat(actualProductList)
+        .extracting(Product::getId)
+        .containsExactly("1", "2");
+
+assertThat(actualProductList)
+        .anySatisfy(product -&gt; assertThat(product.getDateCreated())
+                .isBetween(instant1, instant2));
+
+assertThat(actualProductList)
+        .filteredOn(product -&gt; product.getCategory().equals("Smartphone"))
+        .allSatisfy(product -&gt; assertThat(product.isLiked()).isTrue());</code></pre>
 </div>
-<div class="paragraph">
-<p>assertThat(actualProductList)
-.usingElementComparatorIgnoringFields("id")
-.containsExactly(expectedProduct1, expectedProduct2);</p>
 </div>
-<div class="paragraph">
-<p>assertThat(actualProductList)
-.extracting(Product::getId)
-.containsExactly("1", "2");</p>
 </div>
+<div class="sect2">
+<h3 id="_избегайте_asserttrue_и_assertfalse">Избегайте <code>assertTrue()</code> и <code>assertFalse()</code></h3>
 <div class="paragraph">
-<p>assertThat(actualProductList)
-.anySatisfy(product &#8594; assertThat(product.getDateCreated()).isBetween(instant1, instant2));</p>
+<p>Избегайте простых <code>assertTrue()</code> или <code>assertFalse()</code> <strong>asserts</strong>, поскольку они выдают загадочные сообщения об ошибках:</p>
 </div>
-<div class="paragraph">
-<p>assertThat(actualProductList)
-.filteredOn(product &#8594; product.getCategory().equals("Smartphone"))
-.allSatisfy(product &#8594; assertThat(product.isLiked()).isTrue());
-Избегайте assertTrue()иassertFalse()
-Избегайте простой assertTrue()или assertFalse()утверждения , поскольку они производят загадочные сообщения об ошибках:</p>
-</div>
-<div class="paragraph">
-<p>assertTrue(actualProductList.contains(expectedProduct));
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">// Don't
+assertTrue(actualProductList.contains(expectedProduct));
 assertTrue(actualProductList.size() == 5);
-assertTrue(actualProduct instanceof Product);
-expected: &lt;true&gt; but was: &lt;false&gt;
-Вместо этого используйте утверждения AssertJ, которые сразу же создают приятные сообщения об ошибках.</p>
+assertTrue(actualProduct instanceof Product);</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>expected: &lt;true&gt; but was: &lt;false&gt;</pre>
+</div>
 </div>
 <div class="paragraph">
-<p>assertThat(actualProductList).contains(expectedProduct);
+<p>Вместо этого используйте <strong>asserts</strong> из <strong>AssertJ</strong>, которые сразу же создают понятные сообщения об ошибках.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">// Do
+assertThat(actualProductList).contains(expectedProduct);
 assertThat(actualProductList).hasSize(5);
-assertThat(actualProduct).isInstanceOf(Product.class);
-Expecting:
+assertThat(actualProduct).isInstanceOf(Product.class);</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>Expecting:
 &lt;[Product[id=1, name='Samsung Galaxy']]&gt;
 to contain:
 &lt;[Product[id=2, name='iPhone']]&gt;
 but could not find:
-&lt;[Product[id=2, name='iPhone']]&gt;
-Если вам действительно нужно проверить логическое значение, подумайте о AssertJ,as() чтобы улучшить сообщение об ошибке .</p>
+&lt;[Product[id=2, name='iPhone']]&gt;</pre>
+</div>
 </div>
 <div class="paragraph">
-<p>Используйте JUnit5
-JUnit5 - это новейший продукт для (модульного) тестирования. Он активно развивается и предоставляет множество мощных функций (например, параметризованные тесты, группирование, условные тесты, управление жизненным циклом).</p>
+<p>Если действительно нужно проверить логическое значение, необходимо подумать о <strong>AssertJ</strong>, чтобы улучшить сообщение об ошибке.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_используйте_junit_5">Используйте JUnit 5</h3>
+<div class="paragraph">
+<p><strong>JUnit 5</strong> - это новейший продукт для (модульного) тестирования. Он активно развивается и предоставляет множество мощных функций (например, параметризованные тесты, группирование, условные тесты, управление жизненным циклом).</p>
 </div>
 <div class="paragraph">
 <p>Используйте параметризованные тесты
 Параметризованные тесты позволяют повторно запускать один тест несколько раз с разными значениями. Таким образом, вы можете легко протестировать несколько случаев без написания тестового кода. JUnit5 предоставляет большие средства , чтобы написать эти тесты с @ValueSource, @EnumSource, @CsvSourceи @MethodSource.</p>
 </div>
-<div class="paragraph">
-<p>@ParameterizedTest
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">// Do
+@ParameterizedTest
 @ValueSource(strings = ["§ed2d", "sdf_", "123123", "§_sdf__dfww!"])
 public void rejectedInvalidTokens(String invalidToken) {
-client.perform(get("/products").param("token", invalidToken))
-.andExpect(status().is(400))
-}</p>
+    client.perform(get("/products")
+            .param("token", invalidToken))
+            .andExpect(status().is(400))
+}</code></pre>
 </div>
-<div class="paragraph">
-<p>@ParameterizedTest
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">@ParameterizedTest
 @EnumSource(WorkflowState::class, mode = EnumSource.Mode.INCLUDE, names = ["FAILED", "SUCCEEDED"])
 public void dontProcessWorkflowInCaseOfAFinalState(WorkflowState itemsInitialState) {
-}
-Я настоятельно рекомендую широко использовать их, потому что вы можете протестировать больше случаев с минимальными усилиями.</p>
+    // ...
+}</code></pre>
+</div>
 </div>
 <div class="paragraph">
-<p>Наконец, я хотел бы выделить @CsvSourceи @MethodSourceкоторые можно использовать для более сложных сценариев параметризованного тестирования, где вы также можете контролировать ожидаемый результат с помощью параметра.</p>
+<p>Я настоятельно рекомендую широко использовать их, потому что вы можете протестировать больше случаев с минимальными усилиями.</p>
 </div>
 <div class="paragraph">
-<p>@ParameterizedTest
+<p>Наконец, я хотел бы выделить <code>@CsvSource</code> и <code>@MethodSource</code> которые можно использовать для более сложных сценариев параметризованного тестирования, где вы также можете контролировать ожидаемый результат с помощью параметра.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">@ParameterizedTest
 @CsvSource({
-"1, 1, 2",
-"5, 3, 8",
-"10, -20, -10"
+    "1, 1, 2",
+    "5, 3, 8",
+    "10, -20, -10"
 })
 public void add(int summand1, int summand2, int expectedSum) {
-assertThat(calculator.add(summand1, summand2)).isEqualTo(expectedSum);
-}
-@MethodSourceявляется мощным в сочетании со специальным тестовым объектом, содержащим все соответствующие тестовые параметры и ожидаемый результат. К сожалению, в Java написание этих структур данных (POJO) обременительно. Вот почему я продемонстрирую эту функцию, используя классы данных Kotlin .</p>
+    assertThat(calculator.add(summand1, summand2)).isEqualTo(expectedSum);
+}</code></pre>
+</div>
 </div>
 <div class="paragraph">
-<p>data class TestData(
-val input: String?,
-val expected: Token?
-)</p>
+<p><code>@MethodSource</code> является мощным в сочетании со специальным тестовым объектом, содержащим все соответствующие тестовые параметры и ожидаемый результат. К сожалению, в Java написание этих структур данных (<strong>POJO</strong>) обременительно. Вот почему я продемонстрирую эту функцию, используя классы данных <strong>Kotlin</strong>.</p>
 </div>
-<div class="paragraph">
-<p>@ParameterizedTest
-@MethodSource("validTokenProvider")
-fun <code>parse valid tokens</code>(data: TestData) {
-assertThat(parse(data.input)).isEqualTo(data.expected)
-}</p>
-</div>
-<div class="paragraph">
-<p>private fun validTokenProvider() = Stream.of(
-TestData(input = "1511443755_2", expected = Token(1511443755, "2")),
-TestData(input = "151175_13521", expected = Token(151175, "13521")),
-TestData(input = "151144375_id", expected = Token(151144375, "id")),
-TestData(input = "15114437599_1", expected = Token(15114437599, "1")),
-TestData(input = null, expected = null)
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-kotlin" data-lang="kotlin">data class TestData(
+    val input: String?,
+    val expected: Token?
 )
-Сгруппируйте тесты
-JUnit5 @Nestedполезен для группировки методов тестирования. Разумными группами могут быть определенные типы тестов (например InputIsXY, ErrorCases) или одна группа для каждого тестируемого метода ( GetDesignи UpdateDesign).</p>
-</div>
-<div class="paragraph">
-<p>public class DesignControllerTest {
-@Nested
-class GetDesigns {
-@Test
-void allFieldsAreIncluded() {}
-@Test
-void limitParameter() {}
-@Test
-void filterParameter() {}
+
+@ParameterizedTest
+@MethodSource("validTokenProvider")
+fun `parse valid tokens`(data: TestData) {
+    assertThat(parse(data.input)).isEqualTo(data.expected)
 }
-@Nested
-class DeleteDesign {
-@Test
-void designIsRemovedFromDb() {}
-@Test
-void return404OnInvalidIdParameter() {}
-@Test
-void return401IfNotAuthorized() {}
-}
-}
-Сгруппируйте методы тестирования с помощью JUnit5 &amp; rsquo; s @Nested
-Сгруппируйте методы тестирования с помощью JUnit5. @Nested</p>
+
+private fun validTokenProvider() = Stream.of(
+    TestData(input = "1511443755_2", expected = Token(1511443755, "2")),
+    TestData(input = "151175_13521", expected = Token(151175, "13521")),
+    TestData(input = "151144375_id", expected = Token(151144375, "id")),
+    TestData(input = "15114437599_1", expected = Token(15114437599, "1")),
+    TestData(input = null, expected = null)
+)</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_сгруппируйте_тесты">Сгруппируйте тесты</h3>
+<div class="paragraph">
+<p><code>@Nested</code> полезен для группировки методов тестирования. Разумными группами могут быть определенные типы тестов (например: <code>InputIsXY</code>, <code>ErrorCases</code>) или одна группа для каждого тестируемого метода (<code>GetDesign</code> и <code>UpdateDesign</code>).</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">public class DesignControllerTest {
+    @Nested
+    class GetDesigns {
+        @Test
+        void allFieldsAreIncluded() {}
+
+        @Test
+        void limitParameter() {}
+
+        @Test
+        void filterParameter() {}
+    }
+
+    @Nested
+    class DeleteDesign {
+        @Test
+        void designIsRemovedFromDb() {}
+
+        @Test
+        void return404OnInvalidIdParameter() {}
+
+        @Test
+        void return401IfNotAuthorized() {}
+    }
+}</code></pre>
+</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../../assets/img/java/tools/group-test-methods.png" alt="Сгруппируйте методы тестирования с помощью `@Nested`">
+</div>
+<div class="title">Figure 4. Сгруппируйте методы тестирования с помощью <code>@Nested</code></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_читаемые_имена_тестов_с_displayname_или_обратными_кавычками_kotlin">Читаемые имена тестов с <code>@DisplayName</code> или обратными кавычками Kotlin</h3>
+<div class="paragraph">
+<p>В Java используйте <code>@DisplayName</code> для создания читаемых описаний тестов.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">public class DisplayNameTest {
+    @Test
+    @DisplayName("Design is removed from database")
+    void designIsRemoved() {}
+
+    @Test
+    @DisplayName("Return 404 in case of an invalid parameter")
+    void return404() {}
+
+    @Test
+    @DisplayName("Return 401 if the request is not authorized")
+    void return401() {}
+}</code></pre>
+</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../../assets/img/java/tools/annotation-display-name.png" alt="Читаемые имена тестовых методов с использованием `@DisplayName`">
+</div>
+<div class="title">Figure 5. Читаемые имена методов тестирования с использованием <code>@DisplayName</code></div>
 </div>
 <div class="paragraph">
-<p>Читаемые имена тестов с @DisplayNameобратными кавычками или Kotlin
-В Java используйте JUnit5 @DisplayNameдля создания читаемых описаний тестов.</p>
+<p>В <strong>Kotlin</strong> вы можете помещать имена методов в обратные кавычки, которые могут содержать пробелы. Это обеспечивает хорошую читаемость без избыточности.</p>
 </div>
-<div class="paragraph">
-<p>public class DisplayNameTest {
-@Test
-@DisplayName("Design is removed from database")
-void designIsRemoved() {}
-@Test
-@DisplayName("Return 404 in case of an invalid parameter")
-void return404() {}
-@Test
-@DisplayName("Return 401 if the request is not authorized")
-void return401() {}
-}
-Читаемые имена методов тестирования с JUnit5 &amp; rsquo; s @DisplayName
-Читаемые имена тестовых методов с JUnit5 @DisplayName</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">@Test
+fun `design is removed from db`() {}</code></pre>
 </div>
-<div class="paragraph">
-<p>В Kotlin вы можете помещать имена методов в обратные кавычки, которые могут содержать пробелы. Это обеспечивает хорошую читаемость без избыточности.</p>
 </div>
-<div class="paragraph">
-<p>@Test
-fun <code>design is removed from db</code>() {}
-Имитация удаленной службы
-Чтобы протестировать HTTP-клиентов, нам нужно имитировать удаленную службу. Я часто использую для этой цели OkHttp&#8217;s WebMockServer . Альтернативы - WireMock или Mockserver Testcontainer .</p>
 </div>
+<div class="sect2">
+<h3 id="_имитация_удаленной_службы">Имитация удаленной службы</h3>
 <div class="paragraph">
-<p>MockWebServer serviceMock = new MockWebServer();
+<p>Чтобы протестировать HTTP-клиентов, нам нужно имитировать удаленную службу. Я часто использую для этой цели <a href="https://github.com/square/okhttp/tree/master/mockwebserver">OkHttp&#8217;s WebMockServer</a>. Альтернативы - <a href="http://wiremock.org/">WireMock</a> или <a href="https://www.testcontainers.org/modules/mockserver/">Mockserver Testcontainer</a>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">MockWebServer serviceMock = new MockWebServer();
 serviceMock.start();
 HttpUrl baseUrl = serviceMock.url("/v1/");
 ProductClient client = new ProductClient(baseUrl.host(), baseUrl.port());
 serviceMock.enqueue(new MockResponse()
-.addHeader("Content-Type", "application/json")
-.setBody("{\"name\": \"Smartphone\"}"));</p>
+        .addHeader("Content-Type", "application/json")
+        .setBody("{\"name\": \"Smartphone\"}"));
+
+ProductDTO productDTO = client.retrieveProduct("1");
+
+assertThat(productDTO.getName()).isEqualTo("Smartphone");</code></pre>
 </div>
-<div class="paragraph">
-<p>ProductDTO productDTO = client.retrieveProduct("1");</p>
 </div>
-<div class="paragraph">
-<p>assertThat(productDTO.getName()).isEqualTo("Smartphone");
-Используйте ожидание для утверждения асинхронного кода
-Awaitility - это библиотека для тестирования асинхронного кода. Вы можете легко определить, как часто утверждение будет повторяться до тех пор, пока окончательно не завершится ошибкой.</p>
 </div>
+<div class="sect2">
+<h3 id="_используйте_ожидание_для_утверждения_асинхронного_кода">Используйте ожидание для утверждения асинхронного кода</h3>
 <div class="paragraph">
-<p>private static final ConditionFactory WAIT = await()
-.atMost(Duration.ofSeconds(6))
-.pollInterval(Duration.ofSeconds(1))
-.pollDelay(Duration.ofSeconds(1));</p>
+<p><a href="https://github.com/awaitility/awaitility">Awaitility</a> - это библиотека для тестирования асинхронного кода. Вы можете легко определить, как часто утверждение будет повторяться до тех пор, пока окончательно не завершится ошибкой.</p>
 </div>
-<div class="paragraph">
-<p>@Test
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">private static final ConditionFactory WAIT = await()
+        .atMost(Duration.ofSeconds(6))
+        .pollInterval(Duration.ofSeconds(1))
+        .pollDelay(Duration.ofSeconds(1));
+
+@Test
 public void waitAndPoll(){
-triggerAsyncEvent();
-WAIT.untilAsserted) &#8594; { assertThat(findInDatabase(1).getState(.isEqualTo(State.SUCCESS);
-});
-}
-Таким образом, вы сможете избежать использования хрупкого материала Thread.sleep()в тестах.</p>
+    triggerAsyncEvent();
+    WAIT.untilAsserted(() -&gt; {
+        assertThat(findInDatabase(1).getState()).isEqualTo(State.SUCCESS);
+    });
+}</code></pre>
+</div>
 </div>
 <div class="paragraph">
-<p>Однако тестировать синхронный код намного проще. Вот почему мы должны попытаться разделить синхронный и асинхронный код, чтобы протестировать их отдельно .</p>
+<p>Таким образом, вы сможете избежать использования хрупкого материала <code>Thread.sleep()</code> в тестах.</p>
 </div>
 <div class="paragraph">
-<p>Нет необходимости загружать DI (Spring)
-Загрузка инфраструктуры (Spring) DI занимает несколько секунд, прежде чем можно будет начать тест. Это замедляет цикл обратной связи, особенно на начальном этапе разработки теста.</p>
+<p>Однако тестировать синхронный код намного проще. Вот почему мы должны попытаться разделить синхронный и асинхронный код, чтобы протестировать их отдельно.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_нет_необходимости_загружать_di_spring">Нет необходимости загружать DI (Spring)</h3>
+<div class="paragraph">
+<p>Загрузка инфраструктуры (<strong>Spring</strong>) <strong>DI</strong> занимает несколько секунд, прежде чем можно будет начать тест. Это замедляет цикл обратной связи, особенно на начальном этапе разработки теста.</p>
 </div>
 <div class="paragraph">
-<p>Вот почему я обычно не использую DI в своих интеграционных тестах. Я создаю экземпляры требуемых объектов вручную, вызывая newих и объединяя их вместе. Если вы используете инъекцию конструктора, это очень просто. В большинстве случаев вам нужно протестировать написанную вами бизнес-логику. Для этого вам не нужен DI. Посмотрите мой пост об интеграционных тестах для примера.</p>
+<p>Вот почему я обычно не использую <strong>DI</strong> в своих интеграционных тестах. Я создаю экземпляры требуемых объектов вручную, вызывая <code>new</code> их и объединяя их вместе. Если вы используете инъекцию конструктора, это очень просто. В большинстве случаев вам нужно протестировать написанную вами бизнес-логику. Для этого вам не нужен <strong>DI</strong>. Посмотрите мой пост об интеграционных тестах для примера.</p>
 </div>
 <div class="paragraph">
-<p>Более того, Spring Boot 2.2 представит простой способ использования ленивой инициализации bean-компонентов, что должно значительно ускорить тесты на основе DI.</p>
+<p>Более того, <strong>Spring Boot 2.2</strong> представит простой способ использования ленивой инициализации bean-компонентов, что должно значительно ускорить тесты на основе <strong>DI</strong>.</p>
 </div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_сделайте_реализацию_тестируемой">Сделайте реализацию тестируемой</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_не_используйте_статический_доступ_никогда_когда_либо">Не используйте статический доступ. Никогда. Когда-либо.</h3>
 <div class="paragraph">
-<p>Сделайте реализацию тестируемой
-Не используйте статический доступ. Никогда. Когда-либо.
-Статический доступ - это анти-шаблон. Во-первых, он скрывает зависимости и побочные эффекты, что затрудняет понимание всего кода и делает его более подверженным ошибкам. Во-вторых, статический доступ вредит тестируемости. Вы больше не можете обменивать предметы. Но в тесте вы хотите использовать макеты или использовать реальные объекты с другой конфигурацией (например, объект DAO, указывающий на тестовую базу данных).</p>
+<p>Статический доступ — это анти-шаблон. Во-первых, он скрывает зависимости и побочные эффекты, что затрудняет понимание всего кода и делает его более подверженным ошибкам. Во-вторых, статический доступ вредит тестируемости. Вы больше не можете обменивать предметы. Но в тесте вы хотите использовать макеты или использовать реальные объекты с другой конфигурацией (например, объект <strong>DAO</strong>, указывающий на тестовую базу данных).</p>
 </div>
 <div class="paragraph">
 <p>Поэтому вместо статического доступа к коду поместите его в нестатические методы, создайте экземпляр класса и передайте объект конструктору объекта там, где он вам нужен.</p>
 </div>
-<div class="paragraph">
-<p>public class ProductController {
-public List&lt;ProductDTO&gt; getProducts() {
-List&lt;ProductEntity&gt; products = ProductDAO.getProducts();
-return mapToDTOs(products);
-}
-}
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">// Don't
 public class ProductController {
-private ProductDAO dao;
-public ProductController(ProductDAO dao) {
-this.dao = dao;
-}
-public List&lt;ProductDTO&gt; getProducts() {
-List&lt;ProductEntity&gt; products = dao.getProducts();
-return mapToDTOs(products);
-}
-}
-К счастью, фреймворки DI, такие как Spring, предоставляют простой способ избежать статического доступа, поскольку они обрабатывают создание и связывание всех объектов за нас.</p>
+    public List&lt;ProductDTO&gt; getProducts() {
+        List&lt;ProductEntity&gt; products = ProductDAO.getProducts();
+        return mapToDTOs(products);
+    }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">// Do
+public class ProductController {
+    private ProductDAO dao;
+
+    public ProductController(ProductDAO dao) {
+        this.dao = dao;
+    }
+
+    public List&lt;ProductDTO&gt; getProducts() {
+        List&lt;ProductEntity&gt; products = dao.getProducts();
+        return mapToDTOs(products);
+    }
+}</code></pre>
+</div>
 </div>
 <div class="paragraph">
-<p>Параметризация
-Сделайте все соответствующие части класса контролируемыми тестом. Это можно сделать, создав параметр для конструктора из этого аспекта.</p>
+<p>К счастью, фреймворки <strong>DI</strong>, такие как <strong>Spring</strong>, предоставляют простой способ избежать статического доступа, поскольку они обрабатывают создание и связывание всех объектов за нас.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_параметризация">Параметризация</h3>
+<div class="paragraph">
+<p>Сделайте все соответствующие части класса контролируемыми тестом. Это можно сделать, создав параметр для конструктора из этого аспекта.</p>
 </div>
 <div class="paragraph">
-<p>Например, ваш DAO имеет фиксированный лимит в 1000 запросов. Для проверки этого ограничения вам потребуется создать 1001 запись в базе данных. Используя параметр конструктора для этого ограничения, вы делаете его настраиваемым. В производстве этот параметр равен 1000. В тесте вы можете использовать 2. Это требует только 3 тестовых записей для тестирования функции ограничения.</p>
+<p>Например, ваш <strong>DAO</strong> имеет фиксированный лимит в 1000 запросов. Для проверки этого ограничения вам потребуется создать 1001 запись в базе данных. Используя параметр конструктора для этого ограничения, вы делаете его настраиваемым. В производстве этот параметр равен 1000. В тесте вы можете использовать 2. Это требует только 3 тестовых записей для тестирования функции ограничения.</p>
 </div>
+</div>
+<div class="sect2">
+<h3 id="_использовать_внедрение_конструктора">Использовать внедрение конструктора</h3>
 <div class="paragraph">
-<p>Использовать внедрение конструктора
-Полевая инъекция - зло из-за плохой тестируемости. Вы должны загрузить среду DI в своих тестах или совершить хакерскую магию отражения. Таким образом, внедрение конструктора является предпочтительным способом, поскольку он позволяет легко управлять зависимым объектом в тесте.</p>
+<p>Полевая инъекция — зло из-за плохой тестируемости. Вы должны загрузить среду <strong>DI</strong> в своих тестах или совершить хакерскую магию отражения. Таким образом, внедрение конструктора является предпочтительным способом, поскольку он позволяет легко управлять зависимым объектом в тесте.</p>
 </div>
 <div class="paragraph">
 <p>В Java для этого требуется немного шаблонов.</p>
 </div>
-<div class="paragraph">
-<p>public class ProductController {</p>
-</div>
-<div class="literalblock">
+<div class="listingblock">
 <div class="content">
-<pre>private ProductDAO dao;
-private TaxClient client;</pre>
-</div>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>    public CustomerResource(ProductDAO dao, TaxClient client) {
+<pre class="highlight"><code class="language-java" data-lang="java">// Do
+public class ProductController {
+    private ProductDAO dao;
+    private TaxClient client;
+
+    public CustomerResource(ProductDAO dao, TaxClient client) {
         this.dao = dao;
         this.client = client;
     }
-}
-В Котлине то же самое гораздо лаконичнее.</pre>
+}</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>class ProductController(
-private val dao: ProductDAO,
-private val client: TaxClient
-){
-}
-Не используйте Instant.now()илиnew Date()
-Не получайте текущую метку времени, вызывая Instant.now()или new Date()в производственном коде, если вы хотите проверить это поведение.</p>
+<p>В <strong>Kotlin</strong> то же самое гораздо лаконичнее.</p>
 </div>
-<div class="paragraph">
-<p>public class ProductDAO {
-public void updateDateModified(String productId) {
-Instant now = Instant.now(); // !
-Update update = Update()
-.set("dateModified", now);
-Query query = Query()
-.addCriteria(where("_id").eq(productId));
-return mongoTemplate.updateOne(query, update, ProductEntity.class);
-}
-}
-Проблема в том, что созданная временная метка не может контролироваться тестом. Вы не можете утверждать точное значение, потому что оно всегда разное при каждом выполнении теста. Вместо этого используйте Clockкласс Java .</p>
-</div>
-<div class="paragraph">
-<p>public class ProductDAO {
-private Clock clock;</p>
-</div>
-<div class="literalblock">
+<div class="listingblock">
 <div class="content">
-<pre>public ProductDAO(Clock clock) {
-    this.clock = clock;
-}</pre>
+<pre class="highlight"><code class="language-java" data-lang="java">// Do
+class ProductController(
+    private val dao: ProductDAO,
+    private val client: TaxClient
+) {
+    // ...
+}</code></pre>
 </div>
 </div>
-<div class="literalblock">
+</div>
+<div class="sect2">
+<h3 id="_не_используйте_instant_now_или_new_date">Не используйте <code>Instant.now()</code> или <code>new Date()</code></h3>
+<div class="paragraph">
+<p>Не получайте текущую метку времени, вызывая <code>Instant.now()</code> или <code>new Date()</code> в производственном коде, если вы хотите проверить это поведение.</p>
+</div>
+<div class="listingblock">
 <div class="content">
-<pre>    public void updateProductState(String productId, State state) {
+<pre class="highlight"><code class="language-java" data-lang="java">// Don't
+public class ProductDAO {
+    public void updateDateModified(String productId) {
+        Instant now = Instant.now(); // !
+        Update update = Update().set("dateModified", now);
+        Query query = Query().addCriteria(where("_id").eq(productId));
+        return mongoTemplate.updateOne(query, update, ProductEntity.class);
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Проблема в том, что созданная временная метка не может контролироваться тестом. Вы не можете утверждать точное значение, потому что оно всегда разное при каждом выполнении теста. Вместо этого используйте <code>Clock</code> класс Java.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">// Do
+public class ProductDAO {
+    private Clock clock;
+
+    public ProductDAO(Clock clock) {
+        this.clock = clock;
+    }
+
+    public void updateProductState(String productId, State state) {
         Instant now = clock.instant();
         // ...
     }
-}
-В тесте теперь вы можете создать макет часов, передать его в ProductDAOи настроить макет часов, чтобы он возвращал фиксированную метку времени. После вызова updateProductState()мы проверяем, попала ли указанная временная метка в базу данных.</pre>
+}</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Раздельное асинхронное выполнение и фактическая логика
-Тестировать асинхронный код сложно. Такие библиотеки, как Awaitility, могут помочь, но они по-прежнему громоздки, и тесты все еще могут переключаться. Если возможно, имеет смысл отделить (часто синхронную) бизнес-логику от асинхронного выполнения этой логики.</p>
+<p>В тесте теперь вы можете создать макет часов, передать его в <code>ProductDAO</code> и настроить макет часов, чтобы он возвращал фиксированную метку времени. После вызова <code>updateProductState()</code> мы проверяем, попала ли указанная временная метка в базу данных.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_раздельное_асинхронное_выполнение_и_фактическая_логика">Раздельное асинхронное выполнение и фактическая логика</h3>
+<div class="paragraph">
+<p>Тестировать асинхронный код сложно. Такие библиотеки, как <strong>Awaitility</strong>, могут помочь, но они по-прежнему громоздки, и тесты все еще могут переключаться. Если возможно, имеет смысл отделить (часто синхронную) бизнес-логику от асинхронного выполнения этой логики.</p>
 </div>
 <div class="paragraph">
-<p>Например, поместив бизнес-логику в ProductController, мы можем протестировать ее синхронно, что легко. Асинхронная логика и логика распараллеливания централизованы в платформе ProductScheduler, которую можно тестировать изолированно.</p>
+<p>Например, поместив бизнес-логику в <code>ProductController</code>, мы можем протестировать ее синхронно, что легко. Асинхронная логика и логика распараллеливания централизованы в платформе <code>ProductScheduler</code>, которую можно тестировать изолированно.</p>
 </div>
-<div class="paragraph">
-<p>public class ProductScheduler {</p>
-</div>
-<div class="literalblock">
+<div class="listingblock">
 <div class="content">
-<pre>private ProductController controller;</pre>
-</div>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>    @Scheduled
+<pre class="highlight"><code class="language-java" data-lang="java">// Do
+public class ProductScheduler {
+    private ProductController controller;
+
+    @Scheduled
     public void start() {
         CompletableFuture&lt;String&gt; usFuture = CompletableFuture.supplyAsync(() -&gt; controller.doBusinessLogic(Locale.US));
         CompletableFuture&lt;String&gt; germanyFuture = CompletableFuture.supplyAsync(() -&gt; controller.doBusinessLogic(Locale.GERMANY));
         String usResult = usFuture.get();
         String germanyResult = germanyFuture.get();
     }
-}</pre>
+}</code></pre>
 </div>
 </div>
 </div>
@@ -1375,7 +1584,7 @@ private Clock clock;</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2021-01-18 05:06:02 UTC
+Last updated 2021-01-23 06:51:45 UTC
 </div>
 </div>
 </body>
