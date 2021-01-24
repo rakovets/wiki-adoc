@@ -1055,7 +1055,374 @@ enum Operation {
 <h2 id="_класс_object">Класс <code>Object</code></h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Хотя мы можем создать обычный класс, который не является наследником, но фактически все классы наследуют от класса <code>Object</code>. Все остальные классы, даже те, которые мы добавляем в свой проект, являются неявно производными от класса <code>Object</code>. Поэтому все типы и классы могут реализовать те методы, которые определены в классе <code>Object</code>. Рассмотрим эти методы.</p>
+<p>Хотя мы можем создать обычный класс, который не является наследником, но фактически все классы наследуют от класса <code>Object</code>. Все остальные классы, даже те, которые мы добавляем в свой проект, являются неявно производными от класса <code>Object</code>. Поэтому все типы и классы могут реализовать те методы, которые определены в классе <code>Object</code>.</p>
+</div>
+<div class="sect2">
+<h3 id="_hashcode"><code>hashCode()</code></h3>
+<div class="sect3">
+<h4 id="_что_такое_хеш_код">Что такое хеш-код?</h4>
+<div class="paragraph">
+<p>Если очень просто, то (<strong>хеш-код</strong>) — это число. Если более точно, то это <em>битовая строка фиксированной длины</em>, <em>полученная из массива произвольной длины</em>.</p>
+</div>
+<div class="paragraph">
+<p>Выполним следующий код:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">public class Main {
+    public static void main(String[] args) {
+        Object object = new Object();
+        int hCode;
+        hCode = object.hashCode();
+        System.out.println(hCode);
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>В результате выполнения программы в консоль выведется целое 10-ти значное число. Это число и есть <em>битовая строка фиксированной длины</em>. В java она представлена в виде числа примитивного типа <code>int</code>, который равен 4-м байтам, и может помещать числа от <code>-2_147_483_648</code> до <code>2_147_483_647</code>. На данном этапе важно понимать, что <strong>хеш-код</strong> это число, у которого есть свой предел, который для java ограничен примитивным целочисленным типом <code>int</code>.</p>
+</div>
+<div class="paragraph">
+<p>Вторая часть объяснения гласит: <em>полученная из массива произвольной длины</em>. Под массивом произвольной длины будет понимать объект. В примере выше в качестве массива произвольной длины выступает объект типа <code>Object</code>.</p>
+</div>
+<div class="paragraph">
+<p>В итоге в терминах Java, <strong>хеш-код</strong> — это целочисленный результат работы метода, которому в качестве входного параметра передан объект.</p>
+</div>
+<div class="paragraph">
+<p>Этот метод реализован таким образом, что для одного и того-же входного объекта, хеш-код всегда будет одинаковым. Следует понимать, что множество возможных хеш-кодов ограничено примитивным типом <code>int</code>, а множество объектов ограничено только нашей фантазией. Отсюда следует утверждение: <em>Множество объектов мощнее множества хеш-кодов</em>. Из-за этого ограничения, вполне возможна ситуация, что хеш-коды разных объектов могут совпасть.</p>
+</div>
+<div class="paragraph">
+<p>Здесь главное понять, что:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Если хеш-коды разные, то и входные объекты гарантированно будут разные.</p>
+</li>
+<li>
+<p>Если хеш-коды равны, то входные объекты не всегда равны.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Ситуация, когда у разных объектов одинаковые хеш-коды называется — <strong>коллизией</strong>. <em>Вероятность возникновения коллизии</em> зависит от используемого <em>алгоритма генерации хеш-кода</em>.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_hashcode_2"><code>hashCode()</code></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">Person tom = new Person("Tom");
+System.out.println(tom.hashCode()); // 2036368507</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Но мы можем задать свой алгоритм определения хэш-кода объекта:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">class Person {
+    private String name;
+
+    public Person(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public int hashCode(){
+        return 11 * name.hashCode() + 7;
+    }
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_подведём_итог">Подведём итог</h4>
+<div class="paragraph">
+<p><strong>Одинаковые объекты</strong> — это объекты одного класса с одинаковым содержимым полей.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Для одного и того-же объекта, хеш-код всегда будет одинаковым</p>
+</li>
+</ul>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../../../assets/img/java/core/misc/hash-code-1.png" alt="Hash Code">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Если объекты одинаковые, то и хеш-коды будут одинаковые, но не наоборот.</p>
+</li>
+</ul>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../../../assets/img/java/core/misc/hash-code-2.png" alt="Hash Code">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Если хеш-коды равны, то входные объекты не всегда равны (коллизия).</p>
+</li>
+</ul>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../../../assets/img/java/core/misc/hash-code-3.png" alt="Hash Code">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Если хеш-коды разные, то и объекты гарантированно будут разные.</p>
+</li>
+</ul>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../../../assets/img/java/core/misc/hash-code-4.png" alt="Hash Code">
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_понятие_эквивалентности_метод_equals">Понятие эквивалентности. Метод equals()</h3>
+<div class="paragraph">
+<p>В java, каждый вызов оператора <code>new</code> порождает новый объект в памяти. Для иллюстрации создадим какой-нибудь класс, пускай он будет называться <code>BlackBox</code>.</p>
+</div>
+<div class="paragraph">
+<p>Выполним следующий код:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">public class BlackBox {
+    int varA;
+    int varB;
+
+	BlackBox(int varA, int varB){
+		this.varA = varA;
+		this.varB = varB;
+	}
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Создадим класс для демонстрации <code>BlackBox</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">public class DemoBlackBox {
+    public static void main(String[] args) {
+        BlackBox object1 = new BlackBox(5, 10);
+        BlackBox object2 = new BlackBox(5, 10);
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>В этом примере, в памяти создастся два объекта.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../../../assets/img/java/core/misc/equals.png" alt="Equals">
+</div>
+</div>
+<div class="paragraph">
+<p>Но, как вы уже обратили внимание, содержимое этих объектов одинаково, то есть эквивалентно. Для проверки эквивалентности в классе <code>Object</code> существует метод <code>equals()</code>, который сравнивает содержимое объектов и выводит значение типа <code>boolean</code> <code>true</code>, если содержимое эквивалентно, и <code>false</code> — если нет.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">object1.equals(object2);// должно быть true, поскольку содержимое объектов эквивалентно</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Эквивалентность и хеш-код тесно связанны между собой, поскольку хеш-код вычисляется на основании содержимого объекта (значения полей) и <em>если у двух объектов одного и того же класса содержимое одинаковое, то и хеш-коды должны быть одинаковые</em>.</p>
+</div>
+<div class="paragraph">
+<p>Иными словами:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">object1.equals(object2)// должно быть true
+object1.hashCode() == object2.hashCode()// должно быть true</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>"Должно быть", потому что если вы выполните предыдущий пример, то на самом деле результатом выполнения всех операций будет <code>false</code>. Для пояснения причин, заглянем в исходные коды класса <code>Object</code>.</p>
+</div>
+<div class="sect3">
+<h4 id="_пример">Пример</h4>
+<div class="paragraph">
+<p>Метод <code>equals()</code> сравнивает два объекта на равенство:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">public class Program {
+    public static void main(String[] args) {
+        Person tom = new Person("Tom");
+        Person bob = new Person("Bob");
+        System.out.println(tom.equals(bob)); // false
+
+        Person tom2 = new Person("Tom");
+        System.out.println(tom.equals(tom2)); // true
+    }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">class Person {
+    private String name;
+
+    public Person(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Person) {
+            Person p = (Person) obj;
+            return (this.name == p.name);
+        }
+        return false;
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Метод <code>equals()</code> принимает в качестве параметр объект любого типа, который мы затем приводим к текущему, если они являются объектами одного класса.</p>
+</div>
+<div class="paragraph">
+<p>Оператор <code>instanceof</code> позволяет выяснить, является ли переданный в качестве параметра объект объектом определенного класса, в данном случае класса <code>Person</code>.
+Затем сравниваем по именам. Если они совпадают, возвращаем <code>true</code>, что будет говорить, что объекты равны.</p>
+</div>
+<div class="paragraph">
+<p>Если объекты принадлежат к разным классам, то их сравнение не имеет смысла, и возвращается значение <code>false</code>.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_класс_object_2">Класс <code>Object</code></h3>
+<div class="paragraph">
+<p>Как известно, все java-классы наследуются от класса <code>Object</code>. В этом классе уже определены методы <code>hashCode()</code> и <code>equals()</code>.</p>
+</div>
+<div class="paragraph">
+<p>Определяя свой класс, вы автоматически наследуете все методы класса <code>Object</code>. И в ситуации, когда в вашем классе не переопределены (<strong>@overriding</strong>) <code>hashCode()</code> и <code>equals()</code>, то используется их реализация из <code>Object</code>.</p>
+</div>
+<div class="paragraph">
+<p>Рассмотрим исходный код метода <code>equals()</code> в классе <code>Object</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">public boolean equals(Object obj) {
+    return (this == obj);
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>При сравнении объектов, операция <code>==</code> вернет <code>true</code> лишь в одном случае — когда ссылки указывают на один и тот-же объект. В данном случае не учитывается содержимое полей.</p>
+</div>
+<div class="paragraph">
+<p>Выполнив приведённый ниже код, <code>equals()</code> вернет <code>true</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">public class DemoBlackBox {
+    public static void main(String[] args) {
+        BlackBox object3 = new BlackBox(5, 10);
+        BlackBox object4 = object3; // Переменная object4 ссылается на
+        //тот-же объект что и переменная object3
+        object3.equals(object4); //true
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Теперь понято, почему <code>Object.equals()</code> работает не так как нужно, ведь он сравнивает ссылки, а не содержимое объектов.</p>
+</div>
+<div class="paragraph">
+<p>Далее на очереди <code>hashCode()</code>, который тоже работает не так как полагается.</p>
+</div>
+<div class="paragraph">
+<p>Заглянем в исходный код метода <code>hashCode()</code> в классе Object:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">public native int hashCode();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Вот собственно и вся реализация. Ключевое слово <code>native</code> означает, что реализация данного метода выполнена на другом языке, например на C, C или *ассемблере*. Конкретный `native int hashCode()` реализован на C, вот исходники функции <a href="http://hg.openjdk.java.net/jdk7/jdk7/hotspot/file/tip/src/share/vm/runtime/synchronizer.cpp"><code>get_next_hash</code></a>.</p>
+</div>
+<div class="paragraph">
+<p>При вычислении хэш-кода для объектов класса <code>Object</code> по умолчанию используется <strong>Park-Miller RNG</strong> алгоритм. В основу работы данного алгоритма положен генератор случайных чисел. Это означает, что при каждом запуске программы у объекта будет разный хэш-код.</p>
+</div>
+<div class="paragraph">
+<p>Получается, что используя реализацию метода <code>hashCode()</code> от класса <code>Object</code>, мы при каждом создании объекта класса new <code>BlackBox()</code>, будем получать разные хеш-коды. Мало того, перезапуская программу, мы будем получать абсолютно разные значения, поскольку это просто случайное число.</p>
+</div>
+<div class="paragraph">
+<p>Но, как мы помним, должно выполняться правило: <em>если у двух объектов одного и того же класса содержимое одинаковое, то и хеш-коды должны быть одинаковые</em>. Поэтому, при создании пользовательского класса, принято переопределять методы <code>hashCode()</code> и <code>equals()</code> таким образом, что бы учитывались поля объекта.
+Это можно сделать вручную либо воспользовавшись средствами генерации исходного кода в <strong>IDE</strong>. Например, в <strong>Eclipse</strong> это <em>Source</em> &#8594; <em>Generate hashCode() and equals()&#8230;&#8203;</em></p>
+</div>
+<div class="paragraph">
+<p>В итоге класс <code>BlackBox</code> приобретает вид:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">public class BlackBox {
+    int varA;
+    int varB;
+
+	BlackBox(int varA, int varB) {
+		this.varA = varA;
+		this.varB = varB;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + varA;
+		result = prime * result + varB;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		BlackBox other = (BlackBox) obj;
+		if (varA != other.varA)
+			return false;
+		if (varB != other.varB)
+			return false;
+		return true;
+	}
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Теперь методы <code>hashCode()</code> и <code>equals()</code> работают корректно и учитывают содержимое полей объекта:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">object1.equals(object2); // true
+object1.hashCode() == object2.hashCode(); // true</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Поэтому создавая пользовательский класс, нужно переопределять методы <code>hashCode()</code> и <code>equals()</code>, что бы они корректно работали и учитывали данные объекта. Кроме того, если оставить реализацию из <code>Object</code>, то при использовании <code>java.util.HashMap</code> возникнут проблемы, поскольку <code>HashMap</code> активно используют <code>hashCode()</code> и <code>equals()</code> в своей работе.</p>
+</div>
 </div>
 <div class="sect2">
 <h3 id="_tostring"><code>toString()</code></h3>
@@ -1107,40 +1474,6 @@ class Person {
 </div>
 </div>
 <div class="sect2">
-<h3 id="_hashcode"><code>hashCode()`</code></h3>
-<div class="paragraph">
-<p>Метод <code>hashCode()</code> позволяет задать некоторое числовое значение, которое будет соответствовать данному объекту или его хэш-код. По данному числу, например, можно сравнивать объекты.</p>
-</div>
-<div class="paragraph">
-<p>Например, выведем представление вышеопределенного объекта:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">Person tom = new Person("Tom");
-System.out.println(tom.hashCode()); // 2036368507</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Но мы можем задать свой алгоритм определения хэш-кода объекта:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">class Person {
-    private String name;
-
-    public Person(String name) {
-        this.name = name;
-    }
-
-    @Override
-    public int hashCode(){
-        return 11 * name.hashCode() + 7;
-    }
-}</code></pre>
-</div>
-</div>
-</div>
-<div class="sect2">
 <h3 id="_getclass"><code>getClass()</code></h3>
 <div class="paragraph">
 <p>Метод <code>getClass()</code> позволяет получить тип данного объекта:</p>
@@ -1150,53 +1483,6 @@ System.out.println(tom.hashCode()); // 2036368507</code></pre>
 <pre class="highlight"><code class="language-java" data-lang="java">Person tom = new Person("Tom");
 System.out.println(tom.getClass()); // class Person</code></pre>
 </div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_equals"><code>equals()</code></h3>
-<div class="paragraph">
-<p>Метод <code>equals()</code> сравнивает два объекта на равенство:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">public class Program {
-    public static void main(String[] args) {
-        Person tom = new Person("Tom");
-        Person bob = new Person("Bob");
-        System.out.println(tom.equals(bob)); // false
-
-        Person tom2 = new Person("Tom");
-        System.out.println(tom.equals(tom2)); // true
-    }
-}
-
-class Person {
-    private String name;
-
-    public Person(String name) {
-        this.name = name;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (obj instanceof Person) {
-            Person p = (Person) obj;
-            return (this.name == p.name);
-        }
-        return false;
-    }
-}</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Метод <code>equals()</code> принимает в качестве параметр объект любого типа, который мы затем приводим к текущему, если они являются объектами одного класса.</p>
-</div>
-<div class="paragraph">
-<p>Оператор <code>instanceof</code> позволяет выяснить, является ли переданный в качестве параметра объект объектом определенного класса, в данном случае класса <code>Person</code>.
-Затем сравниваем по именам. Если они совпадают, возвращаем <code>true</code>, что будет говорить, что объекты равны.</p>
-</div>
-<div class="paragraph">
-<p>Если объекты принадлежат к разным классам, то их сравнение не имеет смысла, и возвращается значение <code>false</code>.</p>
 </div>
 </div>
 </div>
@@ -4492,7 +4778,7 @@ buffer.reset();  //set position back to mark.</code></pre>
 <p>Можно сравнить два буфера, используя <code>equals()</code> и <code>compareTo()</code>.</p>
 </div>
 <div class="sect4">
-<h5 id="_equals_2"><code>equals()</code></h5>
+<h5 id="_equals"><code>equals()</code></h5>
 <div class="paragraph">
 <p>Два буфера равны, если:</p>
 </div>
@@ -5269,7 +5555,7 @@ Hello!</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2021-01-24 04:22:50 UTC
+Last updated 2021-01-24 18:55:43 UTC
 </div>
 </div>
 </body>
