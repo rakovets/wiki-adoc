@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.12">
-<title>Javadoc</title>
+<title>Java NIO</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -440,135 +440,584 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </head>
 <body class="article">
 <div id="header">
-<h1>Javadoc</h1>
+<h1>Java NIO</h1>
 </div>
 <div id="content">
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p>Наибольшая проблема, связанная с документированием кода – поддержка этой документации. Если документация и код разделены, возникают трудности, связанные с необходимостью внесения изменений в соответствующие разделы сопроводительной документации всякий раз при изменении программного кода. Среда разработки предлагает решение – связать код с документацией, поместив всё в один файл.</p>
+<p>Java NIO (New IO) - это альтернативный API для работы с IO в Java (начиная с Java 1.4), это значит альтернативный стандартным Java IO и API Java Networking. Java NIO предлагает другой способ работы с IO, чем стандартный IO API.</p>
 </div>
 <div class="paragraph">
-<p><strong>Javadoc</strong> — генератор документации в HTML-формате из комментариев исходного кода на Java.</p>
+<p><strong>Java NIO: channels и buffers</strong></p>
 </div>
 <div class="paragraph">
-<p>Комментарии документации применяют для документирования:</p>
+<p>В стандартном IO API работают с потоками байт и потоками символов. В NIO работают с каналами и буферами. Данные всегда читаются из канала в буфер или записываются из буфера в канал.</p>
+</div>
+<div class="paragraph">
+<p><strong>Java NIO: non-bloking IO</strong></p>
+</div>
+<div class="paragraph">
+<p>Java NIO позволяет выполнять неблокирующие операции ввода-вывода. Например, поток может попросить канал прочитать данные в буфер. Пока канал читает данные в буфер, поток может делать что-то другое. Как только данные будут считаны в буфер, поток сможет продолжить их обработку. Аналогично и для записи данных в каналы.</p>
+</div>
+<div class="paragraph">
+<p><strong>Java NIO: selectors</strong></p>
+</div>
+<div class="paragraph">
+<p>Java NIO имеет понятие «селекторы». <strong>Селектор</strong> - это объект, который может отслеживать несколько каналов на наличие событий (например: соединение установлено, данные получены и т.д.). Таким образом, один поток может контролировать несколько каналов данных.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_обзор_java_nio">Обзор Java NIO</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><strong>Java NIO</strong> состоит из следующих основных компонентов:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>классов</p>
+<p>каналы</p>
 </li>
 <li>
-<p>интерфейсов</p>
+<p>буферы</p>
 </li>
 <li>
-<p>полей (переменных)</p>
-</li>
-<li>
-<p>конструкторов</p>
-</li>
-<li>
-<p>методов</p>
-</li>
-<li>
-<p>пакетов</p>
+<p>селекторы</p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
-<p>В каждом случае комментарий должен находиться перед документируемым элементом.</p>
+<p>Java NIO имеет не только эти компоненты, но фактически, <code>Channel</code>, <code>Buffer</code> и <code>Selector</code> являются ключевыми классами. Остальные компоненты, такие как <code>Pipe</code> и <code>FileLock</code> являются просто служебными классами, которые используются вместе с тремя основными компонентами.</p>
+</div>
+<div class="sect2">
+<h3 id="_каналы_и_буферы">Каналы и Буферы</h3>
+<div class="paragraph">
+<p>Как правило, все операции ввода-вывода в NIO начинаются с <code>Channel</code>. <code>Channel</code> немного похож на <code>Stream</code>. Из <code>Channel</code> данные можно прочитать в <code>Buffer</code>. Данные также могут быть записаны из <code>Buffer</code> в <code>Channel</code>. :</p>
 </div>
 <div class="paragraph">
-<p>Утилита <strong>javadoc</strong> позволяет вставлять HTML тэги и использовать специальные ярлыки, <strong>дескрипторы</strong> (<strong>descriptor</strong>),  документирования.</p>
+<p><span class="image"><img src="/assets/img/java/core/nio/channels-buffers.png" alt="Java NIO: каналы и буферы"></span></p>
 </div>
 <div class="paragraph">
-<p>НТМL тэги заголовков не используют, чтобы не нарушать стиль файла, сформированного утилитой.</p>
+<p>Есть несколько <code>Channel</code> и <code>Buffer</code> типов. Ниже приведен список основных реализаций <code>Channel</code> в Java NIO:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>FileChannel</code></p>
+</li>
+<li>
+<p><code>DatagramChannel</code></p>
+</li>
+<li>
+<p><code>SocketChannel</code></p>
+</li>
+<li>
+<p><code>ServerSocketChannel</code></p>
+</li>
+</ul>
 </div>
 <div class="paragraph">
-<p><strong>Дескрипторы javadoc</strong>, начинающиеся со знака <code>@,</code> называются автономными и должны помещаться с начала строки комментария (лидирующий символ <code>*</code> игнорируется).</p>
+<p>Эти каналы охватывают сетевой ввод-вывод по протоколам <strong>UDP</strong> и <strong>TCP</strong> и файловый ввод-вывод.</p>
 </div>
 <div class="paragraph">
-<p>Дескрипторы, начинающиеся с фигурной скобки, например <code>{@code}</code>, называются встроенными и могут применяться внутри описания.</p>
+<p>А вот список основных реализаций <code>Buffer</code> в Java NIO:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>ByteBuffer</code></p>
+</li>
+<li>
+<p><code>CharBuffer</code></p>
+</li>
+<li>
+<p><code>DoubleBuffer</code></p>
+</li>
+<li>
+<p><code>FloatBuffer</code></p>
+</li>
+<li>
+<p><code>IntBuffer</code></p>
+</li>
+<li>
+<p><code>LongBuffer</code></p>
+</li>
+<li>
+<p><code>ShortBuffer</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Они <code>Buffer</code> охватывают основные типы данных, которые вы можете отправлять через IO:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>char</code></p>
+</li>
+<li>
+<p><code>byte</code></p>
+</li>
+<li>
+<p><code>short</code></p>
+</li>
+<li>
+<p><code>int</code></p>
+</li>
+<li>
+<p><code>long</code></p>
+</li>
+<li>
+<p><code>float</code></p>
+</li>
+<li>
+<p><code>double</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Java NIO также имеет, <code>MappedByteBuffer</code> который используется для работы с отображением файлов в оперативной памяти.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_селекторы">Селекторы</h3>
+<div class="paragraph">
+<p><code>Selector</code> позволяет одному потоку обрабатывать несколько <code>Channel</code>. Это удобно, если в вашем приложении открыто много соединений (каналов), но каждое соединении имеет небольшой трафик. Например: сервер для чата.</p>
+</div>
+<div class="paragraph">
+<p>Ниже приведенно изображение, того как <code>Thread</code> использует <code>Selector</code> для обработки 3 <code>Channel</code>:</p>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src="/assets/img/java/core/nio/selectors.png" alt="Java NIO: селекторы"></span></p>
+</div>
+<div class="paragraph">
+<p>Чтобы использовать, <code>Selector</code> необходимо зарегистрировать <code>Channel</code> с ним. Для этого используеют вызов метода <code>select()</code>. Этот метод будет заблокирован, пока не произойдет событие для одного из зарегистрированных каналов. Как только метод разблокируется, поток может обработать события. Примерами событий являются: входящее соединение, полученные данные и т.д.</p>
+</div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_список_дескрипторов_javadoc">Список дескрипторов Javadoc</h2>
+<h2 id="_channel"><code>Channel</code></h2>
 <div class="sectionbody">
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
-</colgroup>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Дескриптор</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Описание</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Применим к</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>@author</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Автор</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">класс, интерфейс</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>@version</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Версия (Не более одного дескриптора на класс)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">класс, интерфейс</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>@since</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Указывает, с какой версии доступно</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">класс, интерфейс, поле, метод</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>@see</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Ссылка на другое место в документации</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">класс, интерфейс, поле, метод</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>@param</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Входной параметр метода</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">метод</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>@return</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Описание возвращаемого значения</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">метод</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>@deprecated</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Описание устаревших блоков кода</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">класс, интерфейс, поле, метод</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>{@link reference}</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Ссылка</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">класс, интерфейс, поле, метод</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>{@value}</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Описание значения переменной</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">статичное поле</p></td>
-</tr>
-</tbody>
-</table>
+<div class="paragraph">
+<p>Каналы Java NIO похожи на потоки с некоторыми отличиями:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>можно читать/писать из/в каналы, а потоки обычно односторонние (чтение/запись)</p>
+</li>
+<li>
+<p>каналы могут быть прочитаны/записаны асинхронно</p>
+</li>
+<li>
+<p>каналы всегда читают/записывают из/в буфер</p>
+</li>
+</ul>
+</div>
+<div class="sect2">
+<h3 id="_реализация_channel">Реализация <code>Channel</code></h3>
+<div class="paragraph">
+<p>Вот наиболее важные реализации <code>Channel</code> в Java NIO:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>FileChannel</code> - считывает данные из/в файла</p>
+</li>
+<li>
+<p><code>DatagramChannel</code> - считывает/записывает данные по сети через <strong>UDP</strong></p>
+</li>
+<li>
+<p><code>SocketChannel</code> - считывает/записывает данные по сети через <strong>TCP</strong></p>
+</li>
+<li>
+<p><code>ServerSocketChannel</code> - прослушивает входящие соединения <strong>TCP</strong>, как это делает web-server, т.е. для каждого входящего соединения создается <code>SocketChannel</code>.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_пример_основного_канала">Пример основного канала</h3>
+<div class="paragraph">
+<p>Вот базовый пример, в котором используется <code>FileChannel</code> для чтения некоторых данных в <code>Buffer</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">RandomAccessFile aFile = new RandomAccessFile("data/nio-data.txt", "rw");
+FileChannel inChannel = aFile.getChannel();
+
+ByteBuffer buf = ByteBuffer.allocate(48);
+
+int bytesRead = inChannel.read(buf);
+while (bytesRead != -1) {
+    System.out.println("Read " + bytesRead);
+    buf.flip();
+
+    while(buf.hasRemaining()) {
+        System.out.print((char) buf.get());
+    }
+
+    buf.clear();
+    bytesRead = inChannel.read(buf);
+}
+aFile.close();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Обратите внимание на вызов <code>buf.flip()</code>. Сначала из канала считывают в буфер. Затем буфер переворачивают. После чего считывают из буффера.</p>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_генерация_файлов">Генерация файлов</h2>
+<h2 id="_buffers">Buffers</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Утилита <strong>javadoc</strong> в качестве входных данных принимает файл с исходным кодом программы. Генерирует несколько НТМL файлов, содержащих документацию по этой программе. Информация о каждом классе будет содержаться в отдельном НТМL файле. Кроме того, создается дерево индексов и иерархии. Могут быть сгенерированы и другие НТМL файлы.</p>
+<p>Буферы используются при взаимодействии с каналами.</p>
+</div>
+<div class="paragraph">
+<p>Буфер - это, по сути, блок памяти, в который можно записывать данные, которые затем можно снова прочитать. Этот блок памяти обернут в объект <code>Buffer</code>, который предоставляет набор методов, облегчающих работу с блоком памяти.</p>
+</div>
+<div class="sect2">
+<h3 id="_основное_использование_буфера">Основное использование буфера</h3>
+<div class="paragraph">
+<p>Использование <code>Buffer</code> для чтения и записи данных обычно состоит из четырех шагов:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Записать данные в буфер</p>
+</li>
+<li>
+<p>Вызов метода <code>buffer.flip()</code></p>
+</li>
+<li>
+<p>Чтение данных из буфера</p>
+</li>
+<li>
+<p>Вызов одного из методов <code>buffer.clear()</code> или <code>buffer.compact()</code></p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Когда данные записывают в буфер, буфер отслеживает, сколько данных записано. Когда нужно прочитать данные, тогда нужно переключить буфер из режима записи в режим чтения с помощью вызова метода <code>flip()</code>. В режиме чтения буфер позволяет читать все данные, записанные в буфер.</p>
+</div>
+<div class="paragraph">
+<p>После того, как все данные были прочитаны, необходимо очистить буфер, чтобы он снова был готов к записи. Это можно сделать вызвав один из двух методов:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>clear()</code> - метод очищает весь буфер</p>
+</li>
+<li>
+<p><code>compact()</code> - метод удаляет только те данные, которые уже прочитали. Любые непрочитанные данные перемещаются в начало буфера, и теперь новые данные будут записываться в буфер после непрочитанных данных</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Например:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">RandomAccessFile aFile = new RandomAccessFile("data/nio-data.txt", "rw");
+FileChannel inChannel = aFile.getChannel();
+
+//create buffer with capacity of 48 bytes
+ByteBuffer buf = ByteBuffer.allocate(48);
+
+int bytesRead = inChannel.read(buf); //read into buffer.
+while (bytesRead != -1) {
+    buf.flip();  //make buffer ready for read
+
+    while(buf.hasRemaining()){
+        System.out.print((char) buf.get()); // read 1 byte at a time
+    }
+
+    buf.clear(); //make buffer ready for writing
+    bytesRead = inChannel.read(buf);
+}
+aFile.close();</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_capacity_position_и_limit_для_буфера">Capacity, position и limit для буфера</h3>
+<div class="paragraph">
+<p>У <code>Buffer</code> есть три поля, с которыми нужно ознакомиться, чтобы понять, как <code>Buffer</code> работает:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>capacity</code></p>
+</li>
+<li>
+<p><code>position</code></p>
+</li>
+<li>
+<p><code>limit</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Значение <code>position</code> и <code>limit</code> зависит от того, <code>Buffer</code> находится ли режим чтения или записи. Емкость всегда означает одно и то же, независимо от режима буфера.</p>
+</div>
+<div class="paragraph">
+<p>Вот иллюстрация емкости, положения и ограничения в режимах записи и чтения. Объяснение следует в разделах после иллюстрации.</p>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src="/assets/img/java/core/nio/buffers-modes.png" alt="Java NIO: capacity" width="position" height="limit для буфера в режиме записи и чтения"></span></p>
+</div>
+<div class="sect3">
+<h4 id="_capacity">Capacity</h4>
+<div class="paragraph">
+<p>Будучи блоком памяти, a <code>Buffer</code> имеет определенный фиксированный размер, в который можно записывать только байты, символы и т.д. Когда буфер заполнен, тогда нужно его очистить (прочитать или очистить данные), прежде чем иметь возможность записать в него больше данных.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_position">Position</h4>
+<div class="paragraph">
+<p>Когда данные записываются в <code>Buffer</code>, то это происходит с текущей <code>position</code>. Первоначально позиция равна <code>0</code>. Когда происходит запись одного байта, символа и т.д. в <code>Buffer</code> в текущую <code>position</code>, то она перемещается вперед, чтобы указывать на следующую ячейку в буфере, куда в дальнейшем будут записываться данные. Максимальное значение <code>position</code> может быть <code>capacity - 1</code>.</p>
+</div>
+<div class="paragraph">
+<p>Когда данные из <code>Buffer</code> читаются, то это можно делать с текущей <code>position</code>. Когда <code>Buffer</code> переключается из режима записи в режим чтения, <code>position</code> сбрасывается обратно на <code>0</code>. При чтении данных из <code>Buffer</code>, они читаются с <code>position</code> и значение <code>position</code> изменяется на следующее.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_limit">Limit</h4>
+<div class="paragraph">
+<p>В режиме записи <code>limit</code> для <code>Buffer</code> - это предел того, сколько данных можно записать в буфер. В режиме записи ограничение равно <code>capacity</code> для <code>Buffer</code>.</p>
+</div>
+<div class="paragraph">
+<p>При переключении <code>Buffer</code> в режим чтения, <code>limit</code> означает предел того, сколько данных можно прочитать. Следовательно, при переключении <code>Buffer</code> в режим чтения <code>limit</code> задается равным <code>position</code> в режиме записи. Другими словами, можно прочитать столько байтов, сколько было записано.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_типы_буфера">Типы буфера</h3>
+<div class="paragraph">
+<p>Java NIO содержит следующие типы буферов:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>ByteBuffer</code></p>
+</li>
+<li>
+<p><code>MappedByteBuffer</code></p>
+</li>
+<li>
+<p><code>CharBuffer</code></p>
+</li>
+<li>
+<p><code>DoubleBuffer</code></p>
+</li>
+<li>
+<p><code>FloatBuffer</code></p>
+</li>
+<li>
+<p><code>IntBuffer</code></p>
+</li>
+<li>
+<p><code>LongBuffer</code></p>
+</li>
+<li>
+<p><code>ShortBuffer</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Эти типы <code>Buffer</code> представляют разные типы данных. Другими словами, они позволяют работать с байтами в буфере как <code>char</code>, <code>short</code>, <code>int</code>, <code>long</code>, <code>float</code> или <code>double</code>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_создание_буфера">Создание буфера</h3>
+<div class="paragraph">
+<p>У каждого <code>Buffer</code> класса есть <code>allocate()</code> метод, который создает объект <code>Buffer</code>. Например, создание <code>ByteBuffer</code> с <code>capacity</code> 48 байт:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">ByteBuffer buf = ByteBuffer.allocate(48);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Например, создание <code>CharBuffer</code> с <code>capacity</code> для размещения 1024 символов:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">CharBuffer buf = CharBuffer.allocate(1024);</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_запись_данных_в_буфер">Запись данных в буфер</h3>
+<div class="paragraph">
+<p>Данные в буфер можно записать двумя способами:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>из <code>Channel</code> в <code>Buffer</code></p>
+</li>
+<li>
+<p>используя <code>put()</code> методы класса <code>Buffer</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Пример, как с помощью <code>Channel</code> можно записывать данные в <code>Buffer</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">int bytesRead = inChannel.read(buf); // read into buffer</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Пример, как с помощью метода <code>put()</code> класса <code>Buffer</code> можно записывать данные в него:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">buf.put (127);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Существует много других версий метода <code>put()</code>, позволяющих записывать данные в <code>Buffer</code> различными способами. Например, запись в определенные позиции или запись массива байтов в буфер. Все это, можно посмотреть в <strong>JavaDoc</strong> для конкретной реализации буфера.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_flip"><code>flip()</code></h3>
+<div class="paragraph">
+<p>Метод <code>flip()</code> переключает <code>Buffer</code> из режима записи в режиме чтения. Вызов метода <code>flip()</code> устанавливает <code>position</code> обратно в <code>0</code> и устанавливает <code>limit</code> значение недавного <code>position</code>.</p>
+</div>
+<div class="paragraph">
+<p>Другими словами, <code>position</code> теперь указывает на позицию чтения, а  <code>limit</code> показывает, сколько байт, символов и т.д. было записано в буфер.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_чтение_данных_из_буфера">Чтение данных из буфера</h3>
+<div class="paragraph">
+<p>Есть два способа чтения данных из <code>Buffer</code>.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>из <code>Buffer</code> в <code>Channel</code></p>
+</li>
+<li>
+<p>используя <code>get()</code> методы класса <code>Buffer</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Пример, как с помощью <code>Channel</code> можно читать данные из <code>Buffer</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">//read from buffer into channel.
+int bytesWritten = inChannel.write(buf);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Пример, как с помощью метода <code>get()</code> класса <code>Buffer</code> можно читать данные из него:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">byte aByte = buf.get();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Существует много других версий метода <code>get()</code>, позволяющих считывать данные из <code>Buffer</code> различными способами. Например, чтение из определенных позиций или чтение массива байт из буфера. Все это, можно посмотреть в <strong>JavaDoc</strong> для конкретной реализации буфера.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_rewind"><code>rewind()</code></h3>
+<div class="paragraph">
+<p><code>Buffer.rewind()</code> устанавливает в <code>position</code> значение <code>0</code>, так что можно было перечитать все данные в буфере. При этом <code>limit</code> не изменяется.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_clear_и_compact"><code>clear()</code> и <code>compact()</code></h3>
+<div class="paragraph">
+<p>После прочтения данных из <code>Buffer</code>, его необходимо снова подготовиться к записи. Это можно сделать, вызвав методы <code>clear()</code> или <code>compact()</code>.</p>
+</div>
+<div class="paragraph">
+<p>Если вызвать метод <code>clear()</code>, то <code>limit</code> станет равен значению <code>capacity</code>, a <code>position</code> станет <code>0</code>. Другими словами, <code>Buffer</code> очищается, но данные из него не удалены.</p>
+</div>
+<div class="paragraph">
+<p>Если в момент вызова <code>clear()</code> были непрочитанные данные, то нельзя больше установить какие из них были прочитаны, а какие нет.</p>
+</div>
+<div class="paragraph">
+<p>Если в <code>Buffer</code> все еще есть непрочитанные данные, и их необходимо прочитать позже, но перед этим нужно что-то еще записать в <code>Buffer</code>, тогда используют <code>compact()</code> вместо <code>clear()</code>.</p>
+</div>
+<div class="paragraph">
+<p>Метод <code>compact()</code> копирует все непрочитанные данные в начало <code>Buffer</code>, а затем <code>position</code> устанавливается  сразу после последнего непрочитанного элемента. Для <code>limit</code> задается значение <code>capacity</code>, так же, как и для <code>clear()</code>. Теперь <code>Buffer</code> готов к записи и непрочитанные данные не будет перезаписываться.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_mark_и_reset"><code>mark()</code> и <code>reset()</code></h3>
+<div class="paragraph">
+<p>Можно пометить данную позицию в <code>Buffer</code>, вызвав метод <code>Buffer.mark()</code>. Затем можно сбросить <code>position</code> обратно в помеченную позицию, вызвав метод <code>Buffer.reset()</code>. Вот пример:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">buffer.mark();
+//call buffer.get() a couple of times, e.g. during parsing.
+buffer.reset();  //set position back to mark.</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_equals_и_compareto"><code>equals()</code> и <code>compareTo()</code></h3>
+<div class="paragraph">
+<p>Можно сравнить два буфера, используя <code>equals()</code> и <code>compareTo()</code>.</p>
+</div>
+<div class="sect3">
+<h4 id="_equals"><code>equals()</code></h4>
+<div class="paragraph">
+<p>Два буфера равны, если:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Они одного типа (байт, символ, int и т. Д.)</p>
+</li>
+<li>
+<p>Они имеют одинаковое количество оставшихся байтов, символов и т. Д. В буфере.</p>
+</li>
+<li>
+<p>Все остальные байты, символы и т. Д. Равны.</p>
+</li>
+<li>
+<p>Как вы можете видеть, функция equals сравнивает только часть `Buffer, а не каждый отдельный элемент. На самом деле, он просто сравнивает остальные элементы в `Buffer.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_compareto"><code>compareTo()</code></h4>
+<div class="paragraph">
+<p>Метод <code>compareTo()</code> сравнивает остальные элементы (байты, символы и т.д.) из двух буферов, для использования, например, в подпрограммах сортировки. Буфер считается «меньшим», чем другой буфер, если:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>найден элемент, который отличается от соответствующего элемента из другого буфера, и он меньше его</p>
+</li>
+<li>
+<p>все элементы равны, но в первом буфере количество элементов меньше, чем во втором</p>
+</li>
+</ul>
+</div>
+</div>
 </div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2021-01-23 07:51:57 UTC
+Last updated 2021-01-24 04:22:50 UTC
 </div>
 </div>
 </body>

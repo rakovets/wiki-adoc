@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.12">
-<title>Классы-оболочки</title>
+<title>Reflection</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -440,129 +440,161 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </head>
 <body class="article">
 <div id="header">
-<h1>Классы-оболочки</h1>
+<h1>Reflection</h1>
 </div>
 <div id="content">
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p>Очень часто необходимо создать класс, основное назначение которого содержать в себе какое-то примитивное значение. Например, как мы увидим в следующих занятиях, обобщенные классы и в частности коллекции работают только с объектами. Поэтому, чтобы каждый разработчик не изобретал велосипед, в Java уже добавлены такие классы, которые называются <strong>оболочки типов</strong> (<strong>классы обертки</strong>, <strong>wrappers</strong>).</p>
+<p><strong>Рефлексия</strong> (от reflexio - обращение назад) - это механизм исследования данных о программе во время её выполнения. Рефлексия в Java осуществляется с помощью <strong>Java Reflection API</strong>, состоящий из классов пакетов <code>java.lang</code> и <code>java.lang.reflect</code>. В информатике рефлексия означает процесс, во время которого программа может отслеживать и модифицировать собственную структуру и поведение во время выполнения.</p>
 </div>
 <div class="paragraph">
-<p>К оболочкам типов относятся классы <code>Double</code>, <code>Float</code>, <code>Long</code>, <code>Integer</code>, <code>Short</code>, <code>Byte</code>, <code>Character</code>, <code>Boolean</code>, <code>Void</code>. Для каждого примитивного значения и ключевого слова <code>void</code> есть свой класс-двойник. Имя класса, как вы видите, совпадает с именем примитивного значения. Исключения составляют класс <code>Integer</code> (примитивный тип <code>int</code>) и класс <code>Character</code> (примитивный тип <code>char</code>). Кроме содержания в себе значения, классы оболочки предоставляют обширный ряд методов.</p>
-</div>
-<div class="paragraph">
-<p>Объекты классов оболочек <strong>неизменяемые</strong> (<strong>immutable</strong>). Это значит, что объект не может быть изменен.</p>
-</div>
-<div class="paragraph">
-<p>Все классы-обертки числовых типов имеют переопределенный метод <code>equals(Object)</code>, сравнивающий примитивные значения объектов.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_конструкторы_оболочек">Конструкторы оболочек</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>В следующей таблицы для каждого класса оболочки указан соответствующий примитивный тип и варианты конструкторов.</p>
-</div>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
-</colgroup>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Примитивный тип</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Оболочка</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Аргументы конструктора</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">boolean or String</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">byte</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Byte</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">byte or String</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">char</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Character</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">char</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">double</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Double</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">double or String</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">float</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Float</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">float, double, or String</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">int</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">int or String</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">long</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Long</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">long or String</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">short</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Short</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">short or String</p></td>
-</tr>
-</tbody>
-</table>
-<div class="paragraph">
-<p>Как вы видите каждый класс имеет два конструктора, которые принимаю значения типа:</p>
+<p><strong>Java Reflection API</strong> позволяет получать информацию о конструкторах, методах и полях классов и выполнять следующие операции над полями и методами объекта/класса:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>соответствующего примитива</p>
+<p>определение класса объекта</p>
 </li>
 <li>
-<p><code>String</code></p>
+<p>получение информации о полях, методах, конструкторах и суперклассах</p>
+</li>
+<li>
+<p>получение информации о модификаторах полей и методов</p>
+</li>
+<li>
+<p>создание экземпляра класса, имя которого неизвестно до момента выполнения программы</p>
+</li>
+<li>
+<p>определение и изменение значений свойств объекта/класса</p>
+</li>
+<li>
+<p>вызов методов объекта/класса</p>
 </li>
 </ul>
 </div>
+<div class="quoteblock">
+<blockquote>
 <div class="paragraph">
-<p>Исключения: класс <code>Character</code>, у которого только один конструктор с аргументом <code>char</code> и класс <code>Float</code>, объявляющий три конструктора - для значения <code>float</code>, <code>String</code> и еще <code>double</code>.</p>
+<p>В исходном коде используется объект/класс. При работе с объектом (реализацией класса) можно обращаться к полям и методам класса напрямую, если они доступны (не private). При работе с классом можно обращаться к методам класса с использованием Java Reflection API. Но класс необходимо получить из объекта.</p>
 </div>
+</blockquote>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_определение_свойств_класса">Определение свойств класса</h2>
+<div class="sectionbody">
 <div class="paragraph">
-<p>Рассмотрим варианты вызова конструкторов на примере. Чтобы создать объект класса <code>Integer</code>, передаем в конструктор либо значение типа <code>int</code> либо <code>String</code>.</p>
+<p>В работающем приложении для получения класса необходимо использовать метод <code>forName(String className)</code>. Следующий код демонстрирует возможность создания класса без использования и с использованием Reflection :</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">Integer i1 = new Integer(42);
-Integer i2 = new Integer("42");
+<pre class="highlight"><code class="language-java" data-lang="java">// Без использования Reflection
+Foo foo = new Foo();
 
-Float f1 = new Float(3.14f);
-Float f2 = new Float("3.14f");
+// С использованием Reflection
+Class foo = Class.forName("Foo");
 
-Character c1 = new Character('c');</code></pre>
+// Загрузка JDBC-драйвера
+Class.forName("com.mysql.jdbc.Driver");</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Если передаваемая в конструктор строка не содержит числового значения, то выбросится исключение <code>NumberFormatException</code>.</p>
+<p>Метод класса <code>forName(className)</code> часто используется для загрузки JDBC-драйвера.</p>
 </div>
 <div class="paragraph">
-<p>При вызове конструктора с аргументом <code>String</code> класса <code>Boolean</code>, не обязательно передавать строки <code>true</code> или <code>false</code>. Если аргумент содержит любую другую строку, просто будет создан объект, содержащий значение <code>false</code>. Исключение выброшено не будет:</p>
+<p>Методом <code>getName()</code> объекта <code>Class</code> можно получить наименование класса, включающего пакет (<code>package</code>) :</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">public class WrapperDemo1 {
-    public static void main(String[] args) {
-        Boolean boolean1 = new Boolean(true);
-        Boolean boolean2 = new Boolean("Some String");
+<pre class="highlight"><code class="language-java" data-lang="java">Class aclass = foo.getClass();
+System.out.println (aclass.getName());</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Для получения значения модификатора класса используется метод <code>getModifiers()</code>. Класс <code>java.lang.reflect.Modifier</code> содержит статические методы, возвращающие логическое значения проверки модификатора класса :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">Class cls = foo.getClass();
+int mods = cls.getModifiers();
+if (Modifier.isPublic(mods)) {
+    System.out.println("public");
+}
+if (Modifier.isAbstract(mods)) {
+    System.out.println("abstract");
+}
+if (Modifier.isFinal(mods))    {
+    System.out.println("final");
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Для получения суперкласса рефлексированного объекта (класса) необходимо использовать метод <code>getSuperclass()</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">Class cls = foo.getClass();
+Class superCls = cls.getSuperClass();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Поскольку в Java отсутствует множественное наследование, то для получения всех предков следует рекурсивно вызвать метод <code>getSuperclass()</code> в цикле, пока не будет достигнут <code>Object</code>, являющийся родителем всех классов. <code>Object</code> не имеет родителей, поэтому вызов его метода <code>getSuperclass()</code> вернет <code>null</code>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_определение_интерфейсов_и_конструкторов_класса">Определение интерфейсов и конструкторов класса</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Для получения в режиме <strong>runtime</strong> списка реализующих классом интерфейсов, необходимо получить <code>Class</code> и использовать его метод <code>getInterfaces()</code>. В следующем примере извлекается список интерфейсов класса <code>ArrayList</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">Class&lt;?&gt;   cls = ArrayList.class;
+Class&lt;?&gt;[] ifs = cls.getInterfaces();
 
-        System.out.println(boolean2);
+System.out.println("List of interfaces\n");
+for(Class&lt;?&gt; ifc : ifs) {
+    System.out.println (ifc.getName());
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Чтобы IDE не предупреждала о необходимости определения типа класса</p>
+</div>
+<div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p>Class is a raw type. References to generic type Class&lt;T&gt; should be parameterized</p>
+</div>
+</blockquote>
+</div>
+<div class="paragraph">
+<p>в коде были использованы <strong>generic</strong>. В консоль выводятся следующие интерфейсы, реализуемые классом <code>ArrayList</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-out" data-lang="out">List of interfaces
+
+java.util.List
+java.util.RandomAccess
+java.lang.Cloneable
+java.io.Serializable</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Метод класса <code>getConstructors()</code> позволяет получить массив открытых конструкторов типа <code>java.lang.reflect.Constructor</code>. После этого, можно извлекать информацию о типах параметров конструктора и генерируемых исключениях:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">Class&lt;?&gt; cls = obj.getClass();
+Constructor[] constructors = cls.getConstructors();
+for (Constructor constructor : constructors) {
+    Class&lt;?&gt;[] params = constructor.getParameterTypes();
+    for (Class&lt;?&gt; param : params) {
+        System.out.println(param.getName());
     }
 }</code></pre>
 </div>
@@ -570,200 +602,385 @@ Character c1 = new Character('c');</code></pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_методы_классов_оболочек">Методы классов оболочек</h2>
+<h2 id="_определение_полей_класса">Определение полей класса</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Как уже было сказано, классы оболочки содержат обширный ряд методов. Рассмотрим их.</p>
-</div>
-<div class="sect2">
-<h3 id="_методы_valueof">Методы <code>valueOf()</code></h3>
-<div class="paragraph">
-<p>Метод <code>valueOf()</code> предоставляет второй способ создания объектов оболочек. Метод перегруженный, для каждого класса существует два варианта - один принимает на вход значение соответствующего типа, а второй - значение типа <code>String</code>. Так же как и с конструкторами, передаваемая строка должна содержать числовое значение. Исключение составляет опять же класс <code>Character</code> - в нем объявлен только один метод, принимающий на вход значение <code>char</code>.</p>
-</div>
-<div class="paragraph">
-<p>И в целочисленные классы <code>Byte</code>, <code>Short</code>, <code>Integer</code>, <code>Long</code> добавлен еще один метод, в который можно передать строку, содержащую число в любой системе исчисления. Вторым параметром вы указываете саму систему исчисления.</p>
-</div>
-<div class="paragraph">
-<p>В следующем примере показано использование всех трех вариантов для создания объектов класса <code>Integer</code>:</p>
+<p>Метод <code>getFields()</code> объекта <code>Class</code> возвращает массив открытых полей типа <code>java.lang.reflect.Field</code>, которые могут быть определены не только в данном классе, но также и в его родителях (суперклассе), либо интерфейсах, реализованных классом или его родителями. Класс <code>Field</code> позволяет получить имя поля, тип и модификаторы :</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">public class WrapperValueOf {
-    public static void main(String[] args) {
-        Integer integer1 = Integer.valueOf("6");
-        Integer integer2 = Integer.valueOf(6);
-        // преобразовывает 101011 к 43
-        Integer integer3 = Integer.valueOf("101011", 2);
-
-        System.out.println(integer1);
-        System.out.println(integer2);
-        System.out.println(integer3);
-    }
-}</code></pre>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_методы_parse">Методы <code>parse()</code></h3>
-<div class="paragraph">
-<p>В каждом классе оболочке содержатся методы, позволяющие преобразовывать строку в соответствующее примитивное значение. В классе <code>Double</code> - это метод <code>parseDouble()</code>, в классе <code>Long</code> - <code>parseLong()</code> и так далее. Разница с методом <code>valueOf()</code> состоит в том, что метод <code>valueOf()</code> возвращает объект, а <code>parse()</code> - примитивное значение.</p>
-</div>
-<div class="paragraph">
-<p>Также в целочисленные классы <code>Byte</code>, <code>Short</code>, <code>Integer</code>, <code>Long</code> добавлен метод, в который можно передать строку, содержащую число в любой системе исчисления. Вторым параметром вы указываете саму систему исчисления. Следующий пример показывает использование метода <code>parseLong()</code>:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">public class WrapperDemo3 {
-    public static void main(String[] args) {
-        Long long1 = Long.valueOf("45");
-        long long2 = Long.parseLong("67");
-        long long3 = Long.parseLong("101010", 2);
-
-        System.out.println("long1 = " + long1);
-        System.out.println("long2 = " + long2);
-        System.out.println("long3 = " + long3);
-    }
-}</code></pre>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_методы_tostring">Методы <code>toString()</code></h3>
-<div class="paragraph">
-<p>Все типы-оболочки переопределяют <code>toString()</code>. Этот метод возвращает читабельную для человека форму значения, содержащегося в оболочке. Это позволяет выводить значение, передавая объект оболочки типа методу <code>println()</code>:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">Double double1 = Double.valueOf("4.6");
-System.out.println(double1);​</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Также все числовые оболочки типов предоставляют статический метод <code>toString()</code>, на вход которого передается примитивное значение. Метод возвращает значение <code>String</code>:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">String string1 = Double.toString(3.14);</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p><code>Integer</code> и <code>Long</code> предоставляют третий вариант <code>toString()</code> метода, позволяющий представить число в любой системе исчисления. Он статический, первый аргумент – примитивный тип, второй - основание системы счисления:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">String string2 = Long.toString(254, 16); // string2 = "fe"​</code></pre>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_методы_tohexstring_tooctalstring_tobinarystring">Методы <code>toHexString()</code>, <code>toOctalString()</code>, <code>toBinaryString()</code></h3>
-<div class="paragraph">
-<p><code>Integer</code> и <code>Long</code> позволяют преобразовывать числа из десятичной системы исчисления к шестнадцатеричной, восьмеричной и двоичной. Например:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">public class WrapperToXString {
-    public static void main(String[] args) {
-        String string1 = Integer.toHexString(254);
-        System.out.println("254 в 16-ой системе = " + string1);
-
-        String string2 = Long.toOctalString(254);
-        System.out.println("254 в  8-ой системе = " + string2);
-
-        String string3 = Long.toBinaryString(254);
-        System.out.println("254 в  2-ой системе = " + string3);
-    }
+<pre class="highlight"><code class="language-java" data-lang="java">Class&lt;?&gt; cls = obj.getClass();
+Field[] fields = cls.getFields();
+for (Field field : fields) {
+    Class&lt;?&gt; fld = field.getType();
+    System.out.println("Class name : " + field.getName());
+    System.out.println("Class type : " + fld.getName());
 }</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>В классы <code>Double</code> и <code>Float</code> добавлен только метод <code>toHexString()</code>.</p>
+<p>Если известно наименование поля, то можно получить о нем информацию с помощью метода <code>getField()</code> объекта <code>Class</code>.</p>
 </div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">Class&lt;?&gt; cls = obj.getClass();
+Field fld = cls.getField("fieldName");</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Методы <code>getField()</code> и <code>getFields()</code> возвращают только открытые члены данных класса. Чтобы получить все поля класса, включая закрытые и защищенные, необходимо использовать методы <code>getDeclaredField()</code> и <code>getDeclaredFields()</code>. Данные методы работают точно так же, как и их аналоги <code>getField()</code> и <code>getFields()</code>.</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_класс_number">Класс <code>Number</code></h2>
+<h2 id="_определение_значений_полей_класса">Определение значений полей класса</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Все оболочки числовых типов наследуют абстрактный класс <code>Number</code>. <code>Number</code> объявляет методы, которые возвращают значение объекта в каждом из различных числовых форматов.</p>
-</div>
-<div class="paragraph">
-<p><span class="image"><img src="/assets/img/java/core/mics/wrapper-classes.png" alt="Класс Number"></span></p>
-</div>
-<div class="paragraph">
-<p>Пример приведения типов</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">public class WrapperDemo2 {
-    public static void main(String[] args) {
-        Integer iOb = new Integer(1000);
-        System.out.println(iOb.byteValue());
-        System.out.println(iOb.shortValue());
-        System.out.println(iOb.intValue());
-        System.out.println(iOb.longValue());
-        System.out.println(iOb.floatValue());
-        System.out.println(iOb.doubleValue());
-    }
-}</code></pre>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_статические_константы_классов_оболочек">Статические константы классов оболочек</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Каждый класс оболочка содержит статические константы, содержащие максимальное и минимальное значения для данного типа.</p>
-</div>
-<div class="paragraph">
-<p>Например в классе <code>Integer</code> есть константы <code>Integer.MIN_VALUE</code> – минимальное <code>int</code> значение и <code>Integer.MAX_VALUE</code> – максимальное <code>int</code> значение.</p>
-</div>
-<div class="paragraph">
-<p>Классы-обертки числовых типов <code>Float</code> и <code>Double</code>, помимо описанного для целочисленных примитивных типов, дополнительно содержат определения следующих констант:</p>
+<p>Класс <code>Field</code> содержит специализированные методы для получения значений примитивных типов:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p><code>NEGATIVE_INFINITY</code> – отрицательная бесконечность</p>
+<p><code>getInt()</code></p>
 </li>
 <li>
-<p><code>POSITIVE_INFINITY</code> – положительная бесконечность</p>
+<p><code>getFloat()</code></p>
 </li>
 <li>
-<p><code>NaN</code> – не числовое значение (расшифровывается как <strong>Not a Number</strong>)</p>
+<p><code>getByte()</code></p>
+</li>
+<li>
+<p>&#8230;&#8203;</p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
-<p>Следующий пример демонстрирует использование трех последних переменных. При делении на ноль возникает ошибка - на ноль делить нельзя. Чтобы этого не происходило, и ввели переменные <code>NEGATIVE_INFINITY</code> и <code>POSITIVE_INFINITY</code>. Результат умножения бесконечности на ноль - это значение <code>NaN</code>:</p>
+<p>Для установки значения поля, используется метод <code>set()</code>. Для примитивных типов имеются методы:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>setInt()</code></p>
+</li>
+<li>
+<p><code>setFloat()</code></p>
+</li>
+<li>
+<p><code>setByte()</code></p>
+</li>
+<li>
+<p>&#8230;&#8203;</p>
+</li>
+</ul>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">public class InfinityDemo {
-    public static void main(String[] args) {
-        int a = 7;
-        double b = 0.0;
-        double c = -0.0;
-        double g = Double.NEGATIVE_INFINITY;
-        System.out.println("7 / 0.0 = " + a / b);
-        System.out.println("7 / -0.0 = " + a / c);
-        System.out.println("0.0 == -0.0 = " + (b == c));
-        System.out.println("-Infinity * 0 = " + g * 0);
+<pre class="highlight"><code class="language-java" data-lang="java">Class&lt;?&gt; cls = obj.getClass();
+Field field = cls.getField("fieldName");
+
+String value = (String) field.get(obj);
+field.set(obj, "New value");</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Ниже приведен пример изменения значения закрытого поля класса в runtime.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_определение_методов_класса">Определение методов класса</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Метод <code>getMethods()</code> объекта <code>Class</code> возвращает массив открытых методов типа <code>java.lang.reflect.Method</code>. Эти методы могут быть определены не только в классе, но также и в его родителях (суперклассе), либо интерфейсах, реализованных классом или его родителями. Класс <code>Method</code> позволяет получить имя метода, тип возвращаемого им значения, типы параметров метода, модификаторы и генерируемые исключения.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">Class&lt;?&gt; cls = obj.getClass();
+Method[] methods = cls.getMethods();
+for (Method method : methods) {
+    System.out.println("Method name : " + method.getName());
+    System.out.println("Return type : " + method.getReturnType().getName());
+
+    Class&lt;?&gt;[] params = method.getParameterTypes();
+    System.out.print("Parameters : ");
+    for (Class&lt;?&gt; paramType : params) {
+        System.out.print(" " + paramType.getName());
+    }
+    System.out.println();
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Если известно имя метода и типы его параметров, то можно получить отдельный метод класса :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">Class&lt;?&gt; cls = obj.getClass();
+Class[] params = new Class[] {Integer.class, String.class};
+
+Method method = cls.getMethod("methodName", params);</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_пример_изменения_значения_закрытого_поля_класса">Пример изменения значения закрытого поля класса</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Чтобы изменить значение закрытого (<code>private</code>) поля класса необходимо получить это поле методом <code>getDeclaredField()</code> и вызвать метод <code>setAccessible(true)</code> объекта <code>Field</code>, чтобы открыть доступ к полю. После этого значение закрытого поля можно изменять, если оно не <code>final</code>. В следующем примере определен внутренний класс <code>PrivateFinalFields</code> с набором закрытых полей; одно из полей <code>final</code>. При создании объекта класса поля инициализируются. В методе <code>main()</code> примера поочередно в закрытые поля вносятся изменения и свойства объекта выводятся в консоль.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">import java.lang.reflect.Field;
+
+class PrivateFinalFields {
+    private final String s  = "String S";
+    private int i  = 1;
+    private String s2 = "String S2";
+
+    public String toString() {
+        return "i = " + i + ", " + s + ", " + s2;
+    }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">public class ModifyngPrivateFields {
+    public static void main(String[] args) throws Exception {
+        PrivateFinalFields pf = new PrivateFinalFields();
+
+        Field f = pf.getClass().getDeclaredField("i");
+        f.setAccessible(true);
+        f.setInt(pf, 47);
+        System.out.println("1. " + pf);
+
+        f = pf.getClass().getDeclaredField("s");
+        f.setAccessible(true);
+        f.set(pf, "MODIFY S");
+        System.out.println("2. " + pf);
+
+        f = pf.getClass().getDeclaredField("s2");
+        f.setAccessible(true);
+        f.set(pf, "MODIFY S2");
+
+        f = pf.getClass().getDeclaredField("i");
+        f.setAccessible(true);
+        f.setInt(pf, 35);
+        System.out.println("3. " + pf);
     }
 }</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Результат выполнения кода:</p>
+<p>В результате выполнения примера в консоль будут выведены следующие сообщения :</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-out" data-lang="out">7 / 0.0 = Infinity
-7 / -0.0 = -Infinity
-0.0 == -0.0 =  true
--Infinity * 0 = NaN</code></pre>
+<pre class="highlight"><code class="language-out" data-lang="out">1. i = 47, String S, String S2
+2. i = 47, String S, String S2
+3. i = 35, String S, MODIFY S2</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Из приведённого примера видно что поля <code>private</code> можно изменять. Для этого необходимо получить объект типа <code>java.lang.reflect.Field</code> с помощью метода <code>getDeclaredField()</code>, вызвать его метод <code>setAccessible(true)</code> и с помощью метода <code>set()</code> установить требуемое значение поля. Необходимо иметь в виду, что наличие модификатора <code>final</code> в закрытом текстовом поле не вызывает исключений при изменении значений, а само значение поля остаётся прежним, т.е. <code>final</code> поля остаются неизменные. Если не вызвать метод открытия доступа к полю <code>setAccessible(true)</code>, то будет вызвано исключение <code>java.lang.IllegalAccessException</code>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_пример_вызова_метода_invoke">Пример вызова метода <code>invoke()</code></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><strong>Java Reflection Api</strong> позволяет вызвать метод класса. Рассмотрим пример, в котором определим класс <code>Reflect</code>, включающий поля и методы управления ими. В runtime с помощью метода данного класса будем изменять значения полей и распечатывать их.</p>
+</div>
+<div class="paragraph">
+<p>Класс <code>Reflect</code> включает два закрытых поля <code>id</code>, <code>name</code> и методы управления их значениями <strong>set/get</strong>. Дополнительно в класс включим метод <code>setData()</code>, который будем вызывать для изменения значений полей, и метод <code>toString()</code> для печати их значений.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">class Reflect {
+    private String name;
+    private int id;
+
+    Reflect() {
+        this.name = "Test";
+        this.id = 999;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setData(final int id, String name) {
+        this.id   = id;
+        this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return "Reflect [ id : " + id + ", name : " + name + "]";
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Для тестирования объекта типа <code>Reflect</code> с помощью <strong>Java Reflection Api</strong> создадим класс <code>ReflectionTest</code>. В этот класс включим два метода <code>getClassFields()</code> и <code>getClassMethods()</code>, которые в <strong>runtime</strong> распечатают всю информацию (описание полей и методов) о классе. Методы получают класс в качестве параметра. В процедурах сначала определяются массивы полей и методы; после этого их параметры распечатываются :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">private void getClassFields(Class&lt;?&gt; cls) {
+    Field[] fields = cls.getDeclaredFields();
+    System.out.println("Class fields");
+    for (Field field : fields) {
+        Class&lt;?&gt; fld = field.getType();
+        System.out.println("Class name : " + field.getName());
+        System.out.println("Class type : " + fld.getName());
+    }
+}
+
+private void getClassMethods(Class&lt;?&gt; cls) {
+    Method[] methods = cls.getDeclaredMethods();
+    System.out.println("Class methods");
+    for (Method method : methods) {
+        System.out.println("Method name : " + method.getName());
+        System.out.println("Return type : " + method.getReturnType().getName());
+        Class&lt;?&gt;[] params = method.getParameterTypes();
+        System.out.print("Parameters : ");
+        for (Class&lt;?&gt; param : params) {
+            System.out.print(" " + param.getName());
+        }
+        System.out.println();
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>В конструкторе класса <code>ReflectionTest</code> сначала вызываются процедуры определения полей и методов объекта/класса <code>Reflect</code>. После этого вызываются методы изменения значений и печати значений с использованием <strong>Reflection API</strong>. Для определения метода <code>setData()</code> используется массив типов параметров. Вызов метода <code>setData()</code> выполняется с передачей ему массива новых значений.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">public class ReflectionTest {
+    static Reflect reflect;
+
+    public ReflectionTest() {
+        getClassFields(reflect.getClass());
+        getClassMethods(reflect.getClass());
+
+        Class&lt;?&gt; cls = reflect.getClass();
+        try {
+            System.out.println("\n1. invoke method toString()\n");
+
+            Method method = cls.getMethod("toString");
+            System.out.println(method.invoke(reflect));
+
+            Class&lt;?&gt;[] paramTypes;
+            Object  [] args;
+
+            paramTypes = new Class[] {int.class, String.class};
+            method = cls.getMethod("setData", paramTypes);
+
+            args = new Object[]{(int)123,new String("New value")};
+            method.invoke(reflect, args);
+
+            System.out.println("\n2. invoke method toString()\n");
+            method = cls.getMethod("toString");
+            System.out.println(method.invoke(reflect));
+
+        } catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+            System.out.println(e);
+        }
+    }
+
+    private void getClassFields(Class&lt;?&gt; cls) {
+        Field[] fields = cls.getDeclaredFields();
+        System.out.println("Class fields");
+        for (Field field : fields) {
+            Class&lt;?&gt; fld = field.getType();
+            System.out.println("Class name : " + field.getName());
+            System.out.println("Class type : " + fld.getName());
+        }
+    }
+
+    private void getClassMethods(Class&lt;?&gt; cls) {
+        Method[] methods = cls.getDeclaredMethods();
+        System.out.println("Class methods");
+        for (Method method : methods) {
+            System.out.println("Method name : " + method.getName());
+            System.out.println("Return type : " + method.getReturnType().getName());
+            Class&lt;?&gt;[] params = method.getParameterTypes();
+            System.out.print("Parameters : ");
+            for (Class&lt;?&gt; param : params) {
+                System.out.print(" " + param.getName());
+            }
+            System.out.println();
+        }
+    }
+
+    public static void main(String[] args) {
+        this.reflect = new Reflect();
+        new ReflectionTest();
+        System.exit(0);
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>В результате выполнения примера в консоль будут выведены представленные ниже сообщения. Методы <code>setData()</code> и <code>toString()</code>, вызываемые с помощью <strong>Java Reflection API</strong>, вносят измнения в закрытые поля класса и распечатываются их значения.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-out" data-lang="out">Class fields
+
+Class name : name
+Class type : java.lang.String
+Class name : id
+Class type : int
+
+Class methods
+
+Method name : toString
+Return type : java.lang.String
+Parameters  :
+
+Method name : getId
+Return type : int
+Parameters  :
+
+Method name : setId
+Return type : void
+Parameters :  int
+
+Method name : getName
+Return type : java.lang.String
+Parameters  :
+
+Method name : setName
+Return type : void
+Parameters :  java.lang.String
+
+Method name : setData
+Return type : void
+Parameters :  int java.lang.String
+
+1. invoke method toString()
+
+Reflect [ id : 999, name : Test]
+
+2. invoke method toString()
+
+Reflect [ id : 123, name : New value]</code></pre>
 </div>
 </div>
 </div>
@@ -771,7 +988,7 @@ System.out.println(double1);​</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2021-01-23 07:51:57 UTC
+Last updated 2021-01-24 04:22:50 UTC
 </div>
 </div>
 </body>

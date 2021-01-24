@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.12">
-<title>Reflection</title>
+<title>Перегрузка с дополнительными факторами (since version 5)</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -440,555 +440,223 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </head>
 <body class="article">
 <div id="header">
-<h1>Reflection</h1>
+<h1>Перегрузка с дополнительными факторами (since version 5)</h1>
 </div>
 <div id="content">
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p><strong>Рефлексия</strong> (от reflexio - обращение назад) - это механизм исследования данных о программе во время её выполнения. Рефлексия в Java осуществляется с помощью <strong>Java Reflection API</strong>, состоящий из классов пакетов <code>java.lang</code> и <code>java.lang.reflect</code>. В информатике рефлексия означает процесс, во время которого программа может отслеживать и модифицировать собственную структуру и поведение во время выполнения.</p>
-</div>
-<div class="paragraph">
-<p><strong>Java Reflection API</strong> позволяет получать информацию о конструкторах, методах и полях классов и выполнять следующие операции над полями и методами объекта/класса:</p>
+<p>Перегрузка методов усложняется при одновременном использовании следующих факторов:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>определение класса объекта</p>
+<p>расширение</p>
 </li>
 <li>
-<p>получение информации о полях, методах, конструкторах и суперклассах</p>
+<p>автоупаковка/распаковка</p>
 </li>
 <li>
-<p>получение информации о модификаторах полей и методов</p>
-</li>
-<li>
-<p>создание экземпляра класса, имя которого неизвестно до момента выполнения программы</p>
-</li>
-<li>
-<p>определение и изменение значений свойств объекта/класса</p>
-</li>
-<li>
-<p>вызов методов объекта/класса</p>
+<p>аргументы переменной длины</p>
 </li>
 </ul>
 </div>
-<div class="quoteblock">
-<blockquote>
-<div class="paragraph">
-<p>В исходном коде используется объект/класс. При работе с объектом (реализацией класса) можно обращаться к полям и методам класса напрямую, если они доступны (не private). При работе с классом можно обращаться к методам класса с использованием Java Reflection API. Но класс необходимо получить из объекта.</p>
-</div>
-</blockquote>
-</div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_определение_свойств_класса">Определение свойств класса</h2>
+<h2 id="_расширение_примитивных_типов">Расширение примитивных типов</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>В работающем приложении для получения класса необходимо использовать метод <code>forName(String className)</code>. Следующий код демонстрирует возможность создания класса без использования и с использованием Reflection :</p>
+<p>При расширение примитивных типов используется наименьший возможный вариант из всех методов.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">// Без использования Reflection
-Foo foo = new Foo();
-
-// С использованием Reflection
-Class foo = Class.forName("Foo");
-
-// Загрузка JDBC-драйвера
-Class.forName("com.mysql.jdbc.Driver");</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Метод класса <code>forName(className)</code> часто используется для загрузки JDBC-драйвера.</p>
-</div>
-<div class="paragraph">
-<p>Методом <code>getName()</code> объекта <code>Class</code> можно получить наименование класса, включающего пакет (<code>package</code>) :</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">Class aclass = foo.getClass();
-System.out.println (aclass.getName());</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Для получения значения модификатора класса используется метод <code>getModifiers()</code>. Класс <code>java.lang.reflect.Modifier</code> содержит статические методы, возвращающие логическое значения проверки модификатора класса :</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">Class cls = foo.getClass();
-int mods = cls.getModifiers();
-if (Modifier.isPublic(mods)) {
-    System.out.println("public");
-}
-if (Modifier.isAbstract(mods)) {
-    System.out.println("abstract");
-}
-if (Modifier.isFinal(mods))    {
-    System.out.println("final");
-}</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Для получения суперкласса рефлексированного объекта (класса) необходимо использовать метод <code>getSuperclass()</code>:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">Class cls = foo.getClass();
-Class superCls = cls.getSuperClass();</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Поскольку в Java отсутствует множественное наследование, то для получения всех предков следует рекурсивно вызвать метод <code>getSuperclass()</code> в цикле, пока не будет достигнут <code>Object</code>, являющийся родителем всех классов. <code>Object</code> не имеет родителей, поэтому вызов его метода <code>getSuperclass()</code> вернет <code>null</code>.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_определение_интерфейсов_и_конструкторов_класса">Определение интерфейсов и конструкторов класса</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Для получения в режиме <strong>runtime</strong> списка реализующих классом интерфейсов, необходимо получить <code>Class</code> и использовать его метод <code>getInterfaces()</code>. В следующем примере извлекается список интерфейсов класса <code>ArrayList</code>:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">Class&lt;?&gt;   cls = ArrayList.class;
-Class&lt;?&gt;[] ifs = cls.getInterfaces();
-
-System.out.println("List of interfaces\n");
-for(Class&lt;?&gt; ifc : ifs) {
-    System.out.println (ifc.getName());
-}</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Чтобы IDE не предупреждала о необходимости определения типа класса</p>
-</div>
-<div class="quoteblock">
-<blockquote>
-<div class="paragraph">
-<p>Class is a raw type. References to generic type Class&lt;T&gt; should be parameterized</p>
-</div>
-</blockquote>
-</div>
-<div class="paragraph">
-<p>в коде были использованы <strong>generic</strong>. В консоль выводятся следующие интерфейсы, реализуемые классом <code>ArrayList</code>:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-out" data-lang="out">List of interfaces
-
-java.util.List
-java.util.RandomAccess
-java.lang.Cloneable
-java.io.Serializable</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Метод класса <code>getConstructors()</code> позволяет получить массив открытых конструкторов типа <code>java.lang.reflect.Constructor</code>. После этого, можно извлекать информацию о типах параметров конструктора и генерируемых исключениях:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">Class&lt;?&gt; cls = obj.getClass();
-Constructor[] constructors = cls.getConstructors();
-for (Constructor constructor : constructors) {
-    Class&lt;?&gt;[] params = constructor.getParameterTypes();
-    for (Class&lt;?&gt; param : params) {
-        System.out.println(param.getName());
-    }
-}</code></pre>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_определение_полей_класса">Определение полей класса</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Метод <code>getFields()</code> объекта <code>Class</code> возвращает массив открытых полей типа <code>java.lang.reflect.Field</code>, которые могут быть определены не только в данном классе, но также и в его родителях (суперклассе), либо интерфейсах, реализованных классом или его родителями. Класс <code>Field</code> позволяет получить имя поля, тип и модификаторы :</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">Class&lt;?&gt; cls = obj.getClass();
-Field[] fields = cls.getFields();
-for (Field field : fields) {
-    Class&lt;?&gt; fld = field.getType();
-    System.out.println("Class name : " + field.getName());
-    System.out.println("Class type : " + fld.getName());
-}</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Если известно наименование поля, то можно получить о нем информацию с помощью метода <code>getField()</code> объекта <code>Class</code>.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">Class&lt;?&gt; cls = obj.getClass();
-Field fld = cls.getField("fieldName");</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Методы <code>getField()</code> и <code>getFields()</code> возвращают только открытые члены данных класса. Чтобы получить все поля класса, включая закрытые и защищенные, необходимо использовать методы <code>getDeclaredField()</code> и <code>getDeclaredFields()</code>. Данные методы работают точно так же, как и их аналоги <code>getField()</code> и <code>getFields()</code>.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_определение_значений_полей_класса">Определение значений полей класса</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Класс <code>Field</code> содержит специализированные методы для получения значений примитивных типов:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><code>getInt()</code></p>
-</li>
-<li>
-<p><code>getFloat()</code></p>
-</li>
-<li>
-<p><code>getByte()</code></p>
-</li>
-<li>
-<p>&#8230;&#8203;</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>Для установки значения поля, используется метод <code>set()</code>. Для примитивных типов имеются методы:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><code>setInt()</code></p>
-</li>
-<li>
-<p><code>setFloat()</code></p>
-</li>
-<li>
-<p><code>setByte()</code></p>
-</li>
-<li>
-<p>&#8230;&#8203;</p>
-</li>
-</ul>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">Class&lt;?&gt; cls = obj.getClass();
-Field field = cls.getField("fieldName");
-
-String value = (String) field.get(obj);
-field.set(obj, "New value");</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Ниже приведен пример изменения значения закрытого поля класса в runtime.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_определение_методов_класса">Определение методов класса</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Метод <code>getMethods()</code> объекта <code>Class</code> возвращает массив открытых методов типа <code>java.lang.reflect.Method</code>. Эти методы могут быть определены не только в классе, но также и в его родителях (суперклассе), либо интерфейсах, реализованных классом или его родителями. Класс <code>Method</code> позволяет получить имя метода, тип возвращаемого им значения, типы параметров метода, модификаторы и генерируемые исключения.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">Class&lt;?&gt; cls = obj.getClass();
-Method[] methods = cls.getMethods();
-for (Method method : methods) {
-    System.out.println("Method name : " + method.getName());
-    System.out.println("Return type : " + method.getReturnType().getName());
-
-    Class&lt;?&gt;[] params = method.getParameterTypes();
-    System.out.print("Parameters : ");
-    for (Class&lt;?&gt; paramType : params) {
-        System.out.print(" " + paramType.getName());
-    }
-    System.out.println();
-}</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Если известно имя метода и типы его параметров, то можно получить отдельный метод класса :</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">Class&lt;?&gt; cls = obj.getClass();
-Class[] params = new Class[] {Integer.class, String.class};
-
-Method method = cls.getMethod("methodName", params);</code></pre>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_пример_изменения_значения_закрытого_поля_класса">Пример изменения значения закрытого поля класса</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Чтобы изменить значение закрытого (<code>private</code>) поля класса необходимо получить это поле методом <code>getDeclaredField()</code> и вызвать метод <code>setAccessible(true)</code> объекта <code>Field</code>, чтобы открыть доступ к полю. После этого значение закрытого поля можно изменять, если оно не <code>final</code>. В следующем примере определен внутренний класс <code>PrivateFinalFields</code> с набором закрытых полей; одно из полей <code>final</code>. При создании объекта класса поля инициализируются. В методе <code>main()</code> примера поочередно в закрытые поля вносятся изменения и свойства объекта выводятся в консоль.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">import java.lang.reflect.Field;
-
-class PrivateFinalFields {
-    private final String s  = "String S";
-    private int i  = 1;
-    private String s2 = "String S2";
-
-    public String toString() {
-        return "i = " + i + ", " + s + ", " + s2;
-    }
-}</code></pre>
-</div>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">public class ModifyngPrivateFields {
-    public static void main(String[] args) throws Exception {
-        PrivateFinalFields pf = new PrivateFinalFields();
-
-        Field f = pf.getClass().getDeclaredField("i");
-        f.setAccessible(true);
-        f.setInt(pf, 47);
-        System.out.println("1. " + pf);
-
-        f = pf.getClass().getDeclaredField("s");
-        f.setAccessible(true);
-        f.set(pf, "MODIFY S");
-        System.out.println("2. " + pf);
-
-        f = pf.getClass().getDeclaredField("s2");
-        f.setAccessible(true);
-        f.set(pf, "MODIFY S2");
-
-        f = pf.getClass().getDeclaredField("i");
-        f.setAccessible(true);
-        f.setInt(pf, 35);
-        System.out.println("3. " + pf);
-    }
-}</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>В результате выполнения примера в консоль будут выведены следующие сообщения :</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-out" data-lang="out">1. i = 47, String S, String S2
-2. i = 47, String S, String S2
-3. i = 35, String S, MODIFY S2</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Из приведённого примера видно что поля <code>private</code> можно изменять. Для этого необходимо получить объект типа <code>java.lang.reflect.Field</code> с помощью метода <code>getDeclaredField()</code>, вызвать его метод <code>setAccessible(true)</code> и с помощью метода <code>set()</code> установить требуемое значение поля. Необходимо иметь в виду, что наличие модификатора <code>final</code> в закрытом текстовом поле не вызывает исключений при изменении значений, а само значение поля остаётся прежним, т.е. <code>final</code> поля остаются неизменные. Если не вызвать метод открытия доступа к полю <code>setAccessible(true)</code>, то будет вызвано исключение <code>java.lang.IllegalAccessException</code>.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_пример_вызова_метода_invoke">Пример вызова метода <code>invoke()</code></h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p><strong>Java Reflection Api</strong> позволяет вызвать метод класса. Рассмотрим пример, в котором определим класс <code>Reflect</code>, включающий поля и методы управления ими. В runtime с помощью метода данного класса будем изменять значения полей и распечатывать их.</p>
-</div>
-<div class="paragraph">
-<p>Класс <code>Reflect</code> включает два закрытых поля <code>id</code>, <code>name</code> и методы управления их значениями <strong>set/get</strong>. Дополнительно в класс включим метод <code>setData()</code>, который будем вызывать для изменения значений полей, и метод <code>toString()</code> для печати их значений.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">class Reflect {
-    private String name;
-    private int id;
-
-    Reflect() {
-        this.name = "Test";
-        this.id = 999;
+<pre class="highlight"><code class="language-java" data-lang="java">public class EasyOver {
+    static void go(int x) {
+        System.out.print("int ");
     }
 
-    public int getId() {
-        return id;
+    static void go(long x) {
+        System.out.print("long ");
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setData(final int id, String name) {
-        this.id   = id;
-        this.name = name;
-    }
-
-    @Override
-    public String toString() {
-        return "Reflect [ id : " + id + ", name : " + name + "]";
-    }
-}</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Для тестирования объекта типа <code>Reflect</code> с помощью <strong>Java Reflection Api</strong> создадим класс <code>ReflectionTest</code>. В этот класс включим два метода <code>getClassFields()</code> и <code>getClassMethods()</code>, которые в <strong>runtime</strong> распечатают всю информацию (описание полей и методов) о классе. Методы получают класс в качестве параметра. В процедурах сначала определяются массивы полей и методы; после этого их параметры распечатываются :</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">private void getClassFields(Class&lt;?&gt; cls) {
-    Field[] fields = cls.getDeclaredFields();
-    System.out.println("Class fields");
-    for (Field field : fields) {
-        Class&lt;?&gt; fld = field.getType();
-        System.out.println("Class name : " + field.getName());
-        System.out.println("Class type : " + fld.getName());
-    }
-}
-
-private void getClassMethods(Class&lt;?&gt; cls) {
-    Method[] methods = cls.getDeclaredMethods();
-    System.out.println("Class methods");
-    for (Method method : methods) {
-        System.out.println("Method name : " + method.getName());
-        System.out.println("Return type : " + method.getReturnType().getName());
-        Class&lt;?&gt;[] params = method.getParameterTypes();
-        System.out.print("Parameters : ");
-        for (Class&lt;?&gt; param : params) {
-            System.out.print(" " + param.getName());
-        }
-        System.out.println();
-    }
-}</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>В конструкторе класса <code>ReflectionTest</code> сначала вызываются процедуры определения полей и методов объекта/класса <code>Reflect</code>. После этого вызываются методы изменения значений и печати значений с использованием <strong>Reflection API</strong>. Для определения метода <code>setData()</code> используется массив типов параметров. Вызов метода <code>setData()</code> выполняется с передачей ему массива новых значений.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">public class ReflectionTest {
-    static Reflect reflect;
-
-    public ReflectionTest() {
-        getClassFields(reflect.getClass());
-        getClassMethods(reflect.getClass());
-
-        Class&lt;?&gt; cls = reflect.getClass();
-        try {
-            System.out.println("\n1. invoke method toString()\n");
-
-            Method method = cls.getMethod("toString");
-            System.out.println(method.invoke(reflect));
-
-            Class&lt;?&gt;[] paramTypes;
-            Object  [] args;
-
-            paramTypes = new Class[] {int.class, String.class};
-            method = cls.getMethod("setData", paramTypes);
-
-            args = new Object[]{(int)123,new String("New value")};
-            method.invoke(reflect, args);
-
-            System.out.println("\n2. invoke method toString()\n");
-            method = cls.getMethod("toString");
-            System.out.println(method.invoke(reflect));
-
-        } catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-            System.out.println(e);
-        }
-    }
-
-    private void getClassFields(Class&lt;?&gt; cls) {
-        Field[] fields = cls.getDeclaredFields();
-        System.out.println("Class fields");
-        for (Field field : fields) {
-            Class&lt;?&gt; fld = field.getType();
-            System.out.println("Class name : " + field.getName());
-            System.out.println("Class type : " + fld.getName());
-        }
-    }
-
-    private void getClassMethods(Class&lt;?&gt; cls) {
-        Method[] methods = cls.getDeclaredMethods();
-        System.out.println("Class methods");
-        for (Method method : methods) {
-            System.out.println("Method name : " + method.getName());
-            System.out.println("Return type : " + method.getReturnType().getName());
-            Class&lt;?&gt;[] params = method.getParameterTypes();
-            System.out.print("Parameters : ");
-            for (Class&lt;?&gt; param : params) {
-                System.out.print(" " + param.getName());
-            }
-            System.out.println();
-        }
+    static void go(double x) {
+        System.out.print("double ");
     }
 
     public static void main(String[] args) {
-        this.reflect = new Reflect();
-        new ReflectionTest();
-        System.exit(0);
+        byte b = 5;
+        short s = 5;
+        long l = 5;
+        float f = 5.0f;
+        go(b);
+        go(s);
+        go(l);
+        go(f);
     }
 }</code></pre>
 </div>
 </div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_расширение_и_boxing">Расширение и boxing</h2>
+<div class="sectionbody">
 <div class="paragraph">
-<p>В результате выполнения примера в консоль будут выведены представленные ниже сообщения. Методы <code>setData()</code> и <code>toString()</code>, вызываемые с помощью <strong>Java Reflection API</strong>, вносят измнения в закрытые поля класса и распечатываются их значения.</p>
+<p>Между расширением примитивных типов и boxing всегда выигрывает расширение. Исторически это более старый вид преобразования.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-out" data-lang="out">Class fields
+<pre class="highlight"><code class="language-java" data-lang="java">public class AddBoxing {
+    public static void go(Integer x) {
+        System.out.println("Integer");
+    }
 
-Class name : name
-Class type : java.lang.String
-Class name : id
-Class type : int
+    public static void go(long x) {
+        System.out.println("long");
+    }
 
-Class methods
-
-Method name : toString
-Return type : java.lang.String
-Parameters  :
-
-Method name : getId
-Return type : int
-Parameters  :
-
-Method name : setId
-Return type : void
-Parameters :  int
-
-Method name : getName
-Return type : java.lang.String
-Parameters  :
-
-Method name : setName
-Return type : void
-Parameters :  java.lang.String
-
-Method name : setData
-Return type : void
-Parameters :  int java.lang.String
-
-1. invoke method toString()
-
-Reflect [ id : 999, name : Test]
-
-2. invoke method toString()
-
-Reflect [ id : 123, name : New value]</code></pre>
+    public static void main(String[] args) {
+        int i = 5;
+        go(i); // какой go() вызовется?
+    }
+}</code></pre>
 </div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_упаковка_и_расширение">Упаковка и расширение</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Можно упаковать, а потом расширить. Значение типа <code>int</code> может стать <code>Object</code>, через преобразование <code>Integer</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">public class BoxAndWiden {
+    public static void go(Object o) {
+        Byte b2 = (Byte) o;
+        System.out.println(b2);
+    }
+
+    public static void main(String[] args) {
+        byte b = 5;
+        go(b); // можно ли преобразовать byte в Object?
+    }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_расширение_и_упаковка">Расширение и упаковка</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Нельзя расширить и упаковать. Значение типа <code>byte</code> не может стать <code>Long</code>. Нельзя расширить от одного класса обертки к другой. (<strong>IS-A</strong> не работает.)</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">public class WidenAndBox {
+    static void go(Long x) {
+        System.out.println("Long");
+    }
+
+    public static void main(String[] args) {
+        byte b = 5;
+        // go(b); // нужно расширить до long и упаковать, что невозможно
+    }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_расширение_и_аргументы_переменной_длины">Расширение и аргументы переменной длины</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Между расширением примитивных типов и <strong>var-args</strong> всегда проигрывает <strong>var-args</strong>:</p>
+</div>
+<div class="paragraph">
+<p>public class AddVarargs {
+    public static void go(int x, int y) {
+        System.out.println("int,int");
+    }</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>public static void go(byte... x) {
+    System.out.println("byte... ");
+}</pre>
+</div>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>    public static void main(String[] args) {
+        byte b = 5;
+        go(b, b); // какой go() вызовется?
+    }
+}</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_упаковка_и_аргументы_переменной_длины">Упаковка и аргументы переменной длины</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Упаковка и <strong>var-args</strong> совместимы с перегрузкой методов. <strong>Var-args</strong> всегда проигрывает:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">public class BoxOrVararg {
+    public static void go(Byte x, Byte y) {
+        System.out.println("Byte, Byte");
+    }
+
+    public static void go(byte... x) {
+        System.out.println("byte... ");
+    }
+
+    public static void main(String[] args) {
+        byte b = 5;
+        go(b, b); // какой go() вызовется?
+    }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_правила_перегрузки_методов_при_использовании_расширения_упаковки_и_аргументов_переменной_длины">Правила перегрузки методов при использовании расширения, упаковки и аргументов переменной длины</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Подытожим все правила:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>При расширение примитивных типов используется наименьший возможный вариант из всех методов.</p>
+</li>
+<li>
+<p>Между расширением примитивных типов и упаковкой всегда выигрывает расширение. Исторически это более старый вид преобразования.</p>
+</li>
+<li>
+<p>Можно упаковать, а потом расширить. (Значение типа <code>int</code> может стать <code>Object</code>, через преобразование <code>Integer</code>.)</p>
+</li>
+<li>
+<p>Нельзя расширить и упаковать. Значение типа <code>byte</code> не может стать <code>Long</code>. Нельзя расширить от одного класса обертки к другой. (<strong>IS-A</strong> не работает.)</p>
+</li>
+<li>
+<p>Можно комбинировать <strong>var-args</strong> с расширением или упаковкой. <strong>var-args</strong> всегда проигрывает.</p>
+</li>
+</ul>
 </div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2021-01-23 07:51:57 UTC
+Last updated 2021-01-24 04:22:50 UTC
 </div>
 </div>
 </body>

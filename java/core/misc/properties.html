@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.12">
-<title>Аннотации</title>
+<title>Properties</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -440,322 +440,297 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </head>
 <body class="article">
 <div id="header">
-<h1>Аннотации</h1>
+<h1>Properties</h1>
 </div>
 <div id="content">
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p><strong>Аннотации</strong> представляют собой некую мета-информацию. Они не выполняют какого-либо действия сами по себе, но они могут предоставлять дополнительную информацию, которая может быть использована компилятором, различными утилитами сборки и генерации кода, а также они могут обрабатываться во время выполнения программы.</p>
+<p>Класс <code>Properties</code> – это подкласс <code>Hashtable</code>.
+Он используется для хранения списков значений, в которых ключ является <code>String</code>, а значение также является <code>String</code>.</p>
 </div>
 <div class="paragraph">
-<p>Аннотации предваряются символом <code>@</code>. Пример часто используемой аннотации <code>@Override</code>, которая указывает компилятору, что этот метод переопределяет базовый метод:</p>
+<p>Класс <code>Properties</code> в Java используется множеством других классов.
+Например, это тип объекта, возвращаемый <code>System.getProperties()</code>, когда тот получает внешние значения.</p>
+</div>
+<div class="paragraph">
+<p><code>Properties</code> определяет следующие переменную экземпляра.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">@Override
-public void someMethod() {
-    // ...
-}</code></pre>
+<pre class="highlight"><code class="language-java" data-lang="java">Properties defaults;</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Аннотации могут иметь элементы:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">@SuppressWarnings(value = "unchecked")
-public void method() {
-}</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Если элементов много, то они разделяются запятой, если элемент только один, и его имя <code>value</code>, то его название можно не указывать:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">@SuppressWarnings("unchecked")
-void myMethod() {
-}</code></pre>
-</div>
+<p>Эта переменная содержит список свойств по умолчанию, связанный с объектом <code>Properties</code>.</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_объявление_аннотаций">Объявление аннотаций</h2>
+<h2 id="_конструкторы">Конструкторы</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Предположим, что при объявлении каждого нового класса необходимо записывать в комментариях информацию об авторах в таком виде:</p>
+<p>Вот список конструкторов, предоставляемые классом <code>Properties</code>.</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">class Goblin {
-    // author : John Clark
-    // sprites : Izabella Simpson
-    // sound : Michael Lermontov
-    // code : Pushkin A.
-    // createdAt : 2016-03-30
-    // description : Goblin is lurking creature.
-    // comments :
-
-    // ... code
-}</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Можно записывать эту информацию с помощью аннотаций. Для этого вам сперва нужно объявить эту аннотацию:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">@interface Monstr {
-    String author();
-    String sprites();
-    String sound();
-    String code();
-    String createdAt() default "0000-00-00";
-    String description();
-
-    // Example of array use
-    String[] comments();
-}</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Теперь можно применить его к нашему классу <code>Goblin</code>:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">@Monstr(
-    author="John Clark",
-    sprites = "Izabella Simpson",
-    sound = "Michael Lermontov",
-    code = "Pushkin A.",
-    createdAt = "2016-03-30",
-    description = "Goblin is lurking creature",
-    comments = {"lol", "gg", "Аффтар жжёт"}
-)
-class Goblin {
-}</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Обратите внимание на запись элементов аннотации (<code>author</code>, <code>sprites</code>, <code>sound</code>) и на запись массива элементов с использованием фигурных скобок (<code>comments</code>).</p>
-</div>
-<div class="paragraph">
-<p>Можно использовать предопределённую аннотацию <code>@Documented</code>, чтобы наша аннотация попадала в документацию, сгенерированную утилитой <strong>JavaDoc</strong>:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">import java.lang.annotation.Documented;
-
-@Documented
-@interface Monstr {
-    String author();
-    String sprites();
-    String sound();
-    String code();
-    String createdAt() default "0000-00-00";
-    String description();
-
-    // Example of array use
-    String[] comments();
-}</code></pre>
-</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>Properties()</code> конструктор создает объект <code>Properties</code>, который не имеет значений по умолчанию.</p>
+</li>
+<li>
+<p><code>Properties(Properties propDefault)</code> создаёт объект, который использует propDefault для своих значений по умолчанию.
+В обоих случаях список свойств пустой.</p>
+</li>
+</ul>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_предопределённые_аннотации">Предопределённые аннотации</h2>
+<h2 id="_методы">Методы</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Помимо методов, определённых <code>Hashtable</code>, <code>Properties</code> определяет следующие методы:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>String getProperty(String key)</code> возвращает значение, связанное с ключом.
+Возвращается нулевой объект, если ключ не находится ни в списке, ни в списке свойств по умолчанию.</p>
+</li>
+<li>
+<p><code>String getProperty(String key, String defaultProperty)</code> возвращает значение, связанное с ключом; Возвращается <code>defaultProperty</code>, если ключ не находится ни в списке, ни в списке свойств по умолчанию.</p>
+</li>
+<li>
+<p><code>void list(PrintStream streamOut)</code> отправляет список свойств в выходной поток, связанный с <code>streamOut</code>.</p>
+</li>
+<li>
+<p><code>void list(PrintWriter streamOut)</code> отправляет список свойств в выходной поток, связанный с <code>streamOut</code>.</p>
+</li>
+<li>
+<p><code>void load(InputStream streamIn) throws IOException</code> вводит список свойств из входного потока, связанного с <code>streamIn</code>.</p>
+</li>
+<li>
+<p><code>Enumeration propertyNames()</code> возвращает перечисление ключей, включая ключи, найденные в списке свойств по умолчанию.</p>
+</li>
+<li>
+<p><code>Object setProperty(String key, String value)</code> связывает значение с ключом.
+Возвращает предыдущее значение, связанное с ключом, или возвращает <code>null</code>, если такой связи не существует.</p>
+</li>
+<li>
+<p><code>void store(OutputStream streamOut, String description)</code> после записи строки, указанной в описании, список свойств записывается в выходной поток, связанный с <code>streamOut</code>.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_примеры">Примеры</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_deprecated"><code>@Deprecated</code></h3>
+<h3 id="_пример_системные_свойства">Пример: системные свойства</h3>
 <div class="paragraph">
-<p><code>@Deprecated</code> указывает, что элемент устарел и не должен использоваться. Компилятор Java генерирует предупреждение, если вы используете класс, метод или поле, помеченные аннотацией <code>@Deprecated</code>. Устаревший элемент должен быть также помечен тегом <strong>JavaDoc</strong> <code>@deprecated</code>:</p>
+<p>Получим и выведем все системные свойства:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">/*
- * @deprecated
- * explanation of why it was deprecated
+<pre class="highlight"><code class="language-java" data-lang="java">import java.util.Map;
+import java.util.Properties;
+import java.util.Set;
+
+/**
+ * Java program to demonstrate Properties class to get all the system properties
  */
- @Deprecated
- static void deprecatedMethod() { }</code></pre>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_override"><code>@Override</code></h3>
-<div class="paragraph">
-<p><code>@Override</code> указывает, что метод переопределяет метод базового класса. Эту аннотацию использовать не обязательно, но рекомендуется.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">@Override
-public int myMethod(double x) {
-    // ...
-}</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Если метод с <code>@Override</code> не может корректно переопределить метод базового класса, то компилятор генерирует ошибку.</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_suppresswarnings"><code>@SuppressWarnings</code></h3>
-<div class="paragraph">
-<p><code>@SuppressWarnings</code> подавляет предупреждения. Пример подавления предупреждения об устаревшем методе:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">// Указываем компиляторе не генерировать
-// предупреждение о использовании
-// устаревшего метода.
-@SuppressWarnings("deprecation")
-void useDeprecatedMethod() {
-    // Используем устаревший метод.
-    objectOne.deprecatedMethod();
-}</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Каждое предупреждение принадлежит какой-либо категории. В спецификации Java описано две категории. В <code>@SupressWarnings</code> можно указывать несколько категорий:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">@SuppressWarnings({"unchecked", "deprecation"})</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Различные реализации компиляторов и различные IDE могут добавлять свои категории предупреждений. Неподдерживаемые названия категорий пропускаются при использовании <code>@SuppressWarnings</code>.</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_safevarargs"><code>@SafeVarargs</code></h3>
-<div class="paragraph">
-<p><code>@SafeVarargs</code> применяется к методу или конструктору и указывает, что код не осуществляет потенциально опасных операций со своим <code>varargs</code>-параметром (параметр, принимающий произвольное число параметров).</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_functionalinterface"><code>@FunctionalInterface</code></h3>
-<div class="paragraph">
-<p><code>@FunctionalInterface</code> указывает, что это объявление типа будет функциональным интерфейсом Java 8.</p>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_мета_аннотации">Мета-аннотации</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Аннотации, применяемые к другим аннотациям, называются <strong>мета-аннотациями</strong>. Есть несколько мета-аннотаций в пакете <code>java.lang.annotation</code>:</p>
-</div>
-<div class="sect2">
-<h3 id="_retention"><code>@Retention</code></h3>
-<div class="paragraph">
-<p><code>@Retention</code> определяет, как аннотация будет сохранена:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><code>RetentionPolicy.SOURCE</code> - аннотация будет только в исходном коде, и она будет игнорироваться компилятором.</p>
-</li>
-<li>
-<p><code>RetentionPolicy.CLASS</code> - аннотация будет доступна компилятору, но но будет игнорироваться виртуальной машиной Java.</p>
-</li>
-<li>
-<p><code>RetentionPolicy.RUNTIME</code> - аннотация будет сохраняться JVM и будет доступна во время выполнения.</p>
-</li>
-</ul>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_documented"><code>@Documented</code></h3>
-<div class="paragraph">
-<p><code>@Documented</code> - указывает, что элементы, помеченные этой аннотацией, должны документироваться JavaDoc. По умолчанию аннотации не включаются в документацию.</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_target"><code>@Target</code></h3>
-<div class="paragraph">
-<p><code>@Target</code> - указывает какие элементы можно помечать этой аннотацией:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><code>ElementType.ANNOTATION_TYPE</code> - данная аннотация может быть применена к другой аннотации.</p>
-</li>
-<li>
-<p><code>ElementType.CONSTRUCTOR</code> - может быть применена к конструктору.</p>
-</li>
-<li>
-<p><code>ElementType.FIELD</code> - может быть применена к полю.</p>
-</li>
-<li>
-<p><code>ElementType.LOCAL_VARIABLE</code> - может быть применена к локальной переменной.</p>
-</li>
-<li>
-<p><code>ElementType.METHOD</code> - может быть применена к методу.</p>
-</li>
-<li>
-<p><code>ElementType.PACKAGE</code> - может быть применена к пакету.</p>
-</li>
-<li>
-<p><code>ElementType.PARAMETER</code> - может быть применена к параметрам метода.</p>
-</li>
-<li>
-<p><code>ElementType.TYPE</code> - может быть применена классу, интерфейсу, аннотации или перечислению.</p>
-</li>
-</ul>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_inherited"><code>@Inherited</code></h3>
-<div class="paragraph">
-<p><code>@Inherited</code> — аннотация может быть унаследована от базового класса (по умолчанию не наследуются). Когда запрашивается аннотация класса, и у класса нет такой аннотации, то запрашивается аннотация базового класса. Эта аннотация может быть применена только к классам.</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_repeatable"><code>@Repeatable</code></h3>
-<div class="paragraph">
-<p><code>@Repeatable</code> - аннотация может быть применена несколько раз.</p>
-</div>
-<div class="paragraph">
-<p>Допустим мы хотим применить аннотацию <code>@Author</code> несколько раз для указания нескольких авторов:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">@Author("Petya")
-@Author("Vasya")
-@Author("Suslik")
-class Goblin {
-}</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Тогда необходимо объявить такую аннотацию следующим образом:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">import java.lang.annotation.Repeatable;
+public class PropertiesExample2GetSystemProperties {
+    /**
+     * Main method for Demo
+     *
+     * @param args input arguments
+     */
+    public static void main(String[] args) {
+        // get all the system properties
+        Properties p = System.getProperties();
 
-@Repeatable(Authors.class)
-@interface Author {
-    String value();
+        // stores set of properties information
+        Set&lt;Map.Entry&lt;Object, Object&gt;&gt; set = p.entrySet();
+
+        // iterate over the set
+        for (Map.Entry&lt;Object, Object&gt; entry : set) {
+            // print each property
+            System.out.printf("%s=%s\n", entry.getKey(), entry.getValue());
+        }
+    }
 }</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Обратите внимание, что добавлена аннотация <code>@Repeatable</code> с указанием <code>Authors.class</code>, который мы должны объявить как аннотацию с массивом аннотация <code>Author</code>:</p>
+<p>Будет выведено следующее:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">@interface Authors{
-    Author[] value();
+<pre>java.specification.version=15
+sun.management.compiler=HotSpot 64-Bit Tiered Compilers
+sun.jnu.encoding=UTF-8
+java.runtime.version=15.0.1+9
+java.class.path=/home/rakovets/dev/course-java-basics/build/classes/java/main:/home/rakovets/dev/course-java-basics/build/resources/main
+user.name=rakovets
+java.vm.vendor=AdoptOpenJDK
+path.separator=:
+sun.arch.data.model=64
+os.version=5.8.0-34-generic
+user.variant=
+java.runtime.name=OpenJDK Runtime Environment
+file.encoding=UTF-8
+java.vendor.url=https://adoptopenjdk.net/
+java.vm.name=OpenJDK 64-Bit Server VM
+java.vm.specification.version=15
+os.name=Linux
+java.vendor.version=AdoptOpenJDK
+user.country=US
+sun.java.launcher=SUN_STANDARD
+sun.boot.library.path=/home/rakovets/.sdkman/candidates/java/15.0.1.hs-adpt/lib
+sun.java.command=com.rakovets.course.javabasics.example.properties.PropertiesExample2GetSystemProperties
+java.vendor.url.bug=https://github.com/AdoptOpenJDK/openjdk-support/issues
+java.io.tmpdir=/tmp
+jdk.debug=release
+sun.cpu.endian=little
+java.version=15.0.1
+user.home=/home/rakovets
+user.dir=/home/rakovets/dev/course-java-basics
+user.language=en
+os.arch=amd64
+java.specification.vendor=Oracle Corporation
+java.vm.specification.name=Java Virtual Machine Specification
+java.version.date=2020-10-20
+java.home=/home/rakovets/.sdkman/candidates/java/15.0.1.hs-adpt
+file.separator=/
+java.vm.compressedOopsMode=Zero based
+line.separator=
+
+java.library.path=/usr/java/packages/lib:/usr/lib64:/lib64:/lib:/usr/lib
+java.vm.info=mixed mode, sharing
+java.vm.specification.vendor=Oracle Corporation
+java.specification.name=Java Platform API Specification
+java.vendor=AdoptOpenJDK
+java.vm.version=15.0.1+9
+sun.io.unicode.encoding=UnicodeLittle
+java.class.version=59.0</pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_пример_чтение_свойств_из_файла">Пример: чтение свойств из файла</h3>
+<div class="paragraph">
+<p>Файл <code>account.properties</code> содержит следующий списком свойств:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-properties" data-lang="properties">username=rakovets
+password=Fc9S42SMEfJbNVtM</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Прочитаем его и выведем все свойства:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">import java.io.FileReader;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Properties;
+
+/**
+ * Java program to demonstrate Properties class to get information from the properties file
+ */
+public class PropertiesExample1 {
+    /**
+     * Main method for Demo
+     *
+     * @param args input arguments
+     * @throws IOException throw IOException when work with IO
+     */
+    public static void main(String[] args) throws IOException {
+        // get path for user.properties
+        Path userPropertiesPath =
+                Paths.get("src", "main", "resources", "example", "properties", "account.properties");
+
+        // create a reader object on the properties file
+        FileReader reader = new FileReader(userPropertiesPath.toFile());
+
+        // create properties object
+        Properties p = new Properties();
+
+        // Add a wrapper around reader object
+        p.load(reader);
+
+        // access properties data
+        System.out.printf("Username: '%s'\n", p.getProperty("username"));
+        System.out.printf("Password: '%s'\n", p.getProperty("password"));
+    }
 }</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Теперь можно указывать аннотацию <code>@Author</code> столько раз, сколько необходимо, для любого класса.</p>
+<p>Будет выведено следующее:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>Username: 'rakovets'
+Password: 'Fc9S42SMEfJbNVtM'</pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_пример_записи_свойств_в_файл">Пример: записи свойств в файл</h3>
+<div class="paragraph">
+<p>Создадим свойства и запишем их в файл <code>user.properties</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Properties;
+
+/**
+ * Java program to demonstrate Properties class to create the properties file
+ */
+public class PropertiesExample3CreateAndWriteToFile {
+    /**
+     * Main method for Demo
+     *
+     * @param args input arguments
+     * @throws IOException throw IOException when work with IO
+     */
+    public static void main(String[] args) throws IOException {
+        // create an instance of Properties
+        Properties p = new Properties();
+
+        // add properties to it
+        p.setProperty("name", "Dmitry Rakovets");
+        p.setProperty("email", "dmitryrakovets@gmail.com");
+
+        // get path for account.properties
+        Path userPropertiesPath =
+                Paths.get("src", "main", "resources", "example", "properties", "user.properties");
+
+        // store the properties to a file
+        p.store(new FileWriter(userPropertiesPath.toFile()), "Properties Example");
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Создастся файл <code>user.properties</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-properties" data-lang="properties">#Properties Example
+#Fri Jan 08 10:05:19 MSK 2021
+name=Dmitry Rakovets
+email=dmitryrakovets@gmail.com</code></pre>
+</div>
 </div>
 </div>
 </div>
@@ -763,7 +738,7 @@ class Goblin {
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2021-01-23 07:51:57 UTC
+Last updated 2021-01-24 04:22:50 UTC
 </div>
 </div>
 </body>

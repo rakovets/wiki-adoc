@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.12">
-<title>Лямбды как параметры и результаты методов</title>
+<title>Aвтоупаковка и распаковка (since version 5)</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -440,168 +440,142 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </head>
 <body class="article">
 <div id="header">
-<h1>Лямбды как параметры и результаты методов</h1>
+<h1>Aвтоупаковка и распаковка (since version 5)</h1>
 </div>
 <div id="content">
-<div class="sect1">
-<h2 id="_лямбды_как_параметры_методов">Лямбды как параметры методов</h2>
+<div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p>Одним из преимуществ лямбд в java является то, что их можно передавать в качестве параметров в методы. Рассмотрим пример:</p>
+<p>Автоупаковка и распаковка это процесс преобразования примитивных типов в объектные и наоборот. Весь процесс выполняется автоматически средой выполнения Java (JRE).</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">public class LambdaApp {
+<pre class="highlight"><code class="language-java" data-lang="java">public class AutoBoxDemo1 {
     public static void main(String[] args) {
-        Expression func = (n) -&gt; n % 2 == 0;
-        int[] nums = {1, 2, 3, 4, 5, 6, 7, 8, 9};
-        System.out.println(sum(nums, func)); // 20
-    }
-
-    private static int sum(int[] numbers, Expression func) {
-        int result = 0;
-        for (int i : numbers) {
-            if (func.isEqual(i))
-                result += i;
-        }
-        return result;
-    }
-}
-
-interface Expression {
-    boolean isEqual(int n);
-}</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Функциональный интерфейс <code>Expression</code> определяет метод <code>isEqual()</code>, который возвращает <code>true</code>, если в отношении числа <code>n</code> действует какое-нибудь равенство.</p>
-</div>
-<div class="paragraph">
-<p>В основном классе программы определяется метод <code>sum()</code>, который вычисляет сумму всех элементов массива, соответствующих некоторому условию. А само условие передается через параметр <code>Expression func</code>. Причем на момент написания метода <code>sum</code> мы можем абсолютно не знать, какое именно условие будет использоваться. Само же условие определяется в виде лямбда-выражения:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">Expression func = (n) -&gt; n % 2 == 0;</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>То есть в данном случае все числа должны быть четными или остаток от их деления на <code>2</code> должен быть равен <code>0</code>. Затем это лямбда-выражение передается в вызов метода <code>sum</code>.</p>
-</div>
-<div class="paragraph">
-<p>При этом можно не определять переменную интерфейса, а сразу передать в метод лямбда-выражение:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">int[] nums = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
-int x = sum(nums, (n)-&gt; n &gt; 5); // сумма чисел, которые больше 5
-System.out.println(x);  // 30</code></pre>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_ссылки_на_метод_как_параметры_методов">Ссылки на метод как параметры методов</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Начиная с JDK 8 в Java можно в качестве параметра в метод передавать ссылку на другой метод. В принципе данный способ аналогичен передаче в метод лямбда-выражения.</p>
-</div>
-<div class="paragraph">
-<p>Ссылка на метод передается в виде <code>имя_класса::имя_статического_метода</code> (если метод статический) или <code>объект_класса::имя_метода</code> (если метод нестатический). Рассмотрим на примере:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">interface Expression {
-    boolean isEqual(int n);
-}
-
-class ExpressionHelper {
-    static boolean isEven(int n) {
-        return n % 2 == 0;
-    }
-
-    static boolean isPositive(int n) {
-        return n &gt; 0;
-    }
-}
-
-public class LambdaApp {
-    public static void main(String[] args) {
-        int[] nums = {-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5};
-        System.out.println(sum(nums, ExpressionHelper::isEven));
-
-        Expression expr = ExpressionHelper::isPositive;
-        System.out.println(sum(nums, expr));
-    }
-
-    private static int sum(int[] numbers, Expression func) {
-        int result = 0;
-        for (int i : numbers) {
-            if (func.isEqual(i))
-                result += i;
-        }
-        return result;
+        Integer iOb = 100; // упаковать значение int
+        int i = iOb; // распаковать
+        System.out.println(i + " " + iOb);
     }
 }</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Здесь также определен функциональный интерфейс <code>Expression</code>, который имеет один метод. Кроме того, определен класс <code>ExpressionHelper</code>, который содержит два статических метода. В принципе их можно было определить и в основном классе программы, но я вынес их в отдельный класс.</p>
+<p>Автоупаковка происходит при прямом присвоении примитива классу-обертке (с помощью оператора <code>=</code>), либо при передаче примитива в параметры метода.</p>
 </div>
 <div class="paragraph">
-<p>В основном классе программы <code>LambdaApp</code> определен метод <code>sum()</code>, который возвращает сумму элементов массива, соответствующих некоторому условию. Условие передается в виде объекта функционального интерфейса <code>Expression</code>.</p>
+<p>Распаковка происходит при прямом присвоении классу-обертке примитива.</p>
 </div>
 <div class="paragraph">
-<p>В методе <code>main</code> два раза вызываем метод <code>sum</code>, передавая в него один и тот же массив чисел, но разные условия. Первый вызов метода <code>sum</code>:</p>
+<p>Компилятор использует метод <code>valueOf()</code> для упаковки, а методы <code>intValue()</code>, <code>doubleValue()</code> и так далее, для распаковки.</p>
+</div>
+<div class="paragraph">
+<p>Автоупаковке в <strong>классы-обертки</strong> могут быть подвергнуты как переменные примитивных типов, так и литералы:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">System.out.println(sum(nums, ExpressionHelper::isEven));</code></pre>
+<pre class="highlight"><code class="language-java" data-lang="java">Integer iOb1 = 100;
+int i = 200;
+Integer iOb2 = i;</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>На место второго параметра передается <code>ExpressionHelper::isEven</code>, то есть ссылка на статический метод <code>isEven()</code> класса <code>ExpressionHelper</code>. При этом методы, на которые идет ссылка, должны совпадать по параметрам и результату с методом функционального интерфейса.</p>
+<p>Автоупаковка переменных примитивных типов требует точного соответствия типа исходного примитива — типу <strong>класса-обертки</strong>.</p>
 </div>
 <div class="paragraph">
-<p>При втором вызове метода <code>sum</code> отдельно создается объект <code>Expression</code>, который затем передается в метод:</p>
+<p>Например, попытка автоупаковать переменную типа <code>byte</code> в <code>Short</code>, без предварительного явного приведения <code>byte</code> в <code>short</code> вызовет ошибку компиляции:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">Expression expr = ExpressionHelper::isPositive;
-System.out.println(sum(nums, expr));</code></pre>
+<pre class="highlight"><code class="language-java" data-lang="java">byte b = 4;
+// Short s1 = b;
+Short s2 = (short) b;</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Использование ссылок на методы в качестве параметром аналогично использованию лямбда-выражений.</p>
-</div>
-<div class="paragraph">
-<p>Если нам надо вызвать нестатические методы, то в ссылке вместо имени класса применяется имя объекта этого класса:</p>
+<p>Автоупаковку можно использовать при вызове метода:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">interface Expression {
-    boolean isEqual(int n);
-}
-
-class ExpressionHelper {
-    boolean isEven(int n) {
-        return n % 2 == 0;
+<pre class="highlight"><code class="language-java" data-lang="java">public class AutoBoxAndMethods {
+    static int someMethod(Integer value) {
+        return value;
     }
-}
 
-public class LambdaApp {
     public static void main(String[] args) {
-        int[] nums = {-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5};
-        ExpressionHelper exprHelper = new ExpressionHelper();
-        System.out.println(sum(nums, exprHelper::isEven)); // 0
+        Integer iOb = someMethod(100);
+        System.out.println(iOb);
     }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Внутри выражения числовой объект автоматически распаковывается. Выходной результат выражения при необходимости упаковывается заново:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">public class AutoBoxAndOperations {
+    public static void main(String[] args) {
+        Integer iOb1, iOb2;
+        int i;
 
-    private static int sum(int[] numbers, Expression func) {
-        int result = 0;
-        for (int i : numbers) {
-            if (func.isEqual(i))
-                result += i;
+        iOb1 = 100;
+
+        iOb2 = iOb1 + iOb1 / 3;
+        System.out.println("iOb2 после выражения: " + iOb2);
+
+        i = iOb1 + iOb1 / 3;
+        System.out.println("i после выражения: " + i);
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>C появлением автоупаковки/распаковки стало возможным применять объекты <code>Boolean</code> для управления в операторе <code>if</code> и других циклических конструкциях Java:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">public class AutoBoxAndCharacters {
+    public static void main(String[] args) {
+        Boolean b = true;
+
+        if (b) {
+            System.out.println("В if тоже можно использовать распаковку.");
         }
-        return result;
+
+        Character ch = 'x';
+        char ch2 = ch;
+
+        System.out.println("ch2 = " + ch2);
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>До Java 5 работа с классами обертками была более трудоемкой:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">public class AutoBoxDemo2 {
+    public static void main(String[] args) {
+        Integer y = new Integer(567);
+        int x = y.intValue();
+        x++;
+        y = new Integer(x);
+        System.out.println("y = " + y);
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Перепишет тот же пример для работы с классами начиная с Java 5:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">public class AutoBoxDemo3 {
+    public static void main(String[] args) {
+        Integer y = new Integer(567);
+        y++;
+        System.out.println("y = " + y);
     }
 }</code></pre>
 </div>
@@ -609,103 +583,102 @@ public class LambdaApp {
 </div>
 </div>
 <div class="sect1">
-<h2 id="_ссылки_на_конструкторы">Ссылки на конструкторы</h2>
+<h2 id="_объекты_классов_оболочек_неизменяемые">Объекты классов оболочек неизменяемые</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Подобным образом мы можем использовать конструкторы: <code>название_класса::new</code>. Например:</p>
+<p>Объекты классов оболочек <strong>неизменяемые</strong> (<strong>immutable</strong>):</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">public class LambdaApp {
+<pre class="highlight"><code class="language-java" data-lang="java">public class AutoBoxImmutability {
     public static void main(String[] args) {
-        UserBuilder userBuilder = User::new;
-        User user = userBuilder.create("Tom");
-        System.out.println(user.getName());
-    }
-}
+        Integer y = 567;
+        Integer x = y;
+        // проверяем, что x и y указывают на один объект
+        System.out.println(y == x);
 
-interface UserBuilder {
-    User create(String name);
-}
-
-class User {
-    private String name;
-
-    String getName() {
-        return name;
-    }
-
-    User(String n) {
-        this.name = n;
+        y++;
+        System.out.println(x + " " + y);
+        // проверяем, что x и y указывают на один объект
+        System.out.println(y == x);
     }
 }</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>При использовании конструкторов методы функциональных интерфейсов должны принимать тот же список параметров, что и конструкторы класса, и должны возвращать объект данного класса.</p>
+<p>Рассмотрим следующий пример:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">Integer y = 567;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Переменная <code>y</code> указывает на объект в памяти:</p>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src="/assets/img/java/core/mics/wrapper-immutable1.png" alt="Объекты классов оболочек неизменяемы"></span></p>
+</div>
+<div class="paragraph">
+<p>Если мы попытаемся изменить <code>y</code>, у нас создастся еще один объект в памяти, на который теперь и будет указывать <code>y</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">Integer y = 567;
+y++;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src="/assets/img/java/core/mics/wrapper-immutable2.png" alt="Объекты классов оболочек неизменяемы"></span></p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_лямбды_как_результат_методов">Лямбды как результат методов</h2>
+<h2 id="_кэширование_объектов_классов_оболочек">Кэширование объектов классов оболочек</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Также метод в Java может возвращать лямбда-выражение. Рассмотрим следующий пример:</p>
+<p>Метод <code>valueOf()</code> не всегда создает новый объект. Он кэширует следующие значения:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>Boolean</code>,</p>
+</li>
+<li>
+<p><code>Byte</code>,</p>
+</li>
+<li>
+<p><code>Character</code> от <code>\u0000</code> до <code>\u007f</code> (<code>7f</code> это <code>127</code>),</p>
+</li>
+<li>
+<p><code>Short</code> и <code>Integer</code> от <code>-128</code> до <code>127</code>.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Если передаваемое значение выходит за эти пределы, то новый объект создается, а если нет, то нет.</p>
+</div>
+<div class="paragraph">
+<p>Если мы пишем <code>new Integer()</code>, то гарантированно создается новый объект.</p>
+</div>
+<div class="paragraph">
+<p>Рассмотрим это на следующем примере:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">interface Operation {
-    int execute(int x, int y);
-}
-
-public class LambdaApp {
+<pre class="highlight"><code class="language-java" data-lang="java">public class AutoBoxDemoCaching {
     public static void main(String[] args) {
-        Operation func = action(1);
-        int a = func.execute(6, 5);
-        System.out.println(a); // 11
+        Integer i1 = 23;
+        Integer i2 = 23;
+        System.out.println(i1 == i2);
+        System.out.println(i1.equals(i2));
 
-        int b = action(2).execute(8, 2);
-        System.out.println(b); // 6
-    }
-
-    private static Operation action(int number) {
-        switch (number) {
-            case 1:
-                return (x, y) -&gt; x + y;
-            case 2:
-                return (x, y) -&gt; x - y;
-            case 3:
-                return (x, y) -&gt; x * y;
-            default:
-                return (x, y) -&gt; 0;
-        }
+        Integer i3 = 2300;
+        Integer i4 = 2300;
+        System.out.println(i3 == i4);
+        System.out.println(i3.equals(i4));
     }
 }</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>В данном случае определен функциональный интерфейс <code>Operation</code>, в котором метод <code>execute</code> принимает два значения типа <code>int</code> и возвращает значение типа <code>int</code>.</p>
-</div>
-<div class="paragraph">
-<p>Метод <code>action</code> принимает в качестве параметра число и в зависимости от его значения возвращает то или иное лямбда-выражение. Оно может представлять либо сложение, либо вычитание, либо умножение, либо просто возвращает <code>0</code>. Стоит учитывать, что формально возвращаемым типом метода <code>action</code> является интерфейс <code>Operation</code>, а возвращаемое лямбда-выражение соответствует этому интерфейсу.</p>
-</div>
-<div class="paragraph">
-<p>В методе <code>main</code> мы можем вызвать этот метод <code>action</code>. Например, сначала получить его результат - лямбда-выражение, которое присваивается переменной <code>Operation</code>. А затем через метод <code>execute</code> выполнить это лямбда-выражение:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">Operation func = action(1);
-int a = func.execute(6, 5);
-System.out.println(a); // 11</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Либо можно сразу получить и тут же выполнить лямбда-выражение:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">int b = action(2).execute(8, 2);
-System.out.println(b); // 6</code></pre>
 </div>
 </div>
 </div>
@@ -713,7 +686,7 @@ System.out.println(b); // 6</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2021-01-23 07:51:57 UTC
+Last updated 2021-01-24 04:22:50 UTC
 </div>
 </div>
 </body>

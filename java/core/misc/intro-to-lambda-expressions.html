@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.12">
-<title>StringBuffer и StringBuilder</title>
+<title>Введение в лямбда-выражения</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -440,242 +440,324 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </head>
 <body class="article">
 <div id="header">
-<h1><code>StringBuffer</code> и <code>StringBuilder</code></h1>
+<h1>Введение в лямбда-выражения</h1>
 </div>
 <div id="content">
-<div id="preamble">
-<div class="sectionbody">
-<div class="paragraph">
-<p>Объекты <code>String</code> являются неизменяемыми, поэтому все операции, которые изменяют строки, фактически приводят к созданию новой строки, что сказывается на производительности приложения. Для решения этой проблемы, чтобы работа со строками проходила с меньшими издержками в Java были добавлены классы <code>StringBuffer</code> и <code>StringBuilder</code>. По сути они напоминает расширяемую строку, которую можно изменять без ущерба для производительности.</p>
-</div>
-<div class="paragraph">
-<p>Эти классы похожи, практически двойники, они имеют одинаковые конструкторы, одни и те же методы, которые одинаково используются. Единственное их различие состоит в том, что класс <code>StringBuffer</code> синхронизированный и потокобезопасный. То есть класс <code>StringBuffer</code> удобнее использовать в многопоточных приложениях, где объект данного класса может меняться в различных потоках. Если же речь о многопоточных приложениях не идет, то лучше использовать класс <code>StringBuilder</code>, который не потокобезопасный, но при этом работает быстрее, чем <code>StringBuffer</code> в однопоточных приложениях.</p>
-</div>
-<div class="paragraph">
-<p><code>StringBuffer</code> определяет четыре конструктора:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">StringBuffer()
-StringBuffer(int capacity)
-StringBuffer(String str)
-StringBuffer(CharSequence chars)</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Аналогичные конструкторы определяет <code>StringBuilder</code>:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">StringBuilder()
-StringBuilder(int capacity)
-StringBuilder(String str)
-StringBuilder(CharSequence chars)</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Рассмотрим работу этих классов на примере функциональности <code>StringBuffer</code>.</p>
-</div>
-<div class="paragraph">
-<p>При всех операциях со строками <code>StringBuffer</code> / <code>StringBuilder</code> перераспределяет выделенную память. И чтобы избежать слишком частого перераспределения памяти, <code>StringBuffer</code>/<code>StringBuilder</code> заранее резервирует некоторую область памяти, которая может использоваться. Конструктор без параметров резервирует в памяти место для 16 символов. Если мы хотим, чтобы количество символов было иным, то мы можем применить второй конструктор, который в качестве параметра принимает количество символов.</p>
-</div>
-<div class="paragraph">
-<p>Третий и четвертый конструкторы обоих классов принимают строку и набор символов, при этом резервируя память для дополнительных 16 символов.</p>
-</div>
-<div class="paragraph">
-<p>С помощью метода <code>capacity()</code> мы можем получить количество символов, для которых зарезервирована память. А с помощью метода <code>ensureCapacity()</code> изменить минимальную емкость буфера символов:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">String str = "Java";
-StringBuffer strBuffer = new StringBuffer(str);
-System.out.println("Емкость: " + strBuffer.capacity()); // 20
-strBuffer.ensureCapacity(32);
-System.out.println("Емкость: " + strBuffer.capacity()); // 42
-System.out.println("Длина: " + strBuffer.length()); // 4</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Так как в самом начале <code>StringBuffer</code> инициализируется строкой <code>"Java"</code>, то его емкость составляет 4 + 16 = 20 символов. Затем мы увеличиваем емкость буфера с помощью вызова <code>strBuffer.ensureCapacity(32)</code> повышаем минимальную емкость буфера до 32 символов. Однако финальная емкость может отличаться в большую сторону. Так, в данном случае я получаю емкость не 32 и не 32 + 4 = 36, а 42 символа. Дело в том, что в целях повышения эффективности Java может дополнительно выделять память.</p>
-</div>
-<div class="paragraph">
-<p>Но в любом случае вне зависимости от емкости длина строки, которую можно получить с помощью метода <code>length()</code>, в <code>StringBuffer</code> остается прежней - 4 символа (так как в <code>"Java"</code> 4 символа).</p>
-</div>
-<div class="paragraph">
-<p>Чтобы получить строку, которая хранится в <code>StringBuffer</code>, мы можем использовать стандартный метод <code>toString()</code>:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">String str = "Java";
-StringBuffer strBuffer = new StringBuffer(str);
-System.out.println(strBuffer.toString()); // Java</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>По всем своим операциям <code>StringBuffer</code> и <code>StringBuilder</code> напоминают класс <code>String</code>.</p>
-</div>
-</div>
-</div>
 <div class="sect1">
-<h2 id="_charat_и_setcharat"><code>charAt()</code> и <code>setCharAt()</code></h2>
+<h2 id="_введение">Введение</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Метод <code>charAt()</code> получает, а метод <code>setCharAt()</code> устанавливает символ по определенному индексу:</p>
+<p>Среди новшеств, которые были привнесены в язык Java с выходом JDK 8, особняком стоят <strong>лямбда-выражения</strong>. Лямбда-выражение представляет набор инструкций, которые можно выделить в отдельную переменную и затем многократно вызвать в различных местах программы.</p>
+</div>
+<div class="paragraph">
+<p>Основу лямбда-выражения составляет <strong>лямбда-оператор</strong>, который представляет стрелку <strong>&#8594;</strong>. Этот оператор разделяет лямбда-выражение на две части: левая часть содержит <strong>список параметров выражения</strong>, а правая собственно представляет <strong>тело лямбда-выражения</strong>, где выполняются все действия.</p>
+</div>
+<div class="paragraph">
+<p>Лямбда-выражение не выполняется само по себе, а образует реализацию метода, определенного в функциональном интерфейсе. При этом важно, что функциональный интерфейс должен содержать только один единственный метод без реализации.</p>
+</div>
+<div class="paragraph">
+<p>Рассмотрим пример:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">StringBuffer strBuffer = new StringBuffer("Java");
-char c = strBuffer.charAt(0); // J
-System.out.println(c);
-strBuffer.setCharAt(0, 'c');
-System.out.println(strBuffer.toString()); // cava</code></pre>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_getchars"><code>getChars()</code></h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Метод <code>getChars()</code> получает набор символов между определенными индексами:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">StringBuffer strBuffer = new StringBuffer("world");
-int startIndex = 1;
-int endIndex = 4;
-char[] buffer = new char[endIndex-startIndex];
-strBuffer.getChars(startIndex, endIndex, buffer, 0);
-System.out.println(buffer); // orl</code></pre>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_append"><code>append()</code></h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Метод <code>append()</code> добавляет подстроку в конец <code>StringBuffer</code>:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">StringBuffer strBuffer = new StringBuffer("hello");
-strBuffer.append(" world");
-System.out.println(strBuffer.toString()); // hello world</code></pre>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_insert"><code>insert()</code></h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Метод <code>insert()</code> добавляет строку или символ по определенному индексу в <code>StringBuffer</code>:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">StringBuffer strBuffer = new StringBuffer("word");
+<pre class="highlight"><code class="language-java" data-lang="java">public class LambdaApp {
+    public static void main(String[] args) {
+        Operationable operation;
+        operation = (x, y) -&gt; x + y;
 
-strBuffer.insert(3, 'l');
-System.out.println(strBuffer.toString()); // world
+        int result = operation.calculate(10, 20);
+        System.out.println(result); //30
+    }
+}
 
-strBuffer.insert(0, "s");
-System.out.println(strBuffer.toString()); // sworld</code></pre>
+interface Operationable {
+    int calculate(int x, int y);
+}</code></pre>
 </div>
 </div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_delete_и_deletecharat"><code>delete()</code> и <code>deleteCharAt()</code></h2>
-<div class="sectionbody">
 <div class="paragraph">
-<p>Метод <code>delete()</code> удаляет все символы с определенного индекса о определенной позиции, а метод <code>deleteCharAt()</code> удаляет один символ по определенному индексу:</p>
+<p>В роли функционального интерфейса выступает интерфейс <code>Operationable</code>, в котором определен один метод без реализации - метод <code>calculate</code>. Данный метод принимает два параметра - целых числа, и возвращает некоторое целое число.</p>
+</div>
+<div class="paragraph">
+<p>По факту <strong>лямбда-выражения являются</strong> в некотором роде <strong>сокращенной формой внутренних анонимных классов</strong>, которые ранее применялись в Java. В частности, предыдущий пример мы можем переписать следующим образом:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">StringBuffer strBuffer = new StringBuffer("assembler");
-strBuffer.delete(0,2);
-System.out.println(strBuffer.toString()); // sembler
+<pre class="highlight"><code class="language-java" data-lang="java">public class LambdaApp {
+    public static void main(String[] args) {
+        Operationable op = new Operationable() {
+            public int calculate(int x, int y) {
+                return x + y;
+            }
+        };
+        int z = op.calculate(20, 10);
+        System.out.println(z); // 30
+    }
+}
 
-strBuffer.deleteCharAt(6);
-System.out.println(strBuffer.toString()); // semble</code></pre>
+interface Operationable {
+    int calculate(int x, int y);
+}</code></pre>
 </div>
 </div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_substring"><code>substring()</code></h2>
-<div class="sectionbody">
 <div class="paragraph">
-<p>Метод <code>substring()</code> обрезает строку с определенного индекса до конца, либо до определенного индекса:</p>
+<p>Чтобы объявить и использовать лямбда-выражение, основная программа разбивается на ряд этапов:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Определение ссылки на функциональный интерфейс:</p>
+</li>
+</ul>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">StringBuffer strBuffer = new StringBuffer("hello java!");
-String str1 = strBuffer.substring(6); // обрезка строки с 6 символа до конца
-System.out.println(str1); //java!
+<pre class="highlight"><code class="language-java" data-lang="java">Operationable operation;</code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Создание лямбда-выражения:</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">operation = (x, y) -&gt; x + y;</code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Использование лямбда-выражения в виде вызова метода интерфейса:</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">int result = operation.calculate(10, 20);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>На втором этапе параметры лямбда-выражения соответствуют параметрам единственного метода интерфейса <code>Operationable</code>, а результат соответствует возвращаемому результату метода интерфейса. При этом нам не надо использовать ключевое слово <code>return</code> для возврата результата из лямбда-выражения.</p>
+</div>
+<div class="paragraph">
+<p>Так, в методе интерфейса оба параметра представляют тип <code>int</code>, значит, в теле лямбда-выражения мы можем применить к ним сложение. Результат сложения также представляет тип <code>int</code>, объект которого возвращается методом интерфейса.</p>
+</div>
+<div class="paragraph">
+<p>На третьем этапе результатом будет сумма чисел <code>10</code> и <code>20</code>, так как в лямбда-выражении определена операция сложения параметров.</p>
+</div>
+<div class="paragraph">
+<p>При этом для одного функционального интерфейса мы можем определить множество лямбда-выражений. Например:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">Operationable operation1 = (int x, int y)-&gt; x + y;
+Operationable operation2 = (int x, int y)-&gt; x - y;
+Operationable operation3 = (int x, int y)-&gt; x * y;
 
-String str2 = strBuffer.substring(3, 9); // обрезка строки с 3 по 9 символ
-System.out.println(str2); //lo jav</code></pre>
+System.out.println(operation1.calculate(20, 10)); //30
+System.out.println(operation2.calculate(20, 10)); //10
+System.out.println(operation3.calculate(20, 10)); //200</code></pre>
 </div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_setlength"><code>setLength()</code></h2>
+<h2 id="_отложенное_выполнение">Отложенное выполнение</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Для изменения длины <code>StringBuffer</code> (не емкости буфера символов) применяется метод <code>setLength()</code>. Если <code>StringBuffer</code> увеличивается, то его строка просто дополняется в конце пустыми символами, если уменьшается - то строка по сути обрезается:</p>
+<p>Одним из ключевых моментов в использовании лямбд является <strong>отложенное выполнение</strong> (<strong>deferred execution</strong>). То есть мы определяем в одном месте программы лямбда-выражение и затем можем его вызывать при необходимости неопределенное количество раз в различных частях программы. Отложенное выполнение может потребоваться, к примеру, в следующих случаях:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>выполнение кода отдельном потоке</p>
+</li>
+<li>
+<p>выполнение одного и того же кода несколько раз</p>
+</li>
+<li>
+<p>выполнение кода в результате какого-то события</p>
+</li>
+<li>
+<p>выполнение кода только в том случае, когда он действительно необходим и если он необходим</p>
+</li>
+</ul>
+</div>
+<div class="sect2">
+<h3 id="_передача_параметров_в_лямбда_выражение">Передача параметров в лямбда-выражение</h3>
+<div class="paragraph">
+<p>Параметры лямбда-выражения должны соответствовать по тип параметрам метода из функционального интерфейса. При написании самого лямбда-выражения тип параметров писать необязательно, хотя в принципе это можно сделать, например:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">StringBuffer strBuffer = new StringBuffer("hello");
-strBuffer.setLength(10);
-System.out.println(strBuffer.toString()); // "hello     "
+<pre class="highlight"><code class="language-java" data-lang="java">operation = (int x, int y) -&gt; x + y;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Если метод не принимает никаких параметров, то пишутся пустые скобки, например:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">() -&gt; 30 + 20;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Если метод принимает только один параметр, то скобки можно опустить:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">n -&gt; n * n;</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_терминальные_лямбда_выражения">Терминальные лямбда-выражения</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Выше рассмотрены лямбда-выражения, которые возвращают определенное значение. Но также могут быть и <strong>терминальные лямбды</strong>, которые не возвращают никакого значения. Например:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">interface Printable {
+    void print(String s);
+}
 
-strBuffer.setLength(4);
-System.out.println(strBuffer.toString()); // "hell"</code></pre>
+public class LambdaApp {
+    public static void main(String[] args) {
+        Printable printer = s -&gt; System.out.println(s);
+        printer.print("Hello Java!");
+    }
+}</code></pre>
 </div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_replace"><code>replace()</code></h2>
+<h2 id="_лямбды_и_локальные_переменные">Лямбды и локальные переменные</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Для замены подстроки между определенными позициями в <code>StringBuffer</code> на другую подстроку применяется метод <code>replace()</code>:</p>
+<p>Лямбда-выражение может использовать переменные, которые объявлены во вне в более общей области видимости - на уровне класса или метода, в котором лямбда-выражение определено. Однако в зависимости от того, как и где определены переменные, могут различаться способы их использования в лямбдах. Рассмотрим первый пример - использования переменных уровня класса:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">StringBuffer strBuffer = new StringBuffer("hello world!");
-strBuffer.replace(6, 11, "java");
-System.out.println(strBuffer.toString()); // hello java!</code></pre>
+<pre class="highlight"><code class="language-java" data-lang="java">public class LambdaApp {
+    static int x = 10;
+    static int y = 20;
+
+    public static void main(String[] args) {
+        Operation op = () -&gt; {
+            x = 30;
+            return x + y;
+        };
+        System.out.println(op.calculate()); // 50
+        System.out.println(x); // 30 - значение x изменилось
+    }
+}
+
+interface Operation {
+    int calculate();
+}</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Первый параметр метода <code>replace()</code> указывает, с какой позиции надо начать замену, второй параметр - до какой позиции, а третий параметр указывает на подстроку замены.</p>
+<p>Переменные <code>x</code> и <code>y</code> объявлены на уровне класса, и в лямбда-выражении мы их может получить и даже изменить. Так, в данном случае после выполнения выражения изменяется значение переменной <code>x</code>.</p>
+</div>
+<div class="paragraph">
+<p>Теперь рассмотрим другой пример - локальные переменные на уровне метода:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">public static void main(String[] args) {
+    int n = 70;
+    int m = 30;
+    Operation op = () -&gt; {
+        // n = 100; - так нельзя сделать
+        return m + n;
+    };
+    // n = 100;  - так тоже нельзя
+    System.out.println(op.calculate()); // 100
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Локальные переменные уровня метода мы также может использовать в лямбдах, но изменять их значение мы уже не сможем. Если мы попробуем это сделать, то среда разработки может нам высветить ошибку и то, что такую переменную надо пометить с помощью ключевого слова <code>final</code>, то есть сделать константой: <code>final int n = 70;</code>. Однако это необязательно.</p>
+</div>
+<div class="paragraph">
+<p>Более того, мы не сможем изменить значение переменной, которая используется в лямбда-выражении, вне этого выражения. То есть даже если такая переменная не объявлена как константа, по сути она является константой.</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_reverse"><code>reverse()</code></h2>
+<h2 id="_блоки_кода_в_лямбда_выражениях">Блоки кода в лямбда-выражениях</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Метод <code>reverse()</code> меняет порядок в <code>StringBuffer</code> на обратный:</p>
+<p>Существуют два типа лямбда-выражений:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>однострочное выражение</p>
+</li>
+<li>
+<p>блок кода</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Примеры однострочных выражений демонстрировались выше. Блочные выражения обрамляются фигурными скобками. В блочных лямбда-выражениях можно использовать внутренние вложенные блоки, циклы, конструкции <code>if</code>, <code>switch</code>, создавать переменные и т.д. Если блочное лямбда-выражение должно возвращать значение, то явным образом применяется оператор <code>return</code>:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">StringBuffer strBuffer = new StringBuffer("assembler");
-strBuffer.reverse();
-System.out.println(strBuffer.toString()); // relbmessa</code></pre>
+<pre class="highlight"><code class="language-java" data-lang="java">Operationable operation = (int x, int y) -&gt; {
+    if(y == 0)
+        return 0;
+    else
+        return x / y;
+};
+
+System.out.println(operation.calculate(20, 10)); //2
+System.out.println(operation.calculate(20, 0)); //0</code></pre>
 </div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_обобщенный_функциональный_интерфейс">Обобщенный функциональный интерфейс</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Функциональный интерфейс может быть обобщенным, однако в лямбда-выражении использование обобщений не допускается. В этом случае нам надо типизировать объект интерфейса определенным типом, который потом будет применяться в лямбда-выражении. Например:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">public class LambdaApp {
+    public static void main(String[] args) {
+        Operationable&lt;Integer&gt; operation1 = (x, y) -&gt; x + y;
+        Operationable&lt;String&gt; operation2 = (x, y) -&gt; x + y;
+
+        System.out.println(operation1.calculate(20, 10)); //30
+        System.out.println(operation2.calculate("20", "10")); //2010
+    }
+}
+
+interface Operationable&lt;T&gt; {
+    T calculate(T x, T y);
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Таким образом, при объявлении лямбд-выражения ему уже известно, какой тип параметры будут представлять и какой тип они будут возвращать.</p>
 </div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2021-01-23 07:51:57 UTC
+Last updated 2021-01-24 04:22:50 UTC
 </div>
 </div>
 </body>

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.12">
-<title>Aвтоупаковка и распаковка (since version 5)</title>
+<title>StringBuffer и StringBuilder</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -440,245 +440,234 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </head>
 <body class="article">
 <div id="header">
-<h1>Aвтоупаковка и распаковка (since version 5)</h1>
+<h1><code>StringBuffer</code> и <code>StringBuilder</code></h1>
 </div>
 <div id="content">
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p>Автоупаковка и распаковка это процесс преобразования примитивных типов в объектные и наоборот. Весь процесс выполняется автоматически средой выполнения Java (JRE).</p>
+<p>Объекты <code>String</code> являются неизменяемыми, поэтому все операции, которые изменяют строки, фактически приводят к созданию новой строки, что сказывается на производительности приложения. Для решения этой проблемы, чтобы работа со строками проходила с меньшими издержками в Java были добавлены классы <code>StringBuffer</code> и <code>StringBuilder</code>. По сути они напоминает расширяемую строку, которую можно изменять без ущерба для производительности.</p>
+</div>
+<div class="paragraph">
+<p>Эти классы похожи, практически двойники, они имеют одинаковые конструкторы, одни и те же методы, которые одинаково используются. Единственное их различие состоит в том, что класс <code>StringBuffer</code> синхронизированный и потокобезопасный. То есть класс <code>StringBuffer</code> удобнее использовать в многопоточных приложениях, где объект данного класса может меняться в различных потоках. Если же речь о многопоточных приложениях не идет, то лучше использовать класс <code>StringBuilder</code>, который не потокобезопасный, но при этом работает быстрее, чем <code>StringBuffer</code> в однопоточных приложениях.</p>
+</div>
+<div class="paragraph">
+<p><code>StringBuffer</code> определяет четыре конструктора:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">public class AutoBoxDemo1 {
-    public static void main(String[] args) {
-        Integer iOb = 100; // упаковать значение int
-        int i = iOb; // распаковать
-        System.out.println(i + " " + iOb);
-    }
-}</code></pre>
+<pre class="highlight"><code class="language-java" data-lang="java">StringBuffer()
+StringBuffer(int capacity)
+StringBuffer(String str)
+StringBuffer(CharSequence chars)</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Автоупаковка происходит при прямом присвоении примитива классу-обертке (с помощью оператора <code>=</code>), либо при передаче примитива в параметры метода.</p>
-</div>
-<div class="paragraph">
-<p>Распаковка происходит при прямом присвоении классу-обертке примитива.</p>
-</div>
-<div class="paragraph">
-<p>Компилятор использует метод <code>valueOf()</code> для упаковки, а методы <code>intValue()</code>, <code>doubleValue()</code> и так далее, для распаковки.</p>
-</div>
-<div class="paragraph">
-<p>Автоупаковке в <strong>классы-обертки</strong> могут быть подвергнуты как переменные примитивных типов, так и литералы:</p>
+<p>Аналогичные конструкторы определяет <code>StringBuilder</code>:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">Integer iOb1 = 100;
-int i = 200;
-Integer iOb2 = i;</code></pre>
+<pre class="highlight"><code class="language-java" data-lang="java">StringBuilder()
+StringBuilder(int capacity)
+StringBuilder(String str)
+StringBuilder(CharSequence chars)</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Автоупаковка переменных примитивных типов требует точного соответствия типа исходного примитива — типу <strong>класса-обертки</strong>.</p>
+<p>Рассмотрим работу этих классов на примере функциональности <code>StringBuffer</code>.</p>
 </div>
 <div class="paragraph">
-<p>Например, попытка автоупаковать переменную типа <code>byte</code> в <code>Short</code>, без предварительного явного приведения <code>byte</code> в <code>short</code> вызовет ошибку компиляции:</p>
+<p>При всех операциях со строками <code>StringBuffer</code> / <code>StringBuilder</code> перераспределяет выделенную память. И чтобы избежать слишком частого перераспределения памяти, <code>StringBuffer</code>/<code>StringBuilder</code> заранее резервирует некоторую область памяти, которая может использоваться. Конструктор без параметров резервирует в памяти место для 16 символов. Если мы хотим, чтобы количество символов было иным, то мы можем применить второй конструктор, который в качестве параметра принимает количество символов.</p>
+</div>
+<div class="paragraph">
+<p>Третий и четвертый конструкторы обоих классов принимают строку и набор символов, при этом резервируя память для дополнительных 16 символов.</p>
+</div>
+<div class="paragraph">
+<p>С помощью метода <code>capacity()</code> мы можем получить количество символов, для которых зарезервирована память. А с помощью метода <code>ensureCapacity()</code> изменить минимальную емкость буфера символов:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">byte b = 4;
-// Short s1 = b;
-Short s2 = (short) b;</code></pre>
+<pre class="highlight"><code class="language-java" data-lang="java">String str = "Java";
+StringBuffer strBuffer = new StringBuffer(str);
+System.out.println("Емкость: " + strBuffer.capacity()); // 20
+strBuffer.ensureCapacity(32);
+System.out.println("Емкость: " + strBuffer.capacity()); // 42
+System.out.println("Длина: " + strBuffer.length()); // 4</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Автоупаковку можно использовать при вызове метода:</p>
+<p>Так как в самом начале <code>StringBuffer</code> инициализируется строкой <code>"Java"</code>, то его емкость составляет 4 + 16 = 20 символов. Затем мы увеличиваем емкость буфера с помощью вызова <code>strBuffer.ensureCapacity(32)</code> повышаем минимальную емкость буфера до 32 символов. Однако финальная емкость может отличаться в большую сторону. Так, в данном случае я получаю емкость не 32 и не 32 + 4 = 36, а 42 символа. Дело в том, что в целях повышения эффективности Java может дополнительно выделять память.</p>
+</div>
+<div class="paragraph">
+<p>Но в любом случае вне зависимости от емкости длина строки, которую можно получить с помощью метода <code>length()</code>, в <code>StringBuffer</code> остается прежней - 4 символа (так как в <code>"Java"</code> 4 символа).</p>
+</div>
+<div class="paragraph">
+<p>Чтобы получить строку, которая хранится в <code>StringBuffer</code>, мы можем использовать стандартный метод <code>toString()</code>:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">public class AutoBoxAndMethods {
-    static int someMethod(Integer value) {
-        return value;
-    }
-
-    public static void main(String[] args) {
-        Integer iOb = someMethod(100);
-        System.out.println(iOb);
-    }
-}</code></pre>
+<pre class="highlight"><code class="language-java" data-lang="java">String str = "Java";
+StringBuffer strBuffer = new StringBuffer(str);
+System.out.println(strBuffer.toString()); // Java</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Внутри выражения числовой объект автоматически распаковывается. Выходной результат выражения при необходимости упаковывается заново:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">public class AutoBoxAndOperations {
-    public static void main(String[] args) {
-        Integer iOb1, iOb2;
-        int i;
-
-        iOb1 = 100;
-
-        iOb2 = iOb1 + iOb1 / 3;
-        System.out.println("iOb2 после выражения: " + iOb2);
-
-        i = iOb1 + iOb1 / 3;
-        System.out.println("i после выражения: " + i);
-    }
-}</code></pre>
+<p>По всем своим операциям <code>StringBuffer</code> и <code>StringBuilder</code> напоминают класс <code>String</code>.</p>
 </div>
 </div>
+</div>
+<div class="sect1">
+<h2 id="_charat_и_setcharat"><code>charAt()</code> и <code>setCharAt()</code></h2>
+<div class="sectionbody">
 <div class="paragraph">
-<p>C появлением автоупаковки/распаковки стало возможным применять объекты <code>Boolean</code> для управления в операторе <code>if</code> и других циклических конструкциях Java:</p>
+<p>Метод <code>charAt()</code> получает, а метод <code>setCharAt()</code> устанавливает символ по определенному индексу:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">public class AutoBoxAndCharacters {
-    public static void main(String[] args) {
-        Boolean b = true;
-
-        if (b) {
-            System.out.println("В if тоже можно использовать распаковку.");
-        }
-
-        Character ch = 'x';
-        char ch2 = ch;
-
-        System.out.println("ch2 = " + ch2);
-    }
-}</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>До Java 5 работа с классами обертками была более трудоемкой:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">public class AutoBoxDemo2 {
-    public static void main(String[] args) {
-        Integer y = new Integer(567);
-        int x = y.intValue();
-        x++;
-        y = new Integer(x);
-        System.out.println("y = " + y);
-    }
-}</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Перепишет тот же пример для работы с классами начиная с Java 5:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">public class AutoBoxDemo3 {
-    public static void main(String[] args) {
-        Integer y = new Integer(567);
-        y++;
-        System.out.println("y = " + y);
-    }
-}</code></pre>
+<pre class="highlight"><code class="language-java" data-lang="java">StringBuffer strBuffer = new StringBuffer("Java");
+char c = strBuffer.charAt(0); // J
+System.out.println(c);
+strBuffer.setCharAt(0, 'c');
+System.out.println(strBuffer.toString()); // cava</code></pre>
 </div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_объекты_классов_оболочек_неизменяемые">Объекты классов оболочек неизменяемые</h2>
+<h2 id="_getchars"><code>getChars()</code></h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Объекты классов оболочек <strong>неизменяемые</strong> (<strong>immutable</strong>):</p>
+<p>Метод <code>getChars()</code> получает набор символов между определенными индексами:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">public class AutoBoxImmutability {
-    public static void main(String[] args) {
-        Integer y = 567;
-        Integer x = y;
-        // проверяем, что x и y указывают на один объект
-        System.out.println(y == x);
-
-        y++;
-        System.out.println(x + " " + y);
-        // проверяем, что x и y указывают на один объект
-        System.out.println(y == x);
-    }
-}</code></pre>
+<pre class="highlight"><code class="language-java" data-lang="java">StringBuffer strBuffer = new StringBuffer("world");
+int startIndex = 1;
+int endIndex = 4;
+char[] buffer = new char[endIndex-startIndex];
+strBuffer.getChars(startIndex, endIndex, buffer, 0);
+System.out.println(buffer); // orl</code></pre>
 </div>
-</div>
-<div class="paragraph">
-<p>Рассмотрим следующий пример:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">Integer y = 567;</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Переменная <code>y</code> указывает на объект в памяти:</p>
-</div>
-<div class="paragraph">
-<p><span class="image"><img src="/assets/img/java/core/mics/wrapper-immutable1.png" alt="Объекты классов оболочек неизменяемы"></span></p>
-</div>
-<div class="paragraph">
-<p>Если мы попытаемся изменить <code>y</code>, у нас создастся еще один объект в памяти, на который теперь и будет указывать <code>y</code>:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">Integer y = 567;
-y++;</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p><span class="image"><img src="/assets/img/java/core/mics/wrapper-immutable2.png" alt="Объекты классов оболочек неизменяемы"></span></p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_кэширование_объектов_классов_оболочек">Кэширование объектов классов оболочек</h2>
+<h2 id="_append"><code>append()</code></h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Метод <code>valueOf()</code> не всегда создает новый объект. Он кэширует следующие значения:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><code>Boolean</code>,</p>
-</li>
-<li>
-<p><code>Byte</code>,</p>
-</li>
-<li>
-<p><code>Character</code> от <code>\u0000</code> до <code>\u007f</code> (<code>7f</code> это <code>127</code>),</p>
-</li>
-<li>
-<p><code>Short</code> и <code>Integer</code> от <code>-128</code> до <code>127</code>.</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>Если передаваемое значение выходит за эти пределы, то новый объект создается, а если нет, то нет.</p>
-</div>
-<div class="paragraph">
-<p>Если мы пишем <code>new Integer()</code>, то гарантированно создается новый объект.</p>
-</div>
-<div class="paragraph">
-<p>Рассмотрим это на следующем примере:</p>
+<p>Метод <code>append()</code> добавляет подстроку в конец <code>StringBuffer</code>:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">public class AutoBoxDemoCaching {
-    public static void main(String[] args) {
-        Integer i1 = 23;
-        Integer i2 = 23;
-        System.out.println(i1 == i2);
-        System.out.println(i1.equals(i2));
+<pre class="highlight"><code class="language-java" data-lang="java">StringBuffer strBuffer = new StringBuffer("hello");
+strBuffer.append(" world");
+System.out.println(strBuffer.toString()); // hello world</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_insert"><code>insert()</code></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Метод <code>insert()</code> добавляет строку или символ по определенному индексу в <code>StringBuffer</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">StringBuffer strBuffer = new StringBuffer("word");
 
-        Integer i3 = 2300;
-        Integer i4 = 2300;
-        System.out.println(i3 == i4);
-        System.out.println(i3.equals(i4));
-    }
-}</code></pre>
+strBuffer.insert(3, 'l');
+System.out.println(strBuffer.toString()); // world
+
+strBuffer.insert(0, "s");
+System.out.println(strBuffer.toString()); // sworld</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_delete_и_deletecharat"><code>delete()</code> и <code>deleteCharAt()</code></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Метод <code>delete()</code> удаляет все символы с определенного индекса о определенной позиции, а метод <code>deleteCharAt()</code> удаляет один символ по определенному индексу:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">StringBuffer strBuffer = new StringBuffer("assembler");
+strBuffer.delete(0,2);
+System.out.println(strBuffer.toString()); // sembler
+
+strBuffer.deleteCharAt(6);
+System.out.println(strBuffer.toString()); // semble</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_substring"><code>substring()</code></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Метод <code>substring()</code> обрезает строку с определенного индекса до конца, либо до определенного индекса:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">StringBuffer strBuffer = new StringBuffer("hello java!");
+String str1 = strBuffer.substring(6); // обрезка строки с 6 символа до конца
+System.out.println(str1); //java!
+
+String str2 = strBuffer.substring(3, 9); // обрезка строки с 3 по 9 символ
+System.out.println(str2); //lo jav</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_setlength"><code>setLength()</code></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Для изменения длины <code>StringBuffer</code> (не емкости буфера символов) применяется метод <code>setLength()</code>. Если <code>StringBuffer</code> увеличивается, то его строка просто дополняется в конце пустыми символами, если уменьшается - то строка по сути обрезается:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">StringBuffer strBuffer = new StringBuffer("hello");
+strBuffer.setLength(10);
+System.out.println(strBuffer.toString()); // "hello     "
+
+strBuffer.setLength(4);
+System.out.println(strBuffer.toString()); // "hell"</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_replace"><code>replace()</code></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Для замены подстроки между определенными позициями в <code>StringBuffer</code> на другую подстроку применяется метод <code>replace()</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">StringBuffer strBuffer = new StringBuffer("hello world!");
+strBuffer.replace(6, 11, "java");
+System.out.println(strBuffer.toString()); // hello java!</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Первый параметр метода <code>replace()</code> указывает, с какой позиции надо начать замену, второй параметр - до какой позиции, а третий параметр указывает на подстроку замены.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_reverse"><code>reverse()</code></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Метод <code>reverse()</code> меняет порядок в <code>StringBuffer</code> на обратный:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">StringBuffer strBuffer = new StringBuffer("assembler");
+strBuffer.reverse();
+System.out.println(strBuffer.toString()); // relbmessa</code></pre>
 </div>
 </div>
 </div>
@@ -686,7 +675,7 @@ y++;</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2021-01-23 07:51:57 UTC
+Last updated 2021-01-24 04:22:50 UTC
 </div>
 </div>
 </body>

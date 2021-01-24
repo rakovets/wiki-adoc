@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.12">
-<title>Введение в лямбда-выражения</title>
+<title>Аннотации</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -440,324 +440,330 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </head>
 <body class="article">
 <div id="header">
-<h1>Введение в лямбда-выражения</h1>
+<h1>Аннотации</h1>
 </div>
 <div id="content">
-<div class="sect1">
-<h2 id="_введение">Введение</h2>
+<div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p>Среди новшеств, которые были привнесены в язык Java с выходом JDK 8, особняком стоят <strong>лямбда-выражения</strong>. Лямбда-выражение представляет набор инструкций, которые можно выделить в отдельную переменную и затем многократно вызвать в различных местах программы.</p>
+<p><strong>Аннотации</strong> представляют собой некую мета-информацию. Они не выполняют какого-либо действия сами по себе, но они могут предоставлять дополнительную информацию, которая может быть использована компилятором, различными утилитами сборки и генерации кода, а также они могут обрабатываться во время выполнения программы.</p>
 </div>
 <div class="paragraph">
-<p>Основу лямбда-выражения составляет <strong>лямбда-оператор</strong>, который представляет стрелку <strong>&#8594;</strong>. Этот оператор разделяет лямбда-выражение на две части: левая часть содержит <strong>список параметров выражения</strong>, а правая собственно представляет <strong>тело лямбда-выражения</strong>, где выполняются все действия.</p>
-</div>
-<div class="paragraph">
-<p>Лямбда-выражение не выполняется само по себе, а образует реализацию метода, определенного в функциональном интерфейсе. При этом важно, что функциональный интерфейс должен содержать только один единственный метод без реализации.</p>
-</div>
-<div class="paragraph">
-<p>Рассмотрим пример:</p>
+<p>Аннотации предваряются символом <code>@</code>. Пример часто используемой аннотации <code>@Override</code>, которая указывает компилятору, что этот метод переопределяет базовый метод:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">public class LambdaApp {
-    public static void main(String[] args) {
-        Operationable operation;
-        operation = (x, y) -&gt; x + y;
-
-        int result = operation.calculate(10, 20);
-        System.out.println(result); //30
-    }
-}
-
-interface Operationable {
-    int calculate(int x, int y);
+<pre class="highlight"><code class="language-java" data-lang="java">@Override
+public void someMethod() {
+    // ...
 }</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>В роли функционального интерфейса выступает интерфейс <code>Operationable</code>, в котором определен один метод без реализации - метод <code>calculate</code>. Данный метод принимает два параметра - целых числа, и возвращает некоторое целое число.</p>
-</div>
-<div class="paragraph">
-<p>По факту <strong>лямбда-выражения являются</strong> в некотором роде <strong>сокращенной формой внутренних анонимных классов</strong>, которые ранее применялись в Java. В частности, предыдущий пример мы можем переписать следующим образом:</p>
+<p>Аннотации могут иметь элементы:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">public class LambdaApp {
-    public static void main(String[] args) {
-        Operationable op = new Operationable() {
-            public int calculate(int x, int y) {
-                return x + y;
-            }
-        };
-        int z = op.calculate(20, 10);
-        System.out.println(z); // 30
-    }
-}
-
-interface Operationable {
-    int calculate(int x, int y);
+<pre class="highlight"><code class="language-java" data-lang="java">@SuppressWarnings(value = "unchecked")
+public void method() {
 }</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Чтобы объявить и использовать лямбда-выражение, основная программа разбивается на ряд этапов:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Определение ссылки на функциональный интерфейс:</p>
-</li>
-</ul>
+<p>Если элементов много, то они разделяются запятой, если элемент только один, и его имя <code>value</code>, то его название можно не указывать:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">Operationable operation;</code></pre>
-</div>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Создание лямбда-выражения:</p>
-</li>
-</ul>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">operation = (x, y) -&gt; x + y;</code></pre>
-</div>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Использование лямбда-выражения в виде вызова метода интерфейса:</p>
-</li>
-</ul>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">int result = operation.calculate(10, 20);</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>На втором этапе параметры лямбда-выражения соответствуют параметрам единственного метода интерфейса <code>Operationable</code>, а результат соответствует возвращаемому результату метода интерфейса. При этом нам не надо использовать ключевое слово <code>return</code> для возврата результата из лямбда-выражения.</p>
-</div>
-<div class="paragraph">
-<p>Так, в методе интерфейса оба параметра представляют тип <code>int</code>, значит, в теле лямбда-выражения мы можем применить к ним сложение. Результат сложения также представляет тип <code>int</code>, объект которого возвращается методом интерфейса.</p>
-</div>
-<div class="paragraph">
-<p>На третьем этапе результатом будет сумма чисел <code>10</code> и <code>20</code>, так как в лямбда-выражении определена операция сложения параметров.</p>
-</div>
-<div class="paragraph">
-<p>При этом для одного функционального интерфейса мы можем определить множество лямбда-выражений. Например:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">Operationable operation1 = (int x, int y)-&gt; x + y;
-Operationable operation2 = (int x, int y)-&gt; x - y;
-Operationable operation3 = (int x, int y)-&gt; x * y;
-
-System.out.println(operation1.calculate(20, 10)); //30
-System.out.println(operation2.calculate(20, 10)); //10
-System.out.println(operation3.calculate(20, 10)); //200</code></pre>
+<pre class="highlight"><code class="language-java" data-lang="java">@SuppressWarnings("unchecked")
+void myMethod() {
+}</code></pre>
 </div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_отложенное_выполнение">Отложенное выполнение</h2>
+<h2 id="_объявление_аннотаций">Объявление аннотаций</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Одним из ключевых моментов в использовании лямбд является <strong>отложенное выполнение</strong> (<strong>deferred execution</strong>). То есть мы определяем в одном месте программы лямбда-выражение и затем можем его вызывать при необходимости неопределенное количество раз в различных частях программы. Отложенное выполнение может потребоваться, к примеру, в следующих случаях:</p>
+<p>Предположим, что при объявлении каждого нового класса необходимо записывать в комментариях информацию об авторах в таком виде:</p>
 </div>
-<div class="ulist">
-<ul>
-<li>
-<p>выполнение кода отдельном потоке</p>
-</li>
-<li>
-<p>выполнение одного и того же кода несколько раз</p>
-</li>
-<li>
-<p>выполнение кода в результате какого-то события</p>
-</li>
-<li>
-<p>выполнение кода только в том случае, когда он действительно необходим и если он необходим</p>
-</li>
-</ul>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">class Goblin {
+    // author : John Clark
+    // sprites : Izabella Simpson
+    // sound : Michael Lermontov
+    // code : Pushkin A.
+    // createdAt : 2016-03-30
+    // description : Goblin is lurking creature.
+    // comments :
+
+    // ... code
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Можно записывать эту информацию с помощью аннотаций. Для этого вам сперва нужно объявить эту аннотацию:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">@interface Monstr {
+    String author();
+    String sprites();
+    String sound();
+    String code();
+    String createdAt() default "0000-00-00";
+    String description();
+
+    // Example of array use
+    String[] comments();
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Теперь можно применить его к нашему классу <code>Goblin</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">@Monstr(
+    author="John Clark",
+    sprites = "Izabella Simpson",
+    sound = "Michael Lermontov",
+    code = "Pushkin A.",
+    createdAt = "2016-03-30",
+    description = "Goblin is lurking creature",
+    comments = {"lol", "gg", "Аффтар жжёт"}
+)
+class Goblin {
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Обратите внимание на запись элементов аннотации (<code>author</code>, <code>sprites</code>, <code>sound</code>) и на запись массива элементов с использованием фигурных скобок (<code>comments</code>).</p>
+</div>
+<div class="paragraph">
+<p>Можно использовать предопределённую аннотацию <code>@Documented</code>, чтобы наша аннотация попадала в документацию, сгенерированную утилитой <strong>JavaDoc</strong>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">import java.lang.annotation.Documented;
+
+@Documented
+@interface Monstr {
+    String author();
+    String sprites();
+    String sound();
+    String code();
+    String createdAt() default "0000-00-00";
+    String description();
+
+    // Example of array use
+    String[] comments();
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_предопределённые_аннотации">Предопределённые аннотации</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_deprecated"><code>@Deprecated</code></h3>
+<div class="paragraph">
+<p><code>@Deprecated</code> указывает, что элемент устарел и не должен использоваться. Компилятор Java генерирует предупреждение, если вы используете класс, метод или поле, помеченные аннотацией <code>@Deprecated</code>. Устаревший элемент должен быть также помечен тегом <strong>JavaDoc</strong> <code>@deprecated</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">/*
+ * @deprecated
+ * explanation of why it was deprecated
+ */
+ @Deprecated
+ static void deprecatedMethod() { }</code></pre>
+</div>
+</div>
 </div>
 <div class="sect2">
-<h3 id="_передача_параметров_в_лямбда_выражение">Передача параметров в лямбда-выражение</h3>
+<h3 id="_override"><code>@Override</code></h3>
 <div class="paragraph">
-<p>Параметры лямбда-выражения должны соответствовать по тип параметрам метода из функционального интерфейса. При написании самого лямбда-выражения тип параметров писать необязательно, хотя в принципе это можно сделать, например:</p>
+<p><code>@Override</code> указывает, что метод переопределяет метод базового класса. Эту аннотацию использовать не обязательно, но рекомендуется.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">operation = (int x, int y) -&gt; x + y;</code></pre>
+<pre class="highlight"><code class="language-java" data-lang="java">@Override
+public int myMethod(double x) {
+    // ...
+}</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Если метод не принимает никаких параметров, то пишутся пустые скобки, например:</p>
+<p>Если метод с <code>@Override</code> не может корректно переопределить метод базового класса, то компилятор генерирует ошибку.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_suppresswarnings"><code>@SuppressWarnings</code></h3>
+<div class="paragraph">
+<p><code>@SuppressWarnings</code> подавляет предупреждения. Пример подавления предупреждения об устаревшем методе:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">() -&gt; 30 + 20;</code></pre>
+<pre class="highlight"><code class="language-java" data-lang="java">// Указываем компиляторе не генерировать
+// предупреждение о использовании
+// устаревшего метода.
+@SuppressWarnings("deprecation")
+void useDeprecatedMethod() {
+    // Используем устаревший метод.
+    objectOne.deprecatedMethod();
+}</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Если метод принимает только один параметр, то скобки можно опустить:</p>
+<p>Каждое предупреждение принадлежит какой-либо категории. В спецификации Java описано две категории. В <code>@SupressWarnings</code> можно указывать несколько категорий:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">n -&gt; n * n;</code></pre>
+<pre class="highlight"><code class="language-java" data-lang="java">@SuppressWarnings({"unchecked", "deprecation"})</code></pre>
 </div>
+</div>
+<div class="paragraph">
+<p>Различные реализации компиляторов и различные IDE могут добавлять свои категории предупреждений. Неподдерживаемые названия категорий пропускаются при использовании <code>@SuppressWarnings</code>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_safevarargs"><code>@SafeVarargs</code></h3>
+<div class="paragraph">
+<p><code>@SafeVarargs</code> применяется к методу или конструктору и указывает, что код не осуществляет потенциально опасных операций со своим <code>varargs</code>-параметром (параметр, принимающий произвольное число параметров).</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_functionalinterface"><code>@FunctionalInterface</code></h3>
+<div class="paragraph">
+<p><code>@FunctionalInterface</code> указывает, что это объявление типа будет функциональным интерфейсом Java 8.</p>
 </div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_терминальные_лямбда_выражения">Терминальные лямбда-выражения</h2>
+<h2 id="_мета_аннотации">Мета-аннотации</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Выше рассмотрены лямбда-выражения, которые возвращают определенное значение. Но также могут быть и <strong>терминальные лямбды</strong>, которые не возвращают никакого значения. Например:</p>
+<p>Аннотации, применяемые к другим аннотациям, называются <strong>мета-аннотациями</strong>. Есть несколько мета-аннотаций в пакете <code>java.lang.annotation</code>:</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">interface Printable {
-    void print(String s);
-}
-
-public class LambdaApp {
-    public static void main(String[] args) {
-        Printable printer = s -&gt; System.out.println(s);
-        printer.print("Hello Java!");
-    }
-}</code></pre>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_лямбды_и_локальные_переменные">Лямбды и локальные переменные</h2>
-<div class="sectionbody">
+<div class="sect2">
+<h3 id="_retention"><code>@Retention</code></h3>
 <div class="paragraph">
-<p>Лямбда-выражение может использовать переменные, которые объявлены во вне в более общей области видимости - на уровне класса или метода, в котором лямбда-выражение определено. Однако в зависимости от того, как и где определены переменные, могут различаться способы их использования в лямбдах. Рассмотрим первый пример - использования переменных уровня класса:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">public class LambdaApp {
-    static int x = 10;
-    static int y = 20;
-
-    public static void main(String[] args) {
-        Operation op = () -&gt; {
-            x = 30;
-            return x + y;
-        };
-        System.out.println(op.calculate()); // 50
-        System.out.println(x); // 30 - значение x изменилось
-    }
-}
-
-interface Operation {
-    int calculate();
-}</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Переменные <code>x</code> и <code>y</code> объявлены на уровне класса, и в лямбда-выражении мы их может получить и даже изменить. Так, в данном случае после выполнения выражения изменяется значение переменной <code>x</code>.</p>
-</div>
-<div class="paragraph">
-<p>Теперь рассмотрим другой пример - локальные переменные на уровне метода:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">public static void main(String[] args) {
-    int n = 70;
-    int m = 30;
-    Operation op = () -&gt; {
-        // n = 100; - так нельзя сделать
-        return m + n;
-    };
-    // n = 100;  - так тоже нельзя
-    System.out.println(op.calculate()); // 100
-}</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Локальные переменные уровня метода мы также может использовать в лямбдах, но изменять их значение мы уже не сможем. Если мы попробуем это сделать, то среда разработки может нам высветить ошибку и то, что такую переменную надо пометить с помощью ключевого слова <code>final</code>, то есть сделать константой: <code>final int n = 70;</code>. Однако это необязательно.</p>
-</div>
-<div class="paragraph">
-<p>Более того, мы не сможем изменить значение переменной, которая используется в лямбда-выражении, вне этого выражения. То есть даже если такая переменная не объявлена как константа, по сути она является константой.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_блоки_кода_в_лямбда_выражениях">Блоки кода в лямбда-выражениях</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Существуют два типа лямбда-выражений:</p>
+<p><code>@Retention</code> определяет, как аннотация будет сохранена:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>однострочное выражение</p>
+<p><code>RetentionPolicy.SOURCE</code> - аннотация будет только в исходном коде, и она будет игнорироваться компилятором.</p>
 </li>
 <li>
-<p>блок кода</p>
+<p><code>RetentionPolicy.CLASS</code> - аннотация будет доступна компилятору, но но будет игнорироваться виртуальной машиной Java.</p>
+</li>
+<li>
+<p><code>RetentionPolicy.RUNTIME</code> - аннотация будет сохраняться JVM и будет доступна во время выполнения.</p>
 </li>
 </ul>
 </div>
+</div>
+<div class="sect2">
+<h3 id="_documented"><code>@Documented</code></h3>
 <div class="paragraph">
-<p>Примеры однострочных выражений демонстрировались выше. Блочные выражения обрамляются фигурными скобками. В блочных лямбда-выражениях можно использовать внутренние вложенные блоки, циклы, конструкции <code>if</code>, <code>switch</code>, создавать переменные и т.д. Если блочное лямбда-выражение должно возвращать значение, то явным образом применяется оператор <code>return</code>:</p>
+<p><code>@Documented</code> - указывает, что элементы, помеченные этой аннотацией, должны документироваться JavaDoc. По умолчанию аннотации не включаются в документацию.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_target"><code>@Target</code></h3>
+<div class="paragraph">
+<p><code>@Target</code> - указывает какие элементы можно помечать этой аннотацией:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>ElementType.ANNOTATION_TYPE</code> - данная аннотация может быть применена к другой аннотации.</p>
+</li>
+<li>
+<p><code>ElementType.CONSTRUCTOR</code> - может быть применена к конструктору.</p>
+</li>
+<li>
+<p><code>ElementType.FIELD</code> - может быть применена к полю.</p>
+</li>
+<li>
+<p><code>ElementType.LOCAL_VARIABLE</code> - может быть применена к локальной переменной.</p>
+</li>
+<li>
+<p><code>ElementType.METHOD</code> - может быть применена к методу.</p>
+</li>
+<li>
+<p><code>ElementType.PACKAGE</code> - может быть применена к пакету.</p>
+</li>
+<li>
+<p><code>ElementType.PARAMETER</code> - может быть применена к параметрам метода.</p>
+</li>
+<li>
+<p><code>ElementType.TYPE</code> - может быть применена классу, интерфейсу, аннотации или перечислению.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_inherited"><code>@Inherited</code></h3>
+<div class="paragraph">
+<p><code>@Inherited</code> — аннотация может быть унаследована от базового класса (по умолчанию не наследуются). Когда запрашивается аннотация класса, и у класса нет такой аннотации, то запрашивается аннотация базового класса. Эта аннотация может быть применена только к классам.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_repeatable"><code>@Repeatable</code></h3>
+<div class="paragraph">
+<p><code>@Repeatable</code> - аннотация может быть применена несколько раз.</p>
+</div>
+<div class="paragraph">
+<p>Допустим мы хотим применить аннотацию <code>@Author</code> несколько раз для указания нескольких авторов:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">Operationable operation = (int x, int y) -&gt; {
-    if(y == 0)
-        return 0;
-    else
-        return x / y;
-};
-
-System.out.println(operation.calculate(20, 10)); //2
-System.out.println(operation.calculate(20, 0)); //0</code></pre>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_обобщенный_функциональный_интерфейс">Обобщенный функциональный интерфейс</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Функциональный интерфейс может быть обобщенным, однако в лямбда-выражении использование обобщений не допускается. В этом случае нам надо типизировать объект интерфейса определенным типом, который потом будет применяться в лямбда-выражении. Например:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">public class LambdaApp {
-    public static void main(String[] args) {
-        Operationable&lt;Integer&gt; operation1 = (x, y) -&gt; x + y;
-        Operationable&lt;String&gt; operation2 = (x, y) -&gt; x + y;
-
-        System.out.println(operation1.calculate(20, 10)); //30
-        System.out.println(operation2.calculate("20", "10")); //2010
-    }
-}
-
-interface Operationable&lt;T&gt; {
-    T calculate(T x, T y);
+<pre class="highlight"><code class="language-java" data-lang="java">@Author("Petya")
+@Author("Vasya")
+@Author("Suslik")
+class Goblin {
 }</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Таким образом, при объявлении лямбд-выражения ему уже известно, какой тип параметры будут представлять и какой тип они будут возвращать.</p>
+<p>Тогда необходимо объявить такую аннотацию следующим образом:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">import java.lang.annotation.Repeatable;
+
+@Repeatable(Authors.class)
+@interface Author {
+    String value();
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Обратите внимание, что добавлена аннотация <code>@Repeatable</code> с указанием <code>Authors.class</code>, который мы должны объявить как аннотацию с массивом аннотация <code>Author</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">@interface Authors{
+    Author[] value();
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Теперь можно указывать аннотацию <code>@Author</code> столько раз, сколько необходимо, для любого класса.</p>
+</div>
 </div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2021-01-23 07:51:57 UTC
+Last updated 2021-01-24 04:22:50 UTC
 </div>
 </div>
 </body>

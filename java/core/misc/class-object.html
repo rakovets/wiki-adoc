@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.12">
-<title>Properties</title>
+<title>Класс Object</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -440,305 +440,170 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </head>
 <body class="article">
 <div id="header">
-<h1>Properties</h1>
+<h1>Класс <code>Object</code></h1>
 </div>
 <div id="content">
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p>Класс <code>Properties</code> – это подкласс <code>Hashtable</code>.
-Он используется для хранения списков значений, в которых ключ является <code>String</code>, а значение также является <code>String</code>.</p>
+<p>Хотя мы можем создать обычный класс, который не является наследником, но фактически все классы наследуют от класса <code>Object</code>. Все остальные классы, даже те, которые мы добавляем в свой проект, являются неявно производными от класса <code>Object</code>. Поэтому все типы и классы могут реализовать те методы, которые определены в классе <code>Object</code>. Рассмотрим эти методы.</p>
 </div>
-<div class="paragraph">
-<p>Класс <code>Properties</code> в Java используется множеством других классов.
-Например, это тип объекта, возвращаемый <code>System.getProperties()</code>, когда тот получает внешние значения.</p>
 </div>
+</div>
+<div class="sect1">
+<h2 id="_tostring"><code>toString()</code></h2>
+<div class="sectionbody">
 <div class="paragraph">
-<p><code>Properties</code> определяет следующие переменную экземпляра.</p>
+<p>Метод <code>toString()</code> служит для получения представления данного объекта в виде строки. При попытке вывести строковое представления какого-нибудь объекта, как правило, будет выводиться полное имя класса. Например:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">Properties defaults;</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Эта переменная содержит список свойств по умолчанию, связанный с объектом <code>Properties</code>.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_конструкторы">Конструкторы</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Вот список конструкторов, предоставляемые классом <code>Properties</code>.</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><code>Properties()</code> конструктор создает объект <code>Properties</code>, который не имеет значений по умолчанию.</p>
-</li>
-<li>
-<p><code>Properties(Properties propDefault)</code> создаёт объект, который использует propDefault для своих значений по умолчанию.
-В обоих случаях список свойств пустой.</p>
-</li>
-</ul>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_методы">Методы</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Помимо методов, определённых <code>Hashtable</code>, <code>Properties</code> определяет следующие методы:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><code>String getProperty(String key)</code> возвращает значение, связанное с ключом.
-Возвращается нулевой объект, если ключ не находится ни в списке, ни в списке свойств по умолчанию.</p>
-</li>
-<li>
-<p><code>String getProperty(String key, String defaultProperty)</code> возвращает значение, связанное с ключом; Возвращается <code>defaultProperty</code>, если ключ не находится ни в списке, ни в списке свойств по умолчанию.</p>
-</li>
-<li>
-<p><code>void list(PrintStream streamOut)</code> отправляет список свойств в выходной поток, связанный с <code>streamOut</code>.</p>
-</li>
-<li>
-<p><code>void list(PrintWriter streamOut)</code> отправляет список свойств в выходной поток, связанный с <code>streamOut</code>.</p>
-</li>
-<li>
-<p><code>void load(InputStream streamIn) throws IOException</code> вводит список свойств из входного потока, связанного с <code>streamIn</code>.</p>
-</li>
-<li>
-<p><code>Enumeration propertyNames()</code> возвращает перечисление ключей, включая ключи, найденные в списке свойств по умолчанию.</p>
-</li>
-<li>
-<p><code>Object setProperty(String key, String value)</code> связывает значение с ключом.
-Возвращает предыдущее значение, связанное с ключом, или возвращает <code>null</code>, если такой связи не существует.</p>
-</li>
-<li>
-<p><code>void store(OutputStream streamOut, String description)</code> после записи строки, указанной в описании, список свойств записывается в выходной поток, связанный с <code>streamOut</code>.</p>
-</li>
-</ul>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_примеры">Примеры</h2>
-<div class="sectionbody">
-<div class="sect2">
-<h3 id="_пример_системные_свойства">Пример: системные свойства</h3>
-<div class="paragraph">
-<p>Получим и выведем все системные свойства:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">import java.util.Map;
-import java.util.Properties;
-import java.util.Set;
-
-/**
- * Java program to demonstrate Properties class to get all the system properties
- */
-public class PropertiesExample2GetSystemProperties {
-    /**
-     * Main method for Demo
-     *
-     * @param args input arguments
-     */
+<pre class="highlight"><code class="language-java" data-lang="java">public class Program {
     public static void main(String[] args) {
-        // get all the system properties
-        Properties p = System.getProperties();
+        Person tom = new Person("Tom");
+        System.out.println(tom.toString()); // Будет выводить что-то наподобие Person@7960847b
+    }
+}
+class Person {
+    private String name;
 
-        // stores set of properties information
-        Set&lt;Map.Entry&lt;Object, Object&gt;&gt; set = p.entrySet();
+    public Person(String name) {
+        this.name = name;
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Полученное мной значение (в данном случае <code>Person@7960847b</code>) вряд ли может служить хорошим строковым описанием объекта. Поэтому метод <code>toString()</code> нередко переопределяют. Например:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">public class Program {
+    public static void main(String[] args) {
+        Person tom = new Person("Tom");
+        System.out.println(tom.toString()); // Person Tom
+    }
+}
 
-        // iterate over the set
-        for (Map.Entry&lt;Object, Object&gt; entry : set) {
-            // print each property
-            System.out.printf("%s=%s\n", entry.getKey(), entry.getValue());
+class Person {
+    private String name;
+
+    public Person(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return "Person " + name;
+    }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_hashcode"><code>hashCode()`</code></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Метод <code>hashCode()</code> позволяет задать некоторое числовое значение, которое будет соответствовать данному объекту или его хэш-код. По данному числу, например, можно сравнивать объекты.</p>
+</div>
+<div class="paragraph">
+<p>Например, выведем представление вышеопределенного объекта:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">Person tom = new Person("Tom");
+System.out.println(tom.hashCode()); // 2036368507</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Но мы можем задать свой алгоритм определения хэш-кода объекта:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">class Person {
+    private String name;
+
+    public Person(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public int hashCode(){
+        return 11 * name.hashCode() + 7;
+    }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_getclass"><code>getClass()</code></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Метод <code>getClass()</code> позволяет получить тип данного объекта:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">Person tom = new Person("Tom");
+System.out.println(tom.getClass()); // class Person</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_equals"><code>equals()</code></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Метод <code>equals()</code> сравнивает два объекта на равенство:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">public class Program {
+    public static void main(String[] args) {
+        Person tom = new Person("Tom");
+        Person bob = new Person("Bob");
+        System.out.println(tom.equals(bob)); // false
+
+        Person tom2 = new Person("Tom");
+        System.out.println(tom.equals(tom2)); // true
+    }
+}
+
+class Person {
+    private String name;
+
+    public Person(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Person) {
+            Person p = (Person) obj;
+            return (this.name == p.name);
         }
+        return false;
     }
 }</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Будет выведено следующее:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>java.specification.version=15
-sun.management.compiler=HotSpot 64-Bit Tiered Compilers
-sun.jnu.encoding=UTF-8
-java.runtime.version=15.0.1+9
-java.class.path=/home/rakovets/dev/course-java-basics/build/classes/java/main:/home/rakovets/dev/course-java-basics/build/resources/main
-user.name=rakovets
-java.vm.vendor=AdoptOpenJDK
-path.separator=:
-sun.arch.data.model=64
-os.version=5.8.0-34-generic
-user.variant=
-java.runtime.name=OpenJDK Runtime Environment
-file.encoding=UTF-8
-java.vendor.url=https://adoptopenjdk.net/
-java.vm.name=OpenJDK 64-Bit Server VM
-java.vm.specification.version=15
-os.name=Linux
-java.vendor.version=AdoptOpenJDK
-user.country=US
-sun.java.launcher=SUN_STANDARD
-sun.boot.library.path=/home/rakovets/.sdkman/candidates/java/15.0.1.hs-adpt/lib
-sun.java.command=com.rakovets.course.javabasics.example.properties.PropertiesExample2GetSystemProperties
-java.vendor.url.bug=https://github.com/AdoptOpenJDK/openjdk-support/issues
-java.io.tmpdir=/tmp
-jdk.debug=release
-sun.cpu.endian=little
-java.version=15.0.1
-user.home=/home/rakovets
-user.dir=/home/rakovets/dev/course-java-basics
-user.language=en
-os.arch=amd64
-java.specification.vendor=Oracle Corporation
-java.vm.specification.name=Java Virtual Machine Specification
-java.version.date=2020-10-20
-java.home=/home/rakovets/.sdkman/candidates/java/15.0.1.hs-adpt
-file.separator=/
-java.vm.compressedOopsMode=Zero based
-line.separator=
-
-java.library.path=/usr/java/packages/lib:/usr/lib64:/lib64:/lib:/usr/lib
-java.vm.info=mixed mode, sharing
-java.vm.specification.vendor=Oracle Corporation
-java.specification.name=Java Platform API Specification
-java.vendor=AdoptOpenJDK
-java.vm.version=15.0.1+9
-sun.io.unicode.encoding=UnicodeLittle
-java.class.version=59.0</pre>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_пример_чтение_свойств_из_файла">Пример: чтение свойств из файла</h3>
-<div class="paragraph">
-<p>Файл <code>account.properties</code> содержит следующий списком свойств:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-properties" data-lang="properties">username=rakovets
-password=Fc9S42SMEfJbNVtM</code></pre>
-</div>
+<p>Метод <code>equals()</code> принимает в качестве параметр объект любого типа, который мы затем приводим к текущему, если они являются объектами одного класса.</p>
 </div>
 <div class="paragraph">
-<p>Прочитаем его и выведем все свойства:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">import java.io.FileReader;
-import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.Properties;
-
-/**
- * Java program to demonstrate Properties class to get information from the properties file
- */
-public class PropertiesExample1 {
-    /**
-     * Main method for Demo
-     *
-     * @param args input arguments
-     * @throws IOException throw IOException when work with IO
-     */
-    public static void main(String[] args) throws IOException {
-        // get path for user.properties
-        Path userPropertiesPath =
-                Paths.get("src", "main", "resources", "example", "properties", "account.properties");
-
-        // create a reader object on the properties file
-        FileReader reader = new FileReader(userPropertiesPath.toFile());
-
-        // create properties object
-        Properties p = new Properties();
-
-        // Add a wrapper around reader object
-        p.load(reader);
-
-        // access properties data
-        System.out.printf("Username: '%s'\n", p.getProperty("username"));
-        System.out.printf("Password: '%s'\n", p.getProperty("password"));
-    }
-}</code></pre>
-</div>
+<p>Оператор <code>instanceof</code> позволяет выяснить, является ли переданный в качестве параметра объект объектом определенного класса, в данном случае класса <code>Person</code>.
+Затем сравниваем по именам. Если они совпадают, возвращаем <code>true</code>, что будет говорить, что объекты равны.</p>
 </div>
 <div class="paragraph">
-<p>Будет выведено следующее:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>Username: 'rakovets'
-Password: 'Fc9S42SMEfJbNVtM'</pre>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_пример_записи_свойств_в_файл">Пример: записи свойств в файл</h3>
-<div class="paragraph">
-<p>Создадим свойства и запишем их в файл <code>user.properties</code>:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">import java.io.FileWriter;
-import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.Properties;
-
-/**
- * Java program to demonstrate Properties class to create the properties file
- */
-public class PropertiesExample3CreateAndWriteToFile {
-    /**
-     * Main method for Demo
-     *
-     * @param args input arguments
-     * @throws IOException throw IOException when work with IO
-     */
-    public static void main(String[] args) throws IOException {
-        // create an instance of Properties
-        Properties p = new Properties();
-
-        // add properties to it
-        p.setProperty("name", "Dmitry Rakovets");
-        p.setProperty("email", "dmitryrakovets@gmail.com");
-
-        // get path for account.properties
-        Path userPropertiesPath =
-                Paths.get("src", "main", "resources", "example", "properties", "user.properties");
-
-        // store the properties to a file
-        p.store(new FileWriter(userPropertiesPath.toFile()), "Properties Example");
-    }
-}</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Создастся файл <code>user.properties</code>:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-properties" data-lang="properties">#Properties Example
-#Fri Jan 08 10:05:19 MSK 2021
-name=Dmitry Rakovets
-email=dmitryrakovets@gmail.com</code></pre>
-</div>
-</div>
+<p>Если объекты принадлежат к разным классам, то их сравнение не имеет смысла, и возвращается значение <code>false</code>.</p>
 </div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2021-01-23 07:51:57 UTC
+Last updated 2021-01-24 04:22:50 UTC
 </div>
 </div>
 </body>
