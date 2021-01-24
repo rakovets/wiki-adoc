@@ -1,4 +1,4 @@
-= Java Mics
+= Java Misc
 
 :leveloffset: +1
 
