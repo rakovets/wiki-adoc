@@ -32,6 +32,8 @@ include::javadoc.adoc[]
 
 include::nio.adoc[]
 
+include::java-memory-management.adoc[]
+
 include::modularity.adoc[]
 
 :leveloffset: -1

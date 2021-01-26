@@ -509,7 +509,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_properties">5.13. Properties</a></li>
 <li><a href="#_javadoc">5.14. Javadoc</a></li>
 <li><a href="#_java_nio">5.15. Java NIO</a></li>
-<li><a href="#_модульность_since_java_9">5.16. Модульность (@since Java 9)</a></li>
+<li><a href="#_java_memory_management">5.16. Java Memory Management</a></li>
+<li><a href="#_модульность_since_java_9">5.17. Модульность (@since Java 9)</a></li>
 </ul>
 </li>
 <li><a href="#_обработка_исключений">6. Обработка исключений</a>
@@ -11059,12 +11060,586 @@ buffer.reset();  //set position back to mark.</code></pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_модульность_since_java_9">5.16. Модульность (@since Java 9)</h3>
+<h3 id="_java_memory_management">5.16. Java Memory Management</h3>
+<div class="sect3">
+<h4 id="_почему_мы_должны_заботиться_об_управлении_памятью">5.16.1. Почему мы должны заботиться об управлении памятью?</h4>
+<div class="paragraph">
+<p>Многие разработчики не заботятся об управлении памятью, так как в Java ж е есть <strong>Garbage Collection</strong>. Сборка мусора - это процесс, с помощью которого программы Java выполняют автоматическое управление памятью. По сути, код, который мы пишем на Java/Kotlin, компилируется в байтовый код (файл <code>.class</code>) и запускается на виртуальной машине Java (JVM). Когда приложение работает на JVM, большинство объектов создается в памяти HEAP. В конце концов, некоторые объекты больше не понадобятся (недоступные/неиспользуемые объекты). Сборщик мусора освободит неиспользуемую память, чтобы восстановить память для приложений, других приложений и операционной системы.</p>
+</div>
+<div class="quoteblock">
+<blockquote>
+Memory management is the process of allocating new objects and removing unused objects to make space for those new object allocations
+</blockquote>
+<div class="attribution">
+&#8212; oracle.com
+</div>
+</div>
+<div class="paragraph">
+<p>В некоторых языках, таких как C, мы должны управлять памятью вручную. Таким образом, написать приложение на C очень сложно. Мы должны тщательно выделять/освобождать переменные и объекты, потому что это может привести к утечке памяти.</p>
+</div>
+<div class="paragraph">
+<p>Проще говоря, объект выделен, находится в памяти, которая не может освободиться, в этом случае мы называем это утечкой. Утечка памяти — ужасный случай, мы должны избегать их. В некоторых случаях это не утечки памяти, но они плохи и заставляют ваше приложение работать медленно. Позвольте мне показать пример в моем проекте, правило компании не публикует исходный код в Интернете, и здесь сложно показать сложную логику. Итак, я пишу задачу простым кодом.</p>
+</div>
+<div class="paragraph">
+<p>Предположим, нам нужно получить метаданные изображения URL-адресов. Для упрощения мы загрузили один образ на локальный компьютер для создания примера.</p>
+</div>
+<div class="paragraph">
+<p>Основная программа:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="java">package com.min.memory.casestudy01.main;
+
+import com.min.memory.casestudy01.entity.Metadata;
+import com.min.memory.casestudy01.utils.ImageMetadataUtils;
+
+public class ImageMetadataExample {
+
+    public static void main(String[] args) {
+        try {
+            final String url = "/Users/daudm/Desktop/2000x2000px_keepcalm.jpg";
+            for (int i = 0; i &lt; 2000; i ++) {
+                Metadata metadata = ImageMetadataUtils.getMetadataLocalFile(url);
+                System.out.println(String.format("Count %d URL: %s, metadata: %s", i, url, metadata.toString()));
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>MetadataUtils</code> класс</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="java">package com.min.memory.casestudy01.utils;
+
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.util.Map;
+import java.util.Set;
+
+import javax.imageio.ImageIO;
+import com.min.memory.casestudy01.entity.Metadata;
+
+import lombok.experimental.UtilityClass;
+
+@UtilityClass
+public class ImageMetadataUtils {
+    public static Metadata getMetadataLocalFile(String url) {
+        try {
+            final File outputFile = new File(url);
+            final BufferedImage buf = ImageIO.read(outputFile);
+            final int width = buf.getWidth();
+            final int height = buf.getHeight();
+            final long fileSize = outputFile.length();
+            return new Metadata(url, width, height, fileSize);
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println(String.format("[ERROR] Get metadata from url %s: %s", url, e.getMessage()));
+            return null;
+        }
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Класс <code>Metadata</code></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="java">package com.min.memory.casestudy01.entity;
+
+public class Metadata {
+    private String url;
+    private Integer width;
+    private Integer height;
+    private Long fileSizeInBytes;
+
+    public Metadata(String url, Integer width, Integer height, Long fileSizeInBytes) {
+        this.url = url;
+        this.width = width;
+        this.height = height;
+        this.fileSizeInBytes = fileSizeInBytes;
+    }
+
+    public String toString() {
+        return new StringBuilder()
+                .append("Width ").append(width)
+                .append(", Height: ").append(height)
+                .append(", Size: ").append(fileSizeInBytes)
+                .toString();
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Сможете ли вы определить проблему, прочитав приведенный выше код? Как определить проблему? В этом случае нам понадобится помощь некоторыми инструментами. Фактически, у нас есть много инструментов для мониторинга Java-приложений. Об этом я расскажу позже. Теперь мы будем использовать JVisualVM для мониторинга этого приложения.</p>
+</div>
+<div class="paragraph">
+<div class="title">Tab Heap</div>
+<p><span class="image"><img src="../../../assets/img/java/core/misc/jmm/j-visual-vm-1.png" alt="Tab Heap"></span></p>
+</div>
+<div class="paragraph">
+<p>Вы видите раздел HEAP на изображении выше? Небольшое программирование занимает 1 044 839 312 байт (~ 1 гигабайт) памяти HEAP. Какого черта?
+Сейчас сдам в кучу и уловлю проблему. Ох !!!, BufferImage Object очень большой, занимал 12МБ !!!!!. Поскольку один пиксель занимает 3 байта памяти, мы используем изображение размером 2000x2000 (3 * 2000 * 2000 = 12 МБ)</p>
+</div>
+<div class="paragraph">
+<div class="title">Object <code>BufferImage</code></div>
+<p><span class="image"><img src="../../../assets/img/java/core/misc/jmm/j-visual-vm-2.png" alt="Object <code>BufferImage</code>"></span></p>
+</div>
+<div class="paragraph">
+<p>Объект BufferImage занимает 12 МБ в памяти <strong>HEAP</strong></p>
+</div>
+<div class="paragraph">
+<p>Мы нашли проблему !!! Когда мы обнаружим проблему, мы найдем решение для ее решения. Я дам вам решение. Это не лучшее решение, но я думаю, что оно достаточно хорошее. Если есть решение получше, скажите, пожалуйста.</p>
+</div>
+<div class="paragraph">
+<p>Мы будем использовать класс <code>com.drew.imaging.ImageMetadataReader</code> в библиотеке мета-экстрактора для получения метаданных изображения: <a href="https://jar-download.com/artifacts/com.drewnoakes/metadata-extractor/2.11.0/source-code">metadata-extractor</a></p>
+</div>
+<div class="paragraph">
+<p>Мы обновим код для класса <code>ImageMetadataUtils</code> и основной программы:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="java">package com.min.memory.casestudy01.utils;
+
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.util.Map;
+import java.util.Set;
+
+import javax.imageio.ImageIO;
+
+import com.drew.metadata.Directory;
+import com.drew.metadata.bmp.BmpHeaderDirectory;
+import com.drew.metadata.exif.ExifIFD0Directory;
+import com.drew.metadata.gif.GifHeaderDirectory;
+import com.drew.metadata.jpeg.JpegDirectory;
+import com.drew.metadata.png.PngDirectory;
+import com.google.common.collect.ImmutableMap;
+import com.min.memory.casestudy01.entity.Metadata;
+import com.drew.imaging.ImageMetadataReader;
+
+import lombok.Builder;
+import lombok.Data;
+import lombok.experimental.UtilityClass;
+
+@UtilityClass
+public class ImageMetadataUtils {
+    @Data
+    @Builder
+    private static class NeededImageTag {
+        private int height;
+        private int width;
+    }
+    private static final Map&lt;Class&lt;? extends Directory&gt;, NeededImageTag&gt; SUPPORTED_TYPES_MAP
+            = new ImmutableMap.Builder&lt;Class&lt;? extends Directory&gt;, NeededImageTag&gt;()
+            .put(JpegDirectory.class, NeededImageTag.builder().height(JpegDirectory.TAG_IMAGE_HEIGHT).width(JpegDirectory.TAG_IMAGE_WIDTH).build())
+            .put(PngDirectory.class, NeededImageTag.builder().height(PngDirectory.TAG_IMAGE_HEIGHT).width(PngDirectory.TAG_IMAGE_WIDTH).build())
+            .put(GifHeaderDirectory.class, NeededImageTag.builder().height(GifHeaderDirectory.TAG_IMAGE_HEIGHT).width(GifHeaderDirectory.TAG_IMAGE_WIDTH).build())
+            .put(BmpHeaderDirectory.class, NeededImageTag.builder().height(BmpHeaderDirectory.TAG_IMAGE_HEIGHT).width(BmpHeaderDirectory.TAG_IMAGE_WIDTH).build())
+            .put(ExifIFD0Directory.class, NeededImageTag.builder().height(ExifIFD0Directory.TAG_IMAGE_HEIGHT).width(ExifIFD0Directory.TAG_IMAGE_WIDTH).build())
+            .build();
+    private static final Set&lt;Class&lt;? extends Directory&gt;&gt; SUPPORTED_TYPES = SUPPORTED_TYPES_MAP.keySet();
+
+    public static Metadata getMetadata(String url) {
+        try {
+            final File outputFile = new File(url);
+            final long fileSize = outputFile.length();
+            final com.drew.metadata.Metadata metadata = ImageMetadataReader.readMetadata(outputFile);
+            for (final Class&lt;? extends Directory&gt; type : SUPPORTED_TYPES) {
+                if (metadata.containsDirectoryOfType(type)) {
+                    final Directory directory = metadata.getFirstDirectoryOfType(type);
+                    final NeededImageTag tag = SUPPORTED_TYPES_MAP.get(type);
+                    return new Metadata(url, directory.getInt(tag.width), directory.getInt(tag.height), fileSize);
+                }
+            }
+            return null;
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println(String.format("[ERROR] Get metadata from url %s: %s", url, e.getMessage()));
+            return null;
+        }
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Основная программа:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="java">package com.min.memory.casestudy01.main;
+
+import com.min.memory.casestudy01.entity.Metadata;
+import com.min.memory.casestudy01.utils.ImageMetadataUtils;
+
+public class ImageMetadataExample {
+
+    public static void main(String[] args) {
+        try {
+            // This application runs very fast and difficult to monitor so, I will sleep in 10 seconds.
+            System.out.println("Sleep in 10 seconds");
+            Thread.sleep(10000);
+            final String url = "/Users/daudm/Desktop/2000x2000px_keepcalm.jpg";
+            for (int i = 0; i &lt; 2000; i ++) {
+                Metadata metadata = ImageMetadataUtils.getMetadata(url);
+                System.out.println(String.format("Count %d URL: %s, metadata: %s", i, url, metadata.toString()));
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Затем запускаем приложение и отслеживаем его на <strong>JVisualVM</strong>:</p>
+</div>
+<div class="paragraph">
+<div class="title">Tab Heap</div>
+<p><span class="image"><img src="../../../assets/img/java/core/misc/jmm/j-visual-vm-3.png" alt="Tab Heap"></span></p>
+</div>
+<div class="paragraph">
+<p>Наше приложение работает очень быстро и занимает всего 21 МБ в <strong>HEAP</strong>.</p>
+</div>
+<div class="paragraph">
+<p>В конце концов, я считаю, что управление памятью очень важно для каждого разработчика. Это не зависит от языка программирования: Java, C и т.д. Более глубокое понимание управления памятью поможет вам написать хорошее приложение с высокой производительностью, которое может работать на низкопрофильных машинах. По сути, наше приложение будет работать на <strong>JVM</strong>. Итак, мы должны сначала понять архитектуру <strong>JVM</strong>.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_архитектура_виртуальной_машины_java_архитектура_jvm">5.16.2. Архитектура виртуальной машины Java (архитектура JVM)</h4>
+<div class="paragraph">
+<p><strong>JVM</strong> - это всего лишь спецификация, и она имеет множество различных реализаций. Вы можете сопоставить с интерфейсом и многими реализациями в вашем коде. Чтобы узнать информацию о JVM, вы можете запустить команду <code>java -version</code> на терминале.</p>
+</div>
+<div class="paragraph">
+<p>Если вы установили <strong>Oracle JDK</strong>, вы увидите следующую информацию:</p>
+</div>
+<div class="paragraph">
+<div class="title">64-разрядная серверная виртуальная машина <strong>Java HotSpot &#8482;</strong></div>
+<p><span class="image"><img src="../../../assets/img/java/core/misc/jmm/jvm-version.png" alt="Object <code>BufferImage</code>"></span></p>
+</div>
+<div class="paragraph">
+<p>Если вы установили <strong>Open JDK</strong>, вы увидите «64-битную серверную виртуальную машину OpenJDK» на терминале (с 64-битной ОС). Я лично рекомендую вам использовать <strong>Oracle JDK</strong>. Он очень стабилен и ориентирован на корпоративные приложения. Итак, в этой статье я напишу только об этом.</p>
+</div>
+<div class="paragraph">
+<p>Об этом написано много статей, которые можно найти в Интернете. Я рекомендую вам прочитать его на <a href="https://medium.com/platform-engineer/understanding-jvm-architecture-22c0ddf09722" class="bare">https://medium.com/platform-engineer/understanding-jvm-architecture-22c0ddf09722</a></p>
+</div>
+<div class="paragraph">
+<div class="title"><strong>Java Virtual Machine</strong> Architecture</div>
+<p><span class="image"><img src="../../../assets/img/java/core/misc/jmm/jvm-architecture.png" alt="JVM Architecture"></span></p>
+</div>
+<div class="paragraph">
+<p>Я резюмирую некоторые моменты в статье выше:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Класс загрузчик Подсистема : виртуальная машина Java проживает с на ОЗУ. Во время выполнения с использованием подсистемы загрузчика классов файлы классов переносятся в ОЗУ. Это называется функцией загрузки динамических классов Java. Он загружает, связывает и инициализирует файл класса (.class), когда он обращается к классу впервые во время выполнения. Наконец, будет выполнена логика инициализации каждого загруженного класса (например, вызов конструктора класса) , всем статическим переменным будут присвоены исходные значения, и будет выполнен статический блок.</p>
+</li>
+<li>
+<p>Область данных времени выполнения: области памяти, назначаемые при запуске программы JVM в ОС.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Область метода (общая для потоков). Иногда мы можем вызвать его по области класса, потому что он будет хранить все данные уровня класса (пул констант времени выполнения, статические переменные, данные полей, методы (данные, код)). Только одна область метода на JVM.</p>
+</li>
+<li>
+<p>Область кучи (общая для потоков): здесь будут храниться все переменные, объекты, массивы. Одна куча на каждую JVM. Область кучи - отличная цель для сборки мусора.</p>
+</li>
+<li>
+<p>Область стека (на поток): для каждого потока во время выполнения будет создан новый стек, для каждого вызова метода в стек будет добавлена ​​одна запись, называемая кадром стека. Каждый кадр стека имеет ссылку на массив локальных переменных, стек операндов и пул констант времени выполнения класса, к которому принадлежит выполняемый метод.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Механизм выполнения: будет выполнен байтовый код, назначенный в данных среды выполнения.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Интерпретатор : быстрее интерпретирует байт-код, но медленно выполняет. Недостатком является то, что когда один метод вызывается несколько раз, каждый раз требуется новая интерпретация и более медленное выполнение.</p>
+</li>
+<li>
+<p>JIT- компилятор : устраните недостаток интерпретатора, когда он обнаруживает повторяющийся код, он использует JIT-компилятор. Он скомпилирует байт-код в собственный код (машинный код). Собственный код хранится в кеше, поэтому скомпилированный код можно выполнить быстрее.</p>
+</li>
+<li>
+<p>Сборщик мусора : собирает и удаляет объекты, на которые нет ссылок. Пока на объект ссылаются, JVM считает его живым. Когда на объект больше не ссылаются и, следовательно, он недоступен для кода приложения, сборщик мусора удаляет его и освобождает неиспользуемую память. В общем, сборщик мусора - это автоматический процесс. Однако мы можем запустить его, вызвав метод System.gc () или Runtime.getRuntime (). Gc () (опять же выполнение не гарантируется. Следовательно , вызовите Thread.sleep (1000) и дождитесь завершения GC).</p>
+</li>
+</ul>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_модель_памяти_heap_без_heap_другая_память">5.16.3. Модель памяти (HEAP, без HEAP, другая память)</h4>
+<div class="paragraph">
+<p><strong>JVM</strong> использует доступное пространство памяти в операционной системе. JVM включает области памяти:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>HEAP</p>
+</li>
+<li>
+<p>Non-HEAP</p>
+</li>
+<li>
+<p>другую память</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<div class="title">JVM Memory Model</div>
+<p><span class="image"><img src="../../../assets/img/java/core/misc/jmm/jvm-memory-model.png" alt="JVM Memory Model"></span></p>
+</div>
+<div class="sect4">
+<h5 id="_heap">HEAP</h5>
+<div class="paragraph">
+<p>HEAP: состоит из двух частей: Young Generation (Young Gen) и Old Generation (Old Gen).</p>
+</div>
+<div class="paragraph">
+<div class="title">JVM Heap Model</div>
+<p><span class="image"><img src="../../../assets/img/java/core/misc/jmm/jvm-heap-model.png" alt="JVM Heap Model"></span></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Молодое поколение : здесь создаются все новые объекты. Когда молодое поколение заполнено, выполняется сборщик мусора (Minor GC). Он разделен на три части: одно пространство Эдема и два пространства выживших (S0, S1). Некоторые моменты у молодого поколения:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Большинство вновь созданных объектов находится в Пространстве Эдема .</p>
+</li>
+<li>
+<p>Если Идно пространство заполнено объектами, Minor GC будет выполнен , и все объекты выживших перемещается к одному из оставшихся в живых пространствах.</p>
+</li>
+<li>
+<p>Объекты , уцелевшие после многих циклов Малой сборки мусора , перемещаются в пространство Старого Поколения . Обычно это делается путем установленияпорогавозраста объектов молодого поколения, прежде чем они станутподходящимидляпродвиженияк старому поколению.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Старшего поколение : Это зарезервировано для содержащих долгоживущие объектов , которые выживают после многих раундов в Малой GC . Когда старое поколение полно , Major GC будет выполнен ( как правило , занимает больше времени).</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_non_heap">NON-HEAP</h5>
+<div class="paragraph">
+<p>Не-HEAP (Off-HEAP): иногда мы называем это по имени Off-HEAP. В Java 7 и более ранних версиях это пространство называется Permanent Generation (Perm Gen). Начиная с Java 8, Perm Gen заменяется Metaspace . В настоящее время мы больше не будем использовать Java 7, потому что Java 8 выпущена в 2014 году с множеством улучшений. Кроме того, у нас есть Java 11 LTS.
+Metaspace хранит структуры для каждого класса, такие как пул констант времени выполнения, данные полей и методов, а также код методов и конструкторов, а также интернированные строки.
+Metaspace по умолчанию автоматически увеличивает свой размер (до того, что предоставляет базовая ОС), в то время как Perm Gen всегда имеет фиксированный максимальный размер. Для установки размера метапространства можно использовать два флага новостей: «- XX: MetaspaceSize » и «- XX: MaxMetaspaceSize ».</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_other_memory">Other memory</h5>
+<div class="ulist">
+<ul>
+<li>
+<p>CodeCache содержит согласованный код (то есть собственный код), созданный JIT-компилятором, внутренние структуры JVM, загруженный код агента профилировщика, данные и т. Д.</p>
+</li>
+<li>
+<p>Стеки потоков относятся к интерпретируемым, скомпилированным и собственным кадрам стека.</p>
+</li>
+<li>
+<p>Прямая память используется для выделения прямого буфера (например, NIO Buffer/ByteBuffer)</p>
+</li>
+<li>
+<p>C-Heap используется, например, JIT-компилятором или GC для выделения памяти для внутренних структур данных.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_garbage_collection">5.16.4. Garbage Collection</h4>
+<div class="paragraph">
+<p>Как я уже говорил, сборщик мусора помогает разработчикам писать код без выделения/освобождения памяти и не заботиться о проблемах с памятью. Однако в реальном проекте у нас много проблем с памятью. Они заставляют ваше приложение работать с низкой производительностью и очень медленно.</p>
+</div>
+<div class="paragraph">
+<p>Таким образом, мы должны понять, как работает сборщик мусора. Все объекты размещаются в куче, управляемой JVM. Пока на объект ссылаются, JVM считает его живым. Когда на объект больше не ссылаются и, следовательно, он недоступен для кода приложения, сборщик мусора удаляет его и освобождает неиспользуемую память.</p>
+</div>
+<div class="paragraph">
+<p>Как GC управлять объектами в HEAP? Ответ заключается в том, что он построит дерево, называемое корнями сборки мусора (корни сборщика мусора). Он содержит множество ссылок между кодом приложения и объектами в HEAP. Существует четыре типа корней сборщика мусора: локальные переменные, активные потоки Java, статические переменные, ссылки JNI. Пока на наш объект прямо или косвенно ссылается один из этих корней GC, а корень GC остается живым, наш объект можно рассматривать как достижимый объект. В тот момент, когда наш объект теряет ссылку на корень сборщика мусора, он становится недоступным, следовательно, имеет право на сборщик мусора.</p>
+</div>
+<div class="paragraph">
+<div class="title">Garbage Collection</div>
+<p><span class="image"><img src="../../../assets/img/java/core/misc/jmm/gc.png" alt="Garbage Collection"></span></p>
+</div>
+<div class="paragraph">
+<p>Корни GC - это объекты, на которые сама JVM ссылается и, таким образом, предотвращает сборку мусора для всех остальных объектов (Источник: dynatrace.com)</p>
+</div>
+<div class="sect4">
+<h5 id="_модель_mark_and_sweep">Модель Mark and Sweep</h5>
+<div class="paragraph">
+<p>Чтобы определить, какие объекты больше не используются, JVM использует алгоритм mark-and-sweep.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Алгоритм просматривает все ссылки на объекты, начиная с корней сборщика мусора, и отмечает каждый найденный объект как живой.</p>
+</li>
+<li>
+<p>Требуется вся память кучи, которая не занята отмеченными объектами.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Возможны неиспользуемые объекты, которые все еще доступны для приложения, потому что разработчики просто забыли разыменовать их. В этом случае происходит утечка памяти. Итак, вы должны отслеживать/анализировать свое приложение, чтобы определить проблему.</p>
+</div>
+<div class="paragraph">
+<div class="title">GC: Mark adn Sweep</div>
+<p><span class="image"><img src="../../../assets/img/java/core/misc/jmm/gc-mark-and-sweep.png" alt="GC: Mark adn Sweep"></span></p>
+</div>
+<div class="paragraph">
+<p>Когда на объекты больше не ссылается прямо или косвенно корень сборщика мусора, они будут удалены.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_остановить_мировое_событие">Остановить мировое событие</h5>
+<div class="paragraph">
+<p>При выполнении сборки мусора все потоки приложений останавливаются до завершения операции. Поскольку Young Generation хранит недолговечные объекты, Minor GC работает очень быстро, и это не влияет на приложение. Однако Major GC занимает много времени, потому что он проверяет все живые объекты. Крупный сборщик мусора следует свести к минимуму, поскольку он приведет к тому, что ваше приложение не будет отвечать на все время сборки мусора.</p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_мониторинг_и_настройка_гх">5.16.5. Мониторинг и настройка ГХ</h4>
+<div class="paragraph">
+<p>Мы можем отслеживать приложение Java с помощью командной строки и инструментов. На самом деле существует множество инструментов: JVisualVM, JProfile, Eclipse MAT, JetBrains JVM Debugger, Netbeans Profiler,… Я лично рекомендую вам использовать JVisualVM со встроенным JDK. Этого достаточно для мониторинга вашего приложения.</p>
+</div>
+<div class="paragraph">
+<p><strong>Jstat</strong> мы можем использовать инструмент командной строки jstat для мониторинга памяти JVM и активности GC. Пример: «jstat -gc &lt;pid&gt; 1000» (печать памяти и данных GC каждые 1 секунду)</p>
+</div>
+<div class="paragraph">
+<div class="title">Пример с командой <code>jstat</code></div>
+<p><span class="image"><img src="../../../assets/img/java/core/misc/jmm/jstat.png" alt="Пример с командой <code>jstat</code>"></span></p>
+</div>
+<div class="paragraph">
+<div class="title"><code>jstat</code> abbreviations</div>
+<p><span class="image"><img src="../../../assets/img/java/core/misc/jmm/j-visual-vm-2.png" alt="<code>jstat</code> abbreviations"></span></p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+Если вы не можете запустить команду или получаете сообщение об ошибке: «Не удалось подключиться к &lt;pid&gt;». Пожалуйста, запустите команду от имени пользователя root. Если вы хотите узнать более подробную информацию о вышеуказанной информации, вы можете погуглить об этом. :)
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p><strong>JVisualVM</strong> мы можем открыть <strong>GUI Tool</strong> через Терминал с помощью команды «jvisualvm». Я использовал этот инструмент, чтобы сделать пример в начале этой статьи. Я лично рекомендую использовать <strong>JVisualVM</strong> для мониторинга/настройки сборщика мусора, когда мы перед выпуском каких-либо функций в среде бета-тестирования/подготовки/производства. Вы должны проверить проблемы с памятью, чтобы:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Убедитесь, что ваше приложение потребляет меньше памяти.</p>
+</li>
+<li>
+<p>Гарантируйте, что ваше приложение работает очень быстро и не имеет проблем с утечкой памяти.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Обратите внимание, что ваше приложение может использовать собственную память (<strong>Metaspace</strong>, <strong>Direct Memory</strong>), которая не является целью <strong>GC</strong>. В этом случае вам придется выделить/освободить память вручную. Когда вы используете сторонние библиотеки, вы должны внимательно проверить их перед их использованием. У моей команды возникла проблема с сторонней библиотекой, когда мы интегрировали ее в мой проект. Мы думали, что он будет использовать <strong>HEAP</strong> и создать мультиэкземпляр в нашем приложении, но на самом деле он использует прямую память (ByteBuffer). Когда мы развертываем наше приложение на сервере в бета-среде, все работает нормально !! После тестирования производительности с помощью <strong>Jmeter</strong> у нас возникла ошибка: Недостаточно памяти (утечка памяти).</p>
+</div>
+<div class="sect4">
+<h5 id="_нестандартные_параметры_java">Нестандартные параметры Java</h5>
+<div class="paragraph">
+<p>Для повышения производительности вашего приложения. Вы должны проверить и установить нестандартные параметры Java соответственно. Вы можете просмотреть нестандартные параметры через командную строку: <code>java -X</code>. Пожалуйста, возьмите блокировку по адресу:</p>
+</div>
+<div class="paragraph">
+<div class="title">Object <code>BufferImage</code></div>
+<p><span class="image"><img src="../../../assets/img/java/core/misc/jmm/jvm-non-standart-option.png" alt="Java Non-Standard Options"></span></p>
+</div>
+<div class="paragraph">
+<p>В некоторых вариантах часто используются:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>-Xms &lt;размер&gt; [единица измерения]</code> (<code>g</code> для ГБ, <code>m</code> для МБ и <code>k</code> для КБ): для установки начального размера кучи при запуске JVM. По умолчанию: начальный размер кучи 1/64 физической памяти до 1 ГБ.</p>
+</li>
+<li>
+<p><code>-Xmx &lt;размер&gt; [единица измерения]</code> (<code>g</code> для ГБ, <code>m</code> для МБ и <code>k</code> для КБ): для установки максимального размера кучи. По умолчанию: максимальный размер кучи составляет 1/4 физической памяти до 1 ГБ.</p>
+</li>
+<li>
+<p><code>-Xss &lt;размер&gt;</code> (<code>g</code> для ГБ, <code>m</code> для МБ и <code>k</code> для КБ): установить размер стека потока Java. Значение по умолчанию зависит от вашей ОС. Вы можете проверить через командную строку: <code>java -XX: + PrintFlagsFinal -version | grep ThreadStackSize</code> (блок, КБ)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<div class="title">flag <code>ThreadStackSize</code></div>
+<p><span class="image"><img src="../../../assets/img/java/core/misc/jmm/jvm-thread-stack-size.png" alt="ThreadStackSize"></span></p>
+</div>
+<div class="paragraph">
+<p>Размер ThreadStackSize по умолчанию на моем Mac: 1024 КБ
+Дополнительные сведения о настройке сборщика мусора вы можете прочитать в <a href="https://docs.oracle.com/javase/8/docs/technotes/guides/vm/gctuning/index.html" class="bare">https://docs.oracle.com/javase/8/docs/technotes/guides/vm/gctuning/index.html</a>. Иногда вам нужно сбросить HEAP и сравнить множество дампов, чтобы найти проблему.</p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_некоторые_примечания_для_повышения_производительности_при_разработке_веб_приложения">5.16.6. Некоторые примечания для повышения производительности при разработке веб-приложения</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>Вам следует ограничить создание новых объектов и как можно скорее освободить память.</p>
+</li>
+<li>
+<p>Используйте <strong>JVisualVM</strong> для мониторинга своего приложения перед выпуском приложения в бета-версии/промежуточной/производственной среде.</p>
+</li>
+<li>
+<p>Внимательно проверьте перед использованием сторонней библиотеки</p>
+</li>
+<li>
+<p>Изучите и создайте передовые методы борьбы с утечками памяти: изменяемые статические поля и коллекции, локальные переменные потока, круговые и сложные двунаправленные ссылки, <code>ByteBuffer</code>, <code>BufferImage</code>, незакрытый поток, незакрытое соединение, &#8230;&#8203;</p>
+</li>
+<li>
+<p>Внимательно проверьте код</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_рекомендуемые_ссылки">5.16.7. Рекомендуемые ссылки</h4>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://medium.com/platform-engineer/understanding-jvm-architecture-22c0ddf09722" class="bare">https://medium.com/platform-engineer/understanding-jvm-architecture-22c0ddf09722</a></p>
+</li>
+<li>
+<p><a href="https://medium.com/platform-engineer/understanding-java-garbage-collection-54fc9230659a" class="bare">https://medium.com/platform-engineer/understanding-java-garbage-collection-54fc9230659a</a></p>
+</li>
+<li>
+<p><a href="https://betsol.com/java-memory-management-for-java-virtual-machine-jvm" class="bare">https://betsol.com/java-memory-management-for-java-virtual-machine-jvm</a></p>
+</li>
+<li>
+<p><a href="https://docs.oracle.com/javase/8/docs/technotes/guides/vm/gctuning/index.html" class="bare">https://docs.oracle.com/javase/8/docs/technotes/guides/vm/gctuning/index.html</a></p>
+</li>
+<li>
+<p><a href="https://www.dynatrace.com/resources/ebooks/javabook/how-garbage-collection-works/" class="bare">https://www.dynatrace.com/resources/ebooks/javabook/how-garbage-collection-works/</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_модульность_since_java_9">5.17. Модульность (@since Java 9)</h3>
 <div class="paragraph">
 <p>С выходом Java 9 появился новый уровень абстракции над пакетами, формально известный как <strong>Java Platform Module System</strong> (<strong>JPMS</strong>), или сокращенно <strong>Modules</strong>.</p>
 </div>
 <div class="sect3">
-<h4 id="_что_такое_модуль">5.16.1. Что такое модуль?</h4>
+<h4 id="_что_такое_модуль">5.17.1. Что такое модуль?</h4>
 <div class="paragraph">
 <p>Прежде всего, нам нужно понять, что такое модуль, прежде чем его использовать.</p>
 </div>
@@ -11195,7 +11770,7 @@ buffer.reset();  //set position back to mark.</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_модули_по_умолчанию">5.16.2. Модули по умолчанию</h4>
+<h4 id="_модули_по_умолчанию">5.17.2. Модули по умолчанию</h4>
 <div class="paragraph">
 <p>Когда мы устанавливаем Java 9, мы видим, что JDK теперь имеет новую структуру.</p>
 </div>
@@ -11231,7 +11806,7 @@ buffer.reset();  //set position back to mark.</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_объявления_модуля">5.16.3. Объявления модуля</h4>
+<h4 id="_объявления_модуля">5.17.3. Объявления модуля</h4>
 <div class="paragraph">
 <p>Чтобы создать модуль, нам нужно поместить специальный файл (<strong>дескриптор модуля</strong>/<strong>module descriptor</strong>) в корень наших пакетов с именем <code>module-info.java</code>. Он содержит всю информацию необходимую для построения и использования данного модуля.</p>
 </div>
@@ -11415,7 +11990,7 @@ buffer.reset();  //set position back to mark.</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_параметры_командной_строки">5.16.4. Параметры командной строки</h4>
+<h4 id="_параметры_командной_строки">5.17.4. Параметры командной строки</h4>
 <div class="paragraph">
 <p>В настоящее времени поддержка модулей Java 9 была добавлена ​​в <strong>Maven</strong> и <strong>Gradle</strong>, поэтому нет необходимости делать много ручной работы для сборки проектов. Однако полезно знать, как использовать систему модулей из командной строки. Для этого используют следующие параметры при работе в командной строке:</p>
 </div>
@@ -11449,7 +12024,7 @@ buffer.reset();  //set position back to mark.</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_видимость">5.16.5. Видимость</h4>
+<h4 id="_видимость">5.17.5. Видимость</h4>
 <div class="paragraph">
 <p>Многие библиотеки, что бы работать, зависят от возможности использования <strong>Reflection API</strong>, например: <strong>JUnit</strong> и <strong>Spring</strong>.</p>
 </div>
@@ -11464,7 +12039,7 @@ buffer.reset();  //set position back to mark.</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_создание_модуля_с_помощью_cli">5.16.6. Создание модуля с помощью CLI</h4>
+<h4 id="_создание_модуля_с_помощью_cli">5.17.6. Создание модуля с помощью CLI</h4>
 <div class="sect4">
 <h5 id="_создание_структуры_проекта">Создание структуры проекта</h5>
 <div class="paragraph">
@@ -11746,7 +12321,7 @@ Hello!</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_добавление_модулей_в_unnamed_module">5.16.7. Добавление модулей в <strong>Unnamed Module</strong></h4>
+<h4 id="_добавление_модулей_в_unnamed_module">5.17.7. Добавление модулей в <strong>Unnamed Module</strong></h4>
 <div class="paragraph">
 <p>Концепция <strong>Unnamed Module</strong> похожа на пакет по умолчанию, поэтому его не следует считать реальным модулем, но можно рассматриваться как модуль по умолчанию.</p>
 </div>
@@ -23980,7 +24555,7 @@ String msg = mf.format(new Object[] { значения });</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2021-01-26 04:34:42 UTC
+Last updated 2021-01-26 04:40:40 UTC
 </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/run_prettify.min.js"></script>
