@@ -1205,10 +1205,10 @@ System.out.println(tom.hashCode()); // 2036368507</code></pre>
     int varA;
     int varB;
 
-	BlackBox(int varA, int varB){
-		this.varA = varA;
-		this.varB = varB;
-	}
+    BlackBox(int varA, int varB){
+        this.varA = varA;
+        this.varB = varB;
+    }
 }</code></pre>
 </div>
 </div>
@@ -1238,7 +1238,7 @@ System.out.println(tom.hashCode()); // 2036368507</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">object1.equals(object2);// должно быть true, поскольку содержимое объектов эквивалентно</code></pre>
+<pre class="highlight"><code class="language-java" data-lang="java">object1.equals(object2); // должно быть true, поскольку содержимое объектов эквивалентно</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1249,8 +1249,8 @@ System.out.println(tom.hashCode()); // 2036368507</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">object1.equals(object2)// должно быть true
-object1.hashCode() == object2.hashCode()// должно быть true</code></pre>
+<pre class="highlight"><code class="language-java" data-lang="java">object1.equals(object2); // должно быть true
+object1.hashCode() == object2.hashCode(); // должно быть true</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1313,7 +1313,7 @@ object1.hashCode() == object2.hashCode()// должно быть true</code></pr
 <p>Как известно, все java-классы наследуются от класса <code>Object</code>. В этом классе уже определены методы <code>hashCode()</code> и <code>equals()</code>.</p>
 </div>
 <div class="paragraph">
-<p>Определяя свой класс, вы автоматически наследуете все методы класса <code>Object</code>. И в ситуации, когда в вашем классе не переопределены (<strong>@overriding</strong>) <code>hashCode()</code> и <code>equals()</code>, то используется их реализация из <code>Object</code>.</p>
+<p>Определяя свой класс, вы автоматически наследуете все методы класса <code>Object</code>. И в ситуации, когда в вашем классе не переопределены (<strong>overriding</strong>) <code>hashCode()</code> и <code>equals()</code>, то используется их реализация из <code>Object</code>.</p>
 </div>
 <div class="paragraph">
 <p>Рассмотрим исходный код метода <code>equals()</code> в классе <code>Object</code>.</p>
@@ -1337,8 +1337,8 @@ object1.hashCode() == object2.hashCode()// должно быть true</code></pr
     public static void main(String[] args) {
         BlackBox object3 = new BlackBox(5, 10);
         BlackBox object4 = object3; // Переменная object4 ссылается на
-        //тот-же объект что и переменная object3
-        object3.equals(object4); //true
+        // тот-же объект что и переменная object3
+        object3.equals(object4); // true
     }
 }</code></pre>
 </div>
@@ -1346,11 +1346,16 @@ object1.hashCode() == object2.hashCode()// должно быть true</code></pr
 <div class="paragraph">
 <p>Теперь понято, почему <code>Object.equals()</code> работает не так как нужно, ведь он сравнивает ссылки, а не содержимое объектов.</p>
 </div>
+<div class="imageblock">
+<div class="content">
+<img src="../../../assets/img/java/core/misc/equals-objects.png" alt="Equals">
+</div>
+</div>
 <div class="paragraph">
 <p>Далее на очереди <code>hashCode()</code>, который тоже работает не так как полагается.</p>
 </div>
 <div class="paragraph">
-<p>Заглянем в исходный код метода <code>hashCode()</code> в классе Object:</p>
+<p>Заглянем в исходный код метода <code>hashCode()</code> в классе <code>Object</code>:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1379,35 +1384,35 @@ object1.hashCode() == object2.hashCode()// должно быть true</code></pr
     int varA;
     int varB;
 
-	BlackBox(int varA, int varB) {
-		this.varA = varA;
-		this.varB = varB;
-	}
+    BlackBox(int varA, int varB) {
+        this.varA = varA;
+        this.varB = varB;
+    }
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + varA;
-		result = prime * result + varB;
-		return result;
-	}
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + varA;
+        result = prime * result + varB;
+        return result;
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		BlackBox other = (BlackBox) obj;
-		if (varA != other.varA)
-			return false;
-		if (varB != other.varB)
-			return false;
-		return true;
-	}
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        BlackBox other = (BlackBox) obj;
+        if (varA != other.varA)
+            return false;
+        if (varB != other.varB)
+            return false;
+        return true;
+    }
 }</code></pre>
 </div>
 </div>
@@ -1436,8 +1441,12 @@ object1.hashCode() == object2.hashCode(); // true</code></pre>
         Person tom = new Person("Tom");
         System.out.println(tom.toString()); // Будет выводить что-то наподобие Person@7960847b
     }
-}
-class Person {
+}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">class Person {
     private String name;
 
     public Person(String name) {
@@ -6308,7 +6317,7 @@ Hello!</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2021-01-29 02:22:54 UTC
+Last updated 2021-01-31 05:51:10 UTC
 </div>
 </div>
 </body>
