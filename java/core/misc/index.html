@@ -1696,22 +1696,31 @@ class Author {
 </div>
 </div>
 <div class="sect1">
-<h2 id="_классы_оболочки">Классы-оболочки</h2>
+<h2 id="_wrapper_classes">Wrapper Classes</h2>
 <div class="sectionbody">
+<div class="sect2">
+<h3 id="_wrapper_classes_2">Wrapper Classes</h3>
 <div class="paragraph">
-<p>Очень часто необходимо создать класс, основное назначение которого содержать в себе какое-то примитивное значение. Например, как мы увидим в следующих занятиях, обобщенные классы и в частности коллекции работают только с объектами. Поэтому, чтобы каждый разработчик не изобретал велосипед, в Java уже добавлены такие классы, которые называются <strong>оболочки типов</strong> (<strong>классы обертки</strong>, <strong>wrappers</strong>).</p>
+<p>Очень часто необходимо создать класс, основное назначение которого содержать в себе какое-то примитивное значение.
+Например, как мы увидим в следующих занятиях, обобщенные классы и в частности коллекции работают только с объектами.
+Поэтому, чтобы каждый разработчик не изобретал велосипед, в Java уже добавлены такие классы, которые называются <strong>Wrapper Classes</strong> (<strong>оболочки типов</strong>/<strong>классы обертки</strong>/<strong>wrappers</strong>).</p>
 </div>
 <div class="paragraph">
-<p>К оболочкам типов относятся классы <code>Double</code>, <code>Float</code>, <code>Long</code>, <code>Integer</code>, <code>Short</code>, <code>Byte</code>, <code>Character</code>, <code>Boolean</code>, <code>Void</code>. Для каждого примитивного значения и ключевого слова <code>void</code> есть свой класс-двойник. Имя класса, как вы видите, совпадает с именем примитивного значения. Исключения составляют класс <code>Integer</code> (примитивный тип <code>int</code>) и класс <code>Character</code> (примитивный тип <code>char</code>). Кроме содержания в себе значения, классы оболочки предоставляют обширный ряд методов.</p>
+<p>К оболочкам типов относятся классы <code>Double</code>, <code>Float</code>, <code>Long</code>, <code>Integer</code>, <code>Short</code>, <code>Byte</code>, <code>Character</code>, <code>Boolean</code>, <code>Void</code>.
+Для каждого примитивного значения и ключевого слова <code>void</code> есть свой класс-двойник.
+Имя класса, как вы видите, совпадает с именем примитивного значения.
+Исключения составляют класс <code>Integer</code> (примитивный тип <code>int</code>) и класс <code>Character</code> (примитивный тип <code>char</code>).
+Кроме содержания в себе значения, классы оболочки предоставляют обширный ряд методов.</p>
 </div>
 <div class="paragraph">
-<p>Объекты классов оболочек <strong>неизменяемые</strong> (<strong>immutable</strong>). Это значит, что объект не может быть изменен.</p>
+<p>Объекты классов оболочек <strong>неизменяемые</strong> (<strong>immutable</strong>).
+Это значит, что объект не может быть изменен.</p>
 </div>
 <div class="paragraph">
 <p>Все классы-обертки числовых типов имеют переопределенный метод <code>equals(Object)</code>, сравнивающий примитивные значения объектов.</p>
 </div>
-<div class="sect2">
-<h3 id="_конструкторы_оболочек">Конструкторы оболочек</h3>
+<div class="sect3">
+<h4 id="_конструкторы_оболочек">Конструкторы оболочек</h4>
 <div class="paragraph">
 <p>В следующей таблицы для каждого класса оболочки указан соответствующий примитивный тип и варианты конструкторов.</p>
 </div>
@@ -1721,51 +1730,53 @@ class Author {
 <col style="width: 33.3333%;">
 <col style="width: 33.3334%;">
 </colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Примитивный тип</th>
+<th class="tableblock halign-left valign-top">Оболочка</th>
+<th class="tableblock halign-left valign-top">Аргументы конструктора</th>
+</tr>
+</thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Примитивный тип</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Оболочка</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Аргументы конструктора</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>boolean</code> or <code>String</code></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">boolean or String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>byte</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Byte</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>byte</code> or <code>String</code></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">byte</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Byte</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">byte or String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>char</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Character</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>char</code></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">char</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Character</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">char</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>double</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Double</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>double</code> or <code>String</code></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">double</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Double</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">double or String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>float</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Float</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>float</code>, double, or <code>String</code></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">float</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Float</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">float, double, or String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>int</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Integer</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>int</code> or <code>String</code></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">int</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">int or String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>long</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Long</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>long</code> or <code>String</code></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">long</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Long</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">long or String</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">short</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Short</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">short or String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>short</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Short</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>short</code> or <code>String</code></p></td>
 </tr>
 </tbody>
 </table>
@@ -1786,7 +1797,8 @@ class Author {
 <p>Исключения: класс <code>Character</code>, у которого только один конструктор с аргументом <code>char</code> и класс <code>Float</code>, объявляющий три конструктора - для значения <code>float</code>, <code>String</code> и еще <code>double</code>.</p>
 </div>
 <div class="paragraph">
-<p>Рассмотрим варианты вызова конструкторов на примере. Чтобы создать объект класса <code>Integer</code>, передаем в конструктор либо значение типа <code>int</code> либо <code>String</code>.</p>
+<p>Рассмотрим варианты вызова конструкторов на примере.
+Чтобы создать объект класса <code>Integer</code>, передаем в конструктор либо значение типа <code>int</code> либо <code>String</code>.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1803,7 +1815,9 @@ Character c1 = new Character('c');</code></pre>
 <p>Если передаваемая в конструктор строка не содержит числового значения, то выбросится исключение <code>NumberFormatException</code>.</p>
 </div>
 <div class="paragraph">
-<p>При вызове конструктора с аргументом <code>String</code> класса <code>Boolean</code>, не обязательно передавать строки <code>true</code> или <code>false</code>. Если аргумент содержит любую другую строку, просто будет создан объект, содержащий значение <code>false</code>. Исключение выброшено не будет:</p>
+<p>При вызове конструктора с аргументом <code>String</code> класса <code>Boolean</code>, не обязательно передавать строки <code>true</code> или <code>false</code>.
+Если аргумент содержит любую другую строку, просто будет создан объект, содержащий значение <code>false</code>.
+Исключение выброшено не будет:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1818,18 +1832,23 @@ Character c1 = new Character('c');</code></pre>
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_методы_классов_оболочек">Методы классов оболочек</h3>
-<div class="paragraph">
-<p>Как уже было сказано, классы оболочки содержат обширный ряд методов. Рассмотрим их.</p>
-</div>
 <div class="sect3">
-<h4 id="_методы_valueof">Методы <code>valueOf()</code></h4>
+<h4 id="_методы_классов_оболочек">Методы классов оболочек</h4>
 <div class="paragraph">
-<p>Метод <code>valueOf()</code> предоставляет второй способ создания объектов оболочек. Метод перегруженный, для каждого класса существует два варианта - один принимает на вход значение соответствующего типа, а второй - значение типа <code>String</code>. Так же как и с конструкторами, передаваемая строка должна содержать числовое значение. Исключение составляет опять же класс <code>Character</code> - в нем объявлен только один метод, принимающий на вход значение <code>char</code>.</p>
+<p>Как уже было сказано, классы оболочки содержат обширный ряд методов.
+Рассмотрим их.</p>
+</div>
+<div class="sect4">
+<h5 id="_методы_valueof">Методы <code>valueOf()</code></h5>
+<div class="paragraph">
+<p>Метод <code>valueOf()</code> предоставляет второй способ создания объектов оболочек.
+Метод перегруженный, для каждого класса существует два варианта - один принимает на вход значение соответствующего типа, а второй - значение типа <code>String</code>.
+Так же как и с конструкторами, передаваемая строка должна содержать числовое значение.
+Исключение составляет опять же класс <code>Character</code> - в нем объявлен только один метод, принимающий на вход значение <code>char</code>.</p>
 </div>
 <div class="paragraph">
-<p>И в целочисленные классы <code>Byte</code>, <code>Short</code>, <code>Integer</code>, <code>Long</code> добавлен еще один метод, в который можно передать строку, содержащую число в любой системе исчисления. Вторым параметром вы указываете саму систему исчисления.</p>
+<p>И в целочисленные классы <code>Byte</code>, <code>Short</code>, <code>Integer</code>, <code>Long</code> добавлен еще один метод, в который можно передать строку, содержащую число в любой системе исчисления.
+Вторым параметром вы указываете саму систему исчисления.</p>
 </div>
 <div class="paragraph">
 <p>В следующем примере показано использование всех трех вариантов для создания объектов класса <code>Integer</code>:</p>
@@ -1851,13 +1870,17 @@ Character c1 = new Character('c');</code></pre>
 </div>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_методы_parse">Методы <code>parse()</code></h4>
+<div class="sect4">
+<h5 id="_методы_parse">Методы <code>parse()</code></h5>
 <div class="paragraph">
-<p>В каждом классе оболочке содержатся методы, позволяющие преобразовывать строку в соответствующее примитивное значение. В классе <code>Double</code> - это метод <code>parseDouble()</code>, в классе <code>Long</code> - <code>parseLong()</code> и так далее. Разница с методом <code>valueOf()</code> состоит в том, что метод <code>valueOf()</code> возвращает объект, а <code>parse()</code> - примитивное значение.</p>
+<p>В каждом классе оболочке содержатся методы, позволяющие преобразовывать строку в соответствующее примитивное значение.
+В классе <code>Double</code> - это метод <code>parseDouble()</code>, в классе <code>Long</code> - <code>parseLong()</code> и так далее.
+Разница с методом <code>valueOf()</code> состоит в том, что метод <code>valueOf()</code> возвращает объект, а <code>parse()</code> - примитивное значение.</p>
 </div>
 <div class="paragraph">
-<p>Также в целочисленные классы <code>Byte</code>, <code>Short</code>, <code>Integer</code>, <code>Long</code> добавлен метод, в который можно передать строку, содержащую число в любой системе исчисления. Вторым параметром вы указываете саму систему исчисления. Следующий пример показывает использование метода <code>parseLong()</code>:</p>
+<p>Также в целочисленные классы <code>Byte</code>, <code>Short</code>, <code>Integer</code>, <code>Long</code> добавлен метод, в который можно передать строку, содержащую число в любой системе исчисления.
+Вторым параметром вы указываете саму систему исчисления.
+Следующий пример показывает использование метода <code>parseLong()</code>:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1875,19 +1898,22 @@ Character c1 = new Character('c');</code></pre>
 </div>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_методы_tostring">Методы <code>toString()</code></h4>
+<div class="sect4">
+<h5 id="_методы_tostring">Методы <code>toString()</code></h5>
 <div class="paragraph">
-<p>Все типы-оболочки переопределяют <code>toString()</code>. Этот метод возвращает читабельную для человека форму значения, содержащегося в оболочке. Это позволяет выводить значение, передавая объект оболочки типа методу <code>println()</code>:</p>
+<p>Все типы-оболочки переопределяют <code>toString()</code>.
+Этот метод возвращает читабельную для человека форму значения, содержащегося в оболочке.
+Это позволяет выводить значение, передавая объект оболочки типа методу <code>println()</code>:</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight"><code class="language-java" data-lang="java">Double double1 = Double.valueOf("4.6");
-System.out.println(double1);​</code></pre>
+System.out.println(double1);</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Также все числовые оболочки типов предоставляют статический метод <code>toString()</code>, на вход которого передается примитивное значение. Метод возвращает значение <code>String</code>:</p>
+<p>Также все числовые оболочки типов предоставляют статический метод <code>toString()</code>, на вход которого передается примитивное значение.
+Метод возвращает значение <code>String</code>:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1895,18 +1921,20 @@ System.out.println(double1);​</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p><code>Integer</code> и <code>Long</code> предоставляют третий вариант <code>toString()</code> метода, позволяющий представить число в любой системе исчисления. Он статический, первый аргумент – примитивный тип, второй - основание системы счисления:</p>
+<p><code>Integer</code> и <code>Long</code> предоставляют третий вариант <code>toString()</code> метода, позволяющий представить число в любой системе исчисления.
+Он статический, первый аргумент – примитивный тип, второй - основание системы счисления:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">String string2 = Long.toString(254, 16); // string2 = "fe"​</code></pre>
+<pre class="highlight"><code class="language-java" data-lang="java">String string2 = Long.toString(254, 16); // string2 = "fe"</code></pre>
 </div>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_методы_tohexstring_tooctalstring_tobinarystring">Методы <code>toHexString()</code>, <code>toOctalString()</code>, <code>toBinaryString()</code></h4>
+<div class="sect4">
+<h5 id="_методы_tohexstring_tooctalstring_tobinarystring">Методы <code>toHexString()</code>, <code>toOctalString()</code>, <code>toBinaryString()</code></h5>
 <div class="paragraph">
-<p><code>Integer</code> и <code>Long</code> позволяют преобразовывать числа из десятичной системы исчисления к шестнадцатеричной, восьмеричной и двоичной. Например:</p>
+<p><code>Integer</code> и <code>Long</code> позволяют преобразовывать числа из десятичной системы исчисления к шестнадцатеричной, восьмеричной и двоичной.
+Например:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1929,14 +1957,14 @@ System.out.println(double1);​</code></pre>
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_класс_number">Класс <code>Number</code></h3>
+<div class="sect3">
+<h4 id="_класс_number">Класс <code>Number</code></h4>
 <div class="paragraph">
 <p>Все оболочки числовых типов наследуют абстрактный класс <code>Number</code>. <code>Number</code> объявляет методы, которые возвращают значение объекта в каждом из различных числовых форматов.</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="../../../assets/img/java/core/misc/wrapper-classes.png" alt="Класс Number">
+<img src="../../../assets/img/java/core/misc/wrapper-classes/wrapper-classes.png" alt="Класс Number">
 </div>
 </div>
 <div class="paragraph">
@@ -1958,8 +1986,8 @@ System.out.println(double1);​</code></pre>
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_статические_константы_классов_оболочек">Статические константы классов оболочек</h3>
+<div class="sect3">
+<h4 id="_статические_константы_классов_оболочек">Статические константы классов оболочек</h4>
 <div class="paragraph">
 <p>Каждый класс оболочка содержит статические константы, содержащие максимальное и минимальное значения для данного типа.</p>
 </div>
@@ -1983,7 +2011,10 @@ System.out.println(double1);​</code></pre>
 </ul>
 </div>
 <div class="paragraph">
-<p>Следующий пример демонстрирует использование трех последних переменных. При делении на ноль возникает ошибка - на ноль делить нельзя. Чтобы этого не происходило, и ввели переменные <code>NEGATIVE_INFINITY</code> и <code>POSITIVE_INFINITY</code>. Результат умножения бесконечности на ноль - это значение <code>NaN</code>:</p>
+<p>Следующий пример демонстрирует использование трех последних переменных.
+При делении на ноль возникает ошибка - на ноль делить нельзя.
+Чтобы этого не происходило, и ввели переменные <code>NEGATIVE_INFINITY</code> и <code>POSITIVE_INFINITY</code>.
+Результат умножения бесконечности на ноль - это значение <code>NaN</code>:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -2014,12 +2045,12 @@ System.out.println(double1);​</code></pre>
 </div>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_aвтоупаковка_и_распаковка_since_version_5">Aвтоупаковка и распаковка (since version 5)</h2>
-<div class="sectionbody">
+<div class="sect2">
+<h3 id="_autoboxing_and_unboxing">Autoboxing and unboxing</h3>
 <div class="paragraph">
-<p>Автоупаковка и распаковка это процесс преобразования примитивных типов в объектные и наоборот. Весь процесс выполняется автоматически средой выполнения Java (JRE).</p>
+<p><strong>Autoboxing</strong> and <strong>unboxing</strong> (<strong>авто-упаковка</strong> и <strong>распаковка</strong>) — это процесс преобразования примитивных типов в объектные и наоборот.
+Весь процесс выполняется автоматически средой выполнения Java (<strong>JRE</strong>).
+Эта возможность доступна в Java версии 5 и выше.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -2033,16 +2064,16 @@ System.out.println(double1);​</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Автоупаковка происходит при прямом присвоении примитива классу-обертке (с помощью оператора <code>=</code>), либо при передаче примитива в параметры метода.</p>
+<p><strong>Autoboxing</strong> происходит при прямом присвоении примитива классу-обертке (с помощью оператора <code>=</code>), либо при передаче примитива в параметры метода.</p>
 </div>
 <div class="paragraph">
-<p>Распаковка происходит при прямом присвоении классу-обертке примитива.</p>
+<p><strong>Unboxing</strong> происходит при прямом присвоении классу-обертке примитива.</p>
 </div>
 <div class="paragraph">
 <p>Компилятор использует метод <code>valueOf()</code> для упаковки, а методы <code>intValue()</code>, <code>doubleValue()</code> и так далее, для распаковки.</p>
 </div>
 <div class="paragraph">
-<p>Автоупаковке в <strong>классы-обертки</strong> могут быть подвергнуты как переменные примитивных типов, так и литералы:</p>
+<p><strong>Autoboxing</strong> в <strong>классы-обертки</strong> могут быть подвергнуты как переменные примитивных типов, так и литералы:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -2052,10 +2083,10 @@ Integer iOb2 = i;</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Автоупаковка переменных примитивных типов требует точного соответствия типа исходного примитива — типу <strong>класса-обертки</strong>.</p>
+<p><strong>Autoboxing</strong> переменных примитивных типов требует точного соответствия типа исходного примитива — типу <strong>класса-обертки</strong>.</p>
 </div>
 <div class="paragraph">
-<p>Например, попытка автоупаковать переменную типа <code>byte</code> в <code>Short</code>, без предварительного явного приведения <code>byte</code> в <code>short</code> вызовет ошибку компиляции:</p>
+<p>Например, попытка <strong>autoboxing</strong> переменную типа <code>byte</code> в <code>Short</code>, без предварительного явного приведения <code>byte</code> в <code>short</code> вызовет ошибку компиляции:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -2082,7 +2113,8 @@ Short s2 = (short) b;</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Внутри выражения числовой объект автоматически распаковывается. Выходной результат выражения при необходимости упаковывается заново:</p>
+<p>Внутри выражения числовой объект автоматически распаковывается.
+Выходной результат выражения при необходимости упаковывается заново:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -2103,7 +2135,7 @@ Short s2 = (short) b;</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>C появлением автоупаковки/распаковки стало возможным применять объекты <code>Boolean</code> для управления в операторе <code>if</code> и других циклических конструкциях Java:</p>
+<p>C появлением <strong>autoboxing</strong>/<strong>unboxing</strong> стало возможным применять объекты <code>Boolean</code> для управления в операторе <code>if</code> и других циклических конструкциях Java:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -2153,8 +2185,8 @@ Short s2 = (short) b;</code></pre>
 }</code></pre>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_объекты_классов_оболочек_неизменяемые">Объекты классов оболочек неизменяемые</h3>
+<div class="sect3">
+<h4 id="_объекты_классов_оболочек_неизменяемые">Объекты классов оболочек неизменяемые</h4>
 <div class="paragraph">
 <p>Объекты классов оболочек <strong>неизменяемые</strong> (<strong>immutable</strong>):</p>
 </div>
@@ -2187,7 +2219,7 @@ Short s2 = (short) b;</code></pre>
 <p>Переменная <code>y</code> указывает на объект в памяти:</p>
 </div>
 <div class="paragraph">
-<p><span class="image"><img src="../../../assets/img/java/core/misc/wrapper-immutable1.png" alt="Объекты классов оболочек неизменяемы"></span></p>
+<p><span class="image"><img src="../../../assets/img/java/core/misc/wrapper-classes/immutable1.png" alt="Объекты классов оболочек неизменяемы"></span></p>
 </div>
 <div class="paragraph">
 <p>Если мы попытаемся изменить <code>y</code>, у нас создастся еще один объект в памяти, на который теперь и будет указывать <code>y</code>:</p>
@@ -2199,13 +2231,14 @@ y++;</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p><span class="image"><img src="../../../assets/img/java/core/misc/wrapper-immutable2.png" alt="Объекты классов оболочек неизменяемы"></span></p>
+<p><span class="image"><img src="../../../assets/img/java/core/misc/wrapper-classes/immutable2.png" alt="Объекты классов оболочек неизменяемы"></span></p>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_кэширование_объектов_классов_оболочек">Кэширование объектов классов оболочек</h3>
+<div class="sect3">
+<h4 id="_кэширование_объектов_классов_оболочек">Кэширование объектов классов оболочек</h4>
 <div class="paragraph">
-<p>Метод <code>valueOf()</code> не всегда создает новый объект. Он кэширует следующие значения:</p>
+<p>Метод <code>valueOf()</code> не всегда создает новый объект.
+Он кэширует следующие значения:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -2251,10 +2284,8 @@ y++;</code></pre>
 </div>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_перегрузка_с_дополнительными_факторами_since_version_5">Перегрузка с дополнительными факторами (since version 5)</h2>
-<div class="sectionbody">
+<div class="sect2">
+<h3 id="_перегрузка_с_дополнительными_факторами">Перегрузка с дополнительными факторами</h3>
 <div class="paragraph">
 <p>Перегрузка методов усложняется при одновременном использовании следующих факторов:</p>
 </div>
@@ -2271,8 +2302,8 @@ y++;</code></pre>
 </li>
 </ul>
 </div>
-<div class="sect2">
-<h3 id="_расширение_примитивных_типов">Расширение примитивных типов</h3>
+<div class="sect3">
+<h4 id="_расширение_примитивных_типов">Расширение примитивных типов</h4>
 <div class="paragraph">
 <p>При расширение примитивных типов используется наименьший возможный вариант из всех методов.</p>
 </div>
@@ -2305,10 +2336,11 @@ y++;</code></pre>
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_расширение_и_boxing">Расширение и boxing</h3>
+<div class="sect3">
+<h4 id="_расширение_и_boxing">Расширение и boxing</h4>
 <div class="paragraph">
-<p>Между расширением примитивных типов и boxing всегда выигрывает расширение. Исторически это более старый вид преобразования.</p>
+<p>Между расширением примитивных типов и boxing всегда выигрывает расширение.
+Исторически это более старый вид преобразования.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -2329,10 +2361,11 @@ y++;</code></pre>
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_упаковка_и_расширение">Упаковка и расширение</h3>
+<div class="sect3">
+<h4 id="_упаковка_и_расширение">Упаковка и расширение</h4>
 <div class="paragraph">
-<p>Можно упаковать, а потом расширить. Значение типа <code>int</code> может стать <code>Object</code>, через преобразование <code>Integer</code>.</p>
+<p>Можно упаковать, а потом расширить.
+Значение типа <code>int</code> может стать <code>Object</code>, через преобразование <code>Integer</code>.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -2350,10 +2383,13 @@ y++;</code></pre>
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_расширение_и_упаковка">Расширение и упаковка</h3>
+<div class="sect3">
+<h4 id="_расширение_и_упаковка">Расширение и упаковка</h4>
 <div class="paragraph">
-<p>Нельзя расширить и упаковать. Значение типа <code>byte</code> не может стать <code>Long</code>. Нельзя расширить от одного класса обертки к другой. (<strong>IS-A</strong> не работает.)</p>
+<p>Нельзя расширить и упаковать.
+Значение типа <code>byte</code> не может стать <code>Long</code>.
+Нельзя расширить от одного класса обертки к другой.
+(<strong>IS-A</strong> не работает.)</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -2370,16 +2406,15 @@ y++;</code></pre>
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_расширение_и_аргументы_переменной_длины">Расширение и аргументы переменной длины</h3>
+<div class="sect3">
+<h4 id="_расширение_и_аргументы_переменной_длины">Расширение и аргументы переменной длины</h4>
 <div class="paragraph">
 <p>Между расширением примитивных типов и <strong>var-args</strong> всегда проигрывает <strong>var-args</strong>:</p>
 </div>
 <div class="paragraph">
 <p>public class AddVarargs {
-    public static void go(int x, int y) {
-        System.out.println("int,int");
-    }</p>
+public static void go(int x, int y) {
+System.out.println("int,int"); }</p>
 </div>
 <div class="literalblock">
 <div class="content">
@@ -2398,10 +2433,11 @@ y++;</code></pre>
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_упаковка_и_аргументы_переменной_длины">Упаковка и аргументы переменной длины</h3>
+<div class="sect3">
+<h4 id="_упаковка_и_аргументы_переменной_длины">Упаковка и аргументы переменной длины</h4>
 <div class="paragraph">
-<p>Упаковка и <strong>var-args</strong> совместимы с перегрузкой методов. <strong>Var-args</strong> всегда проигрывает:</p>
+<p>Упаковка и <strong>var-args</strong> совместимы с перегрузкой методов.
+<strong>Var-args</strong> всегда проигрывает:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -2422,8 +2458,8 @@ y++;</code></pre>
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_правила_перегрузки_методов_при_использовании_расширения_упаковки_и_аргументов_переменной_длины">Правила перегрузки методов при использовании расширения, упаковки и аргументов переменной длины</h3>
+<div class="sect3">
+<h4 id="_правила_перегрузки_методов_при_использовании_расширения_упаковки_и_аргументов_переменной_длины">Правила перегрузки методов при использовании расширения, упаковки и аргументов переменной длины</h4>
 <div class="paragraph">
 <p>Подытожим все правила:</p>
 </div>
@@ -2433,18 +2469,24 @@ y++;</code></pre>
 <p>При расширение примитивных типов используется наименьший возможный вариант из всех методов.</p>
 </li>
 <li>
-<p>Между расширением примитивных типов и упаковкой всегда выигрывает расширение. Исторически это более старый вид преобразования.</p>
+<p>Между расширением примитивных типов и упаковкой всегда выигрывает расширение.
+Исторически это более старый вид преобразования.</p>
 </li>
 <li>
-<p>Можно упаковать, а потом расширить. (Значение типа <code>int</code> может стать <code>Object</code>, через преобразование <code>Integer</code>.)</p>
+<p>Можно упаковать, а потом расширить.
+(Значение типа <code>int</code> может стать <code>Object</code>, через преобразование <code>Integer</code>.)</p>
 </li>
 <li>
-<p>Нельзя расширить и упаковать. Значение типа <code>byte</code> не может стать <code>Long</code>. Нельзя расширить от одного класса обертки к другой. (<strong>IS-A</strong> не работает.)</p>
+<p>Нельзя расширить и упаковать.
+Значение типа <code>byte</code> не может стать <code>Long</code>.
+Нельзя расширить от одного класса обертки к другой.
+(<strong>IS-A</strong> не работает.)</p>
 </li>
 <li>
 <p>Можно комбинировать <strong>var-args</strong> с расширением или упаковкой. <strong>var-args</strong> всегда проигрывает.</p>
 </li>
 </ul>
+</div>
 </div>
 </div>
 </div>
@@ -6319,7 +6361,7 @@ Hello!</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2021-01-31 06:27:56 UTC
+Last updated 2021-01-31 08:52:30 UTC
 </div>
 </div>
 </body>

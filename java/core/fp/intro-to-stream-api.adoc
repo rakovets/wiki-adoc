@@ -82,7 +82,7 @@ interface BaseStream<T , S extends BaseStream<T , S>>
 * `boolean anyMatch(Predicate<? super T> predicate)` возвращает `true`, если хоть один элемент потока удовлетворяют условию в предикате
 * `<R, A> R collect(Collector<? super T, A, R> collector)` добавляет элементы в неизменяемый контейнер с типом `R`. `T` представляет тип данных из вызывающего потока, а `A` - тип данных в контейнере
 * `long count()` возвращает количество элементов в потоке
-* `Stream<T> concat​(Stream<? extends T> a, Stream<? extends T> b)` объединяет два потока
+* `Stream<T> concat|(Stream<? extends T> a, Stream<? extends T> b)` объединяет два потока
 * `Stream<T> distinct()` возвращает поток, в котором имеются только уникальные данные с типом `T`
 * `Stream<T> dropWhile​(Predicate<? super T> predicate)` пропускает элементы, которые соответствуют условию в `predicate`, пока не попадется элемент, который не соответствует условию. Выбранные элементы возвращаются в виде потока
 * `Stream<T> filter(Predicate<? super T> predicate)` фильтрует элементы в соответствии с условием в предикате

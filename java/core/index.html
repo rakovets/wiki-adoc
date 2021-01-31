@@ -499,18 +499,16 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_перечисления">5.3. Перечисления</a></li>
 <li><a href="#_класс_object">5.4. Класс <code>Object</code></a></li>
 <li><a href="#_ссылочные_типы_и_клонирование_объектов">5.5. Ссылочные типы и клонирование объектов</a></li>
-<li><a href="#_классы_оболочки">5.6. Классы-оболочки</a></li>
-<li><a href="#_aвтоупаковка_и_распаковка_since_version_5">5.7. Aвтоупаковка и распаковка (since version 5)</a></li>
-<li><a href="#_перегрузка_с_дополнительными_факторами_since_version_5">5.8. Перегрузка с дополнительными факторами (since version 5)</a></li>
-<li><a href="#_введение_в_лямбда_выражения">5.9. Введение в лямбда-выражения</a></li>
-<li><a href="#_лямбды_как_параметры_и_результаты_методов">5.10. Лямбды как параметры и результаты методов</a></li>
-<li><a href="#_аннотации">5.11. Аннотации</a></li>
-<li><a href="#_reflection">5.12. Reflection</a></li>
-<li><a href="#_properties">5.13. Properties</a></li>
-<li><a href="#_javadoc">5.14. Javadoc</a></li>
-<li><a href="#_java_nio">5.15. Java NIO</a></li>
-<li><a href="#_java_memory_management">5.16. Java Memory Management</a></li>
-<li><a href="#_модульность_since_java_9">5.17. Модульность (@since Java 9)</a></li>
+<li><a href="#_wrapper_classes">5.6. Wrapper Classes</a></li>
+<li><a href="#_введение_в_лямбда_выражения">5.7. Введение в лямбда-выражения</a></li>
+<li><a href="#_лямбды_как_параметры_и_результаты_методов">5.8. Лямбды как параметры и результаты методов</a></li>
+<li><a href="#_аннотации">5.9. Аннотации</a></li>
+<li><a href="#_reflection">5.10. Reflection</a></li>
+<li><a href="#_properties">5.11. Properties</a></li>
+<li><a href="#_javadoc">5.12. Javadoc</a></li>
+<li><a href="#_java_nio">5.13. Java NIO</a></li>
+<li><a href="#_java_memory_management">5.14. Java Memory Management</a></li>
+<li><a href="#_модульность_since_java_9">5.15. Модульность (@since Java 9)</a></li>
 </ul>
 </li>
 <li><a href="#_обработка_исключений">6. Обработка исключений</a>
@@ -7956,21 +7954,30 @@ class Author {
 </div>
 </div>
 <div class="sect2">
-<h3 id="_классы_оболочки">5.6. Классы-оболочки</h3>
+<h3 id="_wrapper_classes">5.6. Wrapper Classes</h3>
+<div class="sect3">
+<h4 id="_wrapper_classes_2">5.6.1. Wrapper Classes</h4>
 <div class="paragraph">
-<p>Очень часто необходимо создать класс, основное назначение которого содержать в себе какое-то примитивное значение. Например, как мы увидим в следующих занятиях, обобщенные классы и в частности коллекции работают только с объектами. Поэтому, чтобы каждый разработчик не изобретал велосипед, в Java уже добавлены такие классы, которые называются <strong>оболочки типов</strong> (<strong>классы обертки</strong>, <strong>wrappers</strong>).</p>
+<p>Очень часто необходимо создать класс, основное назначение которого содержать в себе какое-то примитивное значение.
+Например, как мы увидим в следующих занятиях, обобщенные классы и в частности коллекции работают только с объектами.
+Поэтому, чтобы каждый разработчик не изобретал велосипед, в Java уже добавлены такие классы, которые называются <strong>Wrapper Classes</strong> (<strong>оболочки типов</strong>/<strong>классы обертки</strong>/<strong>wrappers</strong>).</p>
 </div>
 <div class="paragraph">
-<p>К оболочкам типов относятся классы <code>Double</code>, <code>Float</code>, <code>Long</code>, <code>Integer</code>, <code>Short</code>, <code>Byte</code>, <code>Character</code>, <code>Boolean</code>, <code>Void</code>. Для каждого примитивного значения и ключевого слова <code>void</code> есть свой класс-двойник. Имя класса, как вы видите, совпадает с именем примитивного значения. Исключения составляют класс <code>Integer</code> (примитивный тип <code>int</code>) и класс <code>Character</code> (примитивный тип <code>char</code>). Кроме содержания в себе значения, классы оболочки предоставляют обширный ряд методов.</p>
+<p>К оболочкам типов относятся классы <code>Double</code>, <code>Float</code>, <code>Long</code>, <code>Integer</code>, <code>Short</code>, <code>Byte</code>, <code>Character</code>, <code>Boolean</code>, <code>Void</code>.
+Для каждого примитивного значения и ключевого слова <code>void</code> есть свой класс-двойник.
+Имя класса, как вы видите, совпадает с именем примитивного значения.
+Исключения составляют класс <code>Integer</code> (примитивный тип <code>int</code>) и класс <code>Character</code> (примитивный тип <code>char</code>).
+Кроме содержания в себе значения, классы оболочки предоставляют обширный ряд методов.</p>
 </div>
 <div class="paragraph">
-<p>Объекты классов оболочек <strong>неизменяемые</strong> (<strong>immutable</strong>). Это значит, что объект не может быть изменен.</p>
+<p>Объекты классов оболочек <strong>неизменяемые</strong> (<strong>immutable</strong>).
+Это значит, что объект не может быть изменен.</p>
 </div>
 <div class="paragraph">
 <p>Все классы-обертки числовых типов имеют переопределенный метод <code>equals(Object)</code>, сравнивающий примитивные значения объектов.</p>
 </div>
-<div class="sect3">
-<h4 id="_конструкторы_оболочек">5.6.1. Конструкторы оболочек</h4>
+<div class="sect4">
+<h5 id="_конструкторы_оболочек">Конструкторы оболочек</h5>
 <div class="paragraph">
 <p>В следующей таблицы для каждого класса оболочки указан соответствующий примитивный тип и варианты конструкторов.</p>
 </div>
@@ -7980,51 +7987,53 @@ class Author {
 <col style="width: 33.3333%;">
 <col style="width: 33.3334%;">
 </colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Примитивный тип</th>
+<th class="tableblock halign-left valign-top">Оболочка</th>
+<th class="tableblock halign-left valign-top">Аргументы конструктора</th>
+</tr>
+</thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Примитивный тип</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Оболочка</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Аргументы конструктора</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>boolean</code> or <code>String</code></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">boolean or String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>byte</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Byte</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>byte</code> or <code>String</code></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">byte</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Byte</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">byte or String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>char</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Character</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>char</code></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">char</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Character</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">char</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>double</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Double</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>double</code> or <code>String</code></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">double</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Double</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">double or String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>float</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Float</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>float</code>, double, or <code>String</code></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">float</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Float</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">float, double, or String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>int</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Integer</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>int</code> or <code>String</code></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">int</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">int or String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>long</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Long</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>long</code> or <code>String</code></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">long</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Long</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">long or String</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">short</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Short</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">short or String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>short</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Short</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>short</code> or <code>String</code></p></td>
 </tr>
 </tbody>
 </table>
@@ -8045,7 +8054,8 @@ class Author {
 <p>Исключения: класс <code>Character</code>, у которого только один конструктор с аргументом <code>char</code> и класс <code>Float</code>, объявляющий три конструктора - для значения <code>float</code>, <code>String</code> и еще <code>double</code>.</p>
 </div>
 <div class="paragraph">
-<p>Рассмотрим варианты вызова конструкторов на примере. Чтобы создать объект класса <code>Integer</code>, передаем в конструктор либо значение типа <code>int</code> либо <code>String</code>.</p>
+<p>Рассмотрим варианты вызова конструкторов на примере.
+Чтобы создать объект класса <code>Integer</code>, передаем в конструктор либо значение типа <code>int</code> либо <code>String</code>.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -8062,7 +8072,9 @@ Character c1 = new Character('c');</code></pre>
 <p>Если передаваемая в конструктор строка не содержит числового значения, то выбросится исключение <code>NumberFormatException</code>.</p>
 </div>
 <div class="paragraph">
-<p>При вызове конструктора с аргументом <code>String</code> класса <code>Boolean</code>, не обязательно передавать строки <code>true</code> или <code>false</code>. Если аргумент содержит любую другую строку, просто будет создан объект, содержащий значение <code>false</code>. Исключение выброшено не будет:</p>
+<p>При вызове конструктора с аргументом <code>String</code> класса <code>Boolean</code>, не обязательно передавать строки <code>true</code> или <code>false</code>.
+Если аргумент содержит любую другую строку, просто будет создан объект, содержащий значение <code>false</code>.
+Исключение выброшено не будет:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -8077,18 +8089,23 @@ Character c1 = new Character('c');</code></pre>
 </div>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_методы_классов_оболочек">5.6.2. Методы классов оболочек</h4>
-<div class="paragraph">
-<p>Как уже было сказано, классы оболочки содержат обширный ряд методов. Рассмотрим их.</p>
-</div>
 <div class="sect4">
-<h5 id="_методы_valueof">Методы <code>valueOf()</code></h5>
+<h5 id="_методы_классов_оболочек">Методы классов оболочек</h5>
 <div class="paragraph">
-<p>Метод <code>valueOf()</code> предоставляет второй способ создания объектов оболочек. Метод перегруженный, для каждого класса существует два варианта - один принимает на вход значение соответствующего типа, а второй - значение типа <code>String</code>. Так же как и с конструкторами, передаваемая строка должна содержать числовое значение. Исключение составляет опять же класс <code>Character</code> - в нем объявлен только один метод, принимающий на вход значение <code>char</code>.</p>
+<p>Как уже было сказано, классы оболочки содержат обширный ряд методов.
+Рассмотрим их.</p>
+</div>
+<div class="sect5">
+<h6 id="_методы_valueof">Методы <code>valueOf()</code></h6>
+<div class="paragraph">
+<p>Метод <code>valueOf()</code> предоставляет второй способ создания объектов оболочек.
+Метод перегруженный, для каждого класса существует два варианта - один принимает на вход значение соответствующего типа, а второй - значение типа <code>String</code>.
+Так же как и с конструкторами, передаваемая строка должна содержать числовое значение.
+Исключение составляет опять же класс <code>Character</code> - в нем объявлен только один метод, принимающий на вход значение <code>char</code>.</p>
 </div>
 <div class="paragraph">
-<p>И в целочисленные классы <code>Byte</code>, <code>Short</code>, <code>Integer</code>, <code>Long</code> добавлен еще один метод, в который можно передать строку, содержащую число в любой системе исчисления. Вторым параметром вы указываете саму систему исчисления.</p>
+<p>И в целочисленные классы <code>Byte</code>, <code>Short</code>, <code>Integer</code>, <code>Long</code> добавлен еще один метод, в который можно передать строку, содержащую число в любой системе исчисления.
+Вторым параметром вы указываете саму систему исчисления.</p>
 </div>
 <div class="paragraph">
 <p>В следующем примере показано использование всех трех вариантов для создания объектов класса <code>Integer</code>:</p>
@@ -8110,13 +8127,17 @@ Character c1 = new Character('c');</code></pre>
 </div>
 </div>
 </div>
-<div class="sect4">
-<h5 id="_методы_parse">Методы <code>parse()</code></h5>
+<div class="sect5">
+<h6 id="_методы_parse">Методы <code>parse()</code></h6>
 <div class="paragraph">
-<p>В каждом классе оболочке содержатся методы, позволяющие преобразовывать строку в соответствующее примитивное значение. В классе <code>Double</code> - это метод <code>parseDouble()</code>, в классе <code>Long</code> - <code>parseLong()</code> и так далее. Разница с методом <code>valueOf()</code> состоит в том, что метод <code>valueOf()</code> возвращает объект, а <code>parse()</code> - примитивное значение.</p>
+<p>В каждом классе оболочке содержатся методы, позволяющие преобразовывать строку в соответствующее примитивное значение.
+В классе <code>Double</code> - это метод <code>parseDouble()</code>, в классе <code>Long</code> - <code>parseLong()</code> и так далее.
+Разница с методом <code>valueOf()</code> состоит в том, что метод <code>valueOf()</code> возвращает объект, а <code>parse()</code> - примитивное значение.</p>
 </div>
 <div class="paragraph">
-<p>Также в целочисленные классы <code>Byte</code>, <code>Short</code>, <code>Integer</code>, <code>Long</code> добавлен метод, в который можно передать строку, содержащую число в любой системе исчисления. Вторым параметром вы указываете саму систему исчисления. Следующий пример показывает использование метода <code>parseLong()</code>:</p>
+<p>Также в целочисленные классы <code>Byte</code>, <code>Short</code>, <code>Integer</code>, <code>Long</code> добавлен метод, в который можно передать строку, содержащую число в любой системе исчисления.
+Вторым параметром вы указываете саму систему исчисления.
+Следующий пример показывает использование метода <code>parseLong()</code>:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -8134,19 +8155,22 @@ Character c1 = new Character('c');</code></pre>
 </div>
 </div>
 </div>
-<div class="sect4">
-<h5 id="_методы_tostring">Методы <code>toString()</code></h5>
+<div class="sect5">
+<h6 id="_методы_tostring">Методы <code>toString()</code></h6>
 <div class="paragraph">
-<p>Все типы-оболочки переопределяют <code>toString()</code>. Этот метод возвращает читабельную для человека форму значения, содержащегося в оболочке. Это позволяет выводить значение, передавая объект оболочки типа методу <code>println()</code>:</p>
+<p>Все типы-оболочки переопределяют <code>toString()</code>.
+Этот метод возвращает читабельную для человека форму значения, содержащегося в оболочке.
+Это позволяет выводить значение, передавая объект оболочки типа методу <code>println()</code>:</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="prettyprint highlight"><code data-lang="java">Double double1 = Double.valueOf("4.6");
-System.out.println(double1);​</code></pre>
+System.out.println(double1);</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Также все числовые оболочки типов предоставляют статический метод <code>toString()</code>, на вход которого передается примитивное значение. Метод возвращает значение <code>String</code>:</p>
+<p>Также все числовые оболочки типов предоставляют статический метод <code>toString()</code>, на вход которого передается примитивное значение.
+Метод возвращает значение <code>String</code>:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -8154,18 +8178,20 @@ System.out.println(double1);​</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p><code>Integer</code> и <code>Long</code> предоставляют третий вариант <code>toString()</code> метода, позволяющий представить число в любой системе исчисления. Он статический, первый аргумент – примитивный тип, второй - основание системы счисления:</p>
+<p><code>Integer</code> и <code>Long</code> предоставляют третий вариант <code>toString()</code> метода, позволяющий представить число в любой системе исчисления.
+Он статический, первый аргумент – примитивный тип, второй - основание системы счисления:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code data-lang="java">String string2 = Long.toString(254, 16); // string2 = "fe"​</code></pre>
+<pre class="prettyprint highlight"><code data-lang="java">String string2 = Long.toString(254, 16); // string2 = "fe"</code></pre>
 </div>
 </div>
 </div>
-<div class="sect4">
-<h5 id="_методы_tohexstring_tooctalstring_tobinarystring">Методы <code>toHexString()</code>, <code>toOctalString()</code>, <code>toBinaryString()</code></h5>
+<div class="sect5">
+<h6 id="_методы_tohexstring_tooctalstring_tobinarystring">Методы <code>toHexString()</code>, <code>toOctalString()</code>, <code>toBinaryString()</code></h6>
 <div class="paragraph">
-<p><code>Integer</code> и <code>Long</code> позволяют преобразовывать числа из десятичной системы исчисления к шестнадцатеричной, восьмеричной и двоичной. Например:</p>
+<p><code>Integer</code> и <code>Long</code> позволяют преобразовывать числа из десятичной системы исчисления к шестнадцатеричной, восьмеричной и двоичной.
+Например:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -8188,14 +8214,14 @@ System.out.println(double1);​</code></pre>
 </div>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_класс_number">5.6.3. Класс <code>Number</code></h4>
+<div class="sect4">
+<h5 id="_класс_number">Класс <code>Number</code></h5>
 <div class="paragraph">
 <p>Все оболочки числовых типов наследуют абстрактный класс <code>Number</code>. <code>Number</code> объявляет методы, которые возвращают значение объекта в каждом из различных числовых форматов.</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="../../../assets/img/java/core/misc/wrapper-classes.png" alt="Класс Number">
+<img src="../../../assets/img/java/core/misc/wrapper-classes/wrapper-classes.png" alt="Класс Number">
 </div>
 </div>
 <div class="paragraph">
@@ -8217,8 +8243,8 @@ System.out.println(double1);​</code></pre>
 </div>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_статические_константы_классов_оболочек">5.6.4. Статические константы классов оболочек</h4>
+<div class="sect4">
+<h5 id="_статические_константы_классов_оболочек">Статические константы классов оболочек</h5>
 <div class="paragraph">
 <p>Каждый класс оболочка содержит статические константы, содержащие максимальное и минимальное значения для данного типа.</p>
 </div>
@@ -8242,7 +8268,10 @@ System.out.println(double1);​</code></pre>
 </ul>
 </div>
 <div class="paragraph">
-<p>Следующий пример демонстрирует использование трех последних переменных. При делении на ноль возникает ошибка - на ноль делить нельзя. Чтобы этого не происходило, и ввели переменные <code>NEGATIVE_INFINITY</code> и <code>POSITIVE_INFINITY</code>. Результат умножения бесконечности на ноль - это значение <code>NaN</code>:</p>
+<p>Следующий пример демонстрирует использование трех последних переменных.
+При делении на ноль возникает ошибка - на ноль делить нельзя.
+Чтобы этого не происходило, и ввели переменные <code>NEGATIVE_INFINITY</code> и <code>POSITIVE_INFINITY</code>.
+Результат умножения бесконечности на ноль - это значение <code>NaN</code>:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -8273,10 +8302,12 @@ System.out.println(double1);​</code></pre>
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_aвтоупаковка_и_распаковка_since_version_5">5.7. Aвтоупаковка и распаковка (since version 5)</h3>
+<div class="sect3">
+<h4 id="_autoboxing_and_unboxing">5.6.2. Autoboxing and unboxing</h4>
 <div class="paragraph">
-<p>Автоупаковка и распаковка это процесс преобразования примитивных типов в объектные и наоборот. Весь процесс выполняется автоматически средой выполнения Java (JRE).</p>
+<p><strong>Autoboxing</strong> and <strong>unboxing</strong> (<strong>авто-упаковка</strong> и <strong>распаковка</strong>) — это процесс преобразования примитивных типов в объектные и наоборот.
+Весь процесс выполняется автоматически средой выполнения Java (<strong>JRE</strong>).
+Эта возможность доступна в Java версии 5 и выше.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -8290,16 +8321,16 @@ System.out.println(double1);​</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Автоупаковка происходит при прямом присвоении примитива классу-обертке (с помощью оператора <code>=</code>), либо при передаче примитива в параметры метода.</p>
+<p><strong>Autoboxing</strong> происходит при прямом присвоении примитива классу-обертке (с помощью оператора <code>=</code>), либо при передаче примитива в параметры метода.</p>
 </div>
 <div class="paragraph">
-<p>Распаковка происходит при прямом присвоении классу-обертке примитива.</p>
+<p><strong>Unboxing</strong> происходит при прямом присвоении классу-обертке примитива.</p>
 </div>
 <div class="paragraph">
 <p>Компилятор использует метод <code>valueOf()</code> для упаковки, а методы <code>intValue()</code>, <code>doubleValue()</code> и так далее, для распаковки.</p>
 </div>
 <div class="paragraph">
-<p>Автоупаковке в <strong>классы-обертки</strong> могут быть подвергнуты как переменные примитивных типов, так и литералы:</p>
+<p><strong>Autoboxing</strong> в <strong>классы-обертки</strong> могут быть подвергнуты как переменные примитивных типов, так и литералы:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -8309,10 +8340,10 @@ Integer iOb2 = i;</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Автоупаковка переменных примитивных типов требует точного соответствия типа исходного примитива — типу <strong>класса-обертки</strong>.</p>
+<p><strong>Autoboxing</strong> переменных примитивных типов требует точного соответствия типа исходного примитива — типу <strong>класса-обертки</strong>.</p>
 </div>
 <div class="paragraph">
-<p>Например, попытка автоупаковать переменную типа <code>byte</code> в <code>Short</code>, без предварительного явного приведения <code>byte</code> в <code>short</code> вызовет ошибку компиляции:</p>
+<p>Например, попытка <strong>autoboxing</strong> переменную типа <code>byte</code> в <code>Short</code>, без предварительного явного приведения <code>byte</code> в <code>short</code> вызовет ошибку компиляции:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -8339,7 +8370,8 @@ Short s2 = (short) b;</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Внутри выражения числовой объект автоматически распаковывается. Выходной результат выражения при необходимости упаковывается заново:</p>
+<p>Внутри выражения числовой объект автоматически распаковывается.
+Выходной результат выражения при необходимости упаковывается заново:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -8360,7 +8392,7 @@ Short s2 = (short) b;</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>C появлением автоупаковки/распаковки стало возможным применять объекты <code>Boolean</code> для управления в операторе <code>if</code> и других циклических конструкциях Java:</p>
+<p>C появлением <strong>autoboxing</strong>/<strong>unboxing</strong> стало возможным применять объекты <code>Boolean</code> для управления в операторе <code>if</code> и других циклических конструкциях Java:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -8410,8 +8442,8 @@ Short s2 = (short) b;</code></pre>
 }</code></pre>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_объекты_классов_оболочек_неизменяемые">5.7.1. Объекты классов оболочек неизменяемые</h4>
+<div class="sect4">
+<h5 id="_объекты_классов_оболочек_неизменяемые">Объекты классов оболочек неизменяемые</h5>
 <div class="paragraph">
 <p>Объекты классов оболочек <strong>неизменяемые</strong> (<strong>immutable</strong>):</p>
 </div>
@@ -8444,7 +8476,7 @@ Short s2 = (short) b;</code></pre>
 <p>Переменная <code>y</code> указывает на объект в памяти:</p>
 </div>
 <div class="paragraph">
-<p><span class="image"><img src="../../../assets/img/java/core/misc/wrapper-immutable1.png" alt="Объекты классов оболочек неизменяемы"></span></p>
+<p><span class="image"><img src="../../../assets/img/java/core/misc/wrapper-classes/immutable1.png" alt="Объекты классов оболочек неизменяемы"></span></p>
 </div>
 <div class="paragraph">
 <p>Если мы попытаемся изменить <code>y</code>, у нас создастся еще один объект в памяти, на который теперь и будет указывать <code>y</code>:</p>
@@ -8456,13 +8488,14 @@ y++;</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p><span class="image"><img src="../../../assets/img/java/core/misc/wrapper-immutable2.png" alt="Объекты классов оболочек неизменяемы"></span></p>
+<p><span class="image"><img src="../../../assets/img/java/core/misc/wrapper-classes/immutable2.png" alt="Объекты классов оболочек неизменяемы"></span></p>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_кэширование_объектов_классов_оболочек">5.7.2. Кэширование объектов классов оболочек</h4>
+<div class="sect4">
+<h5 id="_кэширование_объектов_классов_оболочек">Кэширование объектов классов оболочек</h5>
 <div class="paragraph">
-<p>Метод <code>valueOf()</code> не всегда создает новый объект. Он кэширует следующие значения:</p>
+<p>Метод <code>valueOf()</code> не всегда создает новый объект.
+Он кэширует следующие значения:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -8508,8 +8541,8 @@ y++;</code></pre>
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_перегрузка_с_дополнительными_факторами_since_version_5">5.8. Перегрузка с дополнительными факторами (since version 5)</h3>
+<div class="sect3">
+<h4 id="_перегрузка_с_дополнительными_факторами">5.6.3. Перегрузка с дополнительными факторами</h4>
 <div class="paragraph">
 <p>Перегрузка методов усложняется при одновременном использовании следующих факторов:</p>
 </div>
@@ -8526,8 +8559,8 @@ y++;</code></pre>
 </li>
 </ul>
 </div>
-<div class="sect3">
-<h4 id="_расширение_примитивных_типов">5.8.1. Расширение примитивных типов</h4>
+<div class="sect4">
+<h5 id="_расширение_примитивных_типов">Расширение примитивных типов</h5>
 <div class="paragraph">
 <p>При расширение примитивных типов используется наименьший возможный вариант из всех методов.</p>
 </div>
@@ -8560,10 +8593,11 @@ y++;</code></pre>
 </div>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_расширение_и_boxing">5.8.2. Расширение и boxing</h4>
+<div class="sect4">
+<h5 id="_расширение_и_boxing">Расширение и boxing</h5>
 <div class="paragraph">
-<p>Между расширением примитивных типов и boxing всегда выигрывает расширение. Исторически это более старый вид преобразования.</p>
+<p>Между расширением примитивных типов и boxing всегда выигрывает расширение.
+Исторически это более старый вид преобразования.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -8584,10 +8618,11 @@ y++;</code></pre>
 </div>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_упаковка_и_расширение">5.8.3. Упаковка и расширение</h4>
+<div class="sect4">
+<h5 id="_упаковка_и_расширение">Упаковка и расширение</h5>
 <div class="paragraph">
-<p>Можно упаковать, а потом расширить. Значение типа <code>int</code> может стать <code>Object</code>, через преобразование <code>Integer</code>.</p>
+<p>Можно упаковать, а потом расширить.
+Значение типа <code>int</code> может стать <code>Object</code>, через преобразование <code>Integer</code>.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -8605,10 +8640,13 @@ y++;</code></pre>
 </div>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_расширение_и_упаковка">5.8.4. Расширение и упаковка</h4>
+<div class="sect4">
+<h5 id="_расширение_и_упаковка">Расширение и упаковка</h5>
 <div class="paragraph">
-<p>Нельзя расширить и упаковать. Значение типа <code>byte</code> не может стать <code>Long</code>. Нельзя расширить от одного класса обертки к другой. (<strong>IS-A</strong> не работает.)</p>
+<p>Нельзя расширить и упаковать.
+Значение типа <code>byte</code> не может стать <code>Long</code>.
+Нельзя расширить от одного класса обертки к другой.
+(<strong>IS-A</strong> не работает.)</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -8625,16 +8663,15 @@ y++;</code></pre>
 </div>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_расширение_и_аргументы_переменной_длины">5.8.5. Расширение и аргументы переменной длины</h4>
+<div class="sect4">
+<h5 id="_расширение_и_аргументы_переменной_длины">Расширение и аргументы переменной длины</h5>
 <div class="paragraph">
 <p>Между расширением примитивных типов и <strong>var-args</strong> всегда проигрывает <strong>var-args</strong>:</p>
 </div>
 <div class="paragraph">
 <p>public class AddVarargs {
-    public static void go(int x, int y) {
-        System.out.println("int,int");
-    }</p>
+public static void go(int x, int y) {
+System.out.println("int,int"); }</p>
 </div>
 <div class="literalblock">
 <div class="content">
@@ -8653,10 +8690,11 @@ y++;</code></pre>
 </div>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_упаковка_и_аргументы_переменной_длины">5.8.6. Упаковка и аргументы переменной длины</h4>
+<div class="sect4">
+<h5 id="_упаковка_и_аргументы_переменной_длины">Упаковка и аргументы переменной длины</h5>
 <div class="paragraph">
-<p>Упаковка и <strong>var-args</strong> совместимы с перегрузкой методов. <strong>Var-args</strong> всегда проигрывает:</p>
+<p>Упаковка и <strong>var-args</strong> совместимы с перегрузкой методов.
+<strong>Var-args</strong> всегда проигрывает:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -8677,8 +8715,8 @@ y++;</code></pre>
 </div>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_правила_перегрузки_методов_при_использовании_расширения_упаковки_и_аргументов_переменной_длины">5.8.7. Правила перегрузки методов при использовании расширения, упаковки и аргументов переменной длины</h4>
+<div class="sect4">
+<h5 id="_правила_перегрузки_методов_при_использовании_расширения_упаковки_и_аргументов_переменной_длины">Правила перегрузки методов при использовании расширения, упаковки и аргументов переменной длины</h5>
 <div class="paragraph">
 <p>Подытожим все правила:</p>
 </div>
@@ -8688,13 +8726,18 @@ y++;</code></pre>
 <p>При расширение примитивных типов используется наименьший возможный вариант из всех методов.</p>
 </li>
 <li>
-<p>Между расширением примитивных типов и упаковкой всегда выигрывает расширение. Исторически это более старый вид преобразования.</p>
+<p>Между расширением примитивных типов и упаковкой всегда выигрывает расширение.
+Исторически это более старый вид преобразования.</p>
 </li>
 <li>
-<p>Можно упаковать, а потом расширить. (Значение типа <code>int</code> может стать <code>Object</code>, через преобразование <code>Integer</code>.)</p>
+<p>Можно упаковать, а потом расширить.
+(Значение типа <code>int</code> может стать <code>Object</code>, через преобразование <code>Integer</code>.)</p>
 </li>
 <li>
-<p>Нельзя расширить и упаковать. Значение типа <code>byte</code> не может стать <code>Long</code>. Нельзя расширить от одного класса обертки к другой. (<strong>IS-A</strong> не работает.)</p>
+<p>Нельзя расширить и упаковать.
+Значение типа <code>byte</code> не может стать <code>Long</code>.
+Нельзя расширить от одного класса обертки к другой.
+(<strong>IS-A</strong> не работает.)</p>
 </li>
 <li>
 <p>Можно комбинировать <strong>var-args</strong> с расширением или упаковкой. <strong>var-args</strong> всегда проигрывает.</p>
@@ -8703,10 +8746,11 @@ y++;</code></pre>
 </div>
 </div>
 </div>
+</div>
 <div class="sect2">
-<h3 id="_введение_в_лямбда_выражения">5.9. Введение в лямбда-выражения</h3>
+<h3 id="_введение_в_лямбда_выражения">5.7. Введение в лямбда-выражения</h3>
 <div class="sect3">
-<h4 id="_введение">5.9.1. Введение</h4>
+<h4 id="_введение">5.7.1. Введение</h4>
 <div class="paragraph">
 <p>Среди новшеств, которые были привнесены в язык Java с выходом JDK 8, особняком стоят <strong>лямбда-выражения</strong>. Лямбда-выражение представляет набор инструкций, которые можно выделить в отдельную переменную и затем многократно вызвать в различных местах программы.</p>
 </div>
@@ -8825,7 +8869,7 @@ System.out.println(operation3.calculate(20, 10)); //200</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_отложенное_выполнение">5.9.2. Отложенное выполнение</h4>
+<h4 id="_отложенное_выполнение">5.7.2. Отложенное выполнение</h4>
 <div class="paragraph">
 <p>Одним из ключевых моментов в использовании лямбд является <strong>отложенное выполнение</strong> (<strong>deferred execution</strong>). То есть мы определяем в одном месте программы лямбда-выражение и затем можем его вызывать при необходимости неопределенное количество раз в различных частях программы. Отложенное выполнение может потребоваться, к примеру, в следующих случаях:</p>
 </div>
@@ -8874,7 +8918,7 @@ System.out.println(operation3.calculate(20, 10)); //200</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_терминальные_лямбда_выражения">5.9.3. Терминальные лямбда-выражения</h4>
+<h4 id="_терминальные_лямбда_выражения">5.7.3. Терминальные лямбда-выражения</h4>
 <div class="paragraph">
 <p>Выше рассмотрены лямбда-выражения, которые возвращают определенное значение. Но также могут быть и <strong>терминальные лямбды</strong>, которые не возвращают никакого значения. Например:</p>
 </div>
@@ -8894,7 +8938,7 @@ public class LambdaApp {
 </div>
 </div>
 <div class="sect3">
-<h4 id="_лямбды_и_локальные_переменные">5.9.4. Лямбды и локальные переменные</h4>
+<h4 id="_лямбды_и_локальные_переменные">5.7.4. Лямбды и локальные переменные</h4>
 <div class="paragraph">
 <p>Лямбда-выражение может использовать переменные, которые объявлены во вне в более общей области видимости - на уровне класса или метода, в котором лямбда-выражение определено. Однако в зависимости от того, как и где определены переменные, могут различаться способы их использования в лямбдах. Рассмотрим первый пример - использования переменных уровня класса:</p>
 </div>
@@ -8947,7 +8991,7 @@ interface Operation {
 </div>
 </div>
 <div class="sect3">
-<h4 id="_блоки_кода_в_лямбда_выражениях">5.9.5. Блоки кода в лямбда-выражениях</h4>
+<h4 id="_блоки_кода_в_лямбда_выражениях">5.7.5. Блоки кода в лямбда-выражениях</h4>
 <div class="paragraph">
 <p>Существуют два типа лямбда-выражений:</p>
 </div>
@@ -8979,7 +9023,7 @@ System.out.println(operation.calculate(20, 0)); //0</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_обобщенный_функциональный_интерфейс">5.9.6. Обобщенный функциональный интерфейс</h4>
+<h4 id="_обобщенный_функциональный_интерфейс">5.7.6. Обобщенный функциональный интерфейс</h4>
 <div class="paragraph">
 <p>Функциональный интерфейс может быть обобщенным, однако в лямбда-выражении использование обобщений не допускается. В этом случае нам надо типизировать объект интерфейса определенным типом, который потом будет применяться в лямбда-выражении. Например:</p>
 </div>
@@ -9006,9 +9050,9 @@ interface Operationable&lt;T&gt; {
 </div>
 </div>
 <div class="sect2">
-<h3 id="_лямбды_как_параметры_и_результаты_методов">5.10. Лямбды как параметры и результаты методов</h3>
+<h3 id="_лямбды_как_параметры_и_результаты_методов">5.8. Лямбды как параметры и результаты методов</h3>
 <div class="sect3">
-<h4 id="_лямбды_как_параметры_методов">5.10.1. Лямбды как параметры методов</h4>
+<h4 id="_лямбды_как_параметры_методов">5.8.1. Лямбды как параметры методов</h4>
 <div class="paragraph">
 <p>Одним из преимуществ лямбд в java является то, что их можно передавать в качестве параметров в методы. Рассмотрим пример:</p>
 </div>
@@ -9062,7 +9106,7 @@ System.out.println(x);  // 30</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_ссылки_на_метод_как_параметры_методов">5.10.2. Ссылки на метод как параметры методов</h4>
+<h4 id="_ссылки_на_метод_как_параметры_методов">5.8.2. Ссылки на метод как параметры методов</h4>
 <div class="paragraph">
 <p>Начиная с JDK 8 в Java можно в качестве параметра в метод передавать ссылку на другой метод. В принципе данный способ аналогичен передаче в метод лямбда-выражения.</p>
 </div>
@@ -9169,7 +9213,7 @@ public class LambdaApp {
 </div>
 </div>
 <div class="sect3">
-<h4 id="_ссылки_на_конструкторы">5.10.3. Ссылки на конструкторы</h4>
+<h4 id="_ссылки_на_конструкторы">5.8.3. Ссылки на конструкторы</h4>
 <div class="paragraph">
 <p>Подобным образом мы можем использовать конструкторы: <code>название_класса::new</code>. Например:</p>
 </div>
@@ -9205,7 +9249,7 @@ class User {
 </div>
 </div>
 <div class="sect3">
-<h4 id="_лямбды_как_результат_методов">5.10.4. Лямбды как результат методов</h4>
+<h4 id="_лямбды_как_результат_методов">5.8.4. Лямбды как результат методов</h4>
 <div class="paragraph">
 <p>Также метод в Java может возвращать лямбда-выражение. Рассмотрим следующий пример:</p>
 </div>
@@ -9268,7 +9312,7 @@ System.out.println(b); // 6</code></pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_аннотации">5.11. Аннотации</h3>
+<h3 id="_аннотации">5.9. Аннотации</h3>
 <div class="paragraph">
 <p><strong>Аннотации</strong> представляют собой некую мета-информацию. Они не выполняют какого-либо действия сами по себе, но они могут предоставлять дополнительную информацию, которая может быть использована компилятором, различными утилитами сборки и генерации кода, а также они могут обрабатываться во время выполнения программы.</p>
 </div>
@@ -9304,7 +9348,7 @@ void myMethod() {
 </div>
 </div>
 <div class="sect3">
-<h4 id="_объявление_аннотаций">5.11.1. Объявление аннотаций</h4>
+<h4 id="_объявление_аннотаций">5.9.1. Объявление аннотаций</h4>
 <div class="paragraph">
 <p>Предположим, что при объявлении каждого нового класса необходимо записывать в комментариях информацию об авторах в таком виде:</p>
 </div>
@@ -9385,7 +9429,7 @@ class Goblin {
 </div>
 </div>
 <div class="sect3">
-<h4 id="_предопределённые_аннотации">5.11.2. Предопределённые аннотации</h4>
+<h4 id="_предопределённые_аннотации">5.9.2. Предопределённые аннотации</h4>
 <div class="sect4">
 <h5 id="_deprecated"><code>@Deprecated</code></h5>
 <div class="paragraph">
@@ -9462,7 +9506,7 @@ void useDeprecatedMethod() {
 </div>
 </div>
 <div class="sect3">
-<h4 id="_мета_аннотации">5.11.3. Мета-аннотации</h4>
+<h4 id="_мета_аннотации">5.9.3. Мета-аннотации</h4>
 <div class="paragraph">
 <p>Аннотации, применяемые к другим аннотациям, называются <strong>мета-аннотациями</strong>. Есть несколько мета-аннотаций в пакете <code>java.lang.annotation</code>:</p>
 </div>
@@ -9578,7 +9622,7 @@ class Goblin {
 </div>
 </div>
 <div class="sect2">
-<h3 id="_reflection">5.12. Reflection</h3>
+<h3 id="_reflection">5.10. Reflection</h3>
 <div class="paragraph">
 <p><strong>Рефлексия</strong> (от reflexio - обращение назад) - это механизм исследования данных о программе во время её выполнения. Рефлексия в Java осуществляется с помощью <strong>Java Reflection API</strong>, состоящий из классов пакетов <code>java.lang</code> и <code>java.lang.reflect</code>. В информатике рефлексия означает процесс, во время которого программа может отслеживать и модифицировать собственную структуру и поведение во время выполнения.</p>
 </div>
@@ -9615,7 +9659,7 @@ class Goblin {
 </blockquote>
 </div>
 <div class="sect3">
-<h4 id="_определение_свойств_класса">5.12.1. Определение свойств класса</h4>
+<h4 id="_определение_свойств_класса">5.10.1. Определение свойств класса</h4>
 <div class="paragraph">
 <p>В работающем приложении для получения класса необходимо использовать метод <code>forName(String className)</code>. Следующий код демонстрирует возможность создания класса без использования и с использованием Reflection :</p>
 </div>
@@ -9675,7 +9719,7 @@ Class superCls = cls.getSuperClass();</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_определение_интерфейсов_и_конструкторов_класса">5.12.2. Определение интерфейсов и конструкторов класса</h4>
+<h4 id="_определение_интерфейсов_и_конструкторов_класса">5.10.2. Определение интерфейсов и конструкторов класса</h4>
 <div class="paragraph">
 <p>Для получения в режиме <strong>runtime</strong> списка реализующих классом интерфейсов, необходимо получить <code>Class</code> и использовать его метод <code>getInterfaces()</code>. В следующем примере извлекается список интерфейсов класса <code>ArrayList</code>:</p>
 </div>
@@ -9730,7 +9774,7 @@ for (Constructor constructor : constructors) {
 </div>
 </div>
 <div class="sect3">
-<h4 id="_определение_полей_класса">5.12.3. Определение полей класса</h4>
+<h4 id="_определение_полей_класса">5.10.3. Определение полей класса</h4>
 <div class="paragraph">
 <p>Метод <code>getFields()</code> объекта <code>Class</code> возвращает массив открытых полей типа <code>java.lang.reflect.Field</code>, которые могут быть определены не только в данном классе, но также и в его родителях (суперклассе), либо интерфейсах, реализованных классом или его родителями. Класс <code>Field</code> позволяет получить имя поля, тип и модификаторы :</p>
 </div>
@@ -9759,7 +9803,7 @@ Field fld = cls.getField("fieldName");</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_определение_значений_полей_класса">5.12.4. Определение значений полей класса</h4>
+<h4 id="_определение_значений_полей_класса">5.10.4. Определение значений полей класса</h4>
 <div class="paragraph">
 <p>Класс <code>Field</code> содержит специализированные методы для получения значений примитивных типов:</p>
 </div>
@@ -9812,7 +9856,7 @@ field.set(obj, "New value");</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_определение_методов_класса">5.12.5. Определение методов класса</h4>
+<h4 id="_определение_методов_класса">5.10.5. Определение методов класса</h4>
 <div class="paragraph">
 <p>Метод <code>getMethods()</code> объекта <code>Class</code> возвращает массив открытых методов типа <code>java.lang.reflect.Method</code>. Эти методы могут быть определены не только в классе, но также и в его родителях (суперклассе), либо интерфейсах, реализованных классом или его родителями. Класс <code>Method</code> позволяет получить имя метода, тип возвращаемого им значения, типы параметров метода, модификаторы и генерируемые исключения.</p>
 </div>
@@ -9846,7 +9890,7 @@ Method method = cls.getMethod("methodName", params);</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_пример_изменения_значения_закрытого_поля_класса">5.12.6. Пример изменения значения закрытого поля класса</h4>
+<h4 id="_пример_изменения_значения_закрытого_поля_класса">5.10.6. Пример изменения значения закрытого поля класса</h4>
 <div class="paragraph">
 <p>Чтобы изменить значение закрытого (<code>private</code>) поля класса необходимо получить это поле методом <code>getDeclaredField()</code> и вызвать метод <code>setAccessible(true)</code> объекта <code>Field</code>, чтобы открыть доступ к полю. После этого значение закрытого поля можно изменять, если оно не <code>final</code>. В следующем примере определен внутренний класс <code>PrivateFinalFields</code> с набором закрытых полей; одно из полей <code>final</code>. При создании объекта класса поля инициализируются. В методе <code>main()</code> примера поочередно в закрытые поля вносятся изменения и свойства объекта выводятся в консоль.</p>
 </div>
@@ -9908,7 +9952,7 @@ class PrivateFinalFields {
 </div>
 </div>
 <div class="sect3">
-<h4 id="_пример_вызова_метода_invoke">5.12.7. Пример вызова метода <code>invoke()</code></h4>
+<h4 id="_пример_вызова_метода_invoke">5.10.7. Пример вызова метода <code>invoke()</code></h4>
 <div class="paragraph">
 <p><strong>Java Reflection Api</strong> позволяет вызвать метод класса. Рассмотрим пример, в котором определим класс <code>Reflect</code>, включающий поля и методы управления ими. В runtime с помощью метода данного класса будем изменять значения полей и распечатывать их.</p>
 </div>
@@ -10105,7 +10149,7 @@ Reflect [ id : 123, name : New value]</code></pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_properties">5.13. Properties</h3>
+<h3 id="_properties">5.11. Properties</h3>
 <div class="paragraph">
 <p>Класс <code>Properties</code> – это подкласс <code>Hashtable</code>.
 Он используется для хранения списков значений, в которых ключ является <code>String</code>, а значение также является <code>String</code>.</p>
@@ -10126,7 +10170,7 @@ Reflect [ id : 123, name : New value]</code></pre>
 <p>Эта переменная содержит список свойств по умолчанию, связанный с объектом <code>Properties</code>.</p>
 </div>
 <div class="sect3">
-<h4 id="_конструкторы_2">5.13.1. Конструкторы</h4>
+<h4 id="_конструкторы_2">5.11.1. Конструкторы</h4>
 <div class="paragraph">
 <p>Вот список конструкторов, предоставляемые классом <code>Properties</code>.</p>
 </div>
@@ -10143,7 +10187,7 @@ Reflect [ id : 123, name : New value]</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_методы_2">5.13.2. Методы</h4>
+<h4 id="_методы_2">5.11.2. Методы</h4>
 <div class="paragraph">
 <p>Помимо методов, определённых <code>Hashtable</code>, <code>Properties</code> определяет следующие методы:</p>
 </div>
@@ -10179,7 +10223,7 @@ Reflect [ id : 123, name : New value]</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_примеры_2">5.13.3. Примеры</h4>
+<h4 id="_примеры_2">5.11.3. Примеры</h4>
 <div class="sect4">
 <h5 id="_пример_системные_свойства">Пример: системные свойства</h5>
 <div class="paragraph">
@@ -10390,7 +10434,7 @@ email=dmitryrakovets@gmail.com</code></pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_javadoc">5.14. Javadoc</h3>
+<h3 id="_javadoc">5.12. Javadoc</h3>
 <div class="paragraph">
 <p>Наибольшая проблема, связанная с документированием кода – поддержка этой документации. Если документация и код разделены, возникают трудности, связанные с необходимостью внесения изменений в соответствующие разделы сопроводительной документации всякий раз при изменении программного кода. Среда разработки предлагает решение – связать код с документацией, поместив всё в один файл.</p>
 </div>
@@ -10438,7 +10482,7 @@ email=dmitryrakovets@gmail.com</code></pre>
 <p>Дескрипторы, начинающиеся с фигурной скобки, например <code>{@code}</code>, называются встроенными и могут применяться внутри описания.</p>
 </div>
 <div class="sect3">
-<h4 id="_список_дескрипторов_javadoc">5.14.1. Список дескрипторов Javadoc</h4>
+<h4 id="_список_дескрипторов_javadoc">5.12.1. Список дескрипторов Javadoc</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 33.3333%;">
@@ -10500,14 +10544,14 @@ email=dmitryrakovets@gmail.com</code></pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="_генерация_файлов">5.14.2. Генерация файлов</h4>
+<h4 id="_генерация_файлов">5.12.2. Генерация файлов</h4>
 <div class="paragraph">
 <p>Утилита <strong>javadoc</strong> в качестве входных данных принимает файл с исходным кодом программы. Генерирует несколько НТМL файлов, содержащих документацию по этой программе. Информация о каждом классе будет содержаться в отдельном НТМL файле. Кроме того, создается дерево индексов и иерархии. Могут быть сгенерированы и другие НТМL файлы.</p>
 </div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_java_nio">5.15. Java NIO</h3>
+<h3 id="_java_nio">5.13. Java NIO</h3>
 <div class="paragraph">
 <p>Java NIO (New IO) - это альтернативный API для работы с IO в Java (начиная с Java 1.4), это значит альтернативный стандартным Java IO и API Java Networking. Java NIO предлагает другой способ работы с IO, чем стандартный IO API.</p>
 </div>
@@ -10530,7 +10574,7 @@ email=dmitryrakovets@gmail.com</code></pre>
 <p>Java NIO имеет понятие «селекторы». <strong>Селектор</strong> - это объект, который может отслеживать несколько каналов на наличие событий (например: соединение установлено, данные получены и т.д.). Таким образом, один поток может контролировать несколько каналов данных.</p>
 </div>
 <div class="sect3">
-<h4 id="_обзор_java_nio">5.15.1. Обзор Java NIO</h4>
+<h4 id="_обзор_java_nio">5.13.1. Обзор Java NIO</h4>
 <div class="paragraph">
 <p><strong>Java NIO</strong> состоит из следующих основных компонентов:</p>
 </div>
@@ -10657,7 +10701,7 @@ email=dmitryrakovets@gmail.com</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_channel">5.15.2. <code>Channel</code></h4>
+<h4 id="_channel">5.13.2. <code>Channel</code></h4>
 <div class="paragraph">
 <p>Каналы Java NIO похожи на потоки с некоторыми отличиями:</p>
 </div>
@@ -10729,7 +10773,7 @@ aFile.close();</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_buffers">5.15.3. Buffers</h4>
+<h4 id="_buffers">5.13.3. Buffers</h4>
 <div class="paragraph">
 <p>Буферы используются при взаимодействии с каналами.</p>
 </div>
@@ -11071,9 +11115,9 @@ buffer.reset();  //set position back to mark.</code></pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_java_memory_management">5.16. Java Memory Management</h3>
+<h3 id="_java_memory_management">5.14. Java Memory Management</h3>
 <div class="sect3">
-<h4 id="_почему_необходимо_заботиться_об_управлении_памятью">5.16.1. Почему необходимо заботиться об управлении памятью?</h4>
+<h4 id="_почему_необходимо_заботиться_об_управлении_памятью">5.14.1. Почему необходимо заботиться об управлении памятью?</h4>
 <div class="paragraph">
 <p>Многие разработчики не заботятся об управлении памятью, так как в Java ж е есть <strong>Garbage Collection</strong> (<strong>GC</strong>/<strong>Сборка мусора</strong>). <strong>Garbage Collection</strong> - это процесс, с помощью которого Java программы выполняют автоматическое управление памятью. По сути, код, который пишется на Java (и других языках для JVM), компилируется в byte-код (файл <code>.class</code>) и запускается на <strong>JVM</strong> (<strong>виртуальной машине Java</strong>). Когда приложение работает на <strong>JVM</strong>, большинство объектов создается в <strong>HEAP</strong> (<strong>Куча</strong>). В процессе работы, некоторые объекты больше не понадобятся (недоступные/неиспользуемые объекты). <strong>Garbage Collector</strong> (<strong>Сборщик мусора</strong>) освободит неиспользуемую память, чтобы вернуть память для программы, других приложений и операционной системы.</p>
 </div>
@@ -11326,7 +11370,7 @@ public class ImageMetadataExample {
 </div>
 </div>
 <div class="sect3">
-<h4 id="_архитектура_виртуальной_машины_java_архитектура_jvm">5.16.2. Архитектура виртуальной машины Java (архитектура JVM)</h4>
+<h4 id="_архитектура_виртуальной_машины_java_архитектура_jvm">5.14.2. Архитектура виртуальной машины Java (архитектура JVM)</h4>
 <div class="paragraph">
 <p><strong>JVM</strong> - это всего лишь спецификация, и она имеет множество различных реализаций. Можно провести аналогию с интерфейсом и несколькими реализациями в Java программе. Чтобы узнать информацию о JVM, можно воспользоваться командой <code>java -version</code> в терминале.</p>
 </div>
@@ -11388,7 +11432,7 @@ OpenJDK 64-Bit Server VM AdoptOpenJDK (build 11.0.7+10, mixed mode)</pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_модель_памяти_heap_без_heap_другая_память">5.16.3. Модель памяти (HEAP, без HEAP, другая память)</h4>
+<h4 id="_модель_памяти_heap_без_heap_другая_память">5.14.3. Модель памяти (HEAP, без HEAP, другая память)</h4>
 <div class="paragraph">
 <p><strong>JVM</strong> использует доступное пространство памяти в операционной системе. <strong>JVM</strong> включает области памяти:</p>
 </div>
@@ -11485,7 +11529,7 @@ OpenJDK 64-Bit Server VM AdoptOpenJDK (build 11.0.7+10, mixed mode)</pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_garbage_collection">5.16.4. Garbage Collection</h4>
+<h4 id="_garbage_collection">5.14.4. Garbage Collection</h4>
 <div class="paragraph">
 <p><strong>GC</strong> помогает разработчикам писать код без выделения/освобождения памяти и позволяет не заботиться о проблемах с памятью. Однако в реальном проекте иногда имеются проблем с памятью. Они заставляют приложение работать с неэффективно и очень медленно.</p>
 </div>
@@ -11558,7 +11602,7 @@ OpenJDK 64-Bit Server VM AdoptOpenJDK (build 11.0.7+10, mixed mode)</pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_мониторинг_и_настройка_gc">5.16.5. Мониторинг и настройка <strong>GC</strong></h4>
+<h4 id="_мониторинг_и_настройка_gc">5.14.5. Мониторинг и настройка <strong>GC</strong></h4>
 <div class="paragraph">
 <p>Можно отслеживать приложение Java с помощью командной строки и различных инструментов. На самом деле существует множество инструментов: <strong>JVisualVM</strong>, <strong>JProfile</strong>, <strong>Eclipse MAT</strong>, <strong>JetBrains JVM Debugger</strong>, <strong>Netbeans Profiler</strong>, &#8230;&#8203; Рекомендуется использовать <strong>JVisualVM</strong>, который встроен в <strong>JDK</strong>. Этого достаточно для мониторинга приложения.</p>
 </div>
@@ -11799,7 +11843,7 @@ OpenJDK 64-Bit Server VM AdoptOpenJDK (build 11.0.7+10, mixed mode)</pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_советы_для_повышения_производительности_при_разработке_веб_приложения">5.16.6. Советы для повышения производительности при разработке веб-приложения</h4>
+<h4 id="_советы_для_повышения_производительности_при_разработке_веб_приложения">5.14.6. Советы для повышения производительности при разработке веб-приложения</h4>
 <div class="ulist">
 <ul>
 <li>
@@ -11822,12 +11866,12 @@ OpenJDK 64-Bit Server VM AdoptOpenJDK (build 11.0.7+10, mixed mode)</pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_модульность_since_java_9">5.17. Модульность (@since Java 9)</h3>
+<h3 id="_модульность_since_java_9">5.15. Модульность (@since Java 9)</h3>
 <div class="paragraph">
 <p>С выходом Java 9 появился новый уровень абстракции над пакетами, формально известный как <strong>Java Platform Module System</strong> (<strong>JPMS</strong>), или сокращенно <strong>Modules</strong>.</p>
 </div>
 <div class="sect3">
-<h4 id="_что_такое_модуль">5.17.1. Что такое модуль?</h4>
+<h4 id="_что_такое_модуль">5.15.1. Что такое модуль?</h4>
 <div class="paragraph">
 <p>Прежде всего, нам нужно понять, что такое модуль, прежде чем его использовать.</p>
 </div>
@@ -11958,7 +12002,7 @@ OpenJDK 64-Bit Server VM AdoptOpenJDK (build 11.0.7+10, mixed mode)</pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_модули_по_умолчанию">5.17.2. Модули по умолчанию</h4>
+<h4 id="_модули_по_умолчанию">5.15.2. Модули по умолчанию</h4>
 <div class="paragraph">
 <p>Когда мы устанавливаем Java 9, мы видим, что JDK теперь имеет новую структуру.</p>
 </div>
@@ -11994,7 +12038,7 @@ OpenJDK 64-Bit Server VM AdoptOpenJDK (build 11.0.7+10, mixed mode)</pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_объявления_модуля">5.17.3. Объявления модуля</h4>
+<h4 id="_объявления_модуля">5.15.3. Объявления модуля</h4>
 <div class="paragraph">
 <p>Чтобы создать модуль, нам нужно поместить специальный файл (<strong>дескриптор модуля</strong>/<strong>module descriptor</strong>) в корень наших пакетов с именем <code>module-info.java</code>. Он содержит всю информацию необходимую для построения и использования данного модуля.</p>
 </div>
@@ -12178,7 +12222,7 @@ OpenJDK 64-Bit Server VM AdoptOpenJDK (build 11.0.7+10, mixed mode)</pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_параметры_командной_строки">5.17.4. Параметры командной строки</h4>
+<h4 id="_параметры_командной_строки">5.15.4. Параметры командной строки</h4>
 <div class="paragraph">
 <p>В настоящее времени поддержка модулей Java 9 была добавлена ​​в <strong>Maven</strong> и <strong>Gradle</strong>, поэтому нет необходимости делать много ручной работы для сборки проектов. Однако полезно знать, как использовать систему модулей из командной строки. Для этого используют следующие параметры при работе в командной строке:</p>
 </div>
@@ -12212,7 +12256,7 @@ OpenJDK 64-Bit Server VM AdoptOpenJDK (build 11.0.7+10, mixed mode)</pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_видимость">5.17.5. Видимость</h4>
+<h4 id="_видимость">5.15.5. Видимость</h4>
 <div class="paragraph">
 <p>Многие библиотеки, что бы работать, зависят от возможности использования <strong>Reflection API</strong>, например: <strong>JUnit</strong> и <strong>Spring</strong>.</p>
 </div>
@@ -12227,7 +12271,7 @@ OpenJDK 64-Bit Server VM AdoptOpenJDK (build 11.0.7+10, mixed mode)</pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_создание_модуля_с_помощью_cli">5.17.6. Создание модуля с помощью CLI</h4>
+<h4 id="_создание_модуля_с_помощью_cli">5.15.6. Создание модуля с помощью CLI</h4>
 <div class="sect4">
 <h5 id="_создание_структуры_проекта">Создание структуры проекта</h5>
 <div class="paragraph">
@@ -12509,7 +12553,7 @@ Hello!</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_добавление_модулей_в_unnamed_module">5.17.7. Добавление модулей в <strong>Unnamed Module</strong></h4>
+<h4 id="_добавление_модулей_в_unnamed_module">5.15.7. Добавление модулей в <strong>Unnamed Module</strong></h4>
 <div class="paragraph">
 <p>Концепция <strong>Unnamed Module</strong> похожа на пакет по умолчанию, поэтому его не следует считать реальным модулем, но можно рассматриваться как модуль по умолчанию.</p>
 </div>
@@ -15497,7 +15541,7 @@ public class Test {
 <p><code>long count()</code> возвращает количество элементов в потоке</p>
 </li>
 <li>
-<p><code>Stream&lt;T&gt; concat​(Stream&lt;? extends T&gt; a, Stream&lt;? extends T&gt; b)</code> объединяет два потока</p>
+<p><code>Stream&lt;T&gt; concat|(Stream&lt;? extends T&gt; a, Stream&lt;? extends T&gt; b)</code> объединяет два потока</p>
 </li>
 <li>
 <p><code>Stream&lt;T&gt; distinct()</code> возвращает поток, в котором имеются только уникальные данные с типом <code>T</code></p>
@@ -24743,7 +24787,7 @@ String msg = mf.format(new Object[] { значения });</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2021-01-31 06:27:56 UTC
+Last updated 2021-01-31 08:52:30 UTC
 </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/run_prettify.min.js"></script>
