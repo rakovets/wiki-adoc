@@ -534,7 +534,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_interface_iterator">8.2. Interface <code>Iterator</code></a></li>
 <li><a href="#_interface_list">8.3. Interface <code>List</code></a></li>
 <li><a href="#_interface_listiterator">8.4. Interface <code>ListIterator</code></a></li>
-<li><a href="#_interface_comparable">8.5. Interface <code>Comparable</code></a></li>
+<li><a href="#_interface_comparable_and_comparator">8.5. Interface <code>Comparable</code> and <code>Comparator</code></a></li>
 <li><a href="#_interface_queue">8.6. Interface <code>Queue</code></a></li>
 <li><a href="#_linkedlist">8.7. LinkedList</a></li>
 <li><a href="#_interface_set">8.8. Interface <code>Set</code></a></li>
@@ -14293,7 +14293,9 @@ public class Program {
 </div>
 </div>
 <div class="sect2">
-<h3 id="_interface_comparable">8.5. Interface <code>Comparable</code></h3>
+<h3 id="_interface_comparable_and_comparator">8.5. Interface <code>Comparable</code> and <code>Comparator</code></h3>
+<div class="sect3">
+<h4 id="_interface_comparable">8.5.1. Interface <code>Comparable</code></h4>
 <div class="paragraph">
 <p>Рассмотрим коллекции <code>TreeSet</code>, типизированную объектами <code>String</code>. При добавлении новых элементов объект <code>TreeSet</code> автоматически проводит сортировку, помещая новый объект на правильное для него место. Что если бы использовались не строки, а классы, например, следующий класс <code>Person</code>:</p>
 </div>
@@ -14368,8 +14370,9 @@ people.add(new Person("Tom"));</code></pre>
 people.add(new Person("Tom"));</code></pre>
 </div>
 </div>
+</div>
 <div class="sect3">
-<h4 id="_interface_comparator">8.5.1. Interface <code>Comparator</code></h4>
+<h4 id="_interface_comparator">8.5.2. Interface <code>Comparator</code></h4>
 <div class="paragraph">
 <p>Однако перед нами может возникнуть проблема, что если разработчик не реализовал в своем классе, который мы хотим использовать, интерфейс <code>Comparable</code>, либо реализовал, но нас не устраивает его функциональность, и мы хотим ее переопределить? На этот случай есть еще более гибкий способ, предполагающий применение интерфейса <code>Comparator&lt;E&gt;</code>.</p>
 </div>
@@ -14417,7 +14420,7 @@ for (Person p : people) {
 </div>
 </div>
 <div class="sect3">
-<h4 id="_сортировка_по_нескольким_критериям">8.5.2. Сортировка по нескольким критериям</h4>
+<h4 id="_сортировка_по_нескольким_критериям">8.5.3. Сортировка по нескольким критериям</h4>
 <div class="paragraph">
 <p>Начиная с JDK 8 в механизм работы компараторов были внесены некоторые дополнения. В частности, теперь мы можем применять сразу несколько компараторов по принципу приоритета. Например, изменим класс <code>Person</code> следующим образом:</p>
 </div>
@@ -24787,7 +24790,7 @@ String msg = mf.format(new Object[] { значения });</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2021-02-05 05:21:40 UTC
+Last updated 2021-02-05 05:23:52 UTC
 </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/run_prettify.min.js"></script>

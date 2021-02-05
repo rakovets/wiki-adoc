@@ -897,8 +897,10 @@ public class Program {
 </div>
 </div>
 <div class="sect1">
-<h2 id="_interface_comparable">Interface <code>Comparable</code></h2>
+<h2 id="_interface_comparable_and_comparator">Interface <code>Comparable</code> and <code>Comparator</code></h2>
 <div class="sectionbody">
+<div class="sect2">
+<h3 id="_interface_comparable">Interface <code>Comparable</code></h3>
 <div class="paragraph">
 <p>Рассмотрим коллекции <code>TreeSet</code>, типизированную объектами <code>String</code>. При добавлении новых элементов объект <code>TreeSet</code> автоматически проводит сортировку, помещая новый объект на правильное для него место. Что если бы использовались не строки, а классы, например, следующий класс <code>Person</code>:</p>
 </div>
@@ -971,6 +973,7 @@ people.add(new Person("Tom"));</code></pre>
 <div class="content">
 <pre class="highlight"><code class="language-java" data-lang="java">TreeSet&lt;Person&gt; people = new TreeSet&lt;Person&gt;();
 people.add(new Person("Tom"));</code></pre>
+</div>
 </div>
 </div>
 <div class="sect2">
@@ -2018,7 +2021,7 @@ public class Program {
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2021-02-05 05:21:40 UTC
+Last updated 2021-02-05 05:23:52 UTC
 </div>
 </div>
 </body>
