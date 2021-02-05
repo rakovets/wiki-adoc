@@ -1,10 +1,11 @@
 = Interface `Map`
+:imagesdir: ../../../assets/img/java/core/java-collection-framework/
 
 Интерфейс `Map<K, V>` представляет *отображение* или иначе говоря *словарь*, где каждый элемент представляет пару `key`-`value`. При этом все ключи уникальные в рамках объекта `Map`. Такие коллекции облегчают поиск элемента, если нам известен *ключ* - уникальный идентификатор объекта.
 
 Следует отметить, что в отличие от других интерфейсов, которые представляют коллекции, интерфейс `Map` *НЕ расширяет* интерфейс `Collection`.
 
-image:/assets/img/java/core/collections/java-map-hierarchy.png[Java Map Hierarchy]
+image:java-map-hierarchy.png[Java Map Hierarchy]
 
 Среди методов интерфейса `Map` можно выделить следующие:
 

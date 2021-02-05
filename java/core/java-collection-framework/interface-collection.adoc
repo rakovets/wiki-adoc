@@ -1,4 +1,5 @@
 = Типы коллекций
+:imagesdir: ../../../assets/img/java/core/java-collection-framework/
 
 Для хранения наборов данных в Java предназначены массивы. Однако их не всегда удобно использовать, прежде всего потому, что они имеют фиксированную длину. Эту проблему в Java решают коллекции. Однако суть не только в гибких по размеру наборах объектов, но в и том, что классы коллекций реализуют различные алгоритмы и структуры данных, например, такие как стек, очередь, дерево и ряд других.
 
@@ -37,10 +38,10 @@
 * `TreeMap`: структура данных в виде дерева, где каждый элемент имеет уникальный ключ и некоторое значение
 
 Схематично всю систему можно представить следующим образом:
-image:/assets/img/java/core/collections/java-collection-hierarchy.png[Java Collection Hierarchy]
+image:java-collection-hierarchy.png[Java Collection Hierarchy]
 
 Следует отметить, что в отличие от других интерфейсов, которые представляют коллекции, интерфейс `Map` *НЕ расширяет* интерфейс `Collection`.
-image:/assets/img/java/core/collections/java-map-hierarchy.png[Java Map Hierarchy]
+image:java-map-hierarchy.png[Java Map Hierarchy]
 
 == Interface `Collection`
 

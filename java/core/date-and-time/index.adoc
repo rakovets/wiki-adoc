@@ -2,7 +2,7 @@
 
 :leveloffset: +1
 
-include::datetime.adoc[]
+include::date-and-time.adoc[]
 
 include::class-localdate.adoc[]
 
