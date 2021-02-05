@@ -1,0 +1,11 @@
+= Generics (JSR-14)
+
+:leveloffset: +1
+
+include::generic-types.adoc[]
+
+include::generic-types-with-wildcard.adoc[]
+
+include::generic-types-and-inheritance.adoc[]
+
+:leveloffset: -1

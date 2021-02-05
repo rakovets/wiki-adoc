@@ -24,13 +24,13 @@ include::misc/index.adoc[]
 
 include::exception-handling.adoc[]
 
-include::generics/index.adoc[]
+include::generic-types/index.adoc[]
 
-include::collections/index.adoc[]
+include::java-collection-framework/index.adoc[]
 
 include::fp/index.adoc[]
 
-include::datetime/index.adoc[]
+include::date-and-time/index.adoc[]
 
 include::io/index.adoc[]
 
