@@ -1,14 +1,15 @@
 = JSTL
+:imagesdir: ../../../assets/img/java/jakarta-ee/jstl/
 
 *JSP* по умолчанию позволяет встраивать код на java в разметку html. Однако иногда использование стандартных способов для ряда операций, например, для ывод на страницу элементов из списка и т.д., может быть несколько громоздким. Чтобы упростить встраивание кода java в JSP была разработана специальная библиотека - *JSTL*. *JSTL* (*JSP Standard Tag Library*) предоставляет теги для базовых задач JSP (цикл, условные выражения и т.д.)
 
 Эта библиотека не является частью инфраструктуры Java EE, поэтому ее необходимо добавлять в проект самостоятельно. Библиотеку можно найти по адресу link:http://central.maven.org/maven2/javax/servlet/jstl/1.2/[maven artifact]. Из репозитория нам необходимо загрузить файл *jstl-1.2.jar*.
 
-image:/assets/img/java/jakarta-ee/jstl/jstl1.png[download jstl in java ee]
+image:jstl1.png[download jstl in java ee]
 
 В проекте Eclipse эту библиотеку необходимо добавить в папку  *WebContent/WEB-INF/lib*:
 
-image:/assets/img/java/jakarta-ee/jstl/jstl2.png[JSTL в Java EE]
+image:jstl2.png[JSTL в Java EE]
 
 Несмотря на то, что JSTL часто называется библиотекой, на самом деле она содержит ряд библиотек:
 
@@ -51,7 +52,7 @@ public class HelloServlet extends HttpServlet {
 
 то в результате этот html-код будет внедрен напрямую в страницу:
 
-image:/assets/img/java/jakarta-ee/jstl/jstl3.png[XSS in JSP in Java EE]
+image:jstl3.png[XSS in JSP in Java EE]
 
 Теперь используем возможности JSTL:
 
@@ -72,7 +73,7 @@ image:/assets/img/java/jakarta-ee/jstl/jstl3.png[XSS in JSP in Java EE]
 
 Тег `c:out` позволяет декодировать теги html. Его атрибут `value` указывает на выводимое значение. В итоге мы получим совсем другой вывод:
 
-image:/assets/img/java/jakarta-ee/jstl/jstl4.png[Защита от XSS в JSP в Java EE]
+image:jstl4.png[Защита от XSS в JSP в Java EE]
 
 == Значение по умолчанию
 

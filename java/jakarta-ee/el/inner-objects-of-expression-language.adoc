@@ -1,4 +1,5 @@
 = Встроенные объекты Expression Language
+:imagesdir: ../../../assets/img/java/jakarta-ee/el/
 
 По умолчанию *Expression Language* предоставляет ряд встроенных объектов, которые позволяют использовать различные аспекты запроса:
 
@@ -31,7 +32,7 @@
 
 Через объект param здесь получаем из запроса значения параметров name и age. Значения для параметров можно передать как через строку запроса, так и через отправку формы. Например, передача через строку запроса:
 
-image:/assets/img/java/jakarta-ee/jsp/el-jsp.png[Expression Language in JSP]
+image:el-jsp.png[Expression Language in JSP]
 
 Также мы можем определить форму, например:
 
@@ -57,7 +58,7 @@ image:/assets/img/java/jakarta-ee/jsp/el-jsp.png[Expression Language in JSP]
 
 И через эту форму передать данные в jsp:
 
-image:/assets/img/java/jakarta-ee/el/params-el.png[Params in Expression Language]
+image:params-el.png[Params in Expression Language]
 
 Если с одним параметром связано несколько значений, то можно использовать объект `paramValues`. Например, на станице html есть форма, где пользователь может ввести несколько своих телефонов:
 
@@ -103,7 +104,7 @@ image:/assets/img/java/jakarta-ee/el/params-el.png[Params in Expression Language
 
 После `paramValues` идет название параметра, причем параметр фактически представляет массив, и через индексы мы можем получить отдельные введенные данные.
 
-image:/assets/img/java/jakarta-ee/el/param-values-jsp.png[ParamValues in JSP in Java EE]
+image:param-values-jsp.png[ParamValues in JSP in Java EE]
 
 == Получение куки
 

@@ -1,8 +1,9 @@
 = Системы счисления
+:imagesdir: ../assets/img/common/
 
 Чтобы избежать путаницы при одновременной работе с несколькими системами счисления основание указывается в качестве нижнего индекса.
 
-image:/assets/img/common/number-systems.gif[Number systems]
+image:number-systems.gif[Number systems]
 
 == Двоичная
 

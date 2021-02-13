@@ -1,4 +1,5 @@
 = IntelliJ IDEA
+:imagesdir: ../../assets/img/java/common/intellij-idea/
 
 *IntelliJ IDEA* – одна из самых мощных универсальных сред разработки. Она поддерживает такие языки, как *PHP*, *JavaScript*, *Sass*, *Ruby*, *Python* и конечно же *Java*. Так же есть поддержка популярных фреймворков и движков, тестов для кода, адаптацию под мобильные устройства, интеграцию с *Git* и *Mercurial*, инструменты для работы с серверами.
 
@@ -16,24 +17,24 @@
 
 При первом запуске *IntelliJ IDEA* появится диалоговое окно с требованием указать путь до файла с настройками. Необходимо выбрать пункт _Do not import settings_. Если данное окно появилось после обновления или переустановки – выбрать исходную директорию.
 
-image:/assets/img/java/common/intellij-idea/complete-installation.png[complete installation]
+image:complete-installation.png[complete installation]
 
 Следующим шагом настройки *IntelliJ IDEA* будет выбор темы. ПО умолчанию их две – _стандартная_ (светлая) и _Darcula_ (тёмная).
 
-image:/assets/img/java/common/intellij-idea/customize-intellij-idea.png[customize intellij idea]
+image:customize-intellij-idea.png[customize intellij idea]
 
 *IntelliJ IDEA* поддерживает огромное количество вспомогательных инструментов. Разумеется, новичку они все не нужны. Поэтому необходимо отключить их для увеличения производительности. Для этого в очередном диалоговом окне выбрать _Disable All_. Их можно подключить позднее в меню настроек.
 
-image:/assets/img/java/common/intellij-idea/customize-intellij-idea2.png[customize intellij idea 2]
+image:customize-intellij-idea2.png[customize intellij idea 2]
 
-image:/assets/img/java/common/intellij-idea/customize-intellij-idea3.png[customize intellij idea 3]
+image:customize-intellij-idea3.png[customize intellij idea 3]
 
 
 == Первый проект в IntelliJ IDEA
 
 После установки и настройки *IntelliJ IDEA*, можно приступить к работе. Для этого необходимо создать проект в *IntelliJ IDEA*.
 
-image:/assets/img/java/common/intellij-idea/welcome-to-intellij-idea.png[welcom to intellij idea]
+image:welcome-to-intellij-idea.png[welcom to intellij idea]
 
 Диалоговое окно предлагает варианты:
 

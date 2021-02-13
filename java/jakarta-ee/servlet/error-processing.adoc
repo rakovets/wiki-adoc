@@ -1,4 +1,5 @@
 = Обработка ошибок
+:imagesdir: ../../../assets/img/java/jakarta-ee/servlet/
 
 Файл `web.xml` позволяет указать, какие страницы *html* или *jsp* будут отправляться пользователю при отправке статусных кодов ошибок. Для этого в `web.xml` применяется элемент `<error-page>`.
 
@@ -20,7 +21,7 @@
 </html>
 ----
 
-image:/assets/img/java/jakarta-ee/servlet/page-404.jpg[Page 404]
+image:page-404.jpg[Page 404]
 
 В файле `web.xml` определим следующее содержимое:
 
@@ -41,7 +42,7 @@ image:/assets/img/java/jakarta-ee/servlet/page-404.jpg[Page 404]
 
 В данном случае элемент `error-code` указывает, что мы будем обрабатывать ошибки со статусным кодом `404` (то есть такие ошибки, которые подразумевают отсутствие ресурса на сервере). А элемент `location` указывает, что в случае обращения к несуществующему ресурсу пользователю будет отправляться страница `404.html`.
 
-image:/assets/img/java/jakarta-ee/servlet/page-not-found.jpg[Page Not Found]
+image:page-not-found.jpg[Page Not Found]
 
 == Обработка исключений
 
@@ -119,4 +120,4 @@ public class HelloServlet extends HttpServlet {
 
 В итоге при обращении к сервлету будет сгенерировано исключение, и мы увидим информацию о нем:
 
-image:/assets/img/java/jakarta-ee/servlet/page-exception.jpg[Page exception]
+image:page-exception.jpg[Page exception]

@@ -1,4 +1,5 @@
 = Параметры инициализации сервлетов
+:imagesdir: ../../../assets/img/java/jakarta-ee/servlet/
 
 == Общие параметры
 
@@ -56,7 +57,7 @@ public class HelloServlet extends HttpServlet {
 }
 ----
 
-image:/assets/img/java/jakarta-ee/servlet/hello-page.jpg[Hello page]
+image:hello-page.jpg[Hello page]
 
 Стоит отметить, что этот параметр будет доступен для всех сервлетов в приложении. Соответственно если мы изменим в `web.xml` значение параметра, то оно изменится для всех сервлетов.
 

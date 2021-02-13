@@ -1,4 +1,5 @@
 = Дата и время (since version 8)
+:imagesdir: ../../../assets/img/java/core/
 
 До Java 8 для работы с датой и временем использовались классы `java.util.Date` и `java.util.Calendar`. У них было много недостатков, например:
 
@@ -11,4 +12,4 @@
 
 `LocalDate`, `LocalTime`, `LocalDateTime` и `Instant` реализуют интерфейс `java.time.temporal.Temporal`. `Period` и `Duration` реализуют интерфейс `java.time.temporal.TemporalAmount`.
 
-image:/assets/img/java/core/date-time.png[Date and Time]
+image:date-time.png[Date and Time]

@@ -1,4 +1,5 @@
 = Asciidoc
+:imagesdir: ../assets/img/common/asciidoc/
 
 == Что такое *AsciiDoc*?
 
@@ -648,19 +649,19 @@ mailto:root@localhost[email admin]
 
 ....
 Первый home
-image:/assets/img/common/asciidoc/home.png[]
+image:home.png[]
 , Второй home
-image:/assets/img/common/asciidoc/home.png[Aльтернативный текст]
+image:home.png[Aльтернативный текст]
 .
 
 .Блок с изображением
-image::/assets/img/common/asciidoc/home.png[]
-image::/assets/img/common/asciidoc/home.png[Aльтернативный текст]
+image::home.png[]
+image::home.png[Aльтернативный текст]
 
 .Миниатюра связана с полным изображением
-image:/assets/img/common/asciidoc/highlighter.png[
+image:highlighter.png[
 "Highlighter for Vim",width=128,
-link="/assets/img/common/asciidoc/highlighter.png"]
+link="highlighter.png"]
 ....
 
 ++++
@@ -668,19 +669,19 @@ link="/assets/img/common/asciidoc/highlighter.png"]
 ++++
 
 Первый home
-image:/assets/img/common/asciidoc/home.png[]
+image:home.png[]
 , Второй home
-image:/assets/img/common/asciidoc/home.png[Aльтернативный текст]
+image:home.png[Aльтернативный текст]
 .
 
 .Блок с изображением
-image::/assets/img/common/asciidoc/home.png[]
-image::/assets/img/common/asciidoc/home.png[Aльтернативный текст]
+image::home.png[]
+image::home.png[Aльтернативный текст]
 
 .Миниатюра связана с полным изображением
-image:/assets/img/common/asciidoc/highlighter.png[
+image:highlighter.png[
 "Highlighter for Vim",width=128,
-link="/assets/img/common/asciidoc/highlighter.png"]
+link="highlighter.png"]
 
 ++++
 </td></tr>

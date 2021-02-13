@@ -1,4 +1,5 @@
 = `web.xml` и маппинг сервлетов
+:imagesdir: ../../../assets/img/java/jakarta-ee/servlet/
 
 При определении сервлетов применялась аннотация `@WebServlet`, которая устанавливала конечную точку, с которой сопоставлялся сервлет. Например:
 
@@ -36,7 +37,7 @@ public class HelloServlet extends HttpServlet {
 
 Например, добавим в проект в *Eclipse* в директорию `WebConent/WEB-INF` новый файл `web.xml`:
 
-image:/assets/img/java/jakarta-ee/servlet/config-servlets.jpg[web.xml]
+image:config-servlets.jpg[web.xml]
 
 Определим в нем следующий код:
 
@@ -92,4 +93,4 @@ public class HelloServlet extends HttpServlet {
 
 Теперь, чтобы обратиться к этому сервлету, надо использовать путь `/welcome`:
 
-image:/assets/img/java/jakarta-ee/servlet/request-welcome.jpg[Request welcom]
+image:request-welcome.jpg[Request welcom]

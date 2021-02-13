@@ -1,15 +1,16 @@
 = Git
+:imagesdir: ../../assets/img/common/git/
 
 == Benefit
 
-image:/assets/img/common/git/git-cvs.png[Git as CVS]
+image:git-cvs.png[Git as CVS]
 
 == Repositories
 
-image:/assets/img/common/git/git-diagram.svg[Git Diagram]
+image:git-diagram.svg[Git Diagram]
 
-image:/assets/img/common/git/git-basic-operations.webp[Git basic operation]
+image:git-basic-operations.webp[Git basic operation]
 
 == GitHub process
 
-image:/assets/img/common/git/git-and-github-version-control.png[Git and GitHub Version Control]
+image:git-and-github-version-control.png[Git and GitHub Version Control]
