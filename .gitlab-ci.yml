@@ -1,0 +1,15 @@
+image: asciidoctor/docker-asciidoctor
+
+pages:
+  script:
+    - asciidoctor -b html5 -R . -D . '**/*.adoc'
+    - rm .gitignore README.html
+    - rm -rf *.adoc
+    - mkdir .public
+    - cp -r * .public
+    - mv .public public
+  artifacts:
+    paths:
+      - public
+  only:
+    - master
