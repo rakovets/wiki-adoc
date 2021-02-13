@@ -1,4 +1,5 @@
 = Введение в сервлеты
+:imagesdir: ../../../assets/img/java/jakarta-ee/servlet/
 
 Сервлет представляет специальный тип классов Java, который выполняется на веб-сервере и который обрабатывает запросы и возвращает результат обработки.
 
@@ -39,7 +40,7 @@ public class HelloServlet extends HttpServlet {
 
 В папке приложения классы сервлетов должны размещаться в папке `WEB-INF/classes`. Создадим в каталоге `helloapp` папку `WEB-INF`, а в ней папку `classes`. И в папку `helloapp/WEB-INF/classes` поместим файл `HelloServlet.java`.
 
-image:/assets/img/java/jakarta-ee/servlet/servlet1.png[]
+image:servlet1.png[]
 
 Но нам нужен не код сервлета, а скомпилированный класс сервлета. Поэтому скомпилируем сервлет. Для этого нам нужно использовать специальную утилиту `servlet-api.jar`, которая находится в каталоге Tomcat в папке `lib`.
 
@@ -54,10 +55,10 @@ javac -cp .;"C:\Program Files\Apache Software Foundation\Tomcat 9.0\lib\servlet-
 
 В моем случае предполагается, что Tomcat размещен в каталоге `C:\Program Files\Apache Software Foundation\Tomcat 9.0`.
 
-image:/assets/img/java/jakarta-ee/servlet/servlet2.png[]
+image:servlet2.png[]
 
 После этого в папке `helloapp/WEB-INF/classes` должен появиться класс сервлета. Перезапустим Tomcat и обратимся к нашему сервлету в браузере:
 
-image:/assets/img/java/jakarta-ee/servlet/servlet3.png[]
+image:servlet3.png[]
 
 Поскольку с помощью аннотации `@WebServlet` в классе сервлета была указана точка `/hello`, то при обращении к сервлету после домена и порта идет название приложения (`helloapp`) и конечная точка (`hello`).

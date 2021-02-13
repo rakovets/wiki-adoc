@@ -460,7 +460,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </ul>
 </div>
 <div class="paragraph">
-<p><span class="image"><img src="/assets/img/java/jakarta-ee/apache-tomcat/tomcat1.png" alt="Binary Distributions"></span></p>
+<p><span class="image"><img src="../../../assets/img/java/jakarta-ee/apache-tomcat/tomcat1.png" alt="Binary Distributions"></span></p>
 </div>
 <div class="paragraph">
 <p>В данном случае большой разницы не будет, какой именно пакет использовать. Для упрощения настройки выберем пункт <strong>32-bit/64-bit Windows Service Installer</strong>.</p>
@@ -469,19 +469,19 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p>После выбора этой опции на компьютер будет загружен инсталлятор, который надо запустить.</p>
 </div>
 <div class="paragraph">
-<p><span class="image"><img src="/assets/img/java/jakarta-ee/apache-tomcat/tomcat2.png" alt="Installation window"></span></p>
+<p><span class="image"><img src="../../../assets/img/java/jakarta-ee/apache-tomcat/tomcat2.png" alt="Installation window"></span></p>
 </div>
 <div class="paragraph">
 <p>Вначале надо принять лицензионное соглашение:</p>
 </div>
 <div class="paragraph">
-<p><span class="image"><img src="/assets/img/java/jakarta-ee/apache-tomcat/tomcat3.png" alt="Installation window"></span></p>
+<p><span class="image"><img src="../../../assets/img/java/jakarta-ee/apache-tomcat/tomcat3.png" alt="Installation window"></span></p>
 </div>
 <div class="paragraph">
 <p>Затем надо настроить устанавливаемые компоненты:</p>
 </div>
 <div class="paragraph">
-<p><span class="image"><img src="/assets/img/java/jakarta-ee/apache-tomcat/tomcat4.png" alt="Installation window"></span></p>
+<p><span class="image"><img src="../../../assets/img/java/jakarta-ee/apache-tomcat/tomcat4.png" alt="Installation window"></span></p>
 </div>
 <div class="paragraph">
 <p>Здесь можно выбрать те компоненты, которые мы хотим установить, в частности, можно выбрать пункт <strong>Service Startup</strong>, и тогда <strong>Tomcat</strong> будет запускаться автоматически при запуске системы. Можно выбрать все, а можно ограничиться теми компонентами, которые уже выбраны по умолчанию.</p>
@@ -490,7 +490,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p>Далее будет предложено настроить порты и ряд дополнительных моментов конфигурации <strong>Tomcat</strong>:</p>
 </div>
 <div class="paragraph">
-<p><span class="image"><img src="/assets/img/java/jakarta-ee/apache-tomcat/tomcat5.png" alt="Installation window"></span></p>
+<p><span class="image"><img src="../../../assets/img/java/jakarta-ee/apache-tomcat/tomcat5.png" alt="Installation window"></span></p>
 </div>
 <div class="paragraph">
 <p>Здесь стоит обратить внимание на пункт <code>HTTP/1.1 Connector Port</code>. Он указывает, по какому порту будет запускаться приложение. Укажем в этом поле номер <code>8081</code>.</p>
@@ -499,19 +499,19 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p>Затем надо будет указать версию <strong>Java</strong>, которая будет использоваться:</p>
 </div>
 <div class="paragraph">
-<p><span class="image"><img src="/assets/img/java/jakarta-ee/apache-tomcat/tomcat6.png" alt="Installation window"></span></p>
+<p><span class="image"><img src="../../../assets/img/java/jakarta-ee/apache-tomcat/tomcat6.png" alt="Installation window"></span></p>
 </div>
 <div class="paragraph">
 <p>По умолчанию инсталлятор должен определять путь к <strong>Java</strong>. Но естественно при необходимости его можно изменить. И в конце надо будет указать путь к устанавливаемому веб-контейнеру на жестком диске:</p>
 </div>
 <div class="paragraph">
-<p><span class="image"><img src="/assets/img/java/jakarta-ee/apache-tomcat/tomcat7.png" alt="Installation window"></span></p>
+<p><span class="image"><img src="../../../assets/img/java/jakarta-ee/apache-tomcat/tomcat7.png" alt="Installation window"></span></p>
 </div>
 <div class="paragraph">
 <p>Также можно оставить путь по умолчанию. И после этого собственно произойдет установка контейнера.</p>
 </div>
 <div class="paragraph">
-<p><span class="image"><img src="/assets/img/java/jakarta-ee/apache-tomcat/tomcat8.png" alt="Installation window"></span></p>
+<p><span class="image"><img src="../../../assets/img/java/jakarta-ee/apache-tomcat/tomcat8.png" alt="Installation window"></span></p>
 </div>
 <div class="paragraph">
 <p>После установки на финальном экране оставим отмеченнным пункт <strong>Run Apache Tomcat</strong> и нажмем на кнопку <strong>Finish</strong>. После этого <strong>Tomcat</strong> будет запущен, и мы сможем к нему обращаться.</p>
@@ -520,12 +520,12 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p>Убедимся, что <strong>Tomcat</strong> работает. Для этого обратимся в строке браузера по адресу <code><a href="http://localhost:8081" class="bare">http://localhost:8081</a></code>. В данном случае <code>8081</code> - это тот порт, который был указан на этапе установке выше. Если все <strong>Tomcat</strong> установлен и запущен правильно, то в браузере мы увидим некоторое стандартное содержимое:</p>
 </div>
 <div class="paragraph">
-<p><span class="image"><img src="/assets/img/java/jakarta-ee/apache-tomcat/tomcat9.png" alt="Apache Tomcat welcom page"></span></p>
+<p><span class="image"><img src="../../../assets/img/java/jakarta-ee/apache-tomcat/tomcat9.png" alt="Apache Tomcat welcom page"></span></p>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2021-02-05 05:23:52 UTC
+Last updated 2021-02-13 19:26:14 UTC
 </div>
 </div>
 </body>

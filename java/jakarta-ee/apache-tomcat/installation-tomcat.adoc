@@ -1,4 +1,5 @@
 = Установка Tomcat
+:imagesdir: ../../../assets/img/java/jakarta-ee/apache-tomcat/
 
 *Tomcat* представляет *веб-контейнер сервлетов* и предназначен для работы с рядом технологий *Java EE*, в частности, с *JSP*, *Servlet* и рядом других. Нередко *Tomcat* называют *веб-сервером*.
 
@@ -7,44 +8,44 @@
 * в виде архива, который достаточно распаковать
 * в виде инсталлятора.
 
-image:/assets/img/java/jakarta-ee/apache-tomcat/tomcat1.png[Binary Distributions]
+image:tomcat1.png[Binary Distributions]
 
 В данном случае большой разницы не будет, какой именно пакет использовать. Для упрощения настройки выберем пункт *32-bit/64-bit Windows Service Installer*.
 
 После выбора этой опции на компьютер будет загружен инсталлятор, который надо запустить.
 
-image:/assets/img/java/jakarta-ee/apache-tomcat/tomcat2.png[Installation window]
+image:tomcat2.png[Installation window]
 
 Вначале надо принять лицензионное соглашение:
 
-image:/assets/img/java/jakarta-ee/apache-tomcat/tomcat3.png[Installation window]
+image:tomcat3.png[Installation window]
 
 Затем надо настроить устанавливаемые компоненты:
 
-image:/assets/img/java/jakarta-ee/apache-tomcat/tomcat4.png[Installation window]
+image:tomcat4.png[Installation window]
 
 Здесь можно выбрать те компоненты, которые мы хотим установить, в частности, можно выбрать пункт *Service Startup*, и тогда *Tomcat* будет запускаться автоматически при запуске системы. Можно выбрать все, а можно ограничиться теми компонентами, которые уже выбраны по умолчанию.
 
 Далее будет предложено настроить порты и ряд дополнительных моментов конфигурации *Tomcat*:
 
-image:/assets/img/java/jakarta-ee/apache-tomcat/tomcat5.png[Installation window]
+image:tomcat5.png[Installation window]
 
 Здесь стоит обратить внимание на пункт `HTTP/1.1 Connector Port`. Он указывает, по какому порту будет запускаться приложение. Укажем в этом поле номер `8081`.
 
 Затем надо будет указать версию *Java*, которая будет использоваться:
 
-image:/assets/img/java/jakarta-ee/apache-tomcat/tomcat6.png[Installation window]
+image:tomcat6.png[Installation window]
 
 По умолчанию инсталлятор должен определять путь к *Java*. Но естественно при необходимости его можно изменить. И в конце надо будет указать путь к устанавливаемому веб-контейнеру на жестком диске:
 
-image:/assets/img/java/jakarta-ee/apache-tomcat/tomcat7.png[Installation window]
+image:tomcat7.png[Installation window]
 
 Также можно оставить путь по умолчанию. И после этого собственно произойдет установка контейнера.
 
-image:/assets/img/java/jakarta-ee/apache-tomcat/tomcat8.png[Installation window]
+image:tomcat8.png[Installation window]
 
 После установки на финальном экране оставим отмеченнным пункт *Run Apache Tomcat* и нажмем на кнопку *Finish*. После этого *Tomcat* будет запущен, и мы сможем к нему обращаться.
 
 Убедимся, что *Tomcat* работает. Для этого обратимся в строке браузера по адресу `http://localhost:8081`. В данном случае `8081` - это тот порт, который был указан на этапе установке выше. Если все *Tomcat* установлен и запущен правильно, то в браузере мы увидим некоторое стандартное содержимое:
 
-image:/assets/img/java/jakarta-ee/apache-tomcat/tomcat9.png[Apache Tomcat welcom page]
+image:tomcat9.png[Apache Tomcat welcom page]

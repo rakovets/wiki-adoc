@@ -1,4 +1,5 @@
 = Введение в Java EE
+:imagesdir: ../../assets/img/java/jakarta-ee/intro/
 
 *Java EE* или *Java Enterprise Edition* представляет платформу для создания корпоративных приложений на языке *Java*. Прежде всего это сфера *веб-приложений* и *веб-сервисов*.
 
@@ -32,14 +33,14 @@
 
 Для начала установим последнюю версию *Eclipse*, которую можно найти по адресу link:https://www.eclipse.org/downloads/[Eclipse]. На странице загрузок выберем найдем рядом с названием текущей версии *Eclipse* кнопку _Download_ и нажмем на нее.
 
-image:/assets/img/java/jakarta-ee/intro/eclipse-download.png[Eclipse download]
+image:eclipse-download.png[Eclipse download]
 
 После нажатия на кнопку нас перенаправит собственно на страницу загрузки, где необходимо будет нажать на кнопку *"Download"* для загрзуки установочного пакета:
 
-image:/assets/img/java/jakarta-ee/intro/eclipse-download2.png[Eclipse download]
+image:eclipse-download2.png[Eclipse download]
 
 После ее загрузки программы установки запустим ее и в отобразившемся списке опций выберем *Eclipse IDE for Java EE Developers*:
 
-image:/assets/img/java/jakarta-ee/intro/eclipse-tools-javaee-download.png[Eclipse tools Jakarta EE download]
+image:eclipse-tools-javaee-download.png[Eclipse tools Jakarta EE download]
 
 Далее надо будет указать папку для установки (или оставить выбранную папку по умолчанию) и принять пару лицензионных соглашений, и среда будет установлена.

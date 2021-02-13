@@ -456,7 +456,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p>Как и обычные статические веб-страницы, файлы <strong>JSP</strong> необходимо размещать на веб-сервере, к которому обычные пользователи могут обращаться по протоколу <strong>http</strong>, например, набирая в адресной строке браузера нужный адрес. Однако чтобы сервер мог обрабатывать файлы <strong>JSP</strong>, он должен использовать движок <strong>JSP</strong> (<strong>JSP engine</strong>), который также называют <strong>JSP-контейнером</strong>. Есть множество движков <strong>JSP</strong>, и все они реализуют одну и ту же спецификацию и в целом работают одинаково. Однако тем не менее при переносе кода с одного веб-сервера на другой могут потребоваться небольшие изменения.</p>
 </div>
 <div class="paragraph">
-<p><span class="image"><img src="/assets/img/java/jakarta-ee/jsp/shema-connection.png" alt="Shema connection"></span></p>
+<p><span class="image"><img src="../../../assets/img/java/jakarta-ee/jsp/shema-connection.png" alt="Shema connection"></span></p>
 </div>
 <div class="paragraph">
 <p>В данном случае для работы с <strong>JSP</strong> мы будем использовать <strong>Apache Tomcat</strong>, который одновременно является и веб-сервером и контейнером сервлетов и <strong>JSP</strong>.
@@ -493,13 +493,13 @@ String header = "Apache Tomcat";
 <p>Теперь поместим данный файл на сервер - в данном случае в контейнер <strong>Tomcat</strong>. Перейдем в <strong>Apache Tomcat</strong> к папке <code>webapps\ROOT</code>. Удалим из нее все содержимое и поместим нашу страницу <code>index.jsp</code>, которая была создана выше.</p>
 </div>
 <div class="paragraph">
-<p><span class="image"><img src="/assets/img/java/jakarta-ee/jsp/index-jsp.png" alt="Index jsp"></span></p>
+<p><span class="image"><img src="../../../assets/img/java/jakarta-ee/jsp/index-jsp.png" alt="Index jsp"></span></p>
 </div>
 <div class="paragraph">
 <p>Запустим <strong>Apache Tomcat</strong> (если он не запущен), и обратимся к приложению по адресу <code><a href="http://localhost:xxxx/index.jsp" class="bare">http://localhost:xxxx/index.jsp</a></code>, где <code>xxxx</code> - номер порта, по которому запущен <strong>Tomcat</strong>:</p>
 </div>
 <div class="paragraph">
-<p><span class="image"><img src="/assets/img/java/jakarta-ee/jsp/page-jsp.png" alt="Page jsp"></span></p>
+<p><span class="image"><img src="../../../assets/img/java/jakarta-ee/jsp/page-jsp.png" alt="Page jsp"></span></p>
 </div>
 <div class="paragraph">
 <p>В итоге <strong>Tomcat</strong> получит запрос к странице <code>index.jsp</code>, обработает код на <strong>java</strong>, сгенерирует <strong>html</strong>-страницу и отправит ее пользователю.</p>
@@ -512,6 +512,9 @@ String header = "Apache Tomcat";
 <div class="sect1">
 <h2 id="_jsp_syntax_basics">JSP syntax basics</h2>
 <div class="sectionbody">
+<div class="paragraph">
+<p>:imagesdir:../../../assets/img/java/jakarta-ee/jsp/</p>
+</div>
 <div class="paragraph">
 <p>Содержимое страницы <strong>JSP</strong> фактически делится на код <strong>html</strong> (а также <strong>css/javascript</strong>) и код на языке Java. Для вставки кода <strong>java</strong> на страницу <strong>JSP</strong> можно использовать пять основных элементов:</p>
 </div>
@@ -605,7 +608,7 @@ String header = "Apache Tomcat";
 <p>И соответственно эту страницу мы увидим в браузере:</p>
 </div>
 <div class="paragraph">
-<p><span class="image"><img src="/assets/img/java/jakarta-ee/jsp/jsp-syntax-basics1.png" alt="JSP syntax basics"></span></p>
+<p><span class="image"><img src="../../../assets/img/java/jakarta-ee/jsp/jsp-syntax-basics1.png" alt="JSP syntax basics"></span></p>
 </div>
 </div>
 <div class="sect2">
@@ -645,7 +648,7 @@ String header = "Apache Tomcat";
 <p>В данном случае скриплет представляет цикл <code>for</code>, в котором генерируется вывод с помощью метода <code>out.println()</code>. В итоге в браузере будет выведено четыре разо слово <code>Hello</code> с соответствующей цифрой:</p>
 </div>
 <div class="paragraph">
-<p><span class="image"><img src="/assets/img/java/jakarta-ee/jsp/jsp-syntax-basics2.png" alt="JSP syntax basics"></span></p>
+<p><span class="image"><img src="../../../assets/img/java/jakarta-ee/jsp/jsp-syntax-basics2.png" alt="JSP syntax basics"></span></p>
 </div>
 <div class="paragraph">
 <p>Другой пример - определим переменную и массив и выведим их содержимое на страницу:</p>
@@ -679,7 +682,7 @@ String header = "Apache Tomcat";
 <p>В скриплете в начале страницы определяются две переменных - переменная типа <code>String</code> и массив строк. С помощью второго скриплета содержимое массива через цикл <code>for</code> выводится на страницу.</p>
 </div>
 <div class="paragraph">
-<p><span class="image"><img src="/assets/img/java/jakarta-ee/jsp/jsp-syntax-basics3.png" alt="JSP syntax basics"></span></p>
+<p><span class="image"><img src="../../../assets/img/java/jakarta-ee/jsp/jsp-syntax-basics3.png" alt="JSP syntax basics"></span></p>
 </div>
 </div>
 <div class="sect2">
@@ -717,7 +720,7 @@ String header = "Apache Tomcat";
 <p>В данном случае метод <code>square()</code> возвращает квадрат числа. Затем этот метод используется в выражении <strong>JSP</strong> и в скриплете в цикле <code>for</code>.</p>
 </div>
 <div class="paragraph">
-<p><span class="image"><img src="/assets/img/java/jakarta-ee/jsp/jsp-syntax-basics4.png" alt="JSP syntax basics"></span></p>
+<p><span class="image"><img src="../../../assets/img/java/jakarta-ee/jsp/jsp-syntax-basics4.png" alt="JSP syntax basics"></span></p>
 </div>
 </div>
 <div class="sect2">
@@ -768,7 +771,7 @@ String header = "Apache Tomcat";
 </div>
 </div>
 <div class="paragraph">
-<p><span class="image"><img src="/assets/img/java/jakarta-ee/jsp/jsp-syntax-basics5.png" alt="JSP syntax basics"></span></p>
+<p><span class="image"><img src="../../../assets/img/java/jakarta-ee/jsp/jsp-syntax-basics5.png" alt="JSP syntax basics"></span></p>
 </div>
 </div>
 <div class="sect2">
@@ -827,25 +830,25 @@ String header = "Apache Tomcat";
 <p>Вначале добавим в папку <code>src</code> новый пакет, где будут располагаться классы. Поэтому нажмем на узел <code>src</code> правой кнопкой мыши и в контекстном меню выберем пункт <strong>New &#8594; Package</strong>.</p>
 </div>
 <div class="paragraph">
-<p><span class="image"><img src="/assets/img/java/jakarta-ee/jsp/create-package.png" alt="Creat package"></span></p>
+<p><span class="image"><img src="../../../assets/img/java/jakarta-ee/jsp/create-package.png" alt="Creat package"></span></p>
 </div>
 <div class="paragraph">
 <p>В появившемся окне укажем название пакета, например, <code>com.metanit.hellojsp</code>:</p>
 </div>
 <div class="paragraph">
-<p><span class="image"><img src="/assets/img/java/jakarta-ee/jsp/create-package2.png" alt="Creat package"></span></p>
+<p><span class="image"><img src="../../../assets/img/java/jakarta-ee/jsp/create-package2.png" alt="Creat package"></span></p>
 </div>
 <div class="paragraph">
 <p>Далее добавим в этот пакет новый класс. Для этого в структуре проекта нажмем на пакет правой кнопкой мыши и в контекстном меню выберем пункт <strong>New &#8594; Class</strong>:</p>
 </div>
 <div class="paragraph">
-<p><span class="image"><img src="/assets/img/java/jakarta-ee/jsp/create-servlet.png" alt="Creat servlet"></span></p>
+<p><span class="image"><img src="../../../assets/img/java/jakarta-ee/jsp/create-servlet.png" alt="Creat servlet"></span></p>
 </div>
 <div class="paragraph">
 <p>В окне добавления нового класса дадим ему имя <code>Calculator</code> (имя может быть произвольным). Остальные опции оставим по умолчанию.</p>
 </div>
 <div class="paragraph">
-<p><span class="image"><img src="/assets/img/java/jakarta-ee/jsp/create-javabean.png" alt="Create JavaBean"></span></p>
+<p><span class="image"><img src="../../../assets/img/java/jakarta-ee/jsp/create-javabean.png" alt="Create JavaBean"></span></p>
 </div>
 <div class="paragraph">
 <p>Далее определим в файле <code>Calculator.java</code> следующий код:</p>
@@ -886,7 +889,7 @@ public class Calculator {
 <p>Вначале с помощью директивы <code>@page</code> подключается класс <code>com.metanit.hellojsp.Calculator</code>. Затем его метод <code>square()</code> используется на странице.</p>
 </div>
 <div class="paragraph">
-<p><span class="image"><img src="/assets/img/java/jakarta-ee/jsp/hello-jsp.png" alt="Hello JSP"></span></p>
+<p><span class="image"><img src="../../../assets/img/java/jakarta-ee/jsp/hello-jsp.png" alt="Hello JSP"></span></p>
 </div>
 </div>
 </div>
@@ -903,7 +906,7 @@ public class Calculator {
 <p>Определим следующий проект.</p>
 </div>
 <div class="paragraph">
-<p><span class="image"><img src="/assets/img/java/jakarta-ee/jsp/project.png" alt="Project"></span></p>
+<p><span class="image"><img src="../../../assets/img/java/jakarta-ee/jsp/project.png" alt="Project"></span></p>
 </div>
 <div class="paragraph">
 <p>Допустим, у нас есть файл <code>header.html</code> с простейшим кодом:</p>
@@ -956,7 +959,7 @@ public class Calculator {
 <p>При обращении к странице <code>index.jsp</code> мы сможем увидеть на странице содержимое вставляемых файлов:</p>
 </div>
 <div class="paragraph">
-<p><span class="image"><img src="/assets/img/java/jakarta-ee/jsp/result.png" alt="Result"></span></p>
+<p><span class="image"><img src="../../../assets/img/java/jakarta-ee/jsp/result.png" alt="Result"></span></p>
 </div>
 </div>
 </div>
@@ -1003,13 +1006,13 @@ public class Calculator {
 <p>Запустим приложение и передадим странице данные через строку запроса <code>postuser.jsp?name=Bob&amp;age=29</code>:</p>
 </div>
 <div class="paragraph">
-<p><span class="image"><img src="/assets/img/java/jakarta-ee/jsp/request-with-params.png" alt="Request with params"></span></p>
+<p><span class="image"><img src="../../../assets/img/java/jakarta-ee/jsp/request-with-params.png" alt="Request with params"></span></p>
 </div>
 <div class="paragraph">
 <p>Если для определенного параметра не передается значение, то страница получает значене <code>null</code>:</p>
 </div>
 <div class="paragraph">
-<p><span class="image"><img src="/assets/img/java/jakarta-ee/jsp/request-with-params2.png" alt="Request with params"></span></p>
+<p><span class="image"><img src="../../../assets/img/java/jakarta-ee/jsp/request-with-params2.png" alt="Request with params"></span></p>
 </div>
 </div>
 <div class="sect2">
@@ -1041,13 +1044,13 @@ public class Calculator {
 <p>В данном случае форма предназначена для ввода имени и возаста пользователя. И по нажатию на кнопку данные формы уходят странице <code>postuser.jsp</code>.</p>
 </div>
 <div class="paragraph">
-<p><span class="image"><img src="/assets/img/java/jakarta-ee/jsp/postuser-jsp.png" alt="JSP postuser"></span></p>
+<p><span class="image"><img src="../../../assets/img/java/jakarta-ee/jsp/postuser-jsp.png" alt="JSP postuser"></span></p>
 </div>
 <div class="paragraph">
 <p>Таким образом, после ввода данных и их отправке на странице <code>index.html</code> эти данные будут получены скриптом <code>postuser.jsp</code>:</p>
 </div>
 <div class="paragraph">
-<p><span class="image"><img src="/assets/img/java/jakarta-ee/jsp/page-with-form.png" alt="JSP with form"></span></p>
+<p><span class="image"><img src="../../../assets/img/java/jakarta-ee/jsp/page-with-form.png" alt="JSP with form"></span></p>
 </div>
 <div class="paragraph">
 <p>Рассмотрим отправку более сложной формы. Определим в файле <code>index.html</code> следующий код:</p>
@@ -1128,7 +1131,7 @@ public class Calculator {
 <p>И затем можно использовать цикл <code>for</code> для перебора массива и вывода на страницу его элементов.</p>
 </div>
 <div class="paragraph">
-<p><span class="image"><img src="/assets/img/java/jakarta-ee/jsp/page-with-form2.png" alt="Page with form"></span></p>
+<p><span class="image"><img src="../../../assets/img/java/jakarta-ee/jsp/page-with-form2.png" alt="Page with form"></span></p>
 </div>
 </div>
 </div>
@@ -1218,7 +1221,7 @@ public class HelloServlet extends HttpServlet {
 <p>Если мы обратимся к сервлету <code>HelloServlet</code>, то он передаст запрос и данные странице <code>basic.jsp</code>.</p>
 </div>
 <div class="paragraph">
-<p><span class="image"><img src="/assets/img/java/jakarta-ee/jsp/jsp-hello.png" alt="JSP hello"></span></p>
+<p><span class="image"><img src="../../../assets/img/java/jakarta-ee/jsp/jsp-hello.png" alt="JSP hello"></span></p>
 </div>
 </div>
 <div class="sect2">
@@ -1289,7 +1292,7 @@ public class HelloServlet extends HttpServlet {
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2021-02-05 05:23:52 UTC
+Last updated 2021-02-13 19:26:14 UTC
 </div>
 </div>
 </body>

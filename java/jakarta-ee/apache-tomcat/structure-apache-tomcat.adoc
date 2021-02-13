@@ -1,8 +1,8 @@
 = Структура Apache Tomcat
-
+:imagesdir: ../../../assets/img/java/jakarta-ee/apache-tomcat/
 После установки в директории *Apache Tomcat* на жестком диске можно найти ряд файлов и директорий.
 
-image:/assets/img/java/jakarta-ee/apache-tomcat/tomcat-files-structure.png[Tomcat files structure]
+image:tomcat-files-structure.png[Tomcat files structure]
 
 Основные каталоги:
 
@@ -13,7 +13,7 @@ image:/assets/img/java/jakarta-ee/apache-tomcat/tomcat-files-structure.png[Tomca
 
 Таким образом, все файлы приложений будут помещаться в директорию `webapps`. По умолчанию после установки в ней можно найти ряд стандартных директорий:
 
-image:/assets/img/java/jakarta-ee/apache-tomcat/tomcat-webapps.png[Tomcat Webapps]
+image:tomcat-webapps.png[Tomcat Webapps]
 
 Ключевая директория здесь - это директория `ROOT`. Так, все содержимое, которое мы видим в браузере по адресу link:http://localhost:8081[], как раз представляет файлы из этой директории.
 
@@ -37,14 +37,14 @@ image:/assets/img/java/jakarta-ee/apache-tomcat/tomcat-webapps.png[Tomcat Webapp
 
 Этот обычный файл с кодом *html*. Затем скопируем этот файл в выше созданную директорию `test`.
 
-image:/assets/img/java/jakarta-ee/apache-tomcat/tomcat-webapps-test.png[Tomcat Webapps test]
+image:tomcat-webapps-test.png[Tomcat Webapps test]
 
 После этого мы сможем обратиться к этому файлу в браузере по адресу link:http://localhost:8081/test/hello.html[]. То есть в начале указывается локальный адрес `localhost`, затем номер порта (в данном случае `8081`), далее название директории - `test`, и далее название файла - `hello.html`.
 
-image:/assets/img/java/jakarta-ee/apache-tomcat/tomcat-webapps-page.png[Tomcat Webapps page]
+image:tomcat-webapps-page.png[Tomcat Webapps page]
 
 Стотит отметить, что при обращении к файлам в директории `ROOT`, нам не надо указывать название директории. Например, скопируем тот же файл `hello.html` в папку `ROOT`. Тогда к этому файлу мы можем обратиться по адресу link:http://localhost:8081/hello.html[]
 
-image:/assets/img/java/jakarta-ee/apache-tomcat/tomcat-hello-page.png[Tomcat hello page]
+image:tomcat-hello-page.png[Tomcat hello page]
 
 Несмотря на то, что по умолчанию директория `ROOT` уже содержит некоторое содержимое справочного характера, тем не менее мы можем все это содержимое спокойно удалить и размещать в этой директории только файлы непосредственно нашего приложения. То есть мы вполне можем использовать директорию `ROOT`. Но как правило, приходится работать с несколькими приложениями, для которых лучше создавать отдельную директорию в директории `webapps`.

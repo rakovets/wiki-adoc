@@ -503,7 +503,7 @@ public class HelloServlet extends HttpServlet {
 <p>Запустим приложение и обратимся к сервлету:</p>
 </div>
 <div class="paragraph">
-<p><span class="image"><img src="/assets/img/java/jakarta-ee/servlet/servlet7.jpg" alt="serlvet7"></span></p>
+<p><span class="image"><img src="../../../assets/img/java/jakarta-ee/servlet/servlet7.jpg" alt="serlvet7"></span></p>
 </div>
 <div class="paragraph">
 <p>В случае выше значение для параметра <code>id</code> не указано, мы просто вводим в адресной строке браузера название ресурса - в данном случае <code><a href="http://localhost:8081/helloapp/hello" class="bare">http://localhost:8081/helloapp/hello</a></code>, где <code>helloapp</code> - название приложения, а <code>hello</code> - конечная точка, к которой примонтирован сервлет. Поэтому метод <code>getParameter("id"</code>) возвращает значение <code>null</code>.</p>
@@ -512,7 +512,7 @@ public class HelloServlet extends HttpServlet {
 <p>Теперь передадим значение для параметра <code>id</code>:</p>
 </div>
 <div class="paragraph">
-<p><span class="image"><img src="/assets/img/java/jakarta-ee/servlet/servlet8.jpg" alt="servlet8"></span></p>
+<p><span class="image"><img src="../../../assets/img/java/jakarta-ee/servlet/servlet8.jpg" alt="servlet8"></span></p>
 </div>
 <div class="paragraph">
 <p>Параметры в строке запроса указываютя после названия ресурса после знака вопроса:` <a href="http://localhost:8081/helloapp/hello?id=5`.В" class="bare">http://localhost:8081/helloapp/hello?id=5`.В</a> данном случае параметр <code>id</code> равен <code>5</code>.</p>
@@ -552,7 +552,7 @@ public class HelloServlet extends HttpServlet {
 <p>В данном случае сервлет получает два параметра: <code>name</code> и <code>age</code>. Мы можем передать значения для них, набрав в адресной строке, например,` <a href="http://localhost:8081/helloapp/hello?name=Tom&amp;age=34.`" class="bare">http://localhost:8081/helloapp/hello?name=Tom&amp;age=34.`</a> При передаче некольких параметров они отделяются друг от друга знаком амперсанда <code>&amp;</code>. Подобным образом мы можем передать и большее количество параметров.</p>
 </div>
 <div class="paragraph">
-<p><span class="image"><img src="/assets/img/java/jakarta-ee/servlet/servlet9.jpg" alt="servlet9"></span></p>
+<p><span class="image"><img src="../../../assets/img/java/jakarta-ee/servlet/servlet9.jpg" alt="servlet9"></span></p>
 </div>
 </div>
 </div>
@@ -600,7 +600,7 @@ public class HelloServlet extends HttpServlet {
 <p>Запустим сервлет и передадим ему значения</p>
 </div>
 <div class="paragraph">
-<p><span class="image"><img src="/assets/img/java/jakarta-ee/servlet/servlet10.jpg" alt="servlet10"></span></p>
+<p><span class="image"><img src="../../../assets/img/java/jakarta-ee/servlet/servlet10.jpg" alt="servlet10"></span></p>
 </div>
 <div class="paragraph">
 <p>При передаче массива через строку запроса указываются несколько значений с одним и тем же именем: <code><a href="http://localhost:8081/helloapp/hello?nums=1&amp;nums=2&amp;nums=3" class="bare">http://localhost:8081/helloapp/hello?nums=1&amp;nums=2&amp;nums=3</a></code>.</p>
@@ -652,7 +652,7 @@ public class HelloServlet extends HttpServlet {
 <p>Как правило, формы отправлются с помощью запроса <strong>POST</strong>, поэтому у элемента формы определен атрибут <code>method="POST"</code>. Сама форма будет отправляться на ресурс <code>/hello</code>, с которым будет сопоставляться сервлет. На самой форме есть множество полей ввода, в том числе набор чекбоксов, из которых можно выбрать сразу несколько значений.</p>
 </div>
 <div class="paragraph">
-<p><span class="image"><img src="/assets/img/java/jakarta-ee/servlet/servlet11.jpg" alt="servlet11"></span></p>
+<p><span class="image"><img src="../../../assets/img/java/jakarta-ee/servlet/servlet11.jpg" alt="servlet11"></span></p>
 </div>
 <div class="paragraph">
 <p>Теперь определим сервлет, который будет обрабатывать эту форму:</p>
@@ -706,14 +706,14 @@ public class HelloServlet extends HttpServlet {
 <p>Причем поскольку на форме несколько чекбоксов, которые имеют одно и то же имя, то соответственно сервлету передается набор значений, который получаем с помощью метода <code>getParameterValues()</code>. Все остальные поля представляют одиночные значения, поэтому для получения их данных применяется метод <code>getParameter()</code>.</p>
 </div>
 <div class="paragraph">
-<p><span class="image"><img src="/assets/img/java/jakarta-ee/servlet/servlet12.jpg" alt="servlet12"></span></p>
+<p><span class="image"><img src="../../../assets/img/java/jakarta-ee/servlet/servlet12.jpg" alt="servlet12"></span></p>
 </div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2021-02-05 05:23:52 UTC
+Last updated 2021-02-13 19:26:14 UTC
 </div>
 </div>
 </body>

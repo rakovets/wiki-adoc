@@ -1,4 +1,5 @@
 = Вложение jsp-страниц
+:imagesdir: ../../../assets/img/java/jakarta-ee/jsp/
 
 В одну *JSP*-страницу можно вставлять несколько других. Это позволяет определять некоторые общие блоки для всех страниц и использовать их повторно на нескольких страницах *JSP*.
 
@@ -6,7 +7,7 @@
 
 Определим следующий проект.
 
-image:/assets/img/java/jakarta-ee/jsp/project.png[Project]
+image:project.png[Project]
 
 Допустим, у нас есть файл `header.html` с простейшим кодом:
 
@@ -51,4 +52,4 @@ image:/assets/img/java/jakarta-ee/jsp/project.png[Project]
 
 При обращении к странице `index.jsp` мы сможем увидеть на странице содержимое вставляемых файлов:
 
-image:/assets/img/java/jakarta-ee/jsp/result.png[Result]
+image:result.png[Result]

@@ -1,47 +1,48 @@
 = How to perform a technical specification?
+:imagesdir: ../../assets/img/common/github/
 
 == Sign in link:https://github.com/[GitHub]
 
-image:/assets/img/common/github/sign-in.png[Git workflow]
+image:sign-in.png[Git workflow]
 
 == Make "Fork" for repository
 
-image:/assets/img/common/github/make-fork-for-repository.png[Git workflow]
+image:make-fork-for-repository.png[Git workflow]
 
 == Change branch according lesson
 
-image:/assets/img/common/github/change-branch.png[Git workflow]
+image:change-branch.png[Git workflow]
 
 == Download ZIP-archive
 
-image:/assets/img/common/github/download-zip.png[Git workflow]
+image:download-zip.png[Git workflow]
 
 == Extract archive
 
-image:/assets/img/common/github/extract-archive.png[Git workflow]
+image:extract-archive.png[Git workflow]
 
 == Open directory for lesson in VSCode
 
-image:/assets/img/common/github/open-with-vscode.png[Git workflow]
+image:open-with-vscode.png[Git workflow]
 
 == Perform technical specification
 
 == Upload on GitHub
 
-image:/assets/img/common/github/upload-to-github.png[Git workflow]
+image:upload-to-github.png[Git workflow]
 
 == Make commit
 
-image:/assets/img/common/github/make-commit.png[Git workflow]
+image:make-commit.png[Git workflow]
 
 == Create Pull Request
 
-image:/assets/img/common/github/create-pull-request.png[Git workflow]
+image:create-pull-request.png[Git workflow]
 
-image:/assets/img/common/github/create-pull-request2.png[Git workflow]
+image:create-pull-request2.png[Git workflow]
 
 == Wait feedback
 
-image:/assets/img/common/github/feedback.png[Git workflow]
+image:feedback.png[Git workflow]
 
 == Fix if necessary

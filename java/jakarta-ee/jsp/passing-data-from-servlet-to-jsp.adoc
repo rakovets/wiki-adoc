@@ -1,4 +1,5 @@
 = Передача данных из сервлета в jsp
+:imagesdir: ../../../assets/img/java/jakarta-ee/jsp/
 
 Нередко страница *jsp* обрабатывает запрос вместе сервлетом. В этом случае сервлет определяет логику, а *jsp* - визуальную часть. И при обработке запроса сервлет может перенаправить дальнейшую обработку странице *jsp*. Соответственно может возникнуть вопрос, как передать данные из сервлета в *jsp*?
 
@@ -62,7 +63,7 @@ public class HelloServlet extends HttpServlet {
 
 Если мы обратимся к сервлету `HelloServlet`, то он передаст запрос и данные странице `basic.jsp`.
 
-image:/assets/img/java/jakarta-ee/jsp/jsp-hello.png[JSP hello]
+image:jsp-hello.png[JSP hello]
 
 == Контекст приложения
 

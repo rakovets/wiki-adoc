@@ -1,4 +1,5 @@
 = Using Java classes in JSP
+:imagesdir: ../../../assets/img/java/jakarta-ee/jsp/
 
 Страницы *JSP* могут включать некоторый код на Java. Таким образом, мы можем определять прямо в *JSP* переменные, методы, вообщем, некоторую логику. Однако если программной логики на Java довольно много, то лучше выносить ее в отдельные классы. Однако в данном случае может возникнуть вопрос, как организовать взаимодействие классов на *Java* и *JSP*. Рассмотрим этот вопрос.
 
@@ -8,19 +9,19 @@
 
 Вначале добавим в папку `src` новый пакет, где будут располагаться классы. Поэтому нажмем на узел `src` правой кнопкой мыши и в контекстном меню выберем пункт *New -> Package*.
 
-image:/assets/img/java/jakarta-ee/jsp/create-package.png[Creat package]
+image:create-package.png[Creat package]
 
 В появившемся окне укажем название пакета, например, `com.metanit.hellojsp`:
 
-image:/assets/img/java/jakarta-ee/jsp/create-package2.png[Creat package]
+image:create-package2.png[Creat package]
 
 Далее добавим в этот пакет новый класс. Для этого в структуре проекта нажмем на пакет правой кнопкой мыши и в контекстном меню выберем пункт *New -> Class*:
 
-image:/assets/img/java/jakarta-ee/jsp/create-servlet.png[Creat servlet]
+image:create-servlet.png[Creat servlet]
 
 В окне добавления нового класса дадим ему имя `Calculator` (имя может быть произвольным). Остальные опции оставим по умолчанию.
 
-image:/assets/img/java/jakarta-ee/jsp/create-javabean.png[Create JavaBean]
+image:create-javabean.png[Create JavaBean]
 
 Далее определим в файле `Calculator.java` следующий код:
 
@@ -56,4 +57,4 @@ public class Calculator {
 
 Вначале с помощью директивы `@page` подключается класс `com.metanit.hellojsp.Calculator`. Затем его метод `square()` используется на странице.
 
-image:/assets/img/java/jakarta-ee/jsp/hello-jsp.png[Hello JSP]
+image:hello-jsp.png[Hello JSP]

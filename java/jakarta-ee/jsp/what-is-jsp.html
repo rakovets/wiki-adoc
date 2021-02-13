@@ -453,7 +453,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p>Как и обычные статические веб-страницы, файлы <strong>JSP</strong> необходимо размещать на веб-сервере, к которому обычные пользователи могут обращаться по протоколу <strong>http</strong>, например, набирая в адресной строке браузера нужный адрес. Однако чтобы сервер мог обрабатывать файлы <strong>JSP</strong>, он должен использовать движок <strong>JSP</strong> (<strong>JSP engine</strong>), который также называют <strong>JSP-контейнером</strong>. Есть множество движков <strong>JSP</strong>, и все они реализуют одну и ту же спецификацию и в целом работают одинаково. Однако тем не менее при переносе кода с одного веб-сервера на другой могут потребоваться небольшие изменения.</p>
 </div>
 <div class="paragraph">
-<p><span class="image"><img src="/assets/img/java/jakarta-ee/jsp/shema-connection.png" alt="Shema connection"></span></p>
+<p><span class="image"><img src="../../../assets/img/java/jakarta-ee/jsp/shema-connection.png" alt="Shema connection"></span></p>
 </div>
 <div class="paragraph">
 <p>В данном случае для работы с <strong>JSP</strong> мы будем использовать <strong>Apache Tomcat</strong>, который одновременно является и веб-сервером и контейнером сервлетов и <strong>JSP</strong>.
@@ -490,13 +490,13 @@ String header = "Apache Tomcat";
 <p>Теперь поместим данный файл на сервер - в данном случае в контейнер <strong>Tomcat</strong>. Перейдем в <strong>Apache Tomcat</strong> к папке <code>webapps\ROOT</code>. Удалим из нее все содержимое и поместим нашу страницу <code>index.jsp</code>, которая была создана выше.</p>
 </div>
 <div class="paragraph">
-<p><span class="image"><img src="/assets/img/java/jakarta-ee/jsp/index-jsp.png" alt="Index jsp"></span></p>
+<p><span class="image"><img src="../../../assets/img/java/jakarta-ee/jsp/index-jsp.png" alt="Index jsp"></span></p>
 </div>
 <div class="paragraph">
 <p>Запустим <strong>Apache Tomcat</strong> (если он не запущен), и обратимся к приложению по адресу <code><a href="http://localhost:xxxx/index.jsp" class="bare">http://localhost:xxxx/index.jsp</a></code>, где <code>xxxx</code> - номер порта, по которому запущен <strong>Tomcat</strong>:</p>
 </div>
 <div class="paragraph">
-<p><span class="image"><img src="/assets/img/java/jakarta-ee/jsp/page-jsp.png" alt="Page jsp"></span></p>
+<p><span class="image"><img src="../../../assets/img/java/jakarta-ee/jsp/page-jsp.png" alt="Page jsp"></span></p>
 </div>
 <div class="paragraph">
 <p>В итоге <strong>Tomcat</strong> получит запрос к странице <code>index.jsp</code>, обработает код на <strong>java</strong>, сгенерирует <strong>html</strong>-страницу и отправит ее пользователю.</p>
@@ -507,7 +507,7 @@ String header = "Apache Tomcat";
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2021-02-05 05:23:52 UTC
+Last updated 2021-02-13 19:26:14 UTC
 </div>
 </div>
 </body>

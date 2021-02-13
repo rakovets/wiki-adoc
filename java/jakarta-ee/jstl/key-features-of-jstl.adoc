@@ -1,4 +1,5 @@
 = Основные возможности JSTL
+:imagesdir: ../../../assets/img/java/jakarta-ee/jstl/
 
 Рассмотрим некоторые основные возможности *JSTL*.
 
@@ -50,7 +51,7 @@ public class HelloServlet extends HttpServlet {
 </html>
 ----
 
-image:/assets/img/java/jakarta-ee/jstl/jstl5.png[Цикл в JSTL в JSP]
+image:jstl5.png[Цикл в JSTL в JSP]
 
 Еще один пример - вывод в цикле всех куки:
 
@@ -143,7 +144,7 @@ image:/assets/img/java/jakarta-ee/jstl/jstl5.png[Цикл в JSTL в JSP]
 
 Параметр `value` содержит часть адреса, которая добавляется к корню приложения.
 
-image:/assets/img/java/jakarta-ee/jstl/jstl6.png[url in JSTL in JSP]
+image:jstl6.png[url in JSTL in JSP]
 
 == `redirect`
 

@@ -1,4 +1,5 @@
 = Структуры данных
+:imagesdir: ../../assets/img/common/data-structures/
 
 Никлаус Вирт, швейцарский информатик, написал в 1976 году книгу под названием *Алгоритмы + структуры данных = программы*.
 
@@ -34,7 +35,7 @@
 
 Вот изображение простого массива размером 4, содержащего элементы (1, 2, 3 и 4).
 
-image:/assets/img/common/data-structures/array.png[Array]
+image:array.png[Array]
 
 Каждому из них присваивается неотрицательное числовое значение – индекс, который соответствует позиции этого элемента в массиве. Большинство языков определяют начальный индекс массива как 0.
 
@@ -60,7 +61,7 @@ image:/assets/img/common/data-structures/array.png[Array]
 
 Вот изображение стека, содержащего три элемента (1, 2 и 3). Элемент 3 находится сверху и будет удален первым:
 
-image/assets/img/common/data-structures/stack.png[Stack]
+image:stack.png[Stack]
 
 *Основные операции* со стеками:
 
@@ -77,7 +78,7 @@ image/assets/img/common/data-structures/stack.png[Stack]
 
 Вот изображение очереди, содержащей четыре элемента (1, 2, 3 и 4). Здесь 1 находится вверху и будет удален первым:
 
-image:/assets/img/common/data-structures/queue.png[Queue]
+image:queue.png[Queue]
 
 *Основные операции *с очередями:
 
@@ -96,7 +97,7 @@ image:/assets/img/common/data-structures/queue.png[Queue]
 
 Вот визуальное представление внутренней структуры связного списка:
 
-image:/assets/img/common/data-structures/linked-list.png[Linked list]
+image:linked-list.png[Linked list]
 
 *Типы* связных списков:
 
@@ -116,7 +117,7 @@ image:/assets/img/common/data-structures/linked-list.png[Linked list]
 
 *Граф* представляет собой набор узлов, соединенных друг с другом в виде сети. *Узлы* также называются *вершинами*. Пара (x, y) называется *ребром*, которое указывает, что вершина x соединена с вершиной y. Ребро может содержать вес/стоимость, показывая, сколько затрат требуется, чтобы пройти от x до y.
 
-image:/assets/img/common/data-structures/graph.png[Graph]
+image:graph.png[Graph]
 
 *Типы* графов:
 
@@ -141,7 +142,7 @@ image:/assets/img/common/data-structures/graph.png[Graph]
 
 Вот изображение простого дерева, и основные термины:
 
-image:/assets/img/common/data-structures/tree.png[Tree]
+image:tree.png[Tree]
 
 *Типы* деревьев:
 
@@ -161,7 +162,7 @@ image:/assets/img/common/data-structures/tree.png[Tree]
 
 Вот иллюстрация того, как три слова `top`, `thus` и `their` хранятся в префиксном дереве:
 
-image:/assets/img/common/data-structures/trie.png[Tries]
+image:trie.png[Tries]
 
 Слова размещаются сверху вниз. Выделенные зеленым элементы показывают конец каждого слова.
 
@@ -177,4 +178,4 @@ image:/assets/img/common/data-structures/trie.png[Tries]
 
 Вот иллюстрация того, как хэш отображается в массиве. Индекс вычисляется с помощью хеш-функции.
 
-image:/assets/img/common/data-structures/hash-table.png[Hash-table]
+image:hash-table.png[Hash-table]

@@ -496,7 +496,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p>Как правило, все операции ввода-вывода в NIO начинаются с <code>Channel</code>. <code>Channel</code> немного похож на <code>Stream</code>. Из <code>Channel</code> данные можно прочитать в <code>Buffer</code>. Данные также могут быть записаны из <code>Buffer</code> в <code>Channel</code>. :</p>
 </div>
 <div class="paragraph">
-<p><span class="image"><img src="/assets/img/java/core/nio/channels-buffers.png" alt="Java NIO: каналы и буферы"></span></p>
+<p><span class="image"><img src="../../../assets/img/java/core/nio/channels-buffers.png" alt="Java NIO: каналы и буферы"></span></p>
 </div>
 <div class="paragraph">
 <p>Есть несколько <code>Channel</code> и <code>Buffer</code> типов. Ниже приведен список основных реализаций <code>Channel</code> в Java NIO:</p>
@@ -589,7 +589,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p>Ниже приведенно изображение, того как <code>Thread</code> использует <code>Selector</code> для обработки 3 <code>Channel</code>:</p>
 </div>
 <div class="paragraph">
-<p><span class="image"><img src="/assets/img/java/core/nio/selectors.png" alt="Java NIO: селекторы"></span></p>
+<p><span class="image"><img src="../../../assets/img/java/core/nio/selectors.png" alt="Java NIO: селекторы"></span></p>
 </div>
 <div class="paragraph">
 <p>Чтобы использовать, <code>Selector</code> необходимо зарегистрировать <code>Channel</code> с ним. Для этого используеют вызов метода <code>select()</code>. Этот метод будет заблокирован, пока не произойдет событие для одного из зарегистрированных каналов. Как только метод разблокируется, поток может обработать события. Примерами событий являются: входящее соединение, полученные данные и т.д.</p>
@@ -768,7 +768,7 @@ aFile.close();</code></pre>
 <p>Вот иллюстрация емкости, положения и ограничения в режимах записи и чтения. Объяснение следует в разделах после иллюстрации.</p>
 </div>
 <div class="paragraph">
-<p><span class="image"><img src="/assets/img/java/core/nio/buffers-modes.png" alt="Java NIO: capacity" width="position" height="limit для буфера в режиме записи и чтения"></span></p>
+<p><span class="image"><img src="../../../assets/img/java/core/nio/buffers-modes.png" alt="Java NIO: capacity" width="position" height="limit для буфера в режиме записи и чтения"></span></p>
 </div>
 <div class="sect3">
 <h4 id="_capacity">Capacity</h4>
@@ -1017,7 +1017,7 @@ buffer.reset();  //set position back to mark.</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2021-02-05 05:23:52 UTC
+Last updated 2021-02-13 19:26:14 UTC
 </div>
 </div>
 </body>

@@ -1,4 +1,5 @@
 = Иерархия наследования и преобразование типов
+:imagesdir: ../../../assets/img/java/core/oop/
 
 Преобразование объектов классов происходит по-другому, чем с примитивными типами. Допустим, у нас есть следующая иерархия классов:
 
@@ -74,7 +75,7 @@ class Client extends Person {
 
 В этой иерархии классов можно проследить следующую цепь наследования: `Object` -> `Person` -> `Employee`|`Client`.
 
-image:/assets/img/java/core/oop/hierarhy-classes.png[hierarhy classes]
+image:hierarhy-classes.png[hierarhy classes]
 
 == Преобразование типов в языке Java
 

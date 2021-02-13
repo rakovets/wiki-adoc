@@ -1,5 +1,5 @@
-
 = Переадресация и перенаправление запроса
+:imagesdir: ../../../assets/img/java/jakarta-ee/servlet/
 
 Одной из распространеных задач веб-программирования является переадресация. Рассмотрим, как мы можем в сервлетах выполнять переадресацию на другой ресурс.
 
@@ -55,11 +55,11 @@ public class HelloServlet extends HttpServlet {
 
 И если мы обратимся к сервлету, то фактически мы получим содержимое страницы `index.html` , который будет перенаправлен запрос.
 
-image:/assets/img/java/jakarta-ee/servlet/jsp-hello.jpg[JSP-hello]
+image:jsp-hello.jpg[JSP-hello]
 
 Подобным образом мы можем выполнять перенаправление на страницы `jsp` и другие сервлеты. Например, добавим в проект новый сервлет `NotFoundServlet` :
 
-image:/assets/img/java/jakarta-ee/servlet/not-found-servlet.jpg[NotFoundServlet]
+image:not-found-servlet.jpg[NotFoundServlet]
 
 Определим для `NotFoundServlet` следующий код:
 
@@ -120,7 +120,7 @@ throws ServletException, IOException {
 
 В данном случае если `id` равен `null` , то идет перенаправление на `NotFoundServlet`. Следует отметить, что в метод requestDispatcher.forward передаются объекты `HttpServletRequest` и `HttpServletResponse`. То есть `NotFoundServlet` получит те же самые данные запроса, что и `HelloServlet`.
 
-image:/assets/img/java/jakarta-ee/servlet/jsp-not-found.jpg[Not Found JSP-pages]
+image:jsp-not-found.jpg[Not Found JSP-pages]
 
 == Переадресация
 

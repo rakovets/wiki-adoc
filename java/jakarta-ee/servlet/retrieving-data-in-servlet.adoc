@@ -1,4 +1,5 @@
 = Получение данных в сервлете
+:imagesdir: ../../../assets/img/java/jakarta-ee/servlet/
 
 В методы `doGet()` и `doPost()` сервлета, которые обрабатывают запрос, в качестве одного из параметров передается объект `HttpServletRequest`, с помощью которого можно получить отправленные сервлету данные, то есть параметры запроса. Для этого в классе `HttpServletRequest` определены два метода:
 
@@ -42,13 +43,13 @@ public class HelloServlet extends HttpServlet {
 
 Запустим приложение и обратимся к сервлету:
 
-image:/assets/img/java/jakarta-ee/servlet/servlet7.jpg[serlvet7]
+image:servlet7.jpg[serlvet7]
 
 В случае выше значение для параметра `id` не указано, мы просто вводим в адресной строке браузера название ресурса - в данном случае `http://localhost:8081/helloapp/hello`, где `helloapp` - название приложения, а `hello` - конечная точка, к которой примонтирован сервлет. Поэтому метод `getParameter("id"`) возвращает значение `null`.
 
 Теперь передадим значение для параметра `id`:
 
-image:/assets/img/java/jakarta-ee/servlet/servlet8.jpg[servlet8]
+image:servlet8.jpg[servlet8]
 
 Параметры в строке запроса указываютя после названия ресурса после знака вопроса:` http://localhost:8081/helloapp/hello?id=5`.В данном случае параметр `id` равен `5`.
 
@@ -84,7 +85,7 @@ public class HelloServlet extends HttpServlet {
 
 В данном случае сервлет получает два параметра: `name` и `age`. Мы можем передать значения для них, набрав в адресной строке, например,` http://localhost:8081/helloapp/hello?name=Tom&age=34.` При передаче некольких параметров они отделяются друг от друга знаком амперсанда `&`. Подобным образом мы можем передать и большее количество параметров.
 
-image:/assets/img/java/jakarta-ee/servlet/servlet9.jpg[servlet9]
+image:servlet9.jpg[servlet9]
 
 == Передача массивов
 
@@ -125,7 +126,7 @@ public class HelloServlet extends HttpServlet {
 
 Запустим сервлет и передадим ему значения
 
-image:/assets/img/java/jakarta-ee/servlet/servlet10.jpg[servlet10]
+image:servlet10.jpg[servlet10]
 
 При передаче массива через строку запроса указываются несколько значений с одним и тем же именем: `http://localhost:8081/helloapp/hello?nums=1&nums=2&nums=3`.
 
@@ -170,7 +171,7 @@ image:/assets/img/java/jakarta-ee/servlet/servlet10.jpg[servlet10]
 
 Как правило, формы отправлются с помощью запроса *POST*, поэтому у элемента формы определен атрибут `method="POST"`. Сама форма будет отправляться на ресурс `/hello`, с которым будет сопоставляться сервлет. На самой форме есть множество полей ввода, в том числе набор чекбоксов, из которых можно выбрать сразу несколько значений.
 
-image:/assets/img/java/jakarta-ee/servlet/servlet11.jpg[servlet11]
+image:servlet11.jpg[servlet11]
 
 Теперь определим сервлет, который будет обрабатывать эту форму:
 
@@ -219,4 +220,4 @@ public class HelloServlet extends HttpServlet {
 
 Причем поскольку на форме несколько чекбоксов, которые имеют одно и то же имя, то соответственно сервлету передается набор значений, который получаем с помощью метода `getParameterValues()`. Все остальные поля представляют одиночные значения, поэтому для получения их данных применяется метод `getParameter()`.
 
-image:/assets/img/java/jakarta-ee/servlet/servlet12.jpg[servlet12]
+image:servlet12.jpg[servlet12]

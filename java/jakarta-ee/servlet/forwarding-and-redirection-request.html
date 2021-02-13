@@ -511,13 +511,13 @@ public class HelloServlet extends HttpServlet {
 <p>И если мы обратимся к сервлету, то фактически мы получим содержимое страницы <code>index.html</code> , который будет перенаправлен запрос.</p>
 </div>
 <div class="paragraph">
-<p><span class="image"><img src="/assets/img/java/jakarta-ee/servlet/jsp-hello.jpg" alt="JSP-hello"></span></p>
+<p><span class="image"><img src="../../../assets/img/java/jakarta-ee/servlet/jsp-hello.jpg" alt="JSP-hello"></span></p>
 </div>
 <div class="paragraph">
 <p>Подобным образом мы можем выполнять перенаправление на страницы <code>jsp</code> и другие сервлеты. Например, добавим в проект новый сервлет <code>NotFoundServlet</code> :</p>
 </div>
 <div class="paragraph">
-<p><span class="image"><img src="/assets/img/java/jakarta-ee/servlet/not-found-servlet.jpg" alt="NotFoundServlet"></span></p>
+<p><span class="image"><img src="../../../assets/img/java/jakarta-ee/servlet/not-found-servlet.jpg" alt="NotFoundServlet"></span></p>
 </div>
 <div class="paragraph">
 <p>Определим для <code>NotFoundServlet</code> следующий код:</p>
@@ -583,7 +583,7 @@ throws ServletException, IOException {
 <p>В данном случае если <code>id</code> равен <code>null</code> , то идет перенаправление на <code>NotFoundServlet</code>. Следует отметить, что в метод requestDispatcher.forward передаются объекты <code>HttpServletRequest</code> и <code>HttpServletResponse</code>. То есть <code>NotFoundServlet</code> получит те же самые данные запроса, что и <code>HelloServlet</code>.</p>
 </div>
 <div class="paragraph">
-<p><span class="image"><img src="/assets/img/java/jakarta-ee/servlet/jsp-not-found.jpg" alt="Not Found JSP-pages"></span></p>
+<p><span class="image"><img src="../../../assets/img/java/jakarta-ee/servlet/jsp-not-found.jpg" alt="Not Found JSP-pages"></span></p>
 </div>
 </div>
 </div>
@@ -646,7 +646,7 @@ throws ServletException, IOException {
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2021-02-05 05:23:52 UTC
+Last updated 2021-02-13 19:26:14 UTC
 </div>
 </div>
 </body>

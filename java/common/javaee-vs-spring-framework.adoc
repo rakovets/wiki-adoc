@@ -1,4 +1,5 @@
 = JavaEE vs Spring Framework
+:imagesdir: ../../assets/img/java/common/jakartaee-vs-spring-framework/
 
 == Архитектура Java Enterprise Edition (JavaEE)
 
@@ -39,13 +40,13 @@
 
 Межуровневые компоненты включают в себя *JTA* (*Java Transaction API*) для управления транзакциями, *JNDI* (*Java Naming and Directory Interface*) и *CDI* (*Contexts and Dependency Injection*).
 
-image:/assets/img/java/common/jakartaee-vs-spring-framework/jee-component-technologies.png[Jakarta Enterprise Edition Architecture]
+image:jee-component-technologies.png[Jakarta Enterprise Edition Architecture]
 
 == Spring архитектура
 
 *Spring* - это Java Framework с открытым исходным кодом. *Spring* сам по себе является базовым фреймворком или полным набором компонентов фреймворков на основе контекста. В большинстве случаев экосистема Spring выглядит следующим образом:
 
-image:/assets/img/java/common/jakartaee-vs-spring-framework/spring-component-technologies.png[Spring Architecture]
+image:spring-component-technologies.png[Spring Architecture]
 
 *Spring* был представлен версией *1.0* в 2003 году для решения ненужных сложностей в архитектурах *JavaEE*. В качестве альтернативы для *JavaEE* *Spring 2.0* выиграл премию *JAX Innovation Award* как легковесную систему, которая приносит новшества в экосистему Java. *Spring* - это модель, основанная на *POJO* (*Plain Old Java Object*), которая активно использует интерфейсы и внедрение зависимостей (*DI* - *Dependency Injection*). В его рамках, ресурсы, контролируемые с помощью Spring, называются *Spring Beans*. *Spring* модули используют модульность, чтобы уменьшить зависимости между модулями. Наиболее известные модули:
 

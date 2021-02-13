@@ -490,7 +490,7 @@ public class HelloServlet extends HttpServlet {
 <p>В папке приложения классы сервлетов должны размещаться в папке <code>WEB-INF/classes</code>. Создадим в каталоге <code>helloapp</code> папку <code>WEB-INF</code>, а в ней папку <code>classes</code>. И в папку <code>helloapp/WEB-INF/classes</code> поместим файл <code>HelloServlet.java</code>.</p>
 </div>
 <div class="paragraph">
-<p><span class="image"><img src="/assets/img/java/jakarta-ee/servlet/servlet1.png" alt="servlet1"></span></p>
+<p><span class="image"><img src="../../../assets/img/java/jakarta-ee/servlet/servlet1.png" alt="servlet1"></span></p>
 </div>
 <div class="paragraph">
 <p>Но нам нужен не код сервлета, а скомпилированный класс сервлета. Поэтому скомпилируем сервлет. Для этого нам нужно использовать специальную утилиту <code>servlet-api.jar</code>, которая находится в каталоге Tomcat в папке <code>lib</code>.</p>
@@ -510,13 +510,13 @@ public class HelloServlet extends HttpServlet {
 <p>В моем случае предполагается, что Tomcat размещен в каталоге <code>C:\Program Files\Apache Software Foundation\Tomcat 9.0</code>.</p>
 </div>
 <div class="paragraph">
-<p><span class="image"><img src="/assets/img/java/jakarta-ee/servlet/servlet2.png" alt="servlet2"></span></p>
+<p><span class="image"><img src="../../../assets/img/java/jakarta-ee/servlet/servlet2.png" alt="servlet2"></span></p>
 </div>
 <div class="paragraph">
 <p>После этого в папке <code>helloapp/WEB-INF/classes</code> должен появиться класс сервлета. Перезапустим Tomcat и обратимся к нашему сервлету в браузере:</p>
 </div>
 <div class="paragraph">
-<p><span class="image"><img src="/assets/img/java/jakarta-ee/servlet/servlet3.png" alt="servlet3"></span></p>
+<p><span class="image"><img src="../../../assets/img/java/jakarta-ee/servlet/servlet3.png" alt="servlet3"></span></p>
 </div>
 <div class="paragraph">
 <p>Поскольку с помощью аннотации <code>@WebServlet</code> в классе сервлета была указана точка <code>/hello</code>, то при обращении к сервлету после домена и порта идет название приложения (<code>helloapp</code>) и конечная точка (<code>hello</code>).</p>
@@ -524,7 +524,7 @@ public class HelloServlet extends HttpServlet {
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2021-02-05 05:23:52 UTC
+Last updated 2021-02-13 19:26:14 UTC
 </div>
 </div>
 </body>

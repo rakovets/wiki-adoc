@@ -1,4 +1,5 @@
 = Получение отправленных форм
+:imagesdir: ../../../assets/img/java/jakarta-ee/jsp/
 
 Станицы *JSP* могут получать отправленные данные, например, через параметры или в виде отправленных форм, так же, как это происходит в сервлете. Для этого внутри страницы *jsp* доступен объект `request`, который позволяет получить данные посредством следующих методов:
 
@@ -28,11 +29,11 @@
 
 Запустим приложение и передадим странице данные через строку запроса `postuser.jsp?name=Bob&age=29`:
 
-image:/assets/img/java/jakarta-ee/jsp/request-with-params.png[Request with params]
+image:request-with-params.png[Request with params]
 
 Если для определенного параметра не передается значение, то страница получает значене `null`:
 
-image:/assets/img/java/jakarta-ee/jsp/request-with-params2.png[Request with params]
+image:request-with-params2.png[Request with params]
 
 == Получение данных из форм
 
@@ -60,11 +61,11 @@ image:/assets/img/java/jakarta-ee/jsp/request-with-params2.png[Request with para
 
 В данном случае форма предназначена для ввода имени и возаста пользователя. И по нажатию на кнопку данные формы уходят странице `postuser.jsp`.
 
-image:/assets/img/java/jakarta-ee/jsp/postuser-jsp.png[JSP postuser]
+image:postuser-jsp.png[JSP postuser]
 
 Таким образом, после ввода данных и их отправке на странице `index.html` эти данные будут получены скриптом `postuser.jsp`:
 
-image:/assets/img/java/jakarta-ee/jsp/page-with-form.png[JSP with form]
+image:page-with-form.png[JSP with form]
 
 Рассмотрим отправку более сложной формы. Определим в файле `index.html` следующий код:
 
@@ -139,4 +140,4 @@ String[] courses = request.getParameterValues("courses");
 
 И затем можно использовать цикл `for` для перебора массива и вывода на страницу его элементов.
 
-image:/assets/img/java/jakarta-ee/jsp/page-with-form2.png[Page with form]
+image:page-with-form2.png[Page with form]

@@ -1,4 +1,5 @@
 = Java NIO
+:imagesdir: ../../../assets/img/java/core/nio/
 
 Java NIO (New IO) - это альтернативный API для работы с IO в Java (начиная с Java 1.4), это значит альтернативный стандартным Java IO и API Java Networking. Java NIO предлагает другой способ работы с IO, чем стандартный IO API.
 
@@ -28,7 +29,7 @@ Java NIO имеет не только эти компоненты, но факт
 
 Как правило, все операции ввода-вывода в NIO начинаются с `Channel`. `Channel` немного похож на `Stream`. Из `Channel` данные можно прочитать в `Buffer`. Данные также могут быть записаны из `Buffer` в `Channel`. :
 
-image:/assets/img/java/core/nio/channels-buffers.png[Java NIO: каналы и буферы]
+image:channels-buffers.png[Java NIO: каналы и буферы]
 
 
 Есть несколько `Channel` и `Buffer` типов. Ниже приведен список основных реализаций `Channel` в Java NIO:
@@ -68,7 +69,7 @@ Java NIO также имеет, `MappedByteBuffer` который использ
 
 Ниже приведенно изображение, того как `Thread` использует `Selector` для обработки 3 `Channel`:
 
-image:/assets/img/java/core/nio/selectors.png[Java NIO: селекторы]
+image:selectors.png[Java NIO: селекторы]
 
 Чтобы использовать, `Selector` необходимо зарегистрировать `Channel` с ним. Для этого используеют вызов метода `select()`. Этот метод будет заблокирован, пока не произойдет событие для одного из зарегистрированных каналов. Как только метод разблокируется, поток может обработать события. Примерами событий являются: входящее соединение, полученные данные и т.д.
 
@@ -175,7 +176,7 @@ aFile.close();
 
 Вот иллюстрация емкости, положения и ограничения в режимах записи и чтения. Объяснение следует в разделах после иллюстрации.
 
-image:/assets/img/java/core/nio/buffers-modes.png[Java NIO: capacity, position, limit для буфера в режиме записи и чтения]
+image:buffers-modes.png[Java NIO: capacity, position, limit для буфера в режиме записи и чтения]
 
 ==== Capacity
 

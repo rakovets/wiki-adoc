@@ -1,4 +1,5 @@
 = JSP syntax basics
+:imagesdir:../../../assets/img/java/jakarta-ee/jsp/
 
 Содержимое страницы *JSP* фактически делится на код *html* (а также *css/javascript*) и код на языке Java. Для вставки кода *java* на страницу *JSP* можно использовать пять основных элементов:
 
@@ -70,7 +71,7 @@
 
 И соответственно эту страницу мы увидим в браузере:
 
-image:/assets/img/java/jakarta-ee/jsp/jsp-syntax-basics1.png[JSP syntax basics]
+image:jsp-syntax-basics1.png[JSP syntax basics]
 
 == JSP Scriplet
 
@@ -105,7 +106,7 @@ image:/assets/img/java/jakarta-ee/jsp/jsp-syntax-basics1.png[JSP syntax basics]
 
 В данном случае скриплет представляет цикл `for`, в котором генерируется вывод с помощью метода `out.println()`. В итоге в браузере будет выведено четыре разо слово `Hello` с соответствующей цифрой:
 
-image:/assets/img/java/jakarta-ee/jsp/jsp-syntax-basics2.png[JSP syntax basics]
+image:jsp-syntax-basics2.png[JSP syntax basics]
 
 Другой пример - определим переменную и массив и выведим их содержимое на страницу:
 
@@ -136,7 +137,7 @@ image:/assets/img/java/jakarta-ee/jsp/jsp-syntax-basics2.png[JSP syntax basics]
 
 В скриплете в начале страницы определяются две переменных - переменная типа `String` и массив строк. С помощью второго скриплета содержимое массива через цикл `for` выводится на страницу.
 
-image:/assets/img/java/jakarta-ee/jsp/jsp-syntax-basics3.png[JSP syntax basics]
+image:jsp-syntax-basics3.png[JSP syntax basics]
 
 == JSP Declaration
 
@@ -170,7 +171,7 @@ image:/assets/img/java/jakarta-ee/jsp/jsp-syntax-basics3.png[JSP syntax basics]
 
 В данном случае метод `square()` возвращает квадрат числа. Затем этот метод используется в выражении *JSP* и в скриплете в цикле `for`.
 
-image:/assets/img/java/jakarta-ee/jsp/jsp-syntax-basics4.png[JSP syntax basics]
+image:jsp-syntax-basics4.png[JSP syntax basics]
 
 == Директивы
 
@@ -214,7 +215,7 @@ image:/assets/img/java/jakarta-ee/jsp/jsp-syntax-basics4.png[JSP syntax basics]
 </html>
 ----
 
-image:/assets/img/java/jakarta-ee/jsp/jsp-syntax-basics5.png[JSP syntax basics]
+image:jsp-syntax-basics5.png[JSP syntax basics]
 
 == Комментарии
 
