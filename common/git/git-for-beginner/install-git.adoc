@@ -1,0 +1,174 @@
+= Установка Git
+:imagesdir: ../../../assets/img/common/git/git-for-beginner
+
+Для того, чтобы начать работать с системой контроля версий *Git* ее необходимо предварительно установить. Рассмотрим варианты установки этой *VCS* под *Linux* и *MS Windows*.
+
+== Установка Git под Linux
+
+Для установки *Git* под *Linux*, необходимо зайти на сайт link:https://git-scm.com/[Git] и перейти в раздел _Downloads_. В зависимости от используемой вами версии операционной системы _Linux_ необходимо выбрать тот или иной способ установки *Git*.
+
+=== Debian/Ubuntu
+
+[source, shell script]
+apt-get install git
+
+=== Fedora
+
+==== Fedora 21
+
+[source, shell script]
+yum install git
+
+==== Fedora 22
+
+[source, shell script]
+dnf install git
+
+=== Gentoo
+
+[source, shell script]
+emerge --ask --verbose dev-vcs/git
+
+=== Arch Linux
+
+[source, shell script]
+pacman -S git
+
+=== openSUSE
+
+[source, shell script]
+zypper install git
+
+=== Mageia
+
+[source, shell script]
+urpmi git
+
+=== FreeBSD
+
+[source, shell script]
+pkg install git
+
+=== Solaris 9/10/11 (OpenCSW)
+
+[source, shell script]
+pkgutil -i git
+
+=== Solaris 11 Express
+
+[source, shell script]
+pkg install developer/versioning/git
+
+=== OpenBSD
+
+[source, shell script]
+pkg_add git
+
+=== Alpine
+
+[source, shell script]
+apk add git
+
+== Установка Git под Windows
+
+Для установки *Git* под *Windows* необходимо предварительно скачать дистрибутив. Для этого перейдите на страницу https://git-scm.com/
+
+Если вы зашли из под операционной системы (ОС) *Windows*, главная страница сайта будет выглядеть примерно так, как показано на рисунке ниже. Для других ОС отличие будет заключаться в том, что изменится область для скачивания дистрибутива (см. правый нижний угол).
+
+image:install-git-first-page.jpg[first page]
+
+Для того чтобы скачать *Git*, нужно нажать на кнопку _Downloads for Windows_, расположенную в правой части окна.
+
+Процесс дальнейшей установки *Git* выглядит так.
+
+=== Запустить установочный файл
+
+=== Ознакомиться, если есть желание, с лицензионным соглашением и нажать на кнопку Next
+
+image::install-git-license-terms.jpg[license terms]
+
+=== Выбрать компоненты, которые следует установить
+
+image:install-git-selection-of-components.jpg[selection of components]
+
+=== Указать способ использования Git
+
+image:install-git-way-to-use.jpg[way to use]
+
+В этом окне доступны три возможных варианта:
+
+* *_Use Git from Git Bash only_*
+
+Переменная _PATH_ не модифицируется и работа с _Git_ возможна только через специализированную оболочку, которая называется _Git Bash_.
+
+* *_Use Git from the Windows Command Prompt_*
+
+В этом случае происходит минимальная модификация переменной окружения _PATH_, которая позволит работать с _Git_ через командную стоку _Windows_. Работа через _Git Bash_ также возможна.
+
+* *_Use Git and optional Unix tools from the Windows Command Prompt_*
+
+В переменную _PATH_ вносится значительное количество модификаций, которые позволят, в рамках командной строки _Windows_, использовать как _Git_ так и утилиты _Unix_, которые поставляются вместе с дистрибутивом _Git_.
+
+Наша рекомендация: опция _Use Git from the Windows Command Prompt_.
+
+=== Настройка правил окончания строки
+
+image::install-git-setting-line-ending-rules.jpg[setting line ending rules]
+
+Существует два варианта формирования конца строки в текстовых файлах – это _Windows стиль_ и _Unix_ стиль. Данное окно позволяет выбрать одну из опций, определяющих правило формирования окончания строки:
+
+* *_Checkout Windows-style, commit Unix-style line endings_*
+
+_Checkout_ (операция извлечения документа из хранилища и создания рабочей копии) производится в _Windows_ стиле, а _commit_ (операция отправки изменений в репозиторий) в _Unix_ стиле.
+
+* *_Checkout as-is, commit Unix-style line endigns_*
+
+_Checkout_ производится в том формате, в котором данные хранятся в репозитории, а _commit_ осуществляется в _Unix_ стиле.
+
+* *_Checkout as-is, commit as-is_*
+
+_Checkout_ и _commit_ производятся без дополительных преобразований.
+
+Наша рекомендация: опция _Checkout Windows-style, commit Unix-style line endings_.
+
+=== Выбор эмулятора терминала, который будет использован с Git Bash
+
+image::install-git-choosing-a-terminal-emulator.jpg[choosing a terminal emulator]
+
+Возможен выбор из двух вариантов:
+
+* *_Use MinTTY (the defaul terminal of MSYS2)_*
+
+_Git Bash_ будет использовать в качестве эмулятора терминала _MinTTY_.
+
+* *_Use Windows’ default console window_*
+
+_Git_ будет использовать Windows консоль (“_cmd.exe_”).
+
+Наша рекомендация: опция _Use MinTTY (the defaul terminal of MSYS2)_.
+
+=== Настройка дополнительных параметров
+
+image::install-git-setting-additional-parameters.jpg[setting additional parameters]
+
+Доступны следующие параметры:
+
+* *_Enable file system caching_*
+
+Включение операции кэширования при работе с файлами. Эта опция позволит значительно повысить производительность.
+
+* *_Enable Git Credential Manager_*
+
+Предоставляет возможность работы с защищенным хранилищем.
+
+* *_Enable symbolic links_*
+
+Активирует работу с символьными ссылками.
+
+Наша рекомендация: опции _Enable file system caching_ и _Enable Git Credential Manager_.
+
+=== Завершение установки
+
+После нажатия на кнопку _Install_ будет произведена установка _Git_ на _Windows_, по окончании установки пользователь получит соответствующее сообщение.
+
+image::install-git-completing-the-installation.jpg[completing the installation]

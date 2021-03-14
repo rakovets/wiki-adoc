@@ -1,16 +1,16 @@
 = Git
 
-:leveloffset: +1
+include::git.adoc[leveloffset=2]
 
-include::git.adoc[]
+include::repository-naming.adoc[leveloffset=2]
 
-include::repository-naming.adoc[]
+include::execute-using-git-bash.adoc[leveloffset=2]
 
-include::execute-using-git-bash.adoc[]
+include::execute-using-github-ui.adoc[leveloffset=2]
 
-include::execute-using-github-ui.adoc[]
+include::git-tips-beginner.adoc[leveloffset=2]
 
-:leveloffset: -1
+include::git-for-beginner/index.adoc[leveloffset=2]
 
 == Links
 
