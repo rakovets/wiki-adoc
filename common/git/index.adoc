@@ -10,17 +10,7 @@ include::execute-using-github-ui.adoc[leveloffset=1]
 
 include::git-tips-beginner.adoc[leveloffset=1]
 
-== Git
-
-include::git-for-beginner/what-is-vcs.adoc[leveloffset=2]
-include::git-for-beginner/install-git.adoc[leveloffset=2]
-include::git-for-beginner/settings-git.adoc[leveloffset=2]
-include::git-for-beginner/git-architecture.adoc[leveloffset=2]
-include::git-for-beginner/creating-repository-and-first-commit.adoc[leveloffset=2]
-include::git-for-beginner/show-information-about-commits.adoc[leveloffset=2]
-include::git-for-beginner/head-and-tree-ish.adoc[leveloffset=2]
-include::git-for-beginner/add-delete-and-rename-files-in-repository.adoc[leveloffset=2]
-include::git-for-beginner/how-undo-commit-in-git.adoc[leveloffset=2]
+include::git-for-beginner/index.adoc[leveloffset=1]
 
 == Links
 
