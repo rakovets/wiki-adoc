@@ -655,7 +655,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p>Первая версия языка появилась еще в 1996 году в недрах компании <strong>Sun Microsystems</strong>, впоследствии поглощенной компанией <strong>Oracle</strong>. <strong>Java</strong> задумывался как универсальный язык программирования, который можно применять для различного рода задач. И к настоящему времени язык <strong>Java</strong> проделал большой путь, было издано множество различных версий.</p>
 </div>
 <div class="paragraph">
-<p>Текущей версией является <strong>Java 14</strong>, которая вышла 15 сентября 2020 года. А <strong>Java</strong> превратилась из просто универсального языка в целую платформу и экосистему, которая объединяет различные технологии, используемые в целого ряда задач: от создания десктопных приложений до написания крупных веб-порталов и сервисов. Кроме того, язык <strong>Java</strong> активно применяется для создания программного обеспечения для целого ряда устройств: обычных ПК, планшетов, смартфонов и мобильных телефонов и даже бытовой техники. Достаточно вспомнить популярность мобильной ОС <strong>Android</strong>, большинство программ для которой пишутся именно на <strong>Java</strong>.</p>
+<p>Текущей версией является <strong>Java 15</strong>, которая вышла 15 сентября 2020 года. А <strong>Java</strong> превратилась из просто универсального языка в целую платформу и экосистему, которая объединяет различные технологии, используемые в целого ряда задач: от создания десктопных приложений до написания крупных веб-порталов и сервисов. Кроме того, язык <strong>Java</strong> активно применяется для создания программного обеспечения для целого ряда устройств: обычных ПК, планшетов, смартфонов и мобильных телефонов и даже бытовой техники. Достаточно вспомнить популярность мобильной ОС <strong>Android</strong>, большинство программ для которой пишутся именно на <strong>Java</strong>.</p>
 </div>
 <div class="sect2">
 <h3 id="_особенности_java">1.1. Особенности Java</h3>
@@ -663,7 +663,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p>Ключевой особенностью языка <strong>Java</strong> является то, что его код сначала транслируется в специальный <strong>байт-код</strong>, независимый от платформы. А затем этот <strong>байт-код</strong> выполняется виртуальной машиной <strong>JVM</strong> (<strong>Java Virtual Machine</strong>). В этом плане <strong>Java</strong> отличается от стандартных интерпретируемых языков как <strong>PHP</strong> или <strong>Perl</strong>, код которых сразу же выполняется интерпретатором. В то же время <strong>Java</strong> не является и чисто компилируемым языком, как <strong>С</strong> или <strong>С++</strong>.</p>
 </div>
 <div class="paragraph">
-<p>Подобная архитектура обеспечивает кроссплатформенность и аппаратную переносимость программ на <strong>Java</strong>, благодаря чему подобные программы без перекомпиляции могут выполняться на различных платформах - <strong>Linux</strong>, <strong>Mac OS</strong>, <strong>Windows</strong> и т.д. Для каждой из платформ может быть своя реализация виртуальной машины <strong>JVM</strong>, но каждая из них может выполнять один и тот же код.</p>
+<p>Подобная архитектура обеспечивает кроссплатформенность и аппаратную переносимость программ на <strong>Java</strong>, благодаря чему подобные программы без повторной компиляции могут выполняться на различных платформах - <strong>Linux</strong>, <strong>Mac OS</strong>, <strong>Windows</strong> и т.д. Для каждой из платформ может быть своя реализация виртуальной машины <strong>JVM</strong>, но каждая из них может выполнять один и тот же код.</p>
 </div>
 <div class="paragraph">
 <p><strong>Java</strong> является языком с <strong>Си-подобным</strong> синтаксисом и близок в этом отношении к <strong>C/C++</strong> и <strong>C#</strong>. Поэтому, если вы знакомы с одним из этих языков, то овладеть <strong>Java</strong> будет легче.</p>
@@ -672,7 +672,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p>Еще одной ключевой особенностью <strong>Java</strong> является то, что она поддерживает автоматическую сборку мусора. А это значит, что вам не надо освобождать вручную память от ранее использовавшихся объектов, как в <strong>С++</strong>, так как сборщик мусора это сделает автоматически за вас.</p>
 </div>
 <div class="paragraph">
-<p><strong>Java</strong> является <strong>объектно-ориентированным языком</strong>. Он поддерживает полиморфизм, наследование, статическую типизацию. Объектно-ориентированный подход позволяет решить задачи по построению крупных, но в тоже время гибких, масштабируемых и расширяемых приложений.</p>
+<p><strong>Java</strong> является <strong>объектно-ориентированным языком</strong>. Он поддерживает полиморфизм, наследование, статическую типизацию. Объектно-ориентированный подход позволяет решить задачи по построению крупных, но в то же время гибких, масштабируемых и расширяемых приложений.</p>
 </div>
 </div>
 <div class="sect2">
@@ -681,12 +681,13 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p>Для работы программ на языке <strong>Java</strong> на целевой машине должна быть установлена <strong>JRE</strong> (<strong>Java Runtime Environment</strong>). <strong>JRE</strong> представляет минимальную реализацию виртуальной машины, а также библиотеку классов. Поэтому, если мы хотим запускать программы, то нам надо установить <strong>JRE</strong>. Для каждой конкретной платформы имеется своя версия <strong>JRE</strong>.</p>
 </div>
 <div class="paragraph">
-<p>Если необходимо нетолько запускать программы, но и разрабатывать их, то потребуется специальный комплект для разработки <strong>JDK</strong> (<strong>Java Development Kit</strong>). <strong>JDK</strong> уже содержит <strong>JRE</strong>, а также включает ряд дополнительных программ и утилит, в частности компилятор <strong>Java</strong>.</p>
+<p>Если необходимо не только запускать программы, но и разрабатывать их, то потребуется специальный комплект для разработки <strong>JDK</strong> (<strong>Java Development Kit</strong>). <strong>JDK</strong> уже содержит <strong>JRE</strong>, а также включает ряд дополнительных программ и утилит, в частности компилятор <strong>Java</strong>.</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="/assets/img/java/core/java-platform.png" alt="Java Platform">
+<img src="/assets/img/java/core/module-and-structure-of-jdk8.png" alt="Modules and Structure of JDK 8">
 </div>
+<div class="title">Figure 1. Modules and Structure of JDK</div>
 </div>
 </div>
 </div>
@@ -697,27 +698,32 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="sect2">
 <h3 id="_структура_программы">2.1. Структура программы</h3>
 <div class="paragraph">
-<p>Для того, чтобы создать простое приложение на Java необходим текстовый редактор для набора кода программы, например:</p>
+<p>Для того, чтобы создать простое приложение на <strong>Java</strong> необходим текстовый редактор для набора кода программы, например:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p><code>Vi</code>/<code>Vim</code>/<code>Nano</code> (for <code>UNIX-like OS</code>)</p>
+<p><strong>Vi</strong>/<strong>Vim</strong>/<strong>Nano</strong> (for <strong>UNIX-like OS</strong>)</p>
 </li>
 <li>
-<p><code>Notepad</code> (for <code>Windows</code>)</p>
+<p><strong>Notepad</strong> (for <strong>Windows</strong>)</p>
 </li>
 </ul>
 </div>
-<div class="quoteblock">
-<blockquote>
-<div class="paragraph">
-<p>Microsoft Word - это не текстовый редактор, а текстовый процессор</p>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Warning</div>
+</td>
+<td class="content">
+<strong>Microsoft Word</strong> - это не текстовый редактор, а текстовый процессор.
+</td>
+</tr>
+</table>
 </div>
-</blockquote>
-</div>
 <div class="paragraph">
-<p>Рассмотрим пример простой программы на <code>Java</code>:</p>
+<p>Рассмотрим пример простой программы на <strong>Java</strong>:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -728,7 +734,7 @@ public class Program { // объявление нового класса
         String name; // переменная для имени
         Console con = System.console(); // получаем объект консоли для считывания с консоли
         name = con.readLine("Введите свое имя: "); // считываем введенное значение
-        System.out.println("Добро пожаловать, " + name); // ввыводим данную запись поток вывода
+        System.out.println("Добро пожаловать, " + name); // выводим данную запись поток вывода
     } // конец объявления нового метода
 } // конец объявления нового класса</code></pre>
 </div>
@@ -742,7 +748,7 @@ public class Program { // объявление нового класса
 <div class="sect3">
 <h4 id="_область_написания_кода">2.1.2. Область написания кода</h4>
 <div class="paragraph">
-<p>И так как язык <code>Java</code> имеет <code>С</code>-подобный синтаксис:</p>
+<p>И так как язык <strong>Java</strong> имеет <strong>С</strong>-подобный синтаксис:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -754,7 +760,7 @@ public class Program { // объявление нового класса
 <div class="ulist">
 <ul>
 <li>
-<p>идет модификатор доступа <code>public</code>, который указывает, что данный класс будет доступен всем, то есть его можно запустить из командной строки.</p>
+<p>идет модификатор доступа <code>public</code>, который указывает, что данный класс будет доступен всем, то есть его можно запустить из командной строки</p>
 </li>
 <li>
 <p>далее идет ключевое слово <code>class</code></p>
@@ -763,7 +769,7 @@ public class Program { // объявление нового класса
 <p>название класса</p>
 </li>
 <li>
-<p>блок самого класса в фигурных скобках.</p>
+<p>блок самого класса в фигурных скобках</p>
 </li>
 </ul>
 </div>
@@ -771,7 +777,7 @@ public class Program { // объявление нового класса
 </ul>
 </div>
 <div class="paragraph">
-<p>Классы являются теми кирпичиками, из которых состоит программа на <code>Java</code>. Особо следует остановиться на именах классов. <strong>Имена классов</strong>, а также <strong>их методов и переменных</strong>, еще <strong>называют идентификаторами</strong>. <strong>Идентификаторы</strong> представляют произвольную последовательность алфавитных и цифровых символов, а также символа подчеркивания, однако при этом:</p>
+<p>Классы являются теми кирпичиками, из которых состоит программа на <strong>Java</strong>. Особо следует остановиться на именах классов. <strong>Имена классов</strong>, а также <strong>их методов и переменных</strong>, еще <strong>называют идентификаторами</strong>. <strong>Идентификаторы</strong> представляют произвольную последовательность алфавитных и цифровых символов, а также символа подчеркивания, однако при этом:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -779,12 +785,12 @@ public class Program { // объявление нового класса
 <p><strong>названия не должны начинаться с цифры</strong>.</p>
 </li>
 <li>
-<p><strong>не должны представлять зарезервированные ключевые слова</strong>, например, такие как <code>class</code> или <code>int</code> и т.д.</p>
+<p><strong>не должны представлять зарезервированные ключевые слова</strong>, например такие, как <code>class</code> или <code>int</code> и т.д.</p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
-<p>Класс может содержать различные переменные и методы. В данном случае у нас объявлен один метод <code>main</code>. Как и в многих других <code>C</code>-подобных языках в программе на <code>Java</code> метод <code>main</code> является <strong>входной точкой программы</strong>, с него начинается все управление. Он обязательно должен присутствовать в программе.</p>
+<p>Класс может содержать различные переменные и методы. В данном случае у нас объявлен один метод <code>main</code>. Как и в многих других <strong>C</strong>-подобных языках в программе на <strong>Java</strong> метод <code>main</code> является <strong>входной точкой программы</strong>, с него начинается все управление. Он обязательно должен присутствовать в программе.</p>
 </div>
 <div class="paragraph">
 <p>Метод <code>main</code> также имеет модификатор <code>public</code>. Слово <code>static</code> указывает, что метод <code>main</code> — <strong>статический</strong>, а слово <code>void</code> — что он не возвращает никакого значения.</p>
@@ -805,7 +811,7 @@ public class Program { // объявление нового класса
 <p>И в конце введенное имя выводится на экран с помощью класса <code>System</code> и метода <code>println</code>. Хотя <code>System</code>, как и <code>Scanner</code>, является классом, размещенном в одном из пакетов, но его не нужно подключать с помощью директивы импорта. Так как <code>System</code> находится в пакете <code>java.lang</code>, все классы которого автоматически подключаются в программу.</p>
 </div>
 <div class="paragraph">
-<p>Кроме собственно кода программы здесь использованы пояснения к коду или комментарии. Для создания однострочного комментария используется двойной слеш <code>//</code>. При компиляции программы все комментарии игнорируются и служат лишь для пояснения действий программисту.</p>
+<p>Кроме собственно кода программы здесь использованы пояснения к коду или комментарии. Для создания однострочного комментария используется двойной <strong>slash</strong> <code>//</code>. При компиляции программы все комментарии игнорируются и служат лишь для пояснения действий программисту.</p>
 </div>
 </div>
 </div>
@@ -842,31 +848,36 @@ public class Program { // объявление нового класса
 </div>
 </div>
 <div class="paragraph">
-<p>Сохранить программу в файл под названием <code>HellToWorld.java</code>, где <code>java</code> — расширение файла, так как файл, содержащий <code>public class</code> должен называться так же, как и сам класс — в нашем случае <code>HellToWorld</code>.</p>
+<p>Сохранить программу в файл под названием <code>HellToWorld.java</code>, где <strong>Java</strong> — расширение файла, так как файл, содержащий <code>public class</code> должен называться так же, как и сам класс — в нашем случае <code>HellToWorld</code>.</p>
 </div>
-<div class="quoteblock">
-<blockquote>
-<div class="paragraph">
-<p>Следующие шаги в <code>OS Windows</code> не сработают, так как нужно <a href="https://www.java.com/ru/download/help/path.xml">добавить путь к <strong>JDK</strong> в переменную <strong>PATH</strong> в переменных среды</a></p>
-</div>
-</blockquote>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Warning</div>
+</td>
+<td class="content">
+Следующие шаги в <strong>OS Windows</strong> не сработают, так как нужно <a href="https://www.java.com/ru/download/help/path.xml">добавить путь к <strong>JDK</strong> в переменную <strong>PATH</strong> в переменных среды</a>
+</td>
+</tr>
+</table>
 </div>
 </div>
 <div class="sect3">
 <h4 id="_компиляция">2.2.2. Компиляция</h4>
 <div class="paragraph">
-<p>После написания нужно скомпилировать программу, т.е. преобразовать <code>Java</code>-код в <code>byte</code>-код, с которым может работать <code>JVM</code>. Откроем <code>terminal</code> в <code>Linux</code>/<code>MacOS</code> (или командную строку в <code>Windows</code>) и с ее помощью сделаем следующие шаги:</p>
+<p>После написания нужно скомпилировать программу, т.е. преобразовать <strong>Java</strong>-код в <strong>byte</strong>-код, с которым может работать <strong>JVM</strong>. Откроем <strong>terminal</strong> в <strong>Linux</strong>/<strong>MacOS</strong> (или <strong>PowerShell</strong>/<strong>командную строку</strong> в <strong>Windows</strong>) и с его помощью сделаем следующие шаги:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>перейти в <code>directory</code>, где лежит наш файл с программой с помощью команды <code>cd путь_к_файлу</code></p>
+<p>перейти в <strong>directory</strong>, где лежит наш файл с программой с помощью команды <code>cd путь_к_файлу</code></p>
 </li>
 <li>
 <p>скомпилировать программу, с помощью команды <code>javac HellToWorld.java</code></p>
 </li>
 <li>
-<p>проверить наличие скомпилированной программы в <code>directory</code>, с помощью команды <code>dir</code> можно убедиться в наличии <code>HellToWorld.class</code> - скомпилированная программа</p>
+<p>проверить наличие скомпилированной программы в <strong>directory</strong>, с помощью команды <code>dir</code> можно убедиться в наличии <code>HellToWorld.class</code> - скомпилированная программа</p>
 </li>
 </ul>
 </div>
@@ -874,7 +885,19 @@ public class Program { // объявление нового класса
 <div class="sect3">
 <h4 id="_запуск">2.2.3. Запуск</h4>
 <div class="paragraph">
-<p>После компиляции программа запускается с помощью команды <code>java HellToWorld</code>. После запуска в <code>terminal</code> отобразится текст, который выводится в данной программею.</p>
+<p>После компиляции программа запускается с помощью команды <code>java HellToWorld</code>. После запуска в <strong>terminal</strong> отобразится текст, который выводится в данной программе.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+Начиная с <strong>Java 11</strong> появилась возможность запуска однофайловых программ с исходным кодом без предварительной компиляции (<a href="https://openjdk.java.net/jeps/330">JEP-330</a>).
+</td>
+</tr>
+</table>
 </div>
 </div>
 </div>
@@ -24790,7 +24813,7 @@ String msg = mf.format(new Object[] { значения });</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2021-03-14 15:04:00 UTC
+Last updated 2021-03-16 04:19:03 UTC
 </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/run_prettify.min.js"></script>
