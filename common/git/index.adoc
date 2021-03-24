@@ -6,8 +6,6 @@ include::repository-naming.adoc[leveloffset=2]
 
 include::execute-using-git-bash.adoc[leveloffset=2]
 
-include::execute-using-github-ui.adoc[leveloffset=2]
-
 include::git-tips-beginner.adoc[leveloffset=2]
 
 include::git-for-beginner/index.adoc[leveloffset=2]
