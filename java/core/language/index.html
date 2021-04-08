@@ -2920,7 +2920,7 @@ System.out.println(str3); // Hello Java</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>При этом если в операции сложения строк используется нестроковый объект, например, число, то этот объект преобразуется к строке:</p>
+<p>При этом если в операции сложения строк используется не строковый объект, например, число, то этот объект преобразуется к строке:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -2928,13 +2928,13 @@ System.out.println(str3); // Hello Java</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Фактически же при сложении строк с нестроковыми объектами будет вызываться метод <code>valueOf()</code> класса <code>String</code>. Данный метод имеет множество перегрузок и преобразует практически все типы данных к строке. Для преобразования объектов различных классов метод <code>valueOf()</code> вызывает метод <code>toString()</code> этих классов.</p>
+<p>Фактически же при сложении строк с не строковыми объектами будет вызываться метод <code>valueOf()</code> класса <code>String</code>. Данный метод имеет множество перегрузок и преобразует практически все типы данных к строке. Для преобразования объектов различных классов метод <code>valueOf()</code> вызывает метод <code>toString()</code> этих классов.</p>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_основные_методы_класса_string">Основные методы класса String</h3>
 <div class="sect3">
-<h4 id="_lenght"><code>lenght()</code></h4>
+<h4 id="_length"><code>length()</code></h4>
 <div class="paragraph">
 <p>Поскольку строка рассматривается как набор символов, то мы можем применить метод <code>length()</code> для нахождения длины строки или длины набора символов:</p>
 </div>
@@ -2957,7 +2957,7 @@ char[] helloArray = str1.toCharArray();</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Строка может быть пустой. Для этого ей можно присвоить пустые кавычки или удалить из стоки все символы:</p>
+<p>Строка может быть пустой. Для этого ей можно присвоить пустые кавычки или удалить из строки все символы:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -3021,7 +3021,7 @@ if (s != null &amp;&amp; s.length() == 0) {
 <div class="sect3">
 <h4 id="_concat"><code>concat()</code></h4>
 <div class="paragraph">
-<p>Для объединения строк измользуют метод <code>concat()</code>:</p>
+<p>Для объединения строк используют метод <code>concat()</code>:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -3037,7 +3037,7 @@ str2 = str2.concat(str1); // HelloJava</code></pre>
 <div class="sect3">
 <h4 id="_join"><code>join()</code></h4>
 <div class="paragraph">
-<p>Для объединения строт используют метод <code>join()</code>, который позволяет объединить строки с учетом разделителя. Например, выше две строки сливались в одно слово <code>"HelloJava"</code>, но в идеале мы бы хотели, чтобы две подстроки были разделены пробелом. И для этого используем метод <code>join()</code>:</p>
+<p>Для объединения строк используют метод <code>join()</code>, который позволяет объединить строки с учетом разделителя. Например, выше две строки сливались в одно слово <code>HelloJava</code>, но в идеале мы бы хотели, чтобы две подстроки были разделены пробелом. И для этого используем метод <code>join()</code>:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -3558,7 +3558,7 @@ System.out.println(myStr); // Hello HTML! Hello HTML! HTML.</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2021-03-24 02:53:34 UTC
+Last updated 2021-04-08 08:23:27 UTC
 </div>
 </div>
 </body>
