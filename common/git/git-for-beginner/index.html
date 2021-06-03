@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="generator" content="Asciidoctor 2.0.12">
+<meta name="generator" content="Asciidoctor 2.0.15">
 <title>Git for beginner</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
@@ -94,9 +94,6 @@ dl dd{margin-bottom:1.25em}
 abbr,acronym{text-transform:uppercase;font-size:90%;color:rgba(0,0,0,.8);border-bottom:1px dotted #ddd;cursor:help}
 abbr{text-transform:none}
 blockquote{margin:0 0 1.25em;padding:.5625em 1.25em 0 1.1875em;border-left:1px solid #ddd}
-blockquote cite{display:block;font-size:.9375em;color:rgba(0,0,0,.6)}
-blockquote cite::before{content:"\2014 \0020"}
-blockquote cite a,blockquote cite a:visited{color:rgba(0,0,0,.6)}
 blockquote,blockquote p{line-height:1.6;color:rgba(0,0,0,.85)}
 @media screen and (min-width:768px){h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6{line-height:1.2}
 h1{font-size:2.75em}
@@ -261,7 +258,7 @@ pre.pygments .lineno::before{content:"";margin-right:-.125em}
 .quoteblock.excerpt>blockquote,.quoteblock .quoteblock{padding:0 0 .25em 1em;border-left:.25em solid #dddddf}
 .quoteblock.excerpt,.quoteblock .quoteblock{margin-left:0}
 .quoteblock.excerpt blockquote,.quoteblock.excerpt p,.quoteblock .quoteblock blockquote,.quoteblock .quoteblock p{color:inherit;font-size:1.0625rem}
-.quoteblock.excerpt .attribution,.quoteblock .quoteblock .attribution{color:inherit;text-align:left;margin-right:0}
+.quoteblock.excerpt .attribution,.quoteblock .quoteblock .attribution{color:inherit;font-size:.85rem;text-align:left;margin-right:0}
 p.tableblock:last-child{margin-bottom:0}
 td.tableblock>.content{margin-bottom:1.25em;word-wrap:anywhere}
 td.tableblock>.content>:last-child{margin-bottom:-1.25em}
@@ -443,13 +440,14 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h1>Git for beginner</h1>
 </div>
 <div id="content">
-<div class="sect3">
-<h4 id="_что_такое_системы_контроля_версий">Что такое системы контроля версий?</h4>
+<div class="sect1">
+<h2 id="_что_такое_системы_контроля_версий">Что такое системы контроля версий?</h2>
+<div class="sectionbody">
 <div class="paragraph">
 <p><strong>Система контроля версий</strong> (<strong>Version Control System</strong>, <strong>VCS</strong>) представляет собой программное обеспечение, которое позволяет отслеживать изменения в документах, при необходимости производить их откат, определять, кто и когда внес исправления и т.п.</p>
 </div>
-<div class="sect4">
-<h5 id="_что_такое_система_контроля_версий">Что такое система контроля версий?</h5>
+<div class="sect2">
+<h3 id="_что_такое_система_контроля_версий">Что такое система контроля версий?</h3>
 <div class="paragraph">
 <p>Наверное, всем знакома ситуация, когда при работе над проектом, возникает необходимость внести изменения, но при этом нужно сохранить работоспособный вариант, в таком случае, как правило, создается новая папка, название которой скорее всего будет “Новая папка” с дополнением в виде даты или небольшой пометки, в нее копируется рабочая версия проекта и уже с ним производится работа. Со временем количество таких папок может значительно возрасти, что создает трудности в вопросе отката на предыдущие версии, отслеживании изменений и т.п. Эта ситуация значительно ухудшается, когда над проектом работает несколько человек.</p>
 </div>
@@ -457,13 +455,13 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p>Для решения таких проблем как раз и используется система контроля версий, она позволяет комфортно работать над проектом как индивидуально, так в коллективе. <strong>VCS</strong> отслеживает изменения в файлах, предоставляет возможности для создания новых и слияние существующих ветвей проекта, производит контроль доступа пользователей к проекту, позволяет откатывать исправления и определять кто, когда и какие изменения вносил в проект. Основным понятием <strong>VCS</strong> является <strong>репозиторий</strong> (<strong>repository</strong>) – специальное хранилище файлов и папок проекта, изменения в которых отслеживаются. В распоряжении разработчика имеется так называемая <strong>рабочая копия</strong> (<strong>working copy</strong>) проекта, с которой он непосредственно работает. Рабочую копию необходимо периодически синхронизировать с репозиторием, эта операция предполагает отправку в него изменений, которые пользователь внес в свою рабочую копию (такая операция называется <strong>commit</strong>) и актуализацию рабочей копии, в процессе которой к пользователю загружается последняя версия из репозитория (этот процесс носит название <strong>update</strong>).</p>
 </div>
 </div>
-<div class="sect4">
-<h5 id="_централизованные_и_распределенные_системы_контроля_версий">Централизованные и распределенные системы контроля версий</h5>
+<div class="sect2">
+<h3 id="_централизованные_и_распределенные_системы_контроля_версий">Централизованные и распределенные системы контроля версий</h3>
 <div class="paragraph">
 <p>Системы контроля версий можно разделить на две группы: распределенные и централизованные.</p>
 </div>
-<div class="sect5">
-<h6 id="_централизованные_системы_контроля_версий">Централизованные системы контроля версий</h6>
+<div class="sect3">
+<h4 id="_централизованные_системы_контроля_версий">Централизованные системы контроля версий</h4>
 <div class="paragraph">
 <p>Централизованные системы контроля версий представляют собой приложения типа клиент-сервер, когда репозиторий проекта существует в единственном экземпляре и хранится на сервере. Доступ к нему осуществлялся через специальное клиентское приложение. В качестве примеров таких программных продуктов можно привести <strong>CVS</strong>, <strong>Subversion</strong>.</p>
 </div>
@@ -489,8 +487,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p><strong>Subversion</strong> (<strong>SVN</strong>) – система контроля версий, созданная на замену <strong>CVS</strong>. <strong>SVN</strong> была разработана в 2004 году и до сих пор используется. Несмотря на многие преимущества по сравнению с <strong>CVS</strong> у <strong>SVN</strong> все-таки есть недостатки, такие как проблемы с переименованием, невозможность удаления данных из хранилища, проблемы в операции слияния ветвей и т.д. В целом <strong>SVN</strong> был (и остается) значительном шагом вперед по сравнению с <strong>CVS</strong>.</p>
 </div>
 </div>
-<div class="sect5">
-<h6 id="_распределенные_системы_контроля_версий">Распределенные системы контроля версий</h6>
+<div class="sect3">
+<h4 id="_распределенные_системы_контроля_версий">Распределенные системы контроля версий</h4>
 <div class="paragraph">
 <p><strong>Распределенные системы контроля версий</strong> (<strong>Distributed Version Control System</strong>, <strong>DVCS</strong>) позволяют хранить репозиторий (его копию) у каждого разработчика, работающего с данной системой. При этом можно выделить центральный репозиторий (условно), в который будут отправляться изменения из локальных и, с ним же эти локальные репозитории будут синхронизироваться. При работе с такой системой, пользователи периодически синхронизируют свои локальные репозитории с центральным и работают непосредственно со своей локальной копией. После внесения достаточного количества изменений в локальную копию они (изменения) отправляются на сервер. При этом сервер, чаще всего, выбирается условно, т.к. в большинстве <strong>DVCS</strong> нет такого понятия как “выделенный сервер с центральным репозиторием”.</p>
 </div>
@@ -521,36 +519,38 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_установка_git">Установка Git</h4>
+</div>
+<div class="sect1">
+<h2 id="_установка_git">Установка Git</h2>
+<div class="sectionbody">
 <div class="paragraph">
 <p>Для того, чтобы начать работать с системой контроля версий <strong>Git</strong> ее необходимо предварительно установить. Рассмотрим варианты установки этой <strong>VCS</strong> под <strong>Linux</strong> и <strong>MS Windows</strong>.</p>
 </div>
-<div class="sect4">
-<h5 id="_установка_git_под_linux">Установка Git под Linux</h5>
+<div class="sect2">
+<h3 id="_установка_git_под_linux">Установка Git под Linux</h3>
 <div class="paragraph">
 <p>Для установки <strong>Git</strong> под <strong>Linux</strong>, необходимо зайти на сайт <a href="https://git-scm.com/">Git</a> и перейти в раздел <em>Downloads</em>. В зависимости от используемой вами версии операционной системы <em>Linux</em> необходимо выбрать тот или иной способ установки <strong>Git</strong>.</p>
 </div>
-<div class="sect5">
-<h6 id="_debianubuntu">Debian/Ubuntu</h6>
+<div class="sect3">
+<h4 id="_debianubuntu">Debian/Ubuntu</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight"><code class="language-shell script" data-lang="shell script">apt-get install git</code></pre>
 </div>
 </div>
 </div>
-<div class="sect5">
-<h6 id="_fedora">Fedora</h6>
-<div class="sect6">
-<h7 id="_fedora_21">Fedora 21</h7>
+<div class="sect3">
+<h4 id="_fedora">Fedora</h4>
+<div class="sect4">
+<h5 id="_fedora_21">Fedora 21</h5>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight"><code class="language-shell script" data-lang="shell script">yum install git</code></pre>
 </div>
 </div>
 </div>
-<div class="sect6">
-<h7 id="_fedora_22">Fedora 22</h7>
+<div class="sect4">
+<h5 id="_fedora_22">Fedora 22</h5>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight"><code class="language-shell script" data-lang="shell script">dnf install git</code></pre>
@@ -558,72 +558,72 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </div>
 </div>
-<div class="sect5">
-<h6 id="_gentoo">Gentoo</h6>
+<div class="sect3">
+<h4 id="_gentoo">Gentoo</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight"><code class="language-shell script" data-lang="shell script">emerge --ask --verbose dev-vcs/git</code></pre>
 </div>
 </div>
 </div>
-<div class="sect5">
-<h6 id="_arch_linux">Arch Linux</h6>
+<div class="sect3">
+<h4 id="_arch_linux">Arch Linux</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight"><code class="language-shell script" data-lang="shell script">pacman -S git</code></pre>
 </div>
 </div>
 </div>
-<div class="sect5">
-<h6 id="_opensuse">openSUSE</h6>
+<div class="sect3">
+<h4 id="_opensuse">openSUSE</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight"><code class="language-shell script" data-lang="shell script">zypper install git</code></pre>
 </div>
 </div>
 </div>
-<div class="sect5">
-<h6 id="_mageia">Mageia</h6>
+<div class="sect3">
+<h4 id="_mageia">Mageia</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight"><code class="language-shell script" data-lang="shell script">urpmi git</code></pre>
 </div>
 </div>
 </div>
-<div class="sect5">
-<h6 id="_freebsd">FreeBSD</h6>
+<div class="sect3">
+<h4 id="_freebsd">FreeBSD</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight"><code class="language-shell script" data-lang="shell script">pkg install git</code></pre>
 </div>
 </div>
 </div>
-<div class="sect5">
-<h6 id="_solaris_91011_opencsw">Solaris 9/10/11 (OpenCSW)</h6>
+<div class="sect3">
+<h4 id="_solaris_91011_opencsw">Solaris 9/10/11 (OpenCSW)</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight"><code class="language-shell script" data-lang="shell script">pkgutil -i git</code></pre>
 </div>
 </div>
 </div>
-<div class="sect5">
-<h6 id="_solaris_11_express">Solaris 11 Express</h6>
+<div class="sect3">
+<h4 id="_solaris_11_express">Solaris 11 Express</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight"><code class="language-shell script" data-lang="shell script">pkg install developer/versioning/git</code></pre>
 </div>
 </div>
 </div>
-<div class="sect5">
-<h6 id="_openbsd">OpenBSD</h6>
+<div class="sect3">
+<h4 id="_openbsd">OpenBSD</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight"><code class="language-shell script" data-lang="shell script">pkg_add git</code></pre>
 </div>
 </div>
 </div>
-<div class="sect5">
-<h6 id="_alpine">Alpine</h6>
+<div class="sect3">
+<h4 id="_alpine">Alpine</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight"><code class="language-shell script" data-lang="shell script">apk add git</code></pre>
@@ -631,8 +631,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </div>
 </div>
-<div class="sect4">
-<h5 id="_установка_git_под_windows">Установка Git под Windows</h5>
+<div class="sect2">
+<h3 id="_установка_git_под_windows">Установка Git под Windows</h3>
 <div class="paragraph">
 <p>Для установки <strong>Git</strong> под <strong>Windows</strong> необходимо предварительно скачать дистрибутив. Для этого перейдите на страницу <a href="https://git-scm.com/" class="bare">https://git-scm.com/</a></p>
 </div>
@@ -648,26 +648,26 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="paragraph">
 <p>Процесс дальнейшей установки <strong>Git</strong> выглядит так.</p>
 </div>
-<div class="sect5">
-<h6 id="_запустить_установочный_файл">Запустить установочный файл</h6>
+<div class="sect3">
+<h4 id="_запустить_установочный_файл">Запустить установочный файл</h4>
 
 </div>
-<div class="sect5">
-<h6 id="_ознакомиться_если_есть_желание_с_лицензионным_соглашением_и_нажать_на_кнопку_next">Ознакомиться, если есть желание, с лицензионным соглашением и нажать на кнопку Next</h6>
+<div class="sect3">
+<h4 id="_ознакомиться_если_есть_желание_с_лицензионным_соглашением_и_нажать_на_кнопку_next">Ознакомиться, если есть желание, с лицензионным соглашением и нажать на кнопку Next</h4>
 <div class="imageblock">
 <div class="content">
 <img src="../../../assets/img/common/git/git-for-beginner/install-git-license-terms.jpg" alt="license terms">
 </div>
 </div>
 </div>
-<div class="sect5">
-<h6 id="_выбрать_компоненты_которые_следует_установить">Выбрать компоненты, которые следует установить</h6>
+<div class="sect3">
+<h4 id="_выбрать_компоненты_которые_следует_установить">Выбрать компоненты, которые следует установить</h4>
 <div class="paragraph">
 <p><span class="image"><img src="../../../assets/img/common/git/git-for-beginner/install-git-selection-of-components.jpg" alt="selection of components"></span></p>
 </div>
 </div>
-<div class="sect5">
-<h6 id="_указать_способ_использования_git">Указать способ использования Git</h6>
+<div class="sect3">
+<h4 id="_указать_способ_использования_git">Указать способ использования Git</h4>
 <div class="paragraph">
 <p><span class="image"><img src="../../../assets/img/common/git/git-for-beginner/install-git-way-to-use.jpg" alt="way to use"></span></p>
 </div>
@@ -708,8 +708,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p>Наша рекомендация: опция <em>Use Git from the Windows Command Prompt</em>.</p>
 </div>
 </div>
-<div class="sect5">
-<h6 id="_настройка_правил_окончания_строки">Настройка правил окончания строки</h6>
+<div class="sect3">
+<h4 id="_настройка_правил_окончания_строки">Настройка правил окончания строки</h4>
 <div class="imageblock">
 <div class="content">
 <img src="../../../assets/img/common/git/git-for-beginner/install-git-setting-line-ending-rules.jpg" alt="setting line ending rules">
@@ -752,8 +752,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p>Наша рекомендация: опция <em>Checkout Windows-style, commit Unix-style line endings</em>.</p>
 </div>
 </div>
-<div class="sect5">
-<h6 id="_выбор_эмулятора_терминала_который_будет_использован_с_git_bash">Выбор эмулятора терминала, который будет использован с Git Bash</h6>
+<div class="sect3">
+<h4 id="_выбор_эмулятора_терминала_который_будет_использован_с_git_bash">Выбор эмулятора терминала, который будет использован с Git Bash</h4>
 <div class="imageblock">
 <div class="content">
 <img src="../../../assets/img/common/git/git-for-beginner/install-git-choosing-a-terminal-emulator.jpg" alt="choosing a terminal emulator">
@@ -786,8 +786,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p>Наша рекомендация: опция <em>Use MinTTY (the defaul terminal of MSYS2)</em>.</p>
 </div>
 </div>
-<div class="sect5">
-<h6 id="_настройка_дополнительных_параметров">Настройка дополнительных параметров</h6>
+<div class="sect3">
+<h4 id="_настройка_дополнительных_параметров">Настройка дополнительных параметров</h4>
 <div class="imageblock">
 <div class="content">
 <img src="../../../assets/img/common/git/git-for-beginner/install-git-setting-additional-parameters.jpg" alt="setting additional parameters">
@@ -830,8 +830,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p>Наша рекомендация: опции <em>Enable file system caching</em> и <em>Enable Git Credential Manager</em>.</p>
 </div>
 </div>
-<div class="sect5">
-<h6 id="_завершение_установки">Завершение установки</h6>
+<div class="sect3">
+<h4 id="_завершение_установки">Завершение установки</h4>
 <div class="paragraph">
 <p>После нажатия на кнопку <em>Install</em> будет произведена установка <em>Git</em> на <em>Windows</em>, по окончании установки пользователь получит соответствующее сообщение.</p>
 </div>
@@ -843,8 +843,10 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_настройка_git">Настройка Git</h4>
+</div>
+<div class="sect1">
+<h2 id="_настройка_git">Настройка Git</h2>
+<div class="sectionbody">
 <div class="paragraph">
 <p>Настройка системы <strong>Git</strong> предполагает, в первую очередь, указание имени пользователя и e-mail, которые используются для подписи коммитов и отправки изменений в удаленный репозиторий.</p>
 </div>
@@ -867,10 +869,10 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="paragraph">
 <p>Для того, чтобы сконфигурировать <strong>Git</strong>, на том или ином уровне, вы можете изменить непосредственно конфигурационные файлы, но для этого нужно знать их формат, либо воспользоваться специальными командами, которые предоставляет <strong>Git</strong>. Мы рекомендуем использовать команды.</p>
 </div>
-<div class="sect4">
-<h5 id="_расположение_конфигурационных_файлов_git">Расположение конфигурационных файлов Git</h5>
-<div class="sect5">
-<h6 id="_windows">Windows</h6>
+<div class="sect2">
+<h3 id="_расположение_конфигурационных_файлов_git">Расположение конфигурационных файлов Git</h3>
+<div class="sect3">
+<h4 id="_windows">Windows</h4>
 <div class="ulist">
 <ul>
 <li>
@@ -892,8 +894,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </ul>
 </div>
 </div>
-<div class="sect5">
-<h6 id="_linux">Linux</h6>
+<div class="sect3">
+<h4 id="_linux">Linux</h4>
 <div class="ulist">
 <ul>
 <li>
@@ -909,8 +911,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </div>
 </div>
-<div class="sect4">
-<h5 id="_конфигурирование_git_с_помощью_утилиты_командной_строки">Конфигурирование Git с помощью утилиты командной строки</h5>
+<div class="sect2">
+<h3 id="_конфигурирование_git_с_помощью_утилиты_командной_строки">Конфигурирование Git с помощью утилиты командной строки</h3>
 <div class="paragraph">
 <p>Как уже было сказано выше, конфигурирование <strong>Git</strong> с помощью утилиты командной строки – это наиболее удобный и безопасный способ. Независимо от того, на каком уровне вы хотите менять настройки, команда будет начинаться так:</p>
 </div>
@@ -988,14 +990,16 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_архитектура_git">Архитектура Git</h4>
+</div>
+<div class="sect1">
+<h2 id="_архитектура_git">Архитектура Git</h2>
+<div class="sectionbody">
 <div class="paragraph">
 <p>Для того чтобы двигаться дальше – создавать репозитории, отправлять коммиты, делать новые бранчи (ветви) и т.п. необходимо предварительно ознакомиться с архитектурой <strong>git</strong>.
 Архитектуру мы рассмотрим на уровне, которого будет достаточно, чтобы понимать суть действий, которые мы будем совершать в дальнейшем.</p>
 </div>
-<div class="sect4">
-<h5 id="_архитектура_трех_деревьев">Архитектура трех деревьев</h5>
+<div class="sect2">
+<h3 id="_архитектура_трех_деревьев">Архитектура трех деревьев</h3>
 <div class="paragraph">
 <p>Система контроля версий <strong>git</strong> имеет архитектуру трех деревьев. Перед тем как перейти к ее описанию, для начала, рассмотрим архитектуру двух деревьев. Схематично она выглядит так, как представлено на рисунке ниже.</p>
 </div>
@@ -1085,10 +1089,12 @@ copy</strong>). После того, как решено, что все нужн
 </div>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_создание_репозитория_и_первый_коммит">Создание репозитория и первый коммит</h4>
-<div class="sect4">
-<h5 id="_создание_репозитория">Создание репозитория</h5>
+</div>
+<div class="sect1">
+<h2 id="_создание_репозитория_и_первый_коммит">Создание репозитория и первый коммит</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_создание_репозитория">Создание репозитория</h3>
 <div class="paragraph">
 <p>Для того чтобы создать репозиторий, для начала, создайте папку, в которой он будет располагаться. В нашем случае это будет каталог с названием <em>repo</em>.</p>
 </div>
@@ -1114,8 +1120,8 @@ copy</strong>). После того, как решено, что все нужн
 </div>
 </div>
 </div>
-<div class="sect4">
-<h5 id="_создание_первого_коммита">Создание первого коммита</h5>
+<div class="sect2">
+<h3 id="_создание_первого_коммита">Создание первого коммита</h3>
 <div class="paragraph">
 <p>Если мы посмотрим на список коммитов, которые были отправлены в репозиторий, то увидим, что он пустой – это правильно, т.к. мы пока только создали репозиторий и ничего ещё туда не отправляли.</p>
 </div>
@@ -1323,8 +1329,10 @@ Date:   Mon Feb 12 22:51:14 2018 +0500
 </div>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_просмотр_информации_по_коммитам">Просмотр информации по коммитам</h4>
+</div>
+<div class="sect1">
+<h2 id="_просмотр_информации_по_коммитам">Просмотр информации по коммитам</h2>
+<div class="sectionbody">
 <div class="paragraph">
 <p>Рассмотрим инструмент системы контроля версий <strong>git</strong>, который позволяет делать выборку и представлять пользователю коммиты, отправленные в репозиторий, в соответствии с заданными параметрами.</p>
 </div>
@@ -1604,10 +1612,12 @@ bc067c8 [add]: caption into README file</pre>
 <p>Для более продуктивного использования данной команды рекомендуем ознакомиться с возможностями утилиты <strong>grep</strong>. На этом мы закончим обзор команды <code>git log</code>.</p>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_head_и_tree_ish">HEAD и tree-ish</h4>
-<div class="sect4">
-<h5 id="_head"><code>HEAD</code></h5>
+</div>
+<div class="sect1">
+<h2 id="_head_и_tree_ish">HEAD и tree-ish</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_head"><code>HEAD</code></h3>
 <div class="paragraph">
 <p>Начнем с <code>HEAD</code>. <code>HEAD</code> – это указатель, задача которого ссылаться на определенный коммит в репозитории. Суть данного указателя можно попытаться объяснить с разных сторон.</p>
 </div>
@@ -1809,8 +1819,8 @@ drwxr-xr-x 1 User 197121   0 мар  5 23:10 refs/</pre>
 <p><code>HEAD</code> указывает на коммит <code>cf3d9d8</code>.</p>
 </div>
 </div>
-<div class="sect4">
-<h5 id="_tree_ish">Tree-ish</h5>
+<div class="sect2">
+<h3 id="_tree_ish">Tree-ish</h3>
 <div class="paragraph">
 <p>Понятие <strong>tree-ish</strong> часто используется в документации по <strong>git</strong>. <strong>Tree-ish</strong> – это то, что указывает на коммит, эту сущность мы можем передавать в качестве аргумента для команд <strong>git</strong>. Вот список того, чем может являться <strong>tree-ish</strong>.</p>
 </div>
@@ -1953,10 +1963,12 @@ Date:   Mon Mar 5 23:21:59 2018 +0500
 </div>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_добавление_удаление_и_переименование_файлов_в_репозитории">Добавление, удаление и переименование файлов в репозитории</h4>
-<div class="sect4">
-<h5 id="_добавление_файлов_в_git_репозиторий">Добавление файлов в <em>git</em> репозиторий</h5>
+</div>
+<div class="sect1">
+<h2 id="_добавление_удаление_и_переименование_файлов_в_репозитории">Добавление, удаление и переименование файлов в репозитории</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_добавление_файлов_в_git_репозиторий">Добавление файлов в <em>git</em> репозиторий</h3>
 <div class="paragraph">
 <p>Добавление файлов в репозиторий – это достаточно простая операция, мало чем отличающаяся от отправки изменений в отслеживаемых файлах в репозиторий. Мы уже не раз выполняли эту операцию в предыдущих уроках, но сделаем это ещё раз. Создадим новый репозиторий, для этого перейдите в каталог, в котором вы хотите его расположить и введите команду <code>git init</code>.</p>
 </div>
@@ -2066,10 +2078,10 @@ nothing to commit, working tree clean</pre>
 </div>
 </div>
 </div>
-<div class="sect4">
-<h5 id="_удаление_файлов_из_git_репозитория_и_stage">Удаление файлов из git репозитория и stage</h5>
-<div class="sect5">
-<h6 id="_удаление_файла_из_stage">Удаление файла из stage</h6>
+<div class="sect2">
+<h3 id="_удаление_файлов_из_git_репозитория_и_stage">Удаление файлов из git репозитория и stage</h3>
+<div class="sect3">
+<h4 id="_удаление_файла_из_stage">Удаление файла из stage</h4>
 <div class="paragraph">
 <p>Вначале разберемся со <strong>stage</strong>. Создадим ещё один файл.</p>
 </div>
@@ -2168,8 +2180,8 @@ Untracked files:
 </div>
 </div>
 </div>
-<div class="sect5">
-<h6 id="_удаление_файлов_из_git_репозитория">Удаление файлов из git репозитория</h6>
+<div class="sect3">
+<h4 id="_удаление_файлов_из_git_репозитория">Удаление файлов из git репозитория</h4>
 <div class="paragraph">
 <p>Удалить файл из репозитория можно двумя способами:</p>
 </div>
@@ -2183,8 +2195,8 @@ Untracked files:
 </li>
 </ul>
 </div>
-<div class="sect6">
-<h7 id="_первый_способ">Первый способ</h7>
+<div class="sect4">
+<h5 id="_первый_способ">Первый способ</h5>
 <div class="paragraph">
 <p>Для начала посмотрим, какие файлы у нас хранятся в репозитории.</p>
 </div>
@@ -2247,8 +2259,8 @@ rm 'main.c'</code></pre>
 </div>
 </div>
 </div>
-<div class="sect6">
-<h7 id="_второй_способ">Второй способ</h7>
+<div class="sect4">
+<h5 id="_второй_способ">Второй способ</h5>
 <div class="paragraph">
 <p>Сразу использовать команду <code>git rm</code> без предварительного удаления файла из директории. Вновь создадим файл <code>main.c</code> и добавим его в репозиторий.</p>
 </div>
@@ -2322,13 +2334,13 @@ README.md</code></pre>
 </div>
 </div>
 </div>
-<div class="sect4">
-<h5 id="_переименование_файлов_в_git_репозитории">Переименование файлов в git репозитории</h5>
+<div class="sect2">
+<h3 id="_переименование_файлов_в_git_репозитории">Переименование файлов в git репозитории</h3>
 <div class="paragraph">
 <p>Как и в случае с удалением, переименовать файл в <strong>git</strong> репозитории можно двумя способами – с использованием и без использования средств операционной системы.</p>
 </div>
-<div class="sect5">
-<h6 id="_первый_способ_2">Первый способ</h6>
+<div class="sect3">
+<h4 id="_первый_способ_2">Первый способ</h4>
 <div class="paragraph">
 <p>Создадим файл <code>test_main_file.c</code> и добавим его в репозиторий.</p>
 </div>
@@ -2406,8 +2418,8 @@ test_main.c</code></pre>
 </div>
 </div>
 </div>
-<div class="sect5">
-<h6 id="_второй_способ_2">Второй способ</h6>
+<div class="sect3">
+<h4 id="_второй_способ_2">Второй способ</h4>
 <div class="paragraph">
 <p>В рамках второго способа рассмотрим работу с командой <code>git mv</code>. Переименуем файл <code>test_main.c</code> в <code>main.c</code>. Текущее содержимое репозитория и рабочего каталога.</p>
 </div>
@@ -2473,10 +2485,12 @@ git commit -m "Rename test_main.c file"</code></pre>
 </div>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_как_удалить_коммит_в_git">Как удалить коммит в git?</h4>
-<div class="sect4">
-<h5 id="_отмена_изменений_в_файлах_в_рабочей_директории">Отмена изменений в файлах в рабочей директории</h5>
+</div>
+<div class="sect1">
+<h2 id="_как_удалить_коммит_в_git">Как удалить коммит в git?</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_отмена_изменений_в_файлах_в_рабочей_директории">Отмена изменений в файлах в рабочей директории</h3>
 <div class="paragraph">
 <p>Если вы сделали какие-то изменения в файле и хотите вернуть предыдущий вариант, то для этого следует обратиться к репозиторию и взять из него файл, с которым вы работаете. Таким образом, в вашу рабочую директорию будет скопирован файл из репозитория с заменой. Например, вы работаете с файлом <code>main.c</code> и внесли в него какие-то изменения. Для того чтобы вернуться к предыдущей версии (последней отправленной в репозиторий)  воспользуйтесь командой <code>git checkout</code>.</p>
 </div>
@@ -2489,10 +2503,10 @@ git commit -m "Rename test_main.c file"</code></pre>
 <p>Ключ <code>--</code> означает, что нас интересует файл в текущей ветке.</p>
 </div>
 </div>
-<div class="sect4">
-<h5 id="_отмена_коммитов_в_git">Отмена коммитов в git</h5>
-<div class="sect5">
-<h6 id="_работа_с_последним_коммитом">Работа с последним коммитом</h6>
+<div class="sect2">
+<h3 id="_отмена_коммитов_в_git">Отмена коммитов в git</h3>
+<div class="sect3">
+<h4 id="_работа_с_последним_коммитом">Работа с последним коммитом</h4>
 <div class="paragraph">
 <p>Для демонстрации возможностей <strong>git</strong> создадим новый каталог и инициализируем в нем репозиторий.</p>
 </div>
@@ -2600,8 +2614,8 @@ git log --oneline</code></pre>
 <p>Как вы можете видеть: из репозитория пропал коммит с id <code>d142679</code>, вместо него теперь коммит с id <code>18411fd</code>.</p>
 </div>
 </div>
-<div class="sect5">
-<h6 id="_отмена_изменений_в_файле_в_выбранном_коммите">Отмена изменений в файле в выбранном коммите</h6>
+<div class="sect3">
+<h4 id="_отмена_изменений_в_файле_в_выбранном_коммите">Отмена изменений в файле в выбранном коммите</h4>
 <div class="paragraph">
 <p>Сделаем ещё несколько изменений в нашем файле <code>main.c</code>, каждое из которых будет фиксироваться коммитом в репозиторий.</p>
 </div>
@@ -2739,8 +2753,8 @@ dcf7253 fourth commit
 <p>Таким образом мы вернулись к предыдущей версии файла <code>main.c</code> и при этом сохранили всю историю изменений.</p>
 </div>
 </div>
-<div class="sect5">
-<h6 id="_использование_git_revert_для_быстрой_отмены_изменений">Использование <code>git revert</code> для быстрой отмены изменений</h6>
+<div class="sect3">
+<h4 id="_использование_git_revert_для_быстрой_отмены_изменений">Использование <code>git revert</code> для быстрой отмены изменений</h4>
 <div class="paragraph">
 <p>Рассмотрим ещё одни способ отмены коммитов, на этот раз воспользуемся командой <code>git revert</code>.</p>
 </div>
@@ -2820,8 +2834,8 @@ dcf7253 fourth commit
 </div>
 </div>
 </div>
-<div class="sect4">
-<h5 id="_отмена_группы_коммитов">Отмена группы коммитов</h5>
+<div class="sect2">
+<h3 id="_отмена_группы_коммитов">Отмена группы коммитов</h3>
 <div class="admonitionblock warning">
 <table>
 <tr>
@@ -2837,8 +2851,8 @@ dcf7253 fourth commit
 <div class="paragraph">
 <p>Существует три опции, которые можно использовать с командой <code>git reset</code> для изменения положения <code>HEAD</code> и управления состоянием <strong>stage</strong> и рабочей директории, сейчас мы все это подробно разберем.</p>
 </div>
-<div class="sect5">
-<h6 id="_удаление_коммитов_из_репозитория_без_изменения_рабочей_директории_ключ_soft">Удаление коммитов из репозитория (без изменения рабочей директории) (ключ <code>–soft</code>)</h6>
+<div class="sect3">
+<h4 id="_удаление_коммитов_из_репозитория_без_изменения_рабочей_директории_ключ_soft">Удаление коммитов из репозитория (без изменения рабочей директории) (ключ <code>–soft</code>)</h4>
 <div class="paragraph">
 <p>Для изменения положения указателя <code>HEAD</code> в репозитории, без оказания влияния рабочую директорию (в <strong>stage</strong>, при этом, будет зафиксировано отличие рабочей директории от репозитория), используйте ключ <code>–soft</code>. Посмотрим ещё раз на наш репозиторий.</p>
 </div>
@@ -2973,8 +2987,8 @@ cffc5ad return main.c from third commit
 </div>
 </div>
 </div>
-<div class="sect5">
-<h6 id="_удаление_коммитов_из_репозитория_и_очистка_stage_без_изменения_рабочей_директории_ключ_mixed">Удаление коммитов из репозитория и очистка stage (без изменения рабочей директории) (ключ <code>–mixed</code>)</h6>
+<div class="sect3">
+<h4 id="_удаление_коммитов_из_репозитория_и_очистка_stage_без_изменения_рабочей_директории_ключ_mixed">Удаление коммитов из репозитория и очистка stage (без изменения рабочей директории) (ключ <code>–mixed</code>)</h4>
 <div class="paragraph">
 <p>Если использовать команду <code>git reset</code> с аргументом <code>–mixed</code>, то в репозитории указатель <code>HEAD</code> переместится на нужный коммит, а также будет сброшено содержимое <strong>stage</strong>. Отменим последний коммит.</p>
 </div>
@@ -3046,8 +3060,8 @@ git commit -m "mixed reset example"</code></pre>
 </div>
 </div>
 </div>
-<div class="sect5">
-<h6 id="_удаление_коммитов_из_репозитория_очистка_stage_и_внесение_изменений_в_рабочую_директорию_ключ_hard">Удаление коммитов из репозитория, очистка stage и внесение изменений в рабочую директорию (ключ <code>–hard</code>)</h6>
+<div class="sect3">
+<h4 id="_удаление_коммитов_из_репозитория_очистка_stage_и_внесение_изменений_в_рабочую_директорию_ключ_hard">Удаление коммитов из репозитория, очистка stage и внесение изменений в рабочую директорию (ключ <code>–hard</code>)</h4>
 <div class="paragraph">
 <p>Если вы воспользуетесь ключом <code>–hard</code>, то обратного пути уже не будет. Вы не сможете восстановить данные из рабочей директории. Все компоненты <strong>git</strong> (репозиторий, <strong>stage</strong> и рабочая директория) будут приведены к одному виду в соответствии с коммитом, на который будет перенесен указатель <code>HEAD</code>.</p>
 </div>
@@ -3152,9 +3166,10 @@ git show HEAD:main.c</code></pre>
 </div>
 </div>
 </div>
+</div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2021-04-08 08:23:27 UTC
+Last updated 2021-06-03 03:53:52 UTC
 </div>
 </div>
 </body>

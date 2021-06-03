@@ -1,0 +1,10 @@
+.git/
+.github/
+.idea/
+.dockerignore
+.editorconfig
+.gitignore
+.gitlab-ci.yml
+CNAME
+Dockerfile
+README.adoc
