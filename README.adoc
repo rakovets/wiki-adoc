@@ -2,6 +2,33 @@
 
 Wikis for different courses. Use 'AsciiDoc' and 'Asciidoctor' for converting to 'HTML'.
 
+== Getting Started
+
+Need to install:
+
+* Docker
+
+=== Build image
+
+[source,sh]
+----
+docker build -t rakovets/wiki .
+----
+
+=== Run container
+
+[source,sh]
+----
+docker run -dp 3001:80 rakovets/wiki
+----
+
+=== Force remove container on 3001 port
+
+[source,sh]
+----
+docker ps -aqf "publish=3001" | xargs docker rm -f
+----
+
 == Code of Conduct
 
 This project is governed by the link:.github/CODE_OF_CONDUCT.md[Code of Conduct].
