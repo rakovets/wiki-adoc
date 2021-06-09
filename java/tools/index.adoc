@@ -11,7 +11,9 @@ Dmitry Rakovets
 Wiki for course "Java Tools".
 
 :leveloffset: +1
+include::maven/index.adoc[]
 
 include::lombok.adoc[]
 
 include::unit-testing.adoc[]
+:leveloffset: -1

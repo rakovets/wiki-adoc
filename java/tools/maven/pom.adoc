@@ -1,0 +1,485 @@
+= POM
+
+*POM* (*Project Object Model*) является базовым модулем *Maven*.
+Это специальный XML-файл, который всегда хранится в базовой директории проекта и называется `pom.xml`.
+
+Файл *POM* содержит информацию о проекте и различных деталях конфигурации, которые используются *Maven* для создания проекта.
+
+Этот файл также содержит *задачи* и *плагины*.
+Во время выполнения задач, *Maven* ищет файл `pom.xml` в базовой директории проекта.
+Он читает его и получает необходимую информацию, после чего выполняет задачи.
+
+Среди конфигураций *Maven* мы можем выделить следующие:
+
+* зависимости проекта
+* плагины
+* задачи
+* профиль создания
+* версия проекта
+* разработчики
+* список рассылки
+
+Перед тем, как создавать `pom.xml` необходимо прежде всего определить группу проекта (`groupId`), его имя (`artifactId`) и его версию.
+Все это поможет унифицировать проект для более простой его идентификации в репозитории.
+
+.Пример `pom.xml` файла:
+[source,xml]
+----
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+        http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.companyname.project-group</groupId>
+    <artifactId>project</artifactId>
+    <version>1.0</version>
+</project>
+----
+
+Каждый проект должен иметь свой собственный *POM* файл.
+
+Все *POM* файлы должны иметь три обязательных элемента:
+
+* `groupId`
+* `artifactId`
+* `version`
+
+В *репозитории* проект выглядит следующим образом: `groupId:artifactId:version`.
+
+Ключевой элемент в *POM* файле – это `project`, который делится на три главных подгруппы:
+
+* `groupId` +
+Это *ID группы проекта*.
+Зачастую, это уникальная организация или проект.
+Например, если нужно создать группу, которая отвечает за видео, то `groupId` будет выглядеть, примерно так: `by.rakovets.video`.
+В этой группе будут все проекты, которые относятся к видео.
+* `artifactId` +
+Это *идентификатор самого проекта*.
+Чаще всего – его имя.
+Например: `maven-video`. `artifactId` также помогает найти проект в репозитории.
+* `version` +
+*Версия проекта*.
+Определяет конкретную версию продукта.
+Например: `by.rakovets.video:maven-video:1.0`, `by.rakovets.video:maven-video:1.1`
+
+== Супер POM
+
+Все *POM*-файлы являются наследниками родительского *POM*.
+Этот *POM*-файл называется *Super POM* и содержит значения, унаследованные по умолчанию.
+
+Простой способ просмотреть настройки по умолчанию *Super POM* файла – это использование команды:
+
+[source,shell script]
+----
+mvn help:effective-pom
+----
+
+=== Пример
+
+Для понимания того, как это работает на практике, рассмотрим простой пример.
+
+Создадим простой Maven проект:
+
+[source,shell script]
+----
+mvn archetype:generate
+----
+
+----
+...
+1608: remote -> net.sf.jlue:jlue-archetype-basic (Archetype - basic project for Jlue)
+1609: remote -> net.sf.jlue:jlue-archetype-blank (Archetype - blank project for Jlue)
+1610: remote -> net.sf.maven-autotools:maven-autotools-archetype-executable (-)
+1611: remote -> net.sf.maven-autotools:maven-autotools-archetype-shared (-)
+1612: remote -> net.sf.maven-har:maven-archetype-har (-)
+1613: remote -> net.sf.maven-sar:maven-archetype-sar (-)
+1614: remote -> net.sf.mgp:maven-archetype-gwt (An archetype which contains a sample Maven GWT project.)
+...
+----
+
+В полученном списке ищем `net.sf.maven-har:maven-archetype-har` и его позицию в этос списке (целое число, на момент выполнения это `1612`).
+
+Далее последовательно отвечаем на запросы в *CLI*:
+
+* `Choose a number: 2:` нажимаем _Enter_ (по умолчанию)
+* `Define value for property 'groupId':` пишем `by.rakovets.example`
+* `Define value for property 'artifactId':` пишем `example-maven`
+* `Define value for property 'version' 1.0-SNAPSHOT: :` нажимаем _Enter_ (по умолчанию)
+* `Define value for property 'package' by.rakovets.example: :` нажимаем _Enter_ (подтверждение)
+* ` Y: :` нажимаем _Enter_ (подтверждение)
+
+Это выглядит следующим образом:
+
+----
+Choose a number or apply filter (format: [groupId:]artifactId, case sensitive contains): 1793: 1612
+Choose net.sf.maven-har:maven-archetype-har version:
+1: 0.9
+2: 1.0
+Choose a number: 2:
+Define value for property 'groupId': by.rakovets.example
+Define value for property 'artifactId': example-maven
+Define value for property 'version' 1.0-SNAPSHOT: :
+Define value for property 'package' by.rakovets.example: :
+Confirm properties configuration:
+groupId: by.rakovets.example
+artifactId: example-maven
+version: 1.0-SNAPSHOT
+package: by.rakovets.example
+ Y: :
+----
+
+После последнего подтверждения получится:
+
+----
+[INFO] ----------------------------------------------------------------------------
+[INFO] Using following parameters for creating project from Old (1.x) Archetype: maven-archetype-har:1.0
+[INFO] ----------------------------------------------------------------------------
+[INFO] Parameter: basedir, Value: /home/rakovets/example
+[INFO] Parameter: package, Value: by.rakovets.example
+[INFO] Parameter: groupId, Value: by.rakovets.example
+[INFO] Parameter: artifactId, Value: example-maven
+[INFO] Parameter: packageName, Value: by.rakovets.example
+[INFO] Parameter: version, Value: 1.0-SNAPSHOT
+[INFO] project created from Old (1.x) Archetype in dir: /home/rakovets/example/example-maven
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  02:15 min
+[INFO] Finished at: 2021-06-09T06:04:33+03:00
+[INFO] ------------------------------------------------------------------------
+----
+
+Созданный проект будет иметь следующую структуру:
+
+----
+example-maven
+├── pom.xml
+└── src
+    └── main
+        ├── java
+        │   └── by
+        │       └── rakovets
+        │           └── example
+        │               └── FoobarPojo.java
+        └── resources
+            ├── FoobarPojo.hbm.xml
+            └── META-INF
+                └── jboss-service.xml
+----
+
+.`pom.xml`
+[source,xml]
+----
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>by.rakovets.example</groupId>
+  <artifactId>example-maven</artifactId>
+  <version>1.0-SNAPSHOT</version>
+  <packaging>har</packaging>
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>1.5</source>
+          <target>1.5</target>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>net.sf.maven-har</groupId>
+        <artifactId>maven-har-plugin</artifactId>
+        <version>0.9</version>
+        <extensions>true</extensions>
+      </plugin>
+    </plugins>
+  </build>
+</project>
+----
+
+Переходим в директорию с проектом и выполняем команду:
+
+[source,shell script]
+----
+mvn help:effective-pom
+----
+
+В результате получим, примерно, следующий результат:
+
+----
+[INFO] Scanning for projects...
+[INFO]
+[INFO] -----------------< by.rakovets.example:example-maven >------------------
+[INFO] Building example-maven 1.0-SNAPSHOT
+[INFO] --------------------------------[ har ]---------------------------------
+[INFO]
+[INFO] --- maven-help-plugin:3.2.0:effective-pom (default-cli) @ example-maven ---
+[INFO]
+Effective POMs, after inheritance, interpolation, and profiles are applied:
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ====================================================================== -->
+<!--                                                                        -->
+<!-- Generated by Maven Help Plugin on 2021-06-09T06:11:05+03:00            -->
+<!-- See: http://maven.apache.org/plugins/maven-help-plugin/                -->
+<!--                                                                        -->
+<!-- ====================================================================== -->
+<!-- ====================================================================== -->
+<!--                                                                        -->
+<!-- Effective POM for project                                              -->
+<!-- 'by.rakovets.example:example-maven:har:1.0-SNAPSHOT'                   -->
+<!--                                                                        -->
+<!-- ====================================================================== -->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>by.rakovets.example</groupId>
+  <artifactId>example-maven</artifactId>
+  <version>1.0-SNAPSHOT</version>
+  <packaging>har</packaging>
+  <repositories>
+    <repository>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+      <id>central</id>
+      <name>Central Repository</name>
+      <url>https://repo.maven.apache.org/maven2</url>
+    </repository>
+  </repositories>
+  <pluginRepositories>
+    <pluginRepository>
+      <releases>
+        <updatePolicy>never</updatePolicy>
+      </releases>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+      <id>central</id>
+      <name>Central Repository</name>
+      <url>https://repo.maven.apache.org/maven2</url>
+    </pluginRepository>
+  </pluginRepositories>
+  <build>
+    <sourceDirectory>/home/rakovets/example/example-maven/src/main/java</sourceDirectory>
+    <scriptSourceDirectory>/home/rakovets/example/example-maven/src/main/scripts</scriptSourceDirectory>
+    <testSourceDirectory>/home/rakovets/example/example-maven/src/test/java</testSourceDirectory>
+    <outputDirectory>/home/rakovets/example/example-maven/target/classes</outputDirectory>
+    <testOutputDirectory>/home/rakovets/example/example-maven/target/test-classes</testOutputDirectory>
+    <resources>
+      <resource>
+        <directory>/home/rakovets/example/example-maven/src/main/resources</directory>
+      </resource>
+    </resources>
+    <testResources>
+      <testResource>
+        <directory>/home/rakovets/example/example-maven/src/test/resources</directory>
+      </testResource>
+    </testResources>
+    <directory>/home/rakovets/example/example-maven/target</directory>
+    <finalName>example-maven-1.0-SNAPSHOT</finalName>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <artifactId>maven-antrun-plugin</artifactId>
+          <version>1.3</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-assembly-plugin</artifactId>
+          <version>2.2-beta-5</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-dependency-plugin</artifactId>
+          <version>2.8</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-release-plugin</artifactId>
+          <version>2.5.3</version>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+    <plugins>
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.8.1</version>
+        <executions>
+          <execution>
+            <id>default-compile</id>
+            <phase>compile</phase>
+            <goals>
+              <goal>compile</goal>
+            </goals>
+            <configuration>
+              <source>1.5</source>
+              <target>1.5</target>
+            </configuration>
+          </execution>
+          <execution>
+            <id>default-testCompile</id>
+            <phase>test-compile</phase>
+            <goals>
+              <goal>testCompile</goal>
+            </goals>
+            <configuration>
+              <source>1.5</source>
+              <target>1.5</target>
+            </configuration>
+          </execution>
+        </executions>
+        <configuration>
+          <source>1.5</source>
+          <target>1.5</target>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>net.sf.maven-har</groupId>
+        <artifactId>maven-har-plugin</artifactId>
+        <version>0.9</version>
+        <extensions>true</extensions>
+        <executions>
+          <execution>
+            <id>default-har</id>
+            <phase>package</phase>
+            <goals>
+              <goal>har</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <artifactId>maven-clean-plugin</artifactId>
+        <version>2.5</version>
+        <executions>
+          <execution>
+            <id>default-clean</id>
+            <phase>clean</phase>
+            <goals>
+              <goal>clean</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <artifactId>maven-resources-plugin</artifactId>
+        <version>3.2.0</version>
+        <executions>
+          <execution>
+            <id>default-testResources</id>
+            <phase>process-test-resources</phase>
+            <goals>
+              <goal>testResources</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>default-resources</id>
+            <phase>process-resources</phase>
+            <goals>
+              <goal>resources</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>3.0.0-M5</version>
+        <executions>
+          <execution>
+            <id>default-test</id>
+            <phase>test</phase>
+            <goals>
+              <goal>test</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <artifactId>maven-install-plugin</artifactId>
+        <version>3.0.0-M1</version>
+        <executions>
+          <execution>
+            <id>default-install</id>
+            <phase>install</phase>
+            <goals>
+              <goal>install</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <artifactId>maven-deploy-plugin</artifactId>
+        <version>3.0.0-M1</version>
+        <executions>
+          <execution>
+            <id>default-deploy</id>
+            <phase>deploy</phase>
+            <goals>
+              <goal>deploy</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <artifactId>maven-site-plugin</artifactId>
+        <version>3.3</version>
+        <executions>
+          <execution>
+            <id>default-site</id>
+            <phase>site</phase>
+            <goals>
+              <goal>site</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>/home/rakovets/example/example-maven/target/site</outputDirectory>
+              <reportPlugins>
+                <reportPlugin>
+                  <groupId>org.apache.maven.plugins</groupId>
+                  <artifactId>maven-project-info-reports-plugin</artifactId>
+                </reportPlugin>
+              </reportPlugins>
+            </configuration>
+          </execution>
+          <execution>
+            <id>default-deploy</id>
+            <phase>site-deploy</phase>
+            <goals>
+              <goal>deploy</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>/home/rakovets/example/example-maven/target/site</outputDirectory>
+              <reportPlugins>
+                <reportPlugin>
+                  <groupId>org.apache.maven.plugins</groupId>
+                  <artifactId>maven-project-info-reports-plugin</artifactId>
+                </reportPlugin>
+              </reportPlugins>
+            </configuration>
+          </execution>
+        </executions>
+        <configuration>
+          <outputDirectory>/home/rakovets/example/example-maven/target/site</outputDirectory>
+          <reportPlugins>
+            <reportPlugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-project-info-reports-plugin</artifactId>
+            </reportPlugin>
+          </reportPlugins>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+  <reporting>
+    <outputDirectory>/home/rakovets/example/example-maven/target/site</outputDirectory>
+  </reporting>
+</project>
+
+
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  9.075 s
+[INFO] Finished at: 2021-06-09T06:11:05+03:00
+[INFO] ------------------------------------------------------------------------
+----
+
+В полученном файле можно видеть изначальную структуру проекта, директорию вывода, необходимые плагины, репозитории, которые *Maven* будет использовать во время выполнения необходимых задач.
+
+*Maven* также обеспечивает множество *архитипов* для создания проектов для создания определённой структуры и файла `pom.xml`.
