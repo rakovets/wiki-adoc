@@ -446,21 +446,40 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
-<li><a href="#_lombok">1. Lombok</a>
+<li><a href="#_maven">1. Maven</a>
 <ul class="sectlevel2">
-<li><a href="#_install_lombok_plugin_for_intellij_idea">1.1. Install Lombok Plugin for IntelliJ IDEA</a></li>
+<li><a href="#_введение">1.1. Введение</a></li>
+<li><a href="#_pom">1.2. POM</a></li>
+<li><a href="#_жизненный_цикл_сборки">1.3. Жизненный цикл сборки</a></li>
+<li><a href="#_профиль_сборки">1.4. Профиль сборки</a></li>
+<li><a href="#_репозитории">1.5. Репозитории.</a></li>
+<li><a href="#_плагины">1.6. Плагины</a></li>
+<li><a href="#_создание_проекта">1.7. Создание проекта.</a></li>
+<li><a href="#_сборка_и_тестирование_проекта">1.8. Сборка и тестирование проекта.</a></li>
+<li><a href="#_внешние_зависимости">1.9. Внешние зависимости</a></li>
+<li><a href="#_documenting_the_project">1.10. Documenting the project</a></li>
+<li><a href="#_шаблоны_проектов">1.11. Шаблоны проектов</a></li>
+<li><a href="#_snapshots">1.12. Snapshots</a></li>
+<li><a href="#_автоматизация_сборки">1.13. Автоматизация сборки.</a></li>
+<li><a href="#_автоматизация_развёртывания_deployment">1.14. Автоматизация развёртывания (deployment).</a></li>
+<li><a href="#_веб_проект_с_использованием_maven">1.15. Веб-проект с использованием Maven</a></li>
 </ul>
 </li>
-<li><a href="#_лучшие_практики_тестирования_на_java">2. Лучшие практики тестирования на Java</a>
+<li><a href="#_lombok">2. Lombok</a>
 <ul class="sectlevel2">
-<li><a href="#_too_long_didnt_read_tldr">2.1. Too Long; Didn&#8217;t Read (TL;DR)</a></li>
-<li><a href="#_главное">2.2. Главное</a></li>
-<li><a href="#_пишите_небольшие_и_узкоспециализированные_тесты">2.3. Пишите небольшие и узкоспециализированные тесты</a></li>
-<li><a href="#_автономные_тесты">2.4. Автономные тесты</a></li>
-<li><a href="#_тупые_тесты_это_хорошо_сравнивайте_результат_с_жестко_заданными_значениями">2.5. Тупые тесты — это хорошо: сравнивайте результат с жестко заданными значениями</a></li>
-<li><a href="#_тест_близок_к_реальности">2.6. Тест близок к реальности</a></li>
-<li><a href="#_java_jvm">2.7. Java / JVM</a></li>
-<li><a href="#_сделайте_реализацию_тестируемой">2.8. Сделайте реализацию тестируемой</a></li>
+<li><a href="#_install_lombok_plugin_for_intellij_idea">2.1. Install Lombok Plugin for IntelliJ IDEA</a></li>
+</ul>
+</li>
+<li><a href="#_лучшие_практики_тестирования_на_java">3. Лучшие практики тестирования на Java</a>
+<ul class="sectlevel2">
+<li><a href="#_too_long_didnt_read_tldr">3.1. Too Long; Didn&#8217;t Read (TL;DR)</a></li>
+<li><a href="#_главное">3.2. Главное</a></li>
+<li><a href="#_пишите_небольшие_и_узкоспециализированные_тесты">3.3. Пишите небольшие и узкоспециализированные тесты</a></li>
+<li><a href="#_автономные_тесты">3.4. Автономные тесты</a></li>
+<li><a href="#_тупые_тесты_это_хорошо_сравнивайте_результат_с_жестко_заданными_значениями">3.5. Тупые тесты — это хорошо: сравнивайте результат с жестко заданными значениями</a></li>
+<li><a href="#_тест_близок_к_реальности">3.6. Тест близок к реальности</a></li>
+<li><a href="#_java_jvm">3.7. Java / JVM</a></li>
+<li><a href="#_сделайте_реализацию_тестируемой">3.8. Сделайте реализацию тестируемой</a></li>
 </ul>
 </li>
 </ul>
@@ -475,10 +494,3561 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </div>
 <div class="sect1">
-<h2 id="_lombok">1. Lombok</h2>
+<h2 id="_maven">1. Maven</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_install_lombok_plugin_for_intellij_idea">1.1. Install Lombok Plugin for IntelliJ IDEA</h3>
+<h3 id="_введение">1.1. Введение</h3>
+<div class="sect3">
+<h4 id="_основные_понятия">1.1.1. Основные понятия</h4>
+<div class="paragraph">
+<p><strong>Maven</strong> – это средство для управления и сборки проектов. Он позволяет разработчикам полностью управлять <strong>жизненным циклом</strong> проекта. Благодаря этому, команда может автоматизировать процессы, связанные со сборкой, тестированием, упаковкой проекта и т.д.</p>
+</div>
+<div class="paragraph">
+<p>В случае, когда над проектом работает несколько команд разработчиков, <strong>Maven</strong> позволяет работать в соответствии с определенными стандартами.</p>
+</div>
+<div class="paragraph">
+<p><strong>Основные аспекты</strong>, которыми позволяет управлять <strong>Maven</strong>:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Создание</p>
+</li>
+<li>
+<p>Документирование</p>
+</li>
+<li>
+<p>Отчёты</p>
+</li>
+<li>
+<p>Зависимости</p>
+</li>
+<li>
+<p>Релизы</p>
+</li>
+<li>
+<p>SCM</p>
+</li>
+<li>
+<p>Список рассылки</p>
+</li>
+<li>
+<p>Дистрибьюция</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_основная_цель">1.1.2. Основная цель</h4>
+<div class="paragraph">
+<p><strong>Основной целью</strong> <strong>Maven</strong> является предоставление разработчику:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Понятной модели для проектов, которая может быть использована повторно и была бы проста в поддержании.</p>
+</li>
+<li>
+<p>Плагины, которые могут взаимодействовать с этой моделью.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Структура и содержание проекта <strong>Maven</strong> указывается в специальном xml-файле, который называется <strong>Project Object Model</strong> (<strong>POM</strong>). Этот файл является базовым модулем всей системы.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_соглашение_по_конфигурации">1.1.3. Соглашение по конфигурации</h4>
+<div class="paragraph">
+<p>Разработчики не обязаны указывать каждую деталь. <strong>Maven</strong> обеспечивает поведение проекта по умолчанию. Когда создается проект с использованием этой технологии, то <strong>Maven</strong> создаёт базовую структуру проекта. Разработчики несут ответственность только за соответственное размещение файлов.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 1. Значения по умолчанию для исходного кода проекта и других модулей.</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Исходный код</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>/src/main/java</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Ресурсы</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>/src/main/resources</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Тесты</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>/src/test</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Дистрибутив JAR</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>/target</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Скомпилированный байт-код</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>/target/classes</code></p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>Для того чтобы построить проект, <strong>Maven</strong> предоставляет настройки для управления жизненным циклом проекта и его зависимостями. Большая часть его задач поддерживается <strong>плагинами Maven</strong>.</p>
+</div>
+<div class="paragraph">
+<p>Можно создавать проекты с использованием <strong>Maven</strong> без понимания того, как работают эти отдельные плагины.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_pom">1.2. POM</h3>
+<div class="paragraph">
+<p><strong>POM</strong> (<strong>Project Object Model</strong>) является базовым модулем <strong>Maven</strong>.
+Это специальный XML-файл, который всегда хранится в базовой директории проекта и называется <code>pom.xml</code>.</p>
+</div>
+<div class="paragraph">
+<p>Файл <strong>POM</strong> содержит информацию о проекте и различных деталях конфигурации, которые используются <strong>Maven</strong> для создания проекта.</p>
+</div>
+<div class="paragraph">
+<p>Этот файл также содержит <strong>задачи</strong> и <strong>плагины</strong>.
+Во время выполнения задач, <strong>Maven</strong> ищет файл <code>pom.xml</code> в базовой директории проекта.
+Он читает его и получает необходимую информацию, после чего выполняет задачи.</p>
+</div>
+<div class="paragraph">
+<p>Среди конфигураций <strong>Maven</strong> мы можем выделить следующие:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>зависимости проекта</p>
+</li>
+<li>
+<p>плагины</p>
+</li>
+<li>
+<p>задачи</p>
+</li>
+<li>
+<p>профиль создания</p>
+</li>
+<li>
+<p>версия проекта</p>
+</li>
+<li>
+<p>разработчики</p>
+</li>
+<li>
+<p>список рассылки</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Перед тем, как создавать <code>pom.xml</code> необходимо прежде всего определить группу проекта (<code>groupId</code>), его имя (<code>artifactId</code>) и его версию.
+Все это поможет унифицировать проект для более простой его идентификации в репозитории.</p>
+</div>
+<div class="listingblock">
+<div class="title">Пример <code>pom.xml</code> файла:</div>
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="xml">&lt;project xmlns="http://maven.apache.org/POM/4.0.0"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+        http://maven.apache.org/xsd/maven-4.0.0.xsd"&gt;
+    &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;
+    &lt;groupId&gt;com.companyname.project-group&lt;/groupId&gt;
+    &lt;artifactId&gt;project&lt;/artifactId&gt;
+    &lt;version&gt;1.0&lt;/version&gt;
+&lt;/project&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Каждый проект должен иметь свой собственный <strong>POM</strong> файл.</p>
+</div>
+<div class="paragraph">
+<p>Все <strong>POM</strong> файлы должны иметь три обязательных элемента:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>groupId</code></p>
+</li>
+<li>
+<p><code>artifactId</code></p>
+</li>
+<li>
+<p><code>version</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>В <strong>репозитории</strong> проект выглядит следующим образом: <code>groupId:artifactId:version</code>.</p>
+</div>
+<div class="paragraph">
+<p>Ключевой элемент в <strong>POM</strong> файле – это <code>project</code>, который делится на три главных подгруппы:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>groupId</code><br>
+Это <strong>ID группы проекта</strong>.
+Зачастую, это уникальная организация или проект.
+Например, если нужно создать группу, которая отвечает за видео, то <code>groupId</code> будет выглядеть, примерно так: <code>by.rakovets.video</code>.
+В этой группе будут все проекты, которые относятся к видео.</p>
+</li>
+<li>
+<p><code>artifactId</code><br>
+Это <strong>идентификатор самого проекта</strong>.
+Чаще всего – его имя.
+Например: <code>maven-video</code>. <code>artifactId</code> также помогает найти проект в репозитории.</p>
+</li>
+<li>
+<p><code>version</code><br>
+<strong>Версия проекта</strong>.
+Определяет конкретную версию продукта.
+Например: <code>by.rakovets.video:maven-video:1.0</code>, <code>by.rakovets.video:maven-video:1.1</code></p>
+</li>
+</ul>
+</div>
+<div class="sect3">
+<h4 id="_супер_pom">1.2.1. Супер POM</h4>
+<div class="paragraph">
+<p>Все <strong>POM</strong>-файлы являются наследниками родительского <strong>POM</strong>.
+Этот <strong>POM</strong>-файл называется <strong>Super POM</strong> и содержит значения, унаследованные по умолчанию.</p>
+</div>
+<div class="paragraph">
+<p>Простой способ просмотреть настройки по умолчанию <strong>Super POM</strong> файла – это использование команды:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="shell script">mvn help:effective-pom</code></pre>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_пример">Пример</h5>
+<div class="paragraph">
+<p>Для понимания того, как это работает на практике, рассмотрим простой пример.</p>
+</div>
+<div class="paragraph">
+<p>Создадим простой Maven проект:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="shell script">mvn archetype:generate</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>...
+1608: remote -&gt; net.sf.jlue:jlue-archetype-basic (Archetype - basic project for Jlue)
+1609: remote -&gt; net.sf.jlue:jlue-archetype-blank (Archetype - blank project for Jlue)
+1610: remote -&gt; net.sf.maven-autotools:maven-autotools-archetype-executable (-)
+1611: remote -&gt; net.sf.maven-autotools:maven-autotools-archetype-shared (-)
+1612: remote -&gt; net.sf.maven-har:maven-archetype-har (-)
+1613: remote -&gt; net.sf.maven-sar:maven-archetype-sar (-)
+1614: remote -&gt; net.sf.mgp:maven-archetype-gwt (An archetype which contains a sample Maven GWT project.)
+...</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>В полученном списке ищем <code>net.sf.maven-har:maven-archetype-har</code> и его позицию в этос списке (целое число, на момент выполнения это <code>1612</code>).</p>
+</div>
+<div class="paragraph">
+<p>Далее последовательно отвечаем на запросы в <strong>CLI</strong>:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>Choose a number: 2:</code> нажимаем <em>Enter</em> (по умолчанию)</p>
+</li>
+<li>
+<p><code>Define value for property 'groupId':</code> пишем <code>by.rakovets.example</code></p>
+</li>
+<li>
+<p><code>Define value for property 'artifactId':</code> пишем <code>example-maven</code></p>
+</li>
+<li>
+<p><code>Define value for property 'version' 1.0-SNAPSHOT: :</code> нажимаем <em>Enter</em> (по умолчанию)</p>
+</li>
+<li>
+<p><code>Define value for property 'package' by.rakovets.example: :</code> нажимаем <em>Enter</em> (подтверждение)</p>
+</li>
+<li>
+<p>` Y: :` нажимаем <em>Enter</em> (подтверждение)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Это выглядит следующим образом:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>Choose a number or apply filter (format: [groupId:]artifactId, case sensitive contains): 1793: 1612
+Choose net.sf.maven-har:maven-archetype-har version:
+1: 0.9
+2: 1.0
+Choose a number: 2:
+Define value for property 'groupId': by.rakovets.example
+Define value for property 'artifactId': example-maven
+Define value for property 'version' 1.0-SNAPSHOT: :
+Define value for property 'package' by.rakovets.example: :
+Confirm properties configuration:
+groupId: by.rakovets.example
+artifactId: example-maven
+version: 1.0-SNAPSHOT
+package: by.rakovets.example
+ Y: :</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>После последнего подтверждения получится:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>[INFO] ----------------------------------------------------------------------------
+[INFO] Using following parameters for creating project from Old (1.x) Archetype: maven-archetype-har:1.0
+[INFO] ----------------------------------------------------------------------------
+[INFO] Parameter: basedir, Value: /home/rakovets/example
+[INFO] Parameter: package, Value: by.rakovets.example
+[INFO] Parameter: groupId, Value: by.rakovets.example
+[INFO] Parameter: artifactId, Value: example-maven
+[INFO] Parameter: packageName, Value: by.rakovets.example
+[INFO] Parameter: version, Value: 1.0-SNAPSHOT
+[INFO] project created from Old (1.x) Archetype in dir: /home/rakovets/example/example-maven
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  02:15 min
+[INFO] Finished at: 2021-06-09T06:04:33+03:00
+[INFO] ------------------------------------------------------------------------</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Созданный проект будет иметь следующую структуру:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>example-maven
+├── pom.xml
+└── src
+    └── main
+        ├── java
+        │   └── by
+        │       └── rakovets
+        │           └── example
+        │               └── FoobarPojo.java
+        └── resources
+            ├── FoobarPojo.hbm.xml
+            └── META-INF
+                └── jboss-service.xml</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title"><code>pom.xml</code></div>
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="xml">&lt;project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"&gt;
+  &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;
+  &lt;groupId&gt;by.rakovets.example&lt;/groupId&gt;
+  &lt;artifactId&gt;example-maven&lt;/artifactId&gt;
+  &lt;version&gt;1.0-SNAPSHOT&lt;/version&gt;
+  &lt;packaging&gt;har&lt;/packaging&gt;
+  &lt;build&gt;
+    &lt;plugins&gt;
+      &lt;plugin&gt;
+        &lt;artifactId&gt;maven-compiler-plugin&lt;/artifactId&gt;
+        &lt;configuration&gt;
+          &lt;source&gt;1.5&lt;/source&gt;
+          &lt;target&gt;1.5&lt;/target&gt;
+        &lt;/configuration&gt;
+      &lt;/plugin&gt;
+      &lt;plugin&gt;
+        &lt;groupId&gt;net.sf.maven-har&lt;/groupId&gt;
+        &lt;artifactId&gt;maven-har-plugin&lt;/artifactId&gt;
+        &lt;version&gt;0.9&lt;/version&gt;
+        &lt;extensions&gt;true&lt;/extensions&gt;
+      &lt;/plugin&gt;
+    &lt;/plugins&gt;
+  &lt;/build&gt;
+&lt;/project&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Переходим в директорию с проектом и выполняем команду:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="shell script">mvn help:effective-pom</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>В результате получим, примерно, следующий результат:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>[INFO] Scanning for projects...
+[INFO]
+[INFO] -----------------&lt; by.rakovets.example:example-maven &gt;------------------
+[INFO] Building example-maven 1.0-SNAPSHOT
+[INFO] --------------------------------[ har ]---------------------------------
+[INFO]
+[INFO] --- maven-help-plugin:3.2.0:effective-pom (default-cli) @ example-maven ---
+[INFO]
+Effective POMs, after inheritance, interpolation, and profiles are applied:
+
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;!-- ====================================================================== --&gt;
+&lt;!--                                                                        --&gt;
+&lt;!-- Generated by Maven Help Plugin on 2021-06-09T06:11:05+03:00            --&gt;
+&lt;!-- See: http://maven.apache.org/plugins/maven-help-plugin/                --&gt;
+&lt;!--                                                                        --&gt;
+&lt;!-- ====================================================================== --&gt;
+&lt;!-- ====================================================================== --&gt;
+&lt;!--                                                                        --&gt;
+&lt;!-- Effective POM for project                                              --&gt;
+&lt;!-- 'by.rakovets.example:example-maven:har:1.0-SNAPSHOT'                   --&gt;
+&lt;!--                                                                        --&gt;
+&lt;!-- ====================================================================== --&gt;
+&lt;project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd"&gt;
+  &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;
+  &lt;groupId&gt;by.rakovets.example&lt;/groupId&gt;
+  &lt;artifactId&gt;example-maven&lt;/artifactId&gt;
+  &lt;version&gt;1.0-SNAPSHOT&lt;/version&gt;
+  &lt;packaging&gt;har&lt;/packaging&gt;
+  &lt;repositories&gt;
+    &lt;repository&gt;
+      &lt;snapshots&gt;
+        &lt;enabled&gt;false&lt;/enabled&gt;
+      &lt;/snapshots&gt;
+      &lt;id&gt;central&lt;/id&gt;
+      &lt;name&gt;Central Repository&lt;/name&gt;
+      &lt;url&gt;https://repo.maven.apache.org/maven2&lt;/url&gt;
+    &lt;/repository&gt;
+  &lt;/repositories&gt;
+  &lt;pluginRepositories&gt;
+    &lt;pluginRepository&gt;
+      &lt;releases&gt;
+        &lt;updatePolicy&gt;never&lt;/updatePolicy&gt;
+      &lt;/releases&gt;
+      &lt;snapshots&gt;
+        &lt;enabled&gt;false&lt;/enabled&gt;
+      &lt;/snapshots&gt;
+      &lt;id&gt;central&lt;/id&gt;
+      &lt;name&gt;Central Repository&lt;/name&gt;
+      &lt;url&gt;https://repo.maven.apache.org/maven2&lt;/url&gt;
+    &lt;/pluginRepository&gt;
+  &lt;/pluginRepositories&gt;
+  &lt;build&gt;
+    &lt;sourceDirectory&gt;/home/rakovets/example/example-maven/src/main/java&lt;/sourceDirectory&gt;
+    &lt;scriptSourceDirectory&gt;/home/rakovets/example/example-maven/src/main/scripts&lt;/scriptSourceDirectory&gt;
+    &lt;testSourceDirectory&gt;/home/rakovets/example/example-maven/src/test/java&lt;/testSourceDirectory&gt;
+    &lt;outputDirectory&gt;/home/rakovets/example/example-maven/target/classes&lt;/outputDirectory&gt;
+    &lt;testOutputDirectory&gt;/home/rakovets/example/example-maven/target/test-classes&lt;/testOutputDirectory&gt;
+    &lt;resources&gt;
+      &lt;resource&gt;
+        &lt;directory&gt;/home/rakovets/example/example-maven/src/main/resources&lt;/directory&gt;
+      &lt;/resource&gt;
+    &lt;/resources&gt;
+    &lt;testResources&gt;
+      &lt;testResource&gt;
+        &lt;directory&gt;/home/rakovets/example/example-maven/src/test/resources&lt;/directory&gt;
+      &lt;/testResource&gt;
+    &lt;/testResources&gt;
+    &lt;directory&gt;/home/rakovets/example/example-maven/target&lt;/directory&gt;
+    &lt;finalName&gt;example-maven-1.0-SNAPSHOT&lt;/finalName&gt;
+    &lt;pluginManagement&gt;
+      &lt;plugins&gt;
+        &lt;plugin&gt;
+          &lt;artifactId&gt;maven-antrun-plugin&lt;/artifactId&gt;
+          &lt;version&gt;1.3&lt;/version&gt;
+        &lt;/plugin&gt;
+        &lt;plugin&gt;
+          &lt;artifactId&gt;maven-assembly-plugin&lt;/artifactId&gt;
+          &lt;version&gt;2.2-beta-5&lt;/version&gt;
+        &lt;/plugin&gt;
+        &lt;plugin&gt;
+          &lt;artifactId&gt;maven-dependency-plugin&lt;/artifactId&gt;
+          &lt;version&gt;2.8&lt;/version&gt;
+        &lt;/plugin&gt;
+        &lt;plugin&gt;
+          &lt;artifactId&gt;maven-release-plugin&lt;/artifactId&gt;
+          &lt;version&gt;2.5.3&lt;/version&gt;
+        &lt;/plugin&gt;
+      &lt;/plugins&gt;
+    &lt;/pluginManagement&gt;
+    &lt;plugins&gt;
+      &lt;plugin&gt;
+        &lt;artifactId&gt;maven-compiler-plugin&lt;/artifactId&gt;
+        &lt;version&gt;3.8.1&lt;/version&gt;
+        &lt;executions&gt;
+          &lt;execution&gt;
+            &lt;id&gt;default-compile&lt;/id&gt;
+            &lt;phase&gt;compile&lt;/phase&gt;
+            &lt;goals&gt;
+              &lt;goal&gt;compile&lt;/goal&gt;
+            &lt;/goals&gt;
+            &lt;configuration&gt;
+              &lt;source&gt;1.5&lt;/source&gt;
+              &lt;target&gt;1.5&lt;/target&gt;
+            &lt;/configuration&gt;
+          &lt;/execution&gt;
+          &lt;execution&gt;
+            &lt;id&gt;default-testCompile&lt;/id&gt;
+            &lt;phase&gt;test-compile&lt;/phase&gt;
+            &lt;goals&gt;
+              &lt;goal&gt;testCompile&lt;/goal&gt;
+            &lt;/goals&gt;
+            &lt;configuration&gt;
+              &lt;source&gt;1.5&lt;/source&gt;
+              &lt;target&gt;1.5&lt;/target&gt;
+            &lt;/configuration&gt;
+          &lt;/execution&gt;
+        &lt;/executions&gt;
+        &lt;configuration&gt;
+          &lt;source&gt;1.5&lt;/source&gt;
+          &lt;target&gt;1.5&lt;/target&gt;
+        &lt;/configuration&gt;
+      &lt;/plugin&gt;
+      &lt;plugin&gt;
+        &lt;groupId&gt;net.sf.maven-har&lt;/groupId&gt;
+        &lt;artifactId&gt;maven-har-plugin&lt;/artifactId&gt;
+        &lt;version&gt;0.9&lt;/version&gt;
+        &lt;extensions&gt;true&lt;/extensions&gt;
+        &lt;executions&gt;
+          &lt;execution&gt;
+            &lt;id&gt;default-har&lt;/id&gt;
+            &lt;phase&gt;package&lt;/phase&gt;
+            &lt;goals&gt;
+              &lt;goal&gt;har&lt;/goal&gt;
+            &lt;/goals&gt;
+          &lt;/execution&gt;
+        &lt;/executions&gt;
+      &lt;/plugin&gt;
+      &lt;plugin&gt;
+        &lt;artifactId&gt;maven-clean-plugin&lt;/artifactId&gt;
+        &lt;version&gt;2.5&lt;/version&gt;
+        &lt;executions&gt;
+          &lt;execution&gt;
+            &lt;id&gt;default-clean&lt;/id&gt;
+            &lt;phase&gt;clean&lt;/phase&gt;
+            &lt;goals&gt;
+              &lt;goal&gt;clean&lt;/goal&gt;
+            &lt;/goals&gt;
+          &lt;/execution&gt;
+        &lt;/executions&gt;
+      &lt;/plugin&gt;
+      &lt;plugin&gt;
+        &lt;artifactId&gt;maven-resources-plugin&lt;/artifactId&gt;
+        &lt;version&gt;3.2.0&lt;/version&gt;
+        &lt;executions&gt;
+          &lt;execution&gt;
+            &lt;id&gt;default-testResources&lt;/id&gt;
+            &lt;phase&gt;process-test-resources&lt;/phase&gt;
+            &lt;goals&gt;
+              &lt;goal&gt;testResources&lt;/goal&gt;
+            &lt;/goals&gt;
+          &lt;/execution&gt;
+          &lt;execution&gt;
+            &lt;id&gt;default-resources&lt;/id&gt;
+            &lt;phase&gt;process-resources&lt;/phase&gt;
+            &lt;goals&gt;
+              &lt;goal&gt;resources&lt;/goal&gt;
+            &lt;/goals&gt;
+          &lt;/execution&gt;
+        &lt;/executions&gt;
+      &lt;/plugin&gt;
+      &lt;plugin&gt;
+        &lt;artifactId&gt;maven-surefire-plugin&lt;/artifactId&gt;
+        &lt;version&gt;3.0.0-M5&lt;/version&gt;
+        &lt;executions&gt;
+          &lt;execution&gt;
+            &lt;id&gt;default-test&lt;/id&gt;
+            &lt;phase&gt;test&lt;/phase&gt;
+            &lt;goals&gt;
+              &lt;goal&gt;test&lt;/goal&gt;
+            &lt;/goals&gt;
+          &lt;/execution&gt;
+        &lt;/executions&gt;
+      &lt;/plugin&gt;
+      &lt;plugin&gt;
+        &lt;artifactId&gt;maven-install-plugin&lt;/artifactId&gt;
+        &lt;version&gt;3.0.0-M1&lt;/version&gt;
+        &lt;executions&gt;
+          &lt;execution&gt;
+            &lt;id&gt;default-install&lt;/id&gt;
+            &lt;phase&gt;install&lt;/phase&gt;
+            &lt;goals&gt;
+              &lt;goal&gt;install&lt;/goal&gt;
+            &lt;/goals&gt;
+          &lt;/execution&gt;
+        &lt;/executions&gt;
+      &lt;/plugin&gt;
+      &lt;plugin&gt;
+        &lt;artifactId&gt;maven-deploy-plugin&lt;/artifactId&gt;
+        &lt;version&gt;3.0.0-M1&lt;/version&gt;
+        &lt;executions&gt;
+          &lt;execution&gt;
+            &lt;id&gt;default-deploy&lt;/id&gt;
+            &lt;phase&gt;deploy&lt;/phase&gt;
+            &lt;goals&gt;
+              &lt;goal&gt;deploy&lt;/goal&gt;
+            &lt;/goals&gt;
+          &lt;/execution&gt;
+        &lt;/executions&gt;
+      &lt;/plugin&gt;
+      &lt;plugin&gt;
+        &lt;artifactId&gt;maven-site-plugin&lt;/artifactId&gt;
+        &lt;version&gt;3.3&lt;/version&gt;
+        &lt;executions&gt;
+          &lt;execution&gt;
+            &lt;id&gt;default-site&lt;/id&gt;
+            &lt;phase&gt;site&lt;/phase&gt;
+            &lt;goals&gt;
+              &lt;goal&gt;site&lt;/goal&gt;
+            &lt;/goals&gt;
+            &lt;configuration&gt;
+              &lt;outputDirectory&gt;/home/rakovets/example/example-maven/target/site&lt;/outputDirectory&gt;
+              &lt;reportPlugins&gt;
+                &lt;reportPlugin&gt;
+                  &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;
+                  &lt;artifactId&gt;maven-project-info-reports-plugin&lt;/artifactId&gt;
+                &lt;/reportPlugin&gt;
+              &lt;/reportPlugins&gt;
+            &lt;/configuration&gt;
+          &lt;/execution&gt;
+          &lt;execution&gt;
+            &lt;id&gt;default-deploy&lt;/id&gt;
+            &lt;phase&gt;site-deploy&lt;/phase&gt;
+            &lt;goals&gt;
+              &lt;goal&gt;deploy&lt;/goal&gt;
+            &lt;/goals&gt;
+            &lt;configuration&gt;
+              &lt;outputDirectory&gt;/home/rakovets/example/example-maven/target/site&lt;/outputDirectory&gt;
+              &lt;reportPlugins&gt;
+                &lt;reportPlugin&gt;
+                  &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;
+                  &lt;artifactId&gt;maven-project-info-reports-plugin&lt;/artifactId&gt;
+                &lt;/reportPlugin&gt;
+              &lt;/reportPlugins&gt;
+            &lt;/configuration&gt;
+          &lt;/execution&gt;
+        &lt;/executions&gt;
+        &lt;configuration&gt;
+          &lt;outputDirectory&gt;/home/rakovets/example/example-maven/target/site&lt;/outputDirectory&gt;
+          &lt;reportPlugins&gt;
+            &lt;reportPlugin&gt;
+              &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;
+              &lt;artifactId&gt;maven-project-info-reports-plugin&lt;/artifactId&gt;
+            &lt;/reportPlugin&gt;
+          &lt;/reportPlugins&gt;
+        &lt;/configuration&gt;
+      &lt;/plugin&gt;
+    &lt;/plugins&gt;
+  &lt;/build&gt;
+  &lt;reporting&gt;
+    &lt;outputDirectory&gt;/home/rakovets/example/example-maven/target/site&lt;/outputDirectory&gt;
+  &lt;/reporting&gt;
+&lt;/project&gt;
+
+
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  9.075 s
+[INFO] Finished at: 2021-06-09T06:11:05+03:00
+[INFO] ------------------------------------------------------------------------</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>В полученном файле можно видеть изначальную структуру проекта, директорию вывода, необходимые плагины, репозитории, которые <strong>Maven</strong> будет использовать во время выполнения необходимых задач.</p>
+</div>
+<div class="paragraph">
+<p><strong>Maven</strong> также обеспечивает множество <strong>архитипов</strong> для создания проектов для создания определённой структуры и файла <code>pom.xml</code>.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_жизненный_цикл_сборки">1.3. Жизненный цикл сборки</h3>
+<div class="paragraph">
+<p><strong>Жизненный цикл сборки</strong> в <strong>Maven</strong> – это чётко определённая последовательность фаз во время выполнения которых должны быть достигнуты определённые цели.</p>
+</div>
+<div class="paragraph">
+<p>Типичный <strong>жизненный цикл сборки</strong> <strong>Maven</strong> выглядит следующим образом:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Фаза</th>
+<th class="tableblock halign-left valign-top">Действия</th>
+<th class="tableblock halign-left valign-top">Описание</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>prepare-resources</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Копирование ресурсов</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">В этой фазе происходит копирование ресурсов, которое, также, может быть настроено.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>compile</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Компиляция</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">В этой фазе происходит компиляция исходного кода.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>package</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Создание пакета</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">В этой фазе, в зависимости от настроек создаётся архив <strong>JAR/WAR</strong>.
+Тип архива указывается в <code>pom.xml</code> файле.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>install</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Установка</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">В этой фазе происходит установка пакета в локальный/удалённый репозиторий <strong>Maven</strong>.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>Каждая из этих <strong>фаз</strong> имеет фазы <code>pre</code> и <code>post</code>.
+Они могут быть использованы для регистрации <strong>задач</strong>, которые должны быть запущены перед и после указанной фазы.</p>
+</div>
+<div class="paragraph">
+<p>Когда <strong>Maven</strong> начинает сборку проекта, он проходит через определённую последовательность <strong>фаз</strong> и выполняет определённые <strong>задачи</strong>, которые указаны в каждой из фаз.
+<strong>Maven</strong> имеет следующие <strong>3 стандартных жизненных цикла</strong>:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>clean</code></p>
+</li>
+<li>
+<p><code>default</code></p>
+</li>
+<li>
+<p><code>site</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Задача</strong> (<strong>goal</strong>) – это специальная задача, которая относится к сборке проекта и его управлению.
+Она может привязываться как к нескольким фазам, так и ни к одной.
+<strong>Задача</strong>, которая не привязана ни к одной фазе, может быть запущена вне фаз сборки с помощью прямого вызова.</p>
+</div>
+<div class="paragraph">
+<p>Порядок выполнения зависит от порядка вызова целей и фаз.</p>
+</div>
+<div class="paragraph">
+<p>Например, рассмотрим команду ниже.
+Аргументы <code>clean</code> и <code>package</code> являются фазами сборки до тех пор, пока <code>dependency:copy-dependencies</code> является задачей.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="shell script">mvn clean dependency:copy-dependencies package</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>В этом случае сначала будет выполнена фаза <code>clean</code>, после этого будет выполнена задача <code>dependency:copy-dependencies</code>.
+После чего будет выполнена фаза <code>package</code>.</p>
+</div>
+<div class="sect3">
+<h4 id="_жизненный_цикл_clean">1.3.1. Жизненный цикл Clean</h4>
+<div class="paragraph">
+<p>Когда выполняете команду</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="shell script">mvn post-clean</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Задача <code>clean</code> <strong>Maven</strong> (<code>clean:clean</code>) привязывается к фазе <code>clean</code> в жизненном цикле сборки.
+Эта задача удаляет ввод сборки путём удаления директории сборки.
+Таким образом, когда выполняется команда <code>mvn clean</code>, <strong>Maven</strong> удаляет директорию сборки.</p>
+</div>
+<div class="paragraph">
+<p>Можно настроить это поведение указав эти задачи в любой из фаз сборки.</p>
+</div>
+<div class="paragraph">
+<p>Рассмотрим пример, в котором привяжем задачу <code>maven-antrun-plugin:run</code> к фазам <code>pre-clean</code>, <code>clean</code> и <code>post-clean</code>.</p>
+</div>
+<div class="paragraph">
+<p>Пример:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="xml">&lt;project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"&gt;
+  &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;
+  &lt;groupId&gt;by.rakovets.example&lt;/groupId&gt;
+  &lt;artifactId&gt;example-maven&lt;/artifactId&gt;
+  &lt;version&gt;1.0-SNAPSHOT&lt;/version&gt;
+  &lt;build&gt;
+    &lt;plugins&gt;
+      &lt;plugin&gt;
+        &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;
+        &lt;artifactId&gt;maven-antrun-plugin&lt;/artifactId&gt;
+        &lt;version&gt;1.1&lt;/version&gt;
+        &lt;executions&gt;
+          &lt;execution&gt;
+            &lt;id&gt;id.pre-clean&lt;/id&gt;
+            &lt;phase&gt;pre-clean&lt;/phase&gt;
+            &lt;goals&gt;
+              &lt;goal&gt;run&lt;/goal&gt;
+            &lt;/goals&gt;
+            &lt;configuration&gt;
+              &lt;tasks&gt;
+                &lt;echo&gt;pre-clean phase&lt;/echo&gt;
+              &lt;/tasks&gt;
+            &lt;/configuration&gt;
+          &lt;/execution&gt;
+          &lt;execution&gt;
+            &lt;id&gt;id.clean&lt;/id&gt;
+            &lt;phase&gt;clean&lt;/phase&gt;
+            &lt;goals&gt;
+              &lt;goal&gt;run&lt;/goal&gt;
+            &lt;/goals&gt;
+            &lt;configuration&gt;
+              &lt;tasks&gt;
+                &lt;echo&gt;clean phase&lt;/echo&gt;
+              &lt;/tasks&gt;
+            &lt;/configuration&gt;
+          &lt;/execution&gt;
+          &lt;execution&gt;
+            &lt;id&gt;id.post-clean&lt;/id&gt;
+            &lt;phase&gt;post-clean&lt;/phase&gt;
+            &lt;goals&gt;
+              &lt;goal&gt;run&lt;/goal&gt;
+            &lt;/goals&gt;
+            &lt;configuration&gt;
+              &lt;tasks&gt;
+                &lt;echo&gt;post-clean phase&lt;/echo&gt;
+              &lt;/tasks&gt;
+            &lt;/configuration&gt;
+          &lt;/execution&gt;
+        &lt;/executions&gt;
+      &lt;/plugin&gt;
+    &lt;/plugins&gt;
+  &lt;/build&gt;
+&lt;/project&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>После этого выполним в <strong>CLI</strong> следующую команду:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="shell script">mvn post-clean</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>В результате получим следующий результат:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>[INFO] Scanning for projects...
+[INFO]
+[INFO] -----------------&lt; by.rakovets.example:example-maven &gt;------------------
+[INFO] Building example-maven 1.0-SNAPSHOT
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO]
+[INFO] --- maven-antrun-plugin:1.1:run (id.pre-clean) @ example-maven ---
+[INFO] Executing tasks
+     [echo] pre-clean phase
+[INFO] Executed tasks
+[INFO]
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ example-maven ---
+[INFO] Deleting /home/rakovets/example/example-maven/target
+[INFO]
+[INFO] --- maven-antrun-plugin:1.1:run (id.clean) @ example-maven ---
+[INFO] Executing tasks
+     [echo] clean phase
+[INFO] Executed tasks
+[INFO]
+[INFO] --- maven-antrun-plugin:1.1:run (id.post-clean) @ example-maven ---
+[INFO] Executing tasks
+     [echo] post-clean phase
+[INFO] Executed tasks
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  2.270 s
+[INFO] Finished at: 2021-06-09T06:34:43+03:00
+[INFO] ------------------------------------------------------------------------</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Можем выполнить такие же действия для фаз <code>pre-clean</code> и <code>clean</code>.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_жизненный_цикл_default_build">1.3.2. Жизненный цикл Default (Build)</h4>
+<div class="paragraph">
+<p><strong>Build</strong> - это основной <strong>жизненный цикл</strong> <strong>Maven</strong>, который используется для сборки проектов. Он включает в себя 23 фазы:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Фаза жизненного цикла</th>
+<th class="tableblock halign-left valign-top">Описание</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>validate</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Подтверждает, является ли проект корректным и вся ли необходимая информация доступа для завершения процесса сборки.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">*initialize`</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Инициализирует состояние сборки, например, различные настройки.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>generate-sources</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Включает любой исходный код в фазу компиляции.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>process-sources</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Обрабатывает исходный код (т.е. подготавливает).
+Например, фильтрует определённые значения.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>generate-resources</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Генерирует ресурсы, которые должны быть включены в пакет.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>process-resources</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Копирует и отправляет ресурсы в указанную директорию.
+Это фаза перед упаковкой.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>compile</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Компилирует исходный код проекта.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>process-classes</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Обработка файлов, полученных в результате компиляции.
+Например, оптимизация байт-кода Java классов.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>generate-test-sources</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Генерирует любые тестовые ресурсы, которые должны быть включены в фазу компиляции.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>process-test-sources</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Обрабатывает исходный код тестов.
+Например, фильтрует значения.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>test-compile</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Компилирует исходный код тестов в указанную директорию тестов.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>process-test-classes</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Обрабатывает файлы, полученные в результате компиляции исходного кода тестов.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>test</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Запускает тесты, используя приемлемый фреймворк unit-тестирования (например, <strong>JUnit</strong>).</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>prepare-package</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Выполняет все необходимые операции для подготовки пакет, непосредственно перед упаковкой.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>package</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Преобразует скомпилированный код и пакет в дистрибутивный формат.
+Такие, как <strong>JAR</strong>, <strong>WAR</strong> или <strong>EAR</strong>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>pre-integration-test</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Выполняет необходимые действия перед выполнением интеграционных тестов.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>integration-test</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Обрабатывает и распаковывает пакет, если необходимо, в среду, где будут выполняться интеграционные тесты.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>post-integration-test</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Выполняет действия, необходимые после выполнения интеграционных тестов.
+Например, освобождение ресурсов.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>verify</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Выполняет любые проверки для подтверждения того, что пакет пригоден и отвечает критериям качества.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>install</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Устанавливает пакет в локальный репозиторий, который может быть использован как зависимость в других локальных проектах.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>deploy</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Копирует финальный пакет (архив) в удалённый репозиторий для, того, чтобы сделать его доступным другим разработчикам и проектам.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>Необходимо уточнить два момента:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Когда выполняем <strong>Maven</strong> команду, например <code>install</code>, то будут выполнены фазы до <code>install</code> и фаза <code>install</code>.</p>
+</li>
+<li>
+<p>Различные задачи <strong>Maven</strong> будут привязаны к различным фазам жизненного цикла <strong>Maven</strong> в зависимости от типа архива (<strong>JAR</strong>/<strong>WAR</strong>/<strong>EAR</strong>).</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>В следующем примере, привязываем задачу <code>maven-antrun-plugin:run</code> к нескольким фазам жизненного цикла сборки. Это также позволяет вызывать текстовые сообщения, отображая фазу жизненного цикла.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="xml">&lt;project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"&gt;
+  &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;
+  &lt;groupId&gt;by.rakovets.example&lt;/groupId&gt;
+  &lt;artifactId&gt;example-maven&lt;/artifactId&gt;
+  &lt;version&gt;1.0-SNAPSHOT&lt;/version&gt;
+
+  &lt;properties&gt;
+    &lt;maven.compiler.source&gt;1.8&lt;/maven.compiler.source&gt;
+    &lt;maven.compiler.target&gt;1.8&lt;/maven.compiler.target&gt;
+  &lt;/properties&gt;
+
+  &lt;build&gt;
+    &lt;plugins&gt;
+      &lt;plugin&gt;
+        &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;
+        &lt;artifactId&gt;maven-antrun-plugin&lt;/artifactId&gt;
+        &lt;version&gt;1.1&lt;/version&gt;
+        &lt;executions&gt;
+          &lt;execution&gt;
+            &lt;id&gt;id.validate&lt;/id&gt;
+            &lt;phase&gt;validate&lt;/phase&gt;
+            &lt;goals&gt;
+              &lt;goal&gt;run&lt;/goal&gt;
+            &lt;/goals&gt;
+            &lt;configuration&gt;
+              &lt;tasks&gt;
+                &lt;echo&gt;validate phase&lt;/echo&gt;
+              &lt;/tasks&gt;
+            &lt;/configuration&gt;
+          &lt;/execution&gt;
+          &lt;execution&gt;
+            &lt;id&gt;id.compile&lt;/id&gt;
+            &lt;phase&gt;compile&lt;/phase&gt;
+            &lt;goals&gt;
+              &lt;goal&gt;run&lt;/goal&gt;
+            &lt;/goals&gt;
+            &lt;configuration&gt;
+              &lt;tasks&gt;
+                &lt;echo&gt;compile phase&lt;/echo&gt;
+              &lt;/tasks&gt;
+            &lt;/configuration&gt;
+          &lt;/execution&gt;
+          &lt;execution&gt;
+            &lt;id&gt;id.test&lt;/id&gt;
+            &lt;phase&gt;test&lt;/phase&gt;
+            &lt;goals&gt;
+              &lt;goal&gt;run&lt;/goal&gt;
+            &lt;/goals&gt;
+            &lt;configuration&gt;
+              &lt;tasks&gt;
+                &lt;echo&gt;test phase&lt;/echo&gt;
+              &lt;/tasks&gt;
+            &lt;/configuration&gt;
+          &lt;/execution&gt;
+          &lt;execution&gt;
+            &lt;id&gt;id.package&lt;/id&gt;
+            &lt;phase&gt;package&lt;/phase&gt;
+            &lt;goals&gt;
+              &lt;goal&gt;run&lt;/goal&gt;
+            &lt;/goals&gt;
+            &lt;configuration&gt;
+              &lt;tasks&gt;
+                &lt;echo&gt;package phase&lt;/echo&gt;
+              &lt;/tasks&gt;
+            &lt;/configuration&gt;
+          &lt;/execution&gt;
+          &lt;execution&gt;
+            &lt;id&gt;id.deploy&lt;/id&gt;
+            &lt;phase&gt;deploy&lt;/phase&gt;
+            &lt;goals&gt;
+              &lt;goal&gt;run&lt;/goal&gt;
+            &lt;/goals&gt;
+            &lt;configuration&gt;
+              &lt;tasks&gt;
+                &lt;echo&gt;deploy phase&lt;/echo&gt;
+              &lt;/tasks&gt;
+            &lt;/configuration&gt;
+          &lt;/execution&gt;
+        &lt;/executions&gt;
+      &lt;/plugin&gt;
+    &lt;/plugins&gt;
+  &lt;/build&gt;
+&lt;/project&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>После этого выполним следующую команду:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="shell script">mvn compile</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>В результате получим, примерно, следующий результат:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>[INFO] Scanning for projects...
+[INFO]
+[INFO] -----------------&lt; by.rakovets.example:example-maven &gt;------------------
+[INFO] Building example-maven 1.0-SNAPSHOT
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO]
+[INFO] --- maven-antrun-plugin:1.1:run (id.validate) @ example-maven ---
+[INFO] Executing tasks
+     [echo] validate phase
+[INFO] Executed tasks
+[INFO]
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ example-maven ---
+[INFO] Copying 2 resources
+[INFO]
+[INFO] --- maven-compiler-plugin:3.1:compile (default-compile) @ example-maven ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO]
+[INFO] --- maven-antrun-plugin:1.1:run (id.compile) @ example-maven ---
+[INFO] Executing tasks
+     [echo] compile phase
+[INFO] Executed tasks
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  0.484 s
+[INFO] Finished at: 2021-06-09T06:42:41+03:00
+[INFO] ------------------------------------------------------------------------</pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_жизненный_цикл_site">1.3.3. Жизненный цикл Site</h4>
+<div class="paragraph">
+<p><strong>Плагин Maven</strong> – <strong>Site</strong> – используется для создания докладов, документации, развёртывания и т.д.</p>
+</div>
+<div class="paragraph">
+<p>Он включает в себя такие фазы:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>pre-site</code></p>
+</li>
+<li>
+<p><code>site</code></p>
+</li>
+<li>
+<p><code>post-site</code></p>
+</li>
+<li>
+<p><code>site-deploy</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>В примере ниже прикрепляем задачу <code>maven-antrun-plugin:run</code> ко всем фазам <strong>жизненного цикла</strong> <strong>Site</strong>. Это позволяет вызывать текстовые сообщения для отображения фаз жизненного цикла.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="xml">&lt;project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"&gt;
+  &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;
+  &lt;groupId&gt;by.rakovets.example&lt;/groupId&gt;
+  &lt;artifactId&gt;example-maven&lt;/artifactId&gt;
+  &lt;version&gt;1.0-SNAPSHOT&lt;/version&gt;
+
+  &lt;properties&gt;
+    &lt;maven.compiler.source&gt;1.8&lt;/maven.compiler.source&gt;
+    &lt;maven.compiler.target&gt;1.8&lt;/maven.compiler.target&gt;
+  &lt;/properties&gt;
+
+  &lt;build&gt;
+    &lt;plugins&gt;
+      &lt;plugin&gt;
+        &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;
+        &lt;artifactId&gt;maven-site-plugin&lt;/artifactId&gt;
+        &lt;version&gt;3.9.1&lt;/version&gt;
+      &lt;/plugin&gt;
+      &lt;plugin&gt;
+        &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;
+        &lt;artifactId&gt;maven-antrun-plugin&lt;/artifactId&gt;
+        &lt;version&gt;1.8&lt;/version&gt;
+        &lt;executions&gt;
+          &lt;execution&gt;
+            &lt;id&gt;id.pre-site&lt;/id&gt;
+            &lt;phase&gt;pre-site&lt;/phase&gt;
+            &lt;goals&gt;
+              &lt;goal&gt;run&lt;/goal&gt;
+            &lt;/goals&gt;
+            &lt;configuration&gt;
+              &lt;tasks&gt;
+                &lt;echo&gt;pre-site phase&lt;/echo&gt;
+              &lt;/tasks&gt;
+            &lt;/configuration&gt;
+          &lt;/execution&gt;
+          &lt;execution&gt;
+            &lt;id&gt;id.site&lt;/id&gt;
+            &lt;phase&gt;site&lt;/phase&gt;
+            &lt;goals&gt;
+              &lt;goal&gt;run&lt;/goal&gt;
+            &lt;/goals&gt;
+            &lt;configuration&gt;
+              &lt;tasks&gt;
+                &lt;echo&gt;site phase&lt;/echo&gt;
+              &lt;/tasks&gt;
+            &lt;/configuration&gt;
+          &lt;/execution&gt;
+          &lt;execution&gt;
+            &lt;id&gt;id.post-site&lt;/id&gt;
+            &lt;phase&gt;post-site&lt;/phase&gt;
+            &lt;goals&gt;
+              &lt;goal&gt;run&lt;/goal&gt;
+            &lt;/goals&gt;
+            &lt;configuration&gt;
+              &lt;tasks&gt;
+                &lt;echo&gt;post-site phase&lt;/echo&gt;
+              &lt;/tasks&gt;
+            &lt;/configuration&gt;
+          &lt;/execution&gt;
+          &lt;execution&gt;
+            &lt;id&gt;id.site-deploy&lt;/id&gt;
+            &lt;phase&gt;site-deploy&lt;/phase&gt;
+            &lt;goals&gt;
+              &lt;goal&gt;run&lt;/goal&gt;
+            &lt;/goals&gt;
+            &lt;configuration&gt;
+              &lt;tasks&gt;
+                &lt;echo&gt;site-deploy phase&lt;/echo&gt;
+              &lt;/tasks&gt;
+            &lt;/configuration&gt;
+          &lt;/execution&gt;
+        &lt;/executions&gt;
+      &lt;/plugin&gt;
+    &lt;/plugins&gt;
+  &lt;/build&gt;
+&lt;/project&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Теперь выполним команду <strong>Maven</strong>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="shell script">mvn site</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>В результате получим, примерно, следующий результат:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>[INFO] Scanning for projects...
+[INFO]
+[INFO] -----------------&lt; by.rakovets.example:example-maven &gt;------------------
+[INFO] Building example-maven 1.0-SNAPSHOT
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO]
+[INFO] --- maven-antrun-plugin:1.8:run (id.pre-site) @ example-maven ---
+[INFO] Executing tasks
+
+main:
+     [echo] pre-site phase
+[INFO] Executed tasks
+[INFO]
+[INFO] --- maven-site-plugin:3.9.1:site (default-site) @ example-maven ---
+[INFO] configuring report plugin org.apache.maven.plugins:maven-project-info-reports-plugin:3.1.2
+[INFO] 15 reports detected for maven-project-info-reports-plugin:3.1.2: ci-management, dependencies, dependency-info, dependency-management, distribution-management, index, issue-management, licenses, mailing-lists, modules, plugin-management, plugins, scm, summary, team
+[INFO] Rendering site with default locale English (en)
+[INFO] Rendering content with org.apache.maven.skins:maven-default-skin:jar:1.3 skin.
+[INFO] Generating "Dependency Information" report --- maven-project-info-reports-plugin:3.1.2:dependency-info
+[INFO] Generating "About" report         --- maven-project-info-reports-plugin:3.1.2:index
+[INFO] Generating "Plugin Management" report --- maven-project-info-reports-plugin:3.1.2:plugin-management
+[INFO] Generating "Plugins" report       --- maven-project-info-reports-plugin:3.1.2:plugins
+[INFO] Generating "Summary" report       --- maven-project-info-reports-plugin:3.1.2:summary
+[INFO]
+[INFO] --- maven-antrun-plugin:1.8:run (id.site) @ example-maven ---
+[INFO] Executing tasks
+
+main:
+     [echo] site phase
+[INFO] Executed tasks
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  1.694 s
+[INFO] Finished at: 2021-06-09T06:50:32+03:00
+[INFO] ------------------------------------------------------------------------</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_профиль_сборки">1.4. Профиль сборки</h3>
+<div class="paragraph">
+<p><strong>Профиль сборки</strong> – это множество настроек, которые могут быть использованы для установки или перезаписи стандартных значений сборки Maven. Используя <strong>профиль сборки</strong> <strong>Maven</strong>, можно настраивать сборку для различных окружений, таких как <strong>Разработка</strong> или <strong>Продакшн</strong>.</p>
+</div>
+<div class="paragraph">
+<p>Профили настраиваются в файле <code>pom.xml</code> с помощью элементов <code>activeProfiles</code>/<code>profiles</code> и запускаются различными методами. Профили изменяют файл <code>pom.xml</code> во время сборки и используются для передачи параметров различным целевым окружениям, например, в директорию сервера базы данных в продакшн, разработку и тестирования.</p>
+</div>
+<div class="sect3">
+<h4 id="_типы_профилей_сборки">1.4.1. Типы профилей сборки</h4>
+<div class="paragraph">
+<p>В Maven существует три основных типа профилей сборки:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Тип</th>
+<th class="tableblock halign-left valign-top">Описание</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Per Project</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Определяется в POM файле, <code>pom.xml</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Per User</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Определяется в настройках Maven – xml файл (<code>%USER_HOME%/.m2/settings.xml</code>)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Global</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Определяется в глобальных настройках – xml файл (<code>%M2_HOME%/conf/settings.xml</code>)</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_активация_профиля">1.4.2. Активация профиля</h4>
+<div class="paragraph">
+<p>Профиль сборки Maven может быть активирован различными способами:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Использованием команды в консоли</p>
+</li>
+<li>
+<p>С помощью настроек Maven</p>
+</li>
+<li>
+<p>С помощью переменных окружения</p>
+</li>
+<li>
+<p>Настройках ОС</p>
+</li>
+<li>
+<p>Существующими, отсутствующими файлами.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Для понимания того, как это работает на практике, рассмотрим следующий пример:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../../../assets/img/java/tools/maven/maven-tutorial-structure.webp" alt="Структура проекта">
+</div>
+<div class="title">Figure 1. Структура проекта</div>
+</div>
+<div class="paragraph">
+<p>В папке <code>scr/main/resources</code> находятся файлы для настройки трёх различных окружений:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Имя файла</th>
+<th class="tableblock halign-left valign-top">Описание</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>environment.production.properties</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Конфигурация продакшн. Когда используется профиль <code>production</code>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>environment.properties</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Стандартная конфигурация. Используется по умолчанию.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>environment.test.properties</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Тестовая конфигурация. Когда используется профиль <code>test</code>.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_явная_активация_профиля_команда_в_консоли">1.4.3. Явная активация профиля (команда в консоли)</h4>
+<div class="paragraph">
+<p>В примере, приведённом ниже будет прикреплена задача <code>maven-antrun-plugin:run</code> к фазе <code>test</code>. Это позволит получать текстовые сообщения для различных профилей. Используя файл <code>pom.xml</code> для определения различных профилей и активации различные профили с помощью команд в консоли.</p>
+</div>
+<div class="paragraph">
+<p>Пример:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="xml">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;project xmlns="http://maven.apache.org/POM/4.0.0"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+                http://maven.apache.org/xsd/maven-4.0.0.xsd"&gt;
+    &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;
+
+    &lt;groupId&gt;net.proselyte.maventutorial&lt;/groupId&gt;
+    &lt;artifactId&gt;MavenTutorial&lt;/artifactId&gt;
+    &lt;version&gt;1.0-SNAPSHOT&lt;/version&gt;
+    &lt;profiles&gt;
+        &lt;profile&gt;
+            &lt;id&gt;test&lt;/id&gt;
+            &lt;build&gt;
+                &lt;plugins&gt;
+                    &lt;plugin&gt;
+                        &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;
+                        &lt;artifactId&gt;maven-antrun-plugin&lt;/artifactId&gt;
+                        &lt;version&gt;1.1&lt;/version&gt;
+                        &lt;executions&gt;
+                            &lt;execution&gt;
+                                &lt;phase&gt;test&lt;/phase&gt;
+                                &lt;goals&gt;
+                                    &lt;goal&gt;run&lt;/goal&gt;
+                                &lt;/goals&gt;
+                                &lt;configuration&gt;
+                                    &lt;tasks&gt;
+                                        &lt;echo&gt;Using environment.test.properties&lt;/echo&gt;
+                                        &lt;copy file="src/main/resources/environment.test.properties" tofile
+                                                ="${project.build.outputDirectory}/environment.properties"/&gt;
+                                    &lt;/tasks&gt;
+                                &lt;/configuration&gt;
+                            &lt;/execution&gt;
+                        &lt;/executions&gt;
+                    &lt;/plugin&gt;
+                &lt;/plugins&gt;
+            &lt;/build&gt;
+        &lt;/profile&gt;
+    &lt;/profiles&gt;
+    &lt;dependencies&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;junit&lt;/groupId&gt;
+            &lt;artifactId&gt;junit&lt;/artifactId&gt;
+            &lt;version&gt;3.8.1&lt;/version&gt;
+            &lt;scope&gt;test&lt;/scope&gt;
+        &lt;/dependency&gt;
+    &lt;/dependencies&gt;
+&lt;/project&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Файлы:</p>
+</div>
+<div class="listingblock">
+<div class="title">environment.properties</div>
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="properties">environment=debug</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">environment.test.properties</div>
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="properties">environment=test</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">environment.production.properties</div>
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="properties">environment=production</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Выполним следующую команду в терминале:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="shell script">mvn test -Ptest</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>В результате получится, примерно, следующий результат:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>[INFO] Scanning for projects...
+[INFO]
+[INFO] ------------------------------------------------------------------------
+[INFO] Building MavenTutorial 1.0-SNAPSHOT
+[INFO] ------------------------------------------------------------------------
+[INFO]
+[INFO] --- maven-resources-plugin:2.3:resources (default-resources) @ MavenTutorial ---
+[WARNING] Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent!
+[INFO] Copying 3 resources
+[INFO]
+[INFO] --- maven-compiler-plugin:2.0.2:compile (default-compile) @ MavenTutorial ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO]
+[INFO] --- maven-resources-plugin:2.3:testResources (default-testResources) @ MavenTutorial ---
+[WARNING] Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent!
+[INFO] skip non existing resourceDirectory /home/proselyte/Programming/Projects/Proselyte/MavenTutorial/src/test/resources
+[INFO]
+[INFO] --- maven-compiler-plugin:2.0.2:testCompile (default-testCompile) @ MavenTutorial ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO]
+[INFO] --- maven-surefire-plugin:2.10:test (default-test) @ MavenTutorial ---
+[INFO] No tests to run.
+[INFO] Surefire report directory: /home/proselyte/Programming/Projects/Proselyte/MavenTutorial/target/surefire-reports
+
+-------------------------------------------------------
+ T E S T S
+-------------------------------------------------------
+
+Results :
+
+Tests run: 0, Failures: 0, Errors: 0, Skipped: 0
+
+[INFO]
+[INFO] --- maven-antrun-plugin:1.1:run (default) @ MavenTutorial ---
+[INFO] Executing tasks
+[echo] Using environment.test.properties
+[INFO] Executed tasks
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 1.163s
+[INFO] Finished at: Sun Mar 27 23:55:31 EEST 2016
+[INFO] Final Memory: 9M/212M
+[INFO] ------------------------------------------------------------------------</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Можно изменить путь к файлу и использовать такие команды:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="shell script">mvn test -Pnormal</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="shell script">mvn test -Pprod</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_активация_профиля_с_помощью_настроек_maven">1.4.4. Активация профиля с помощью настроек Maven</h4>
+<div class="paragraph">
+<p>Для начала нам необходимо открыть файл <code>settings.xml</code>, который находится в директории <code>%USER_HOME%/.m2</code>.</p>
+</div>
+<div class="paragraph">
+<p>Если файла там нет – его необходимо создать.</p>
+</div>
+<div class="paragraph">
+<p>Активация тестового профиля с помощью элемента <code>activeProfile</code>, как показано в примере ниже:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="xml">&lt;settings xmlns="http://maven.apache.org/POM/4.0.0"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+        http://maven.apache.org/xsd/settings-1.0.0.xsd"&gt;
+    &lt;mirrors&gt;
+        &lt;mirror&gt;
+            &lt;id&gt;maven.dev.snaponglobal.com&lt;/id&gt;
+            &lt;name&gt;Internal Artifactory Maven repository&lt;/name&gt;
+            &lt;url&gt;http://repo1.maven.org/maven2/&lt;/url&gt;
+            &lt;mirrorOf&gt;*&lt;/mirrorOf&gt;
+        &lt;/mirror&gt;
+    &lt;/mirrors&gt;
+    &lt;activeProfiles&gt;
+        &lt;activeProfile&gt;test&lt;/activeProfile&gt;
+    &lt;/activeProfiles&gt;
+&lt;/settings&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Теперь выполним команду:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="shell script">mvn test</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>[INFO] Scanning for projects...
+[INFO]
+[INFO] ------------------------------------------------------------------------
+[INFO] Building MavenTutorial 1.0-SNAPSHOT
+[INFO] ------------------------------------------------------------------------
+[INFO]
+[INFO] --- maven-resources-plugin:2.3:resources (default-resources) @ MavenTutorial ---
+[WARNING] Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent!
+[INFO] Copying 3 resources
+[INFO]
+[INFO] --- maven-compiler-plugin:2.0.2:compile (default-compile) @ MavenTutorial ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO]
+[INFO] --- maven-resources-plugin:2.3:testResources (default-testResources) @ MavenTutorial ---
+[WARNING] Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent!
+[INFO] skip non existing resourceDirectory /home/proselyte/Programming/Projects/Proselyte/MavenTutorial/src/test/resources
+[INFO]
+[INFO] --- maven-compiler-plugin:2.0.2:testCompile (default-testCompile) @ MavenTutorial ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO]
+[INFO] --- maven-surefire-plugin:2.10:test (default-test) @ MavenTutorial ---
+[INFO] No tests to run.
+[INFO] Surefire report directory: /home/proselyte/Programming/Projects/Proselyte/MavenTutorial/target/surefire-reports
+
+-------------------------------------------------------
+ T E S T S
+-------------------------------------------------------
+
+Results :
+
+Tests run: 0, Failures: 0, Errors: 0, Skipped: 0
+
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 1.089s
+[INFO] Finished at: Mon Mar 28 00:07:04 EEST 2016
+[INFO] Final Memory: 7M/150M
+[INFO] ------------------------------------------------------------------------</pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_активация_профиля_с_помощью_переменных_окружения">1.4.5. Активация профиля с помощью переменных окружения</h4>
+<div class="paragraph">
+<p>Необходимо удалить файл settings.xml, и изменить профиль <code>test</code> в файле <code>pom.xml</code>. Добавить элемент <code>activation</code>.</p>
+</div>
+<div class="paragraph">
+<p>Профиль <code>test</code> запустит системное свойство <code>environment</code>, которое определенно, как значение <code>test</code>.</p>
+</div>
+<div class="paragraph">
+<p>Пример:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="xml">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;project xmlns="http://maven.apache.org/POM/4.0.0"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"&gt;
+    &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;
+
+    &lt;groupId&gt;ProselyteTutorials&lt;/groupId&gt;
+    &lt;artifactId&gt;MavenTutorial&lt;/artifactId&gt;
+    &lt;version&gt;1.0-SNAPSHOT&lt;/version&gt;
+    &lt;profiles&gt;
+        &lt;profile&gt;
+            &lt;id&gt;test&lt;/id&gt;
+            &lt;activation&gt;
+                &lt;property&gt;
+                    &lt;name&gt;environment&lt;/name&gt;
+                    &lt;value&gt;test&lt;/value&gt;
+                &lt;/property&gt;
+            &lt;/activation&gt;
+        &lt;/profile&gt;
+    &lt;/profiles&gt;
+    &lt;dependencies&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;junit&lt;/groupId&gt;
+            &lt;artifactId&gt;junit&lt;/artifactId&gt;
+            &lt;version&gt;3.8.1&lt;/version&gt;
+            &lt;scope&gt;test&lt;/scope&gt;
+        &lt;/dependency&gt;
+    &lt;/dependencies&gt;
+&lt;/project&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Теперь выполним команду:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="shell script">mvn test</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>В результате будет получен, примерно, следующий результат:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>[INFO] Scanning for projects...
+[INFO]
+[INFO] ------------------------------------------------------------------------
+[INFO] Building MavenTutorial 1.0-SNAPSHOT
+[INFO] ------------------------------------------------------------------------
+[INFO]
+[INFO] --- maven-resources-plugin:2.3:resources (default-resources) @ MavenTutorial ---
+[WARNING] Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent!
+[INFO] Copying 3 resources
+[INFO]
+[INFO] --- maven-compiler-plugin:2.0.2:compile (default-compile) @ MavenTutorial ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO]
+[INFO] --- maven-resources-plugin:2.3:testResources (default-testResources) @ MavenTutorial ---
+[WARNING] Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent!
+[INFO] skip non existing resourceDirectory /home/proselyte/Programming/Projects/Proselyte/MavenTutorial/src/test/resources
+[INFO]
+[INFO] --- maven-compiler-plugin:2.0.2:testCompile (default-testCompile) @ MavenTutorial ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO]
+[INFO] --- maven-surefire-plugin:2.10:test (default-test) @ MavenTutorial ---
+[INFO] No tests to run.
+[INFO] Surefire report directory: /home/proselyte/Programming/Projects/Proselyte/MavenTutorial/target/surefire-reports
+
+-------------------------------------------------------
+ T E S T S
+-------------------------------------------------------
+
+Results :
+
+Tests run: 0, Failures: 0, Errors: 0, Skipped: 0
+
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 1.234s
+[INFO] Finished at: Mon Mar 28 00:14:57 EEST 2016
+[INFO] Final Memory: 8M/212M
+[INFO] ------------------------------------------------------------------------</pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_активация_профиля_с_помощью_ос">1.4.6. Активация профиля с помощью ОС</h4>
+<div class="paragraph">
+<p>Для активации профиля с помощью ОС необходимо изменить тип активации в файле <code>pom.xml</code> на следующий:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="xml">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;project xmlns="http://maven.apache.org/POM/4.0.0"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"&gt;
+&lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;
+
+    &lt;groupId&gt;ProselyteTutorials&lt;/groupId&gt;
+    &lt;artifactId&gt;MavenTutorial&lt;/artifactId&gt;
+    &lt;version&gt;1.0-SNAPSHOT&lt;/version&gt;
+    &lt;profiles&gt;
+        &lt;profile&gt;
+            &lt;id&gt;test&lt;/id&gt;
+            &lt;activation&gt;
+                &lt;os&gt;
+                    &lt;name&gt;Ubuntu&lt;/name&gt;
+                    &lt;family&gt;Linux&lt;/family&gt;
+                    &lt;arch&gt;x64&lt;/arch&gt;
+                    &lt;version&gt;14.044 LTS&lt;/version&gt;
+                &lt;/os&gt;
+            &lt;/activation&gt;
+        &lt;/profile&gt;
+    &lt;/profiles&gt;
+    &lt;dependencies&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;junit&lt;/groupId&gt;
+            &lt;artifactId&gt;junit&lt;/artifactId&gt;
+            &lt;version&gt;3.8.1&lt;/version&gt;
+            &lt;scope&gt;test&lt;/scope&gt;
+        &lt;/dependency&gt;
+    &lt;/dependencies&gt;
+&lt;/project&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Выполнить команду:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="shell script">mvn test</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>В результате будет получен, примерно, следующий результат:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>[INFO] Scanning for projects...
+[INFO]
+[INFO] ------------------------------------------------------------------------
+[INFO] Building MavenTutorial 1.0-SNAPSHOT
+[INFO] ------------------------------------------------------------------------
+[INFO]
+[INFO] --- maven-resources-plugin:2.3:resources (default-resources) @ MavenTutorial ---
+[WARNING] Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent!
+[INFO] Copying 3 resources
+[INFO]
+[INFO] --- maven-compiler-plugin:2.0.2:compile (default-compile) @ MavenTutorial ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO]
+[INFO] --- maven-resources-plugin:2.3:testResources (default-testResources) @ MavenTutorial ---
+[WARNING] Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent!
+[INFO] skip non existing resourceDirectory /home/proselyte/Programming/Projects/Proselyte/MavenTutorial/src/test/resources
+[INFO]
+[INFO] --- maven-compiler-plugin:2.0.2:testCompile (default-testCompile) @ MavenTutorial ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO]
+[INFO] --- maven-surefire-plugin:2.10:test (default-test) @ MavenTutorial ---
+[INFO] No tests to run.
+[INFO] Surefire report directory: /home/proselyte/Programming/Projects/Proselyte/MavenTutorial/target/surefire-reports
+
+-------------------------------------------------------
+ T E S T S
+-------------------------------------------------------
+
+Results :
+
+Tests run: 0, Failures: 0, Errors: 0, Skipped: 0
+
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 1.097s
+[INFO] Finished at: Mon Mar 28 00:21:13 EEST 2016
+[INFO] Final Memory: 7M/150M
+[INFO] ------------------------------------------------------------------------</pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_активация_с_помощью_присутствующих_или_отсутствующих_файлов">1.4.7. Активация с помощью присутствующих или отсутствующих файлов</h4>
+<div class="paragraph">
+<p>В примере, приведённом ниже, активация профиля произойдёт в случае отсутствия <code>target/generated-sources/some/dir/net/proselyte/maven</code></p>
+</div>
+<div class="paragraph">
+<p>Пример:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="xml">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;project xmlns="http://maven.apache.org/POM/4.0.0"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"&gt;
+    &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;
+
+    &lt;groupId&gt;ProselyteTutorials&lt;/groupId&gt;
+    &lt;artifactId&gt;MavenTutorial&lt;/artifactId&gt;
+    &lt;version&gt;1.0-SNAPSHOT&lt;/version&gt;
+    &lt;profiles&gt;
+        &lt;profile&gt;
+            &lt;id&gt;test&lt;/id&gt;
+            &lt;activation&gt;
+                &lt;file&gt;
+                    &lt;missing&gt;target/generated-sources/some/dir/net/proselyte/maven&lt;/missing&gt;
+                &lt;/file&gt;
+            &lt;/activation&gt;
+        &lt;/profile&gt;
+    &lt;/profiles&gt;
+    &lt;dependencies&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;junit&lt;/groupId&gt;
+            &lt;artifactId&gt;junit&lt;/artifactId&gt;
+            &lt;version&gt;3.8.1&lt;/version&gt;
+            &lt;scope&gt;test&lt;/scope&gt;
+        &lt;/dependency&gt;
+    &lt;/dependencies&gt;
+&lt;/project&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Выполнить команду:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="shell script">mvn test</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>В результате будет получен, примерно, следующий результат:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>[INFO] Scanning for projects...
+[INFO]
+[INFO] ------------------------------------------------------------------------
+[INFO] Building MavenTutorial 1.0-SNAPSHOT
+[INFO] ------------------------------------------------------------------------
+[INFO]
+[INFO] --- maven-resources-plugin:2.3:resources (default-resources) @ MavenTutorial ---
+[WARNING] Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent!
+[INFO] Copying 3 resources
+[INFO]
+[INFO] --- maven-compiler-plugin:2.0.2:compile (default-compile) @ MavenTutorial ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO]
+[INFO] --- maven-resources-plugin:2.3:testResources (default-testResources) @ MavenTutorial ---
+[WARNING] Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent!
+[INFO] skip non existing resourceDirectory /home/proselyte/Programming/Projects/Proselyte/MavenTutorial/src/test/resources
+[INFO]
+[INFO] --- maven-compiler-plugin:2.0.2:testCompile (default-testCompile) @ MavenTutorial ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO]
+[INFO] --- maven-surefire-plugin:2.10:test (default-test) @ MavenTutorial ---
+[INFO] No tests to run.
+[INFO] Surefire report directory: /home/proselyte/Programming/Projects/Proselyte/MavenTutorial/target/surefire-reports
+
+-------------------------------------------------------
+ T E S T S
+-------------------------------------------------------
+
+Results :
+
+Tests run: 0, Failures: 0, Errors: 0, Skipped: 0
+
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 1.090s
+[INFO] Finished at: Mon Mar 28 00:23:45 EEST 2016
+[INFO] Final Memory: 8M/212M
+[INFO] ------------------------------------------------------------------------</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_репозитории">1.5. Репозитории.</h3>
+<div class="paragraph">
+<p>При работе с <strong>Maven</strong> под <strong>репозиторием</strong> мы понимаем директорию, где хранятся все <strong>JAR</strong>, библиотеки, плагины и любые артефакты, которыми <strong>Maven</strong> может воспользоваться.</p>
+</div>
+<div class="paragraph">
+<p>Существует <strong>три типа репозиториев</strong> <strong>Maven</strong>:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>local</strong> (<strong>локальные</strong>)</p>
+</li>
+<li>
+<p><strong>central</strong> (<strong>центральные</strong>)</p>
+</li>
+<li>
+<p><strong>remote</strong> (<strong>удалённые</strong>)</p>
+</li>
+</ul>
+</div>
+<div class="sect3">
+<h4 id="_локальные_репозитории">1.5.1. Локальные репозитории</h4>
+<div class="paragraph">
+<p><strong>Локальный репозиторий</strong> – это директория, которая хранится на локальном компьютере (т.е. компьютере пользователя). Она создаётся в момент первого выполнения любой команды <strong>Maven</strong>.</p>
+</div>
+<div class="paragraph">
+<p><strong>Локальный репозиторий</strong> <strong>Maven</strong> хранит все зависимости проекта (библиотеки, плагины и т.д.). Когда выполняется сборка проекта с помощью <strong>Maven</strong>, то все <strong>зависимости</strong> (их JAR-файлы) автоматически загружаются в <strong>локальный репозиторий</strong>. Это помогает избежать использование ссылок на удалённый репозиторий при каждой сборке проекта.</p>
+</div>
+<div class="paragraph">
+<p>По умолчанию, <strong>локальный репозиторий</strong> создаётся <strong>Maven</strong> в директории <code>$HOME</code>/<code>%USER_HOME%</code>. Для того, что бы изменить директорию необходимо указать её в файле <code>settings.xml</code>, который находится в директории <code>$M2_HOME/conf</code>/<code>%M2_HOME%\conf</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="xml">&lt;settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0
+        http://maven.apache.org/xsd/settings-1.0.0.xsd"&gt;
+    &lt;localRepository&gt;/home/Documents/MyLocalRepository&lt;/localRepository&gt;
+&lt;/settings&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Когда выполнить команду <code>run</code> <strong>Maven</strong>, то все зависимости будут автоматически загружены в локальный репозиторий.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_центральный_репозиторий">1.5.2. Центральный репозиторий</h4>
+<div class="paragraph">
+<p><strong>Центральный репозиторий</strong> <strong>Maven</strong> – это репозиториий, который обеспечивается сообществом <strong>Maven</strong>. Он содержит огромное количество часто используемых библиотек.</p>
+</div>
+<div class="paragraph">
+<p>Если <strong>Maven</strong> не может найти зависимости в локальном репозитории, то автоматически начинается поиск необходимых файлов в <strong>центральном репозитории</strong> по этому адресу: <a href="https://repo1.maven.org/maven2/" class="bare">https://repo1.maven.org/maven2/</a>.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_удалённый_репозиторий">1.5.3. Удалённый репозиторий</h4>
+<div class="paragraph">
+<p>Иногда, <strong>Maven</strong> не может найти необходимые зависимости в <strong>центральном репозитории</strong>. В этом случае, процесс сборки прерывается и в консоль выводится сообщение об ошибке.</p>
+</div>
+<div class="paragraph">
+<p>Для того, что бы предотвратить подобную ситуацию, в <strong>Maven</strong> предусмотрен механизм <strong>Удалённого репозитория</strong>, который является репозиторием определяемым самим разработчиком. Там могут храниться все необходимые зависимости.</p>
+</div>
+<div class="paragraph">
+<p>Для того, что бы настроить удалённый репозиторий, необходимо внести следующие изменения в файл <code>pom.xml</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="xml">&lt;project xmlns="http://maven.apache.org/POM/4.0.0"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+        http://maven.apache.org/xsd/maven-4.0.0.xsd"&gt;
+    &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;
+    &lt;groupId&gt;com.companyname.projectgroup&lt;/groupId&gt;
+    &lt;artifactId&gt;Tutorials&lt;/artifactId&gt;
+    &lt;version&gt;1.0&lt;/version&gt;
+
+    &lt;dependencies&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;net.proselyte.private-lib&lt;/groupId&gt;
+            &lt;artifactId&gt;private-lib&lt;/artifactId&gt;
+            &lt;version&gt;1.0.0&lt;/version&gt;
+        &lt;/dependency&gt;
+    &lt;/dependencies&gt;
+
+    &lt;repositories&gt;
+        &lt;repository&gt;
+            &lt;id&gt;lib1&lt;/id&gt;
+            &lt;url&gt;http://download.example.com/maven2/lib1&lt;/url&gt;
+        &lt;/repository&gt;
+        &lt;repository&gt;
+            &lt;id&gt;lib2&lt;/id&gt;
+            &lt;url&gt;http://download.example.com/maven2/lib2&lt;/url&gt;
+        &lt;/repository&gt;
+    &lt;/repositories&gt;
+&lt;/project&gt;</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_порядок_поиска_зависимостей_maven">1.5.4. Порядок поиска зависимостей Maven</h4>
+<div class="paragraph">
+<p>Когда выполняется сборка проекта в <strong>Maven</strong>, автоматически начинается поиск необходимых зависимостей в следующем порядке:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Поиск зависимостей в <strong>локальном репозитории</strong>. Если зависимости не обнаружены, происходит переход к шагу 2.</p>
+</li>
+<li>
+<p>Поиск зависимостей в <strong>центральном репозитории</strong>. Если они не обнаружены и <strong>удалённый репозиторий</strong> определён, то происходит переход к шагу 4.</p>
+</li>
+<li>
+<p>Если <strong>удалённый репозиторий</strong> не определён, то процесс сборки прекращается и выводится сообщение об ошибке.</p>
+</li>
+<li>
+<p>Поиск зависимостей на <strong>удалённом репозитории</strong>, если они найдены, то происходит их загрузка в <strong>локальный репозиторий</strong>, если нет – выводится сообщение об ошибке.</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_плагины">1.6. Плагины</h3>
+<div class="paragraph">
+<p>Если говорить в целом, то <strong>Maven</strong> – это фреймворк, который выполняет плагины. В этом фреймворке каждая задача, по сути своей, выполняется с помощью <strong>плагинов</strong>.</p>
+</div>
+<div class="paragraph">
+<p><strong>Плагины</strong> <strong>Maven</strong> используются для:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>создания jar – файла</strong></p>
+</li>
+<li>
+<p><strong>создания war – файла</strong></p>
+</li>
+<li>
+<p><strong>компиляции кода файлов</strong></p>
+</li>
+<li>
+<p><strong>юнит-тестирования кода</strong></p>
+</li>
+<li>
+<p><strong>создание отчётов проекта</strong></p>
+</li>
+<li>
+<p><strong>создание документации проекта</strong></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>В общей форме, <strong>плагин</strong> обеспечивает набор целей, которые могут быть выполнены с помощью такого синтаксиса:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="shell script">mvn [имя-плагина]:[имя-цели]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Например, для того, чтобы выполнить компиляцию проекта, необходимо использовать следующую команду:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="shell script">mvn compiler:compile</code></pre>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_типы_плагинов">1.6.1. Типы плагинов</h4>
+<div class="paragraph">
+<p>Существует два типа плагинов в Maven:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Плагины сборки</strong><br>
+Выполняются в процессе сборки и должны быть конфигурированы внутри блока <code>&lt;build&gt;&lt;/build&gt;</code> файла <code>pom.xml</code></p>
+</li>
+<li>
+<p><strong>Плагины отчётов</strong><br>
+Выполняются в процесса генерирования сайта и должны быть конфигурированы внутри блока <code>&lt;reporting&gt;&lt;/reporting&gt;</code> файла <code>pom.xml</code>.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Вот список, наиболее используемых плагинов:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>clean</strong><br>
+Очищает цель после сборки. Удаляет директорию <code>target</code>.</p>
+</li>
+<li>
+<p><strong>compiler</strong><br>
+Компилирует исходные <strong>Java</strong> файлы.</p>
+</li>
+<li>
+<p><strong>surefire</strong><br>
+Запускает тесты <strong>JUnit</strong>. Создаёт отчёты о тестировании.</p>
+</li>
+<li>
+<p><strong>jar</strong><br>
+Собирает <strong>JAR</strong> файл текущего проекта.</p>
+</li>
+<li>
+<p><strong>war</strong><br>
+Собирает <strong>WAR</strong> файл текущего проекта.</p>
+</li>
+<li>
+<p><strong>javadoc</strong><br>
+Генерирует <strong>Javadoc</strong> проекта.</p>
+</li>
+<li>
+<p><strong>antrun</strong><br>
+Запускает набор задач <strong>ant</strong> из любой указанной фазы.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Для понимания того, как это работает на практике, рассмотрим следующий пример:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="xml">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"&gt;
+    &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;
+
+    &lt;groupId&gt;ProselyteTutorials&lt;/groupId&gt;
+    &lt;artifactId&gt;MavenTutorial&lt;/artifactId&gt;
+    &lt;version&gt;1.0-SNAPSHOT&lt;/version&gt;
+    &lt;profiles&gt;
+        &lt;profile&gt;
+            &lt;id&gt;test&lt;/id&gt;
+            &lt;activation&gt;
+                &lt;file&gt;
+                    &lt;missing&gt;target/generated-sources/some/dir/net/proselyte/maven&lt;/missing&gt;
+                &lt;/file&gt;
+            &lt;/activation&gt;
+        &lt;/profile&gt;
+    &lt;/profiles&gt;
+    &lt;dependencies&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;junit&lt;/groupId&gt;
+            &lt;artifactId&gt;junit&lt;/artifactId&gt;
+            &lt;version&gt;3.8.1&lt;/version&gt;
+            &lt;scope&gt;test&lt;/scope&gt;
+        &lt;/dependency&gt;
+    &lt;/dependencies&gt;
+    &lt;build&gt;
+        &lt;plugins&gt;
+            &lt;plugin&gt;
+                &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;
+                &lt;artifactId&gt;maven-antrun-plugin&lt;/artifactId&gt;
+                &lt;version&gt;1.1&lt;/version&gt;
+                &lt;executions&gt;
+                    &lt;execution&gt;
+                        &lt;id&gt;id.clean&lt;/id&gt;
+                        &lt;phase&gt;compile&lt;/phase&gt;
+                        &lt;goals&gt;
+                            &lt;goal&gt;run&lt;/goal&gt;
+                        &lt;/goals&gt;
+                        &lt;configuration&gt;
+                            &lt;tasks&gt;
+                                &lt;echo&gt;compile phase&lt;/echo&gt;
+                            &lt;/tasks&gt;
+                        &lt;/configuration&gt;
+                    &lt;/execution&gt;
+                &lt;/executions&gt;
+            &lt;/plugin&gt;
+        &lt;/plugins&gt;
+    &lt;/build&gt;
+&lt;/project&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>После этого выполним в терминале следующую команду:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="shell script">mvn compile</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>В результате выполнения команды, получим, примерно, следующий результат:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>[INFO] Scanning for projects...
+[INFO]
+[INFO] ------------------------------------------------------------------------
+[INFO] Building MavenTutorial 1.0-SNAPSHOT
+[INFO] ------------------------------------------------------------------------
+[INFO]
+[INFO] --- maven-resources-plugin:2.3:resources (default-resources) @ MavenTutorial ---
+[WARNING] Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent!
+[INFO] Copying 3 resources
+[INFO]
+[INFO] --- maven-compiler-plugin:2.0.2:compile (default-compile) @ MavenTutorial ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO]
+[INFO] --- maven-antrun-plugin:1.1:run (id.clean) @ MavenTutorial ---
+[INFO] Executing tasks
+[echo] compile phase
+[INFO] Executed tasks
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 0.620s
+[INFO] Finished at: Wed Apr 27 16:21:41 EEST 2016
+[INFO] Final Memory: 6M/150M
+[INFO] ------------------------------------------------------------------------</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Пример, приведённый выше, демонстрирует следующие ключевые концепции:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Плагины указываются в файле <code>pom.xml</code> внутри блока <code>&lt;plugins&gt;&lt;/plugins&gt;</code>.</p>
+</li>
+<li>
+<p>Каждый плагин может иметь несколько целей.</p>
+</li>
+<li>
+<p>Можно определять фазу, из которой можно начать выполнение плагина. В примере выше использовалась фаза <strong>compile</strong>.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_создание_проекта">1.7. Создание проекта.</h3>
+<div class="paragraph">
+<p>Для создания проекта, <strong>Maven</strong> использует <strong>архитипы</strong>. Для создания простого Java приложения, будет использоваться плагин <code>mvn-archetype-quickstart</code>. В примере, приведённом ниже, будет создано Java приложение с использованием Maven в директории <code>/home/proselyte/Programming/Projects/Proselyte/MavenSimpleProject</code>.</p>
+</div>
+<div class="paragraph">
+<p>Для этого нам необходимо открыть терминал и после перехода в необходимую нам директорию выполнить следующую команду:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="shell script">mvn archetype:generate
+    -DgroupId=net.proselyte.mavensimple
+    -DartifactId=javaStudent
+    -DarchetypeArtifactId=maven-archetype-quickstart
+    -DinteractiveMode=false</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>В результате получим, примерно, следующий результат:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>[INFO] Scanning for projects...
+[INFO]
+[INFO] ------------------------------------------------------------------------
+[INFO] Building Maven Stub Project (No POM) 1
+[INFO] ------------------------------------------------------------------------
+[INFO]
+[INFO] &gt;&gt;&gt; maven-archetype-plugin:2.4:generate (default-cli) @ standalone-pom &gt;&gt;&gt;
+[INFO]
+[INFO] &lt;&lt;&lt; maven-archetype-plugin:2.4:generate (default-cli) @ standalone-pom &lt;&lt;&lt;
+[INFO]
+[INFO] --- maven-archetype-plugin:2.4:generate (default-cli) @ standalone-pom ---
+[INFO] Generating project in Batch mode
+[INFO] ----------------------------------------------------------------------------
+[INFO] Using following parameters for creating project from Old (1.x) Archetype: maven-archetype-quickstart:1.0
+[INFO] ----------------------------------------------------------------------------
+[INFO] Parameter: basedir, Value: /home/proselyte/Programming/Projects/Proselyte/MavenSimpleProject
+[INFO] Parameter: package, Value: net.proselyte.mavensimple
+[INFO] Parameter: groupId, Value: net.proselyte.mavensimple
+[INFO] Parameter: artifactId, Value: javaStudent
+[INFO] Parameter: packageName, Value: net.proselyte.mavensimple
+[INFO] Parameter: version, Value: 1.0-SNAPSHOT
+[INFO] project created from Old (1.x) Archetype in dir: /home/proselyte/Programming/Projects/Proselyte/MavenSimpleProject/javaStudent
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 4.927s
+[INFO] Finished at: Wed Apr 27 16:40:50 EEST 2016
+[INFO] Final Memory: 14M/222M
+[INFO] ------------------------------------------------------------------------</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>В указанной директории будет директория <code>javaStudent</code>, внутри которой находится директория <code>src</code> и файл <code>pom.xml</code></p>
+</div>
+<div class="paragraph">
+<p>Перейдя в директорию <code>src/main/java</code> можно увидеть исходные файлы приложения, а в директории <code>src/main/test</code> – тесты.</p>
+</div>
+<div class="listingblock">
+<div class="title">Класс <code>App.java</code></div>
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="java">package net.proselyte.mavensimple;
+
+/**
+* Hello world!
+*
+*/
+public class App {
+    public static void main( String[] args ) {
+        System.out.println( "Hello World!" );
+    }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Класс <code>AppTest.java</code></div>
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="java">package net.proselyte.mavensimple;
+
+import junit.framework.Test;
+import junit.framework.TestCase;
+import junit.framework.TestSuite;
+
+/**
+* Unit test for simple App.
+*/
+public class AppTest extends TestCase {
+    /**
+    * Create the test case
+    *
+    * @param testName name of the test case
+    */
+    public AppTest(String testName) {
+        super(testName);
+    }
+
+    /**
+     * @return the suite of tests being tested
+     */
+    public static Test suite() {
+        return new TestSuite(AppTest.class);
+    }
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_сборка_и_тестирование_проекта">1.8. Сборка и тестирование проекта.</h3>
+<div class="paragraph">
+<p>Рассмотрим, как собрать и протестировать приложение с помощью <strong>Maven</strong>.</p>
+</div>
+<div class="listingblock">
+<div class="title"><code>pom.xml</code></div>
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="xml">&lt;project xmlns="http://maven.apache.org/POM/4.0.0"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"&gt;
+    &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;
+    &lt;groupId&gt;com.example.mavensimple&lt;/groupId&gt;
+    &lt;artifactId&gt;javaStudent&lt;/artifactId&gt;
+    &lt;packaging&gt;jar&lt;/packaging&gt;
+    &lt;version&gt;1.0-SNAPSHOT&lt;/version&gt;
+    &lt;name&gt;javaStudent&lt;/name&gt;
+    &lt;url&gt;http://maven.apache.org&lt;/url&gt;
+
+    &lt;dependencies&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;junit&lt;/groupId&gt;
+            &lt;artifactId&gt;junit&lt;/artifactId&gt;
+            &lt;version&gt;3.8.1&lt;/version&gt;
+            &lt;scope&gt;test&lt;/scope&gt;
+        &lt;/dependency&gt;
+    &lt;/dependencies&gt;
+&lt;/project&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Видно, что <strong>Maven</strong> автоматически добавил зависимости <strong>JUnit</strong> в проект.</p>
+</div>
+<div class="paragraph">
+<p>В терминале перейдём в директорию проекта <code>javaStudent</code> и запустим следующую команду:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="shell script">mvn clean package</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>В результате получим следующий результат:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>[INFO] Scanning for projects...
+
+[INFO]
+[INFO] ------------------------------------------------------------------------
+[INFO] Building javaStudent 1.0-SNAPSHOT
+[INFO] ------------------------------------------------------------------------
+[INFO]
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ javaStudent ---
+[INFO] Deleting /home/proselyte/Programming/Projects/Proselyte/MavenSimpleProject/javaStudent/target
+[INFO]
+[INFO] --- maven-resources-plugin:2.3:resources (default-resources) @ javaStudent ---
+[WARNING] Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent!
+[INFO] skip non existing resourceDirectory /home/proselyte/Programming/Projects/Proselyte/MavenSimpleProject/javaStudent/src/main/resources
+[INFO]
+[INFO] --- maven-compiler-plugin:2.0.2:compile (default-compile) @ javaStudent ---
+[INFO] Compiling 1 source file to /home/proselyte/Programming/Projects/Proselyte/MavenSimpleProject/javaStudent/target/classes
+[INFO]
+[INFO] --- maven-resources-plugin:2.3:testResources (default-testResources) @ javaStudent ---
+[WARNING] Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent!
+[INFO] skip non existing resourceDirectory /home/proselyte/Programming/Projects/Proselyte/MavenSimpleProject/javaStudent/src/test/resources
+[INFO]
+[INFO] --- maven-compiler-plugin:2.0.2:testCompile (default-testCompile) @ javaStudent ---
+[INFO] Compiling 1 source file to /home/proselyte/Programming/Projects/Proselyte/MavenSimpleProject/javaStudent/target/test-classes
+[INFO]
+[INFO] --- maven-surefire-plugin:2.10:test (default-test) @ javaStudent ---
+[INFO] Surefire report directory: /home/proselyte/Programming/Projects/Proselyte/MavenSimpleProject/javaStudent/target/surefire-reports
+
+-------------------------------------------------------
+ T E S T S
+-------------------------------------------------------
+
+Running net.proselyte.mavensimple.AppTest Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.018 sec
+
+Results :
+
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0
+
+[INFO]
+[INFO] --- maven-jar-plugin:2.2:jar (default-jar) @ javaStudent ---
+[INFO] Building jar: /home/proselyte/Programming/Projects/Proselyte/MavenSimpleProject/javaStudent/target/javaStudent-1.0-SNAPSHOT.jar
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 2.071s
+[INFO] Finished at: Wed Apr 27 17:04:01 EEST 2016
+[INFO] Final Memory: 19M/190M
+[INFO] ------------------------------------------------------------------------</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Теперь попробуем запустить наше приложение. Для этого выполним в терминале следующую команду:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="shell script">cd target/classes</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>А затем следующую:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="shell script">java com.example.mavensimple.App</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>В результате получим, следующий результат:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>/* Some system messages */
+Hello World!</pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_внешние_зависимости">1.9. Внешние зависимости</h3>
+<div class="paragraph">
+<p>Ранее мы уже изучали управление зависимостями с помощью репозиториев. Но что, если необходимые файлы не найдены ни в центральном, ни на удалённом репозитории? Для решения этой проблемы используются внешние зависимости.</p>
+</div>
+<div class="paragraph">
+<p>Рассмотрим такой пример.</p>
+</div>
+<div class="paragraph">
+<p>Добавить в директорию проекта <code>src</code> директорию <code>lib</code>.</p>
+</div>
+<div class="paragraph">
+<p>Добавить в эту директорию любой <strong>jar</strong> файл. Например, <code>someJar.jar</code>.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../../../assets/img/java/tools/maven/external-dependencies.webp" alt="External dependencies">
+</div>
+</div>
+<div class="paragraph">
+<p>Теперь в проекте есть jar-файл.</p>
+</div>
+<div class="paragraph">
+<p>Для того, что бы <strong>Maven</strong> обрабатывал этот пакет, необходимо внести следующие изменения в файл <code>pom.xml</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="xml">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;project xmlns="http://maven.apache.org/POM/4.0.0"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"&gt;
+    &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;
+
+    &lt;groupId&gt;ProselyteTutorials&lt;/groupId&gt;
+    &lt;artifactId&gt;MavenTutorial&lt;/artifactId&gt;
+    &lt;version&gt;1.0-SNAPSHOT&lt;/version&gt;
+    &lt;profiles&gt;
+        &lt;profile&gt;
+            &lt;id&gt;test&lt;/id&gt;
+            &lt;activation&gt;
+                &lt;file&gt;
+                    &lt;missing&gt;target/generated-sources/some/dir/net/proselyte/maven&lt;/missing&gt;
+                &lt;/file&gt;
+            &lt;/activation&gt;
+        &lt;/profile&gt;
+    &lt;/profiles&gt;
+    &lt;dependencies&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;junit&lt;/groupId&gt;
+            &lt;artifactId&gt;junit&lt;/artifactId&gt;
+            &lt;version&gt;3.8.1&lt;/version&gt;
+            &lt;scope&gt;test&lt;/scope&gt;
+        &lt;/dependency&gt;
+
+        &lt;!-- External dependency --&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;someJar&lt;/groupId&gt;
+            &lt;artifactId&gt;someJar&lt;/artifactId&gt;
+            &lt;scope&gt;system&lt;/scope&gt;
+            &lt;version&gt;1.0&lt;/version&gt;
+            &lt;systemPath&gt;/home/proselyte/Programming/Projects/Proselyte/MavenTutorial/src/lib/someJar.jar&lt;/systemPath&gt;
+        &lt;/dependency&gt;
+
+    &lt;/dependencies&gt;
+    &lt;build&gt;
+        &lt;plugins&gt;
+            &lt;plugin&gt;
+                &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;
+                &lt;artifactId&gt;maven-antrun-plugin&lt;/artifactId&gt;
+                &lt;version&gt;1.1&lt;/version&gt;
+                &lt;executions&gt;
+                    &lt;execution&gt;
+                        &lt;id&gt;id.clean&lt;/id&gt;
+                        &lt;phase&gt;compile&lt;/phase&gt;
+                        &lt;goals&gt;
+                            &lt;goal&gt;run&lt;/goal&gt;
+                        &lt;/goals&gt;
+                        &lt;configuration&gt;
+                            &lt;tasks&gt;
+                                &lt;echo&gt;compile phase&lt;/echo&gt;
+                            &lt;/tasks&gt;
+                        &lt;/configuration&gt;
+                    &lt;/execution&gt;
+                &lt;/executions&gt;
+            &lt;/plugin&gt;
+        &lt;/plugins&gt;
+    &lt;/build&gt;
+&lt;/project&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Изучив данный <code>pom.xml</code> файл можно сделать несколько выводов по поводу ключевых аспектов внешних зависимостей:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>внешние зависимости могут быть конфигурированы в файле <code>pom.xml</code> таким же образом, как и другие зависимости.</p>
+</li>
+<li>
+<p>определите <code>groupId</code> таким же именем, как и имя файла.</p>
+</li>
+<li>
+<p>определите <code>artifactId</code> таким же именем, как и имя файла.</p>
+</li>
+<li>
+<p>определите область видимости зависимости, как <code>system</code>.</p>
+</li>
+<li>
+<p>укажите абсолютный путь к файлу.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_documenting_the_project">1.10. Documenting the project</h3>
+<div class="paragraph">
+<p>Чтобы создать документацию проекта, необходимо перейти в директорию нашего проекта и выполнить в терминале следующую команду:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="shell script">mvn site</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>В результате получим примерно следующий результат:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>[INFO] Scanning for projects...
+[WARNING]
+[WARNING] Some problems were encountered while building the effective model for ProselyteTutorials:MavenTutorial:jar:1.0-SNAPSHOT
+[WARNING] 'dependencies.dependency.systemPath' for someJar:someJar:jar should use a variable instead of a hard-coded path /home/proselyte/Programming/Projects/Proselyte/MavenTutorial/src/lib/someJar.jar @ line 34, column 25
+[WARNING]
+[WARNING] It is highly recommended to fix these problems because they threaten the stability of your build.
+[WARNING]
+[WARNING] For this reason, future Maven versions might no longer support building such malformed projects.
+[WARNING]
+[INFO]
+[INFO] ------------------------------------------------------------------------
+[INFO] Building MavenTutorial 1.0-SNAPSHOT
+[INFO] ------------------------------------------------------------------------
+[INFO]
+[INFO] --- maven-site-plugin:3.0:site (default-site) @ MavenTutorial ---
+[WARNING] Report plugin org.apache.maven.plugins:maven-project-info-reports-plugin has an empty version.
+[WARNING]
+[WARNING] It is highly recommended to fix these problems because they threaten the stability of your build.
+[WARNING]
+[WARNING] For this reason, future Maven versions might no longer support building such malformed projects.
+[INFO] configuring report plugin org.apache.maven.plugins:maven-project-info-reports-plugin:2.9
+[WARNING] No project URL defined - decoration links will not be relativized!
+[INFO] Rendering site with org.apache.maven.skins:maven-default-skin:jar:1.0 skin.
+[INFO] Generating "Dependencies" report    --- maven-project-info-reports-plugin:2.9
+[WARNING] Artifact someJar:someJar:jar:1.0 has no file and won't be listed in dependency files details.
+[INFO] Generating "Dependency Convergence" report    --- maven-project-info-reports-plugin:2.9
+[INFO] Generating "Dependency Information" report    --- maven-project-info-reports-plugin:2.9
+[INFO] Generating "About" report    --- maven-project-info-reports-plugin:2.9
+[INFO] Generating "Plugin Management" report    --- maven-project-info-reports-plugin:2.9
+[INFO] Generating "Plugins" report    --- maven-project-info-reports-plugin:2.9
+[INFO] Generating "Summary" report    --- maven-project-info-reports-plugin:2.9
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 3.320s
+[INFO] Finished at: Wed Apr 27 18:13:58 EEST 2016
+[INFO] Final Memory: 17M/260M
+[INFO] ------------------------------------------------------------------------</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>После этого перейдём в директорию <em>target/site</em> и откроем файл <em>index.html</em>.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../../../assets/img/java/tools/maven/maven-documentation-example.png" alt="Окно создания информации о проекте">
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Maven</strong> создаёт документацию с помощью механизма <strong>documentation-processing</strong>, который называется <strong>Doxia</strong>, который считывает различные форматы в один документ.</p>
+</div>
+<div class="paragraph">
+<p>Можно более подробно ознакомиться с <strong>Doxia</strong> перейдя по следующей ссылке:
+<a href="http://maven.apache.org/doxia/index.html">Project 'Doxia'</a>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_шаблоны_проектов">1.11. Шаблоны проектов</h3>
+<div class="paragraph">
+<p>Wiki for Maven</p>
+</div>
+<div class="sect3">
+<h4 id="_архитип">1.11.1. Архитип</h4>
+<div class="paragraph">
+<p><strong>Архитип</strong> – это плагин <strong>Maven</strong>, задача которого состоит в создании структуры проекта по определённому шаблону. Рассмотрим архитип <code>quickstart</code> и создадим с его помощью java-приложение.</p>
+</div>
+<div class="sect4">
+<h5 id="_создание_приложения">Создание приложения</h5>
+<div class="paragraph">
+<p>Переходим в нужную директорию и выполняем в терминале следующую команду:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>mvn archetype:generate</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>В результате получим следующее:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>1576: remote -&gt; uk.ac.ebi.gxa:atlas-archetype (Archetype for generating a custom Atlas webapp)
+1577: remote -&gt; uk.ac.rdg.resc:edal-ncwms-based-webapp (-)
+1578: remote -&gt; uk.co.nemstix:basic-javaee7-archetype (A basic Java EE7 Maven archetype)
+1579: remote -&gt; uk.co.solong:angular-spring-archetype (So Long archetype for RESTful spring services with an AngularJS frontend. Includes debian deployment)
+1580: remote -&gt; us.fatehi:schemacrawler-archetype-maven-project (-)
+1581: remote -&gt; us.fatehi:schemacrawler-archetype-plugin-command (-)
+1582: remote -&gt; us.fatehi:schemacrawler-archetype-plugin-dbconnector (-)
+1583: remote -&gt; us.fatehi:schemacrawler-archetype-plugin-lint (-)
+Choose a number or apply filter (format: [groupId:]artifactId, case sensitive contains): 771: 7</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Выбираем число <code>7</code> и нужную версию. После этого указываем параметры.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>Choose a number or apply filter (format: [groupId:]artifactId, case sensitive contains): 771: 7
+Choose am.ik.archetype:spring-boot-jersey-blank-archetype version:
+1: 1.0.0
+2: 1.0.1
+3: 1.0.2
+Choose a number: 3: 1
+Define value for property 'groupId': : Tutorials
+Define value for property 'artifactId': : MavenTutorial
+Define value for property 'version':  1.0-SNAPSHOT: :
+Define value for property 'package':  Tutorials: : net.proselyte.mavenproject</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Вводим <code>Y</code>, после чего нажимаем <em>Enter</em>.</p>
+</div>
+<div class="paragraph">
+<p>В итоге получим следующий результат:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>[INFO] ----------------------------------------------------------------------------
+[INFO] Using following parameters for creating project from Archetype: spring-boot-jersey-blank-archetype:1.0.0
+[INFO] ----------------------------------------------------------------------------
+[INFO] Parameter: groupId, Value: Tutorials
+[INFO] Parameter: artifactId, Value: MavenTutorial
+[INFO] Parameter: version, Value: 1.0-SNAPSHOT
+[INFO] Parameter: package, Value: net.proselyte.mavenproject
+[INFO] Parameter: packageInPathFormat, Value: net/proselyte/mavenproject
+[INFO] Parameter: package, Value: net.proselyte.mavenproject
+[INFO] Parameter: version, Value: 1.0-SNAPSHOT
+[INFO] Parameter: groupId, Value: Tutorials
+[INFO] Parameter: artifactId, Value: MavenTutorial
+[INFO] project created from Archetype in dir: /home/proselyte/Programming/Projects/Proselyte/MavenProject/MavenTutorial
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 1:20.860s
+[INFO] Finished at: Thu Apr 28 10:29:18 EEST 2016
+[INFO] Final Memory: 17M/222M
+[INFO] ------------------------------------------------------------------------</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>В результате получим следующую структуру проекта:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../../../assets/img/java/tools/maven/project-structure-example.png" alt="Project structure">
+</div>
+</div>
+<div class="paragraph">
+<p>Файл <code>pom.xml</code> будет выглядеть следующим образом:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="xml">&lt;project xmlns="http://maven.apache.org/POM/4.0.0"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+        http://maven.apache.org/xsd/maven-4.0.0.xsd"&gt;
+    &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;
+
+    &lt;groupId&gt;Tutorials&lt;/groupId&gt;
+    &lt;artifactId&gt;MavenProject&lt;/artifactId&gt;
+    &lt;version&gt;1.0-SNAPSHOT&lt;/version&gt;
+    &lt;packaging&gt;jar&lt;/packaging&gt;
+    &lt;name&gt;MavenTutorial&lt;/name&gt;
+    &lt;url&gt;http://maven.apache.org&lt;/url&gt;
+    &lt;properties&gt;
+        &lt;project.build.sourceEncoding&gt;UTF-8&lt;/project.build.sourceEncoding&gt;
+    &lt;/properties&gt;
+    &lt;dependencies&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;junit&lt;/groupId&gt;
+            &lt;artifactId&gt;junit&lt;/artifactId&gt;
+            &lt;version&gt;3.8.1&lt;/version&gt;
+            &lt;scope&gt;test&lt;/scope&gt;
+        &lt;/dependency&gt;
+    &lt;/dependencies&gt;
+&lt;/project&gt;</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_snapshots">1.12. Snapshots</h3>
+<div class="paragraph">
+<p>Любое большое приложение состоит из нескольких модулей и, чаще всего над каждым модулем программы работает отдельная команда.
+Например, одна команда работает над бизнес логикой приложения и они используют проект <strong>business-logic</strong> (<code>business-logic.jar.1.0</code>), а другая команда работает на внешним видом приложения и разрабатывает проект <strong>app-front-end</strong> (<code>app-front-end.jar:1.0</code>).</p>
+</div>
+<div class="paragraph">
+<p>В этом случае может случиться такая ситуация, при которой команда, которая работает над бизнес-логикой, выпускает обновления каждую неделю и выкладывает их на удалённый репозиторий.</p>
+</div>
+<div class="paragraph">
+<p>Таким образом, если эта команда часто выкладывает обновления, то можем произойти следующее:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>комнада бизнес логики должна уведомлять команду, разрабатывающую <strong>front-end</strong>, когда именно они будут выкладывать обновления;</p>
+</li>
+<li>
+<p>команда <strong>front-end</strong> должна обновлять свой файл <code>pom.xml</code> для того, чтобы иметь текущую версию продукта.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Для того, что исправить эту ситуацию используется концепция <strong>snapshot</strong>.</p>
+</div>
+<div class="sect3">
+<h4 id="_snapshot">1.12.1. Snapshot</h4>
+<div class="paragraph">
+<p><strong>Snapshot</strong> – это специальная версия, которая показывает текущую рабочую копию. При каждой сборке <strong>Maven</strong> проверяет наличие новой <strong>snapshot</strong> версии на удалённом репозитории.</p>
+</div>
+<div class="paragraph">
+<p>В этом случае, команда <strong>business-logic</strong> будет выпускать <strong>snapshot</strong> своего обновления на репозиторий в виде <code>business-logic:1.0-SNAPSHOT</code> замещая предыдущий <strong>jar файл</strong>.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_snapshot_и_версия">1.12.2. Snapshot и Версия</h4>
+<div class="paragraph">
+<p>В случае с версией, если <strong>Maven</strong> однажды загрузил версию <strong>business-logic:1.0</strong>, то он больше не будет пытаться загрузить новую версию <strong>1.0</strong> из репозитория. Для того, чтобы скачать обновлённый продукт <strong>business-logic</strong> должен быть обновлён до версии <strong>1.1</strong>.</p>
+</div>
+<div class="paragraph">
+<p>В случае со <strong>snapshot</strong>, <strong>Maven</strong> автоматически будет подтягивать крайний <strong>snapshot</strong> (<code>business-logic:1.0-SNAPSHOT</code>) каждый раз, когда команда front-end будет выполнять сборку своего проекта.</p>
+</div>
+<div class="paragraph">
+<p>Вот как это выглядит в <code>pom.xml</code> файле:</p>
+</div>
+<div class="listingblock">
+<div class="title"><code>pom.xml</code> для <strong>front-end</strong></div>
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="xml">&lt;project xmlns="http://maven.apache.org/POM/4.0.0"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+        http://maven.apache.org/xsd/maven-4.0.0.xsd"&gt;
+    &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;
+    &lt;groupId&gt;front-end&lt;/groupId&gt;
+    &lt;artifactId&gt;front-end&lt;/artifactId&gt;
+    &lt;version&gt;1.0&lt;/version&gt;
+    &lt;packaging&gt;jar&lt;/packaging&gt;
+    &lt;name&gt;maventutorial&lt;/name&gt;
+    &lt;url&gt;http://maven.apache.org&lt;/url&gt;
+    &lt;properties&gt;
+        &lt;project.build.sourceEncoding&gt;UTF-8&lt;/project.build.sourceEncoding&gt;
+    &lt;/properties&gt;
+    &lt;dependencies&gt;
+        &lt;dependency&gt;
+        &lt;groupId&gt;data-service&lt;/groupId&gt;
+            &lt;artifactId&gt;business-logic&lt;/artifactId&gt;
+            &lt;version&gt;1.0-SNAPSHOT&lt;/version&gt;
+            &lt;scope&gt;test&lt;/scope&gt;
+        &lt;/dependency&gt;
+    &lt;/dependencies&gt;
+&lt;/project&gt;</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title"><code>pom.xml</code> для <strong>business-logic</strong></div>
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="xml">&lt;project xmlns="http://maven.apache.org/POM/4.0.0"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+        http://maven.apache.org/xsd/maven-4.0.0.xsd"&gt;
+    &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;
+    &lt;groupId&gt;business-logic&lt;/groupId&gt;
+    &lt;artifactId&gt;business-logic&lt;/artifactId&gt;
+    &lt;version&gt;1.0-SNAPSHOT&lt;/version&gt;
+    &lt;packaging&gt;jar&lt;/packaging&gt;
+    &lt;name&gt;maven-tutorial&lt;/name&gt;
+    &lt;url&gt;http://maven.apache.org&lt;/url&gt;
+    &lt;properties&gt;
+        &lt;project.build.sourceEncoding&gt;UTF-8&lt;/project.build.sourceEncoding&gt;
+    &lt;/properties&gt;
+    &lt;/project&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Для того чтобы подтянуть крайний snapshot необходимо использовать <code>-U</code> в каждой команде.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="shell script">mvn clean package -U</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_автоматизация_сборки">1.13. Автоматизация сборки.</h3>
+<div class="paragraph">
+<p><strong>Автоматизация сборки</strong> определяет сценарий, в котором процесс сборки зависимого проекта запускается после успешного завершения сборки проекта, чтобы обеспечить стабильность зависимых проектов.</p>
+</div>
+<div class="paragraph">
+<p>Предположим, что команда разрабатывает проект <code>bus-core-api</code>, от которого зависят два других проекта: <code>app-web-ui</code> и <code>app-desktop-ui</code>.</p>
+</div>
+<div class="paragraph">
+<p>Проект <code>app-web-ui</code> использует <code>1.0-SNAPSHOT</code> проекта <code>bus-core-api</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="xml">&lt;project xmlns = "http://maven.apache.org/POM/4.0.0"
+        xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation = "http://maven.apache.org/POM/4.0.0
+        http://maven.apache.org/xsd/maven-4.0.0.xsd"&gt;
+    &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;
+    &lt;groupId&gt;app-web-ui&lt;/groupId&gt;
+    &lt;artifactId&gt;app-web-ui&lt;/artifactId&gt;
+    &lt;version&gt;1.0&lt;/version&gt;
+    &lt;packaging&gt;jar&lt;/packaging&gt;
+
+    &lt;dependencies&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;bus-core-api&lt;/groupId&gt;
+            &lt;artifactId&gt;bus-core-api&lt;/artifactId&gt;
+            &lt;version&gt;1.0-SNAPSHOT&lt;/version&gt;
+        &lt;/dependency&gt;
+    &lt;/dependencies&gt;
+&lt;/project&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Проект <code>app-desktop-ui</code> использует <code>1.0-SNAPSHOT</code> проекта <code>bus-core-api</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="xml">&lt;project xmlns = "http://maven.apache.org/POM/4.0.0"
+        xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation = "http://maven.apache.org/POM/4.0.0
+        http://maven.apache.org/xsd/maven-4.0.0.xsd"&gt;
+    &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;
+    &lt;groupId&gt;app_desktop_ui&lt;/groupId&gt;
+    &lt;artifactId&gt;app_desktop_ui&lt;/artifactId&gt;
+    &lt;version&gt;1.0&lt;/version&gt;
+    &lt;packaging&gt;jar&lt;/packaging&gt;
+    &lt;name&gt;app_desktop_ui&lt;/name&gt;
+    &lt;url&gt;http://maven.apache.org&lt;/url&gt;
+
+    &lt;properties&gt;
+        &lt;project.build.sourceEncoding&gt;UTF-8&lt;/project.build.sourceEncoding&gt;
+    &lt;/properties&gt;
+
+    &lt;dependencies&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;junit&lt;/groupId&gt;
+            &lt;artifactId&gt;junit&lt;/artifactId&gt;
+            &lt;version&gt;3.8.1&lt;/version&gt;
+            &lt;scope&gt;test&lt;/scope&gt;
+        &lt;/dependency&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;bus_core_api&lt;/groupId&gt;
+            &lt;artifactId&gt;bus_core_api&lt;/artifactId&gt;
+            &lt;version&gt;1.0-SNAPSHOT&lt;/version&gt;
+            &lt;scope&gt;system&lt;/scope&gt;
+            &lt;systemPath&gt;C:\MVN\bus_core_api\target\bus_core_api-1.0-SNAPSHOT.jar&lt;/systemPath&gt;
+        &lt;/dependency&gt;
+    &lt;/dependencies&gt;
+&lt;/project&gt;</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">POM-file проекта <code>bus-core-api</code></div>
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="xml">&lt;project xmlns = "http://maven.apache.org/POM/4.0.0"
+        xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation = "http://maven.apache.org/POM/4.0.0
+        http://maven.apache.org/xsd/maven-4.0.0.xsd"&gt;
+    &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;
+    &lt;groupId&gt;bus_core_api&lt;/groupId&gt;
+    &lt;artifactId&gt;bus_core_api&lt;/artifactId&gt;
+    &lt;version&gt;1.0-SNAPSHOT&lt;/version&gt;
+    &lt;packaging&gt;jar&lt;/packaging&gt;
+&lt;/project&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Теперь команды проектов <code>app-web-ui</code> и <code>app-desktop-ui</code> требуют, чтобы процесс их сборки начинался всякий раз, когда изменяется проект <code>bus-core-api</code>.</p>
+</div>
+<div class="paragraph">
+<p>Использование моментального снимка гарантирует, что будет использоваться последний проект <code>bus-core-api</code>, но для удовлетворения вышеуказанного требования нам нужно сделать что-то дополнительное.</p>
+</div>
+<div class="paragraph">
+<p>Можно действовать следующими двумя способами:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Добавьте цель пост-сборки в POM <code>bus-core-api</code>  для запуска сборок <code>app-web-ui</code> и <code>app-desktop-ui</code>.</p>
+</li>
+<li>
+<p>Используйте сервер <strong>непрерывной интеграции</strong> (<strong>CI</strong>), такой как <strong>Hudson</strong>, для автоматического управления сборкой.</p>
+</li>
+</ul>
+</div>
+<div class="sect3">
+<h4 id="_использование_maven">1.13.1. Использование Maven</h4>
+<div class="paragraph">
+<p>Обновите проект <code>bus-core-api</code> <code>pom.xml</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="xml">&lt;project xmlns = "http://maven.apache.org/POM/4.0.0"
+        xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation = "http://maven.apache.org/POM/4.0.0
+        http://maven.apache.org/xsd/maven-4.0.0.xsd"&gt;
+    &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;
+    &lt;groupId&gt;bus-core-api&lt;/groupId&gt;
+    &lt;artifactId&gt;bus-core-api&lt;/artifactId&gt;
+    &lt;version&gt;1.0-SNAPSHOT&lt;/version&gt;
+    &lt;packaging&gt;jar&lt;/packaging&gt;
+
+    &lt;build&gt;
+        &lt;plugins&gt;
+            &lt;plugin&gt;
+                &lt;artifactId&gt;maven-invoker-plugin&lt;/artifactId&gt;
+                &lt;version&gt;1.6&lt;/version&gt;
+                &lt;configuration&gt;
+                    &lt;debug&gt;true&lt;/debug&gt;
+                    &lt;pomIncludes&gt;
+                        &lt;pomInclude&gt;app-web-ui/pom.xml&lt;/pomInclude&gt;
+                        &lt;pomInclude&gt;app-desktop-ui/pom.xml&lt;/pomInclude&gt;
+                    &lt;/pomIncludes&gt;
+                &lt;/configuration&gt;
+                &lt;executions&gt;
+                    &lt;execution&gt;
+                        &lt;id&gt;build&lt;/id&gt;
+                        &lt;goals&gt;
+                            &lt;goal&gt;run&lt;/goal&gt;
+                        &lt;/goals&gt;
+                    &lt;/execution&gt;
+                &lt;/executions&gt;
+            &lt;/plugin&gt;
+        &lt;/plugins&gt;
+    &lt;/build&gt;
+&lt;/project&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Давайте откроем командную консоль, перейдем в директорию с <code>bus-core-api</code> и выполним следующую <strong>Maven</strong> команду:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="shell script">mvn clean package -U</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Maven</strong> начнет сборку проекта <code>bus-core-api</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>[INFO] Scanning for projects...
+[INFO] ------------------------------------------------------------------
+[INFO] Building bus-core-api
+[INFO] task-segment: [clean, package]
+[INFO] ------------------------------------------------------------------
+...
+[INFO] [jar:jar {execution: default-jar}]
+[INFO] Building jar: C:\MVN\bus-core-ui\target\
+bus-core-ui-1.0-SNAPSHOT.jar
+[INFO] ------------------------------------------------------------------
+[INFO] BUILD SUCCESSFUL
+[INFO] ------------------------------------------------------------------</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Как только сборка <code>bus-core-api</code> будет успешной, <strong>Maven</strong> начнет сборку проекта <code>app-web-ui</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>[INFO] ------------------------------------------------------------------
+[INFO] Building app-web-ui
+[INFO] task-segment: [package]
+[INFO] ------------------------------------------------------------------
+...
+[INFO] [jar:jar {execution: default-jar}]
+[INFO] Building jar: C:\MVN\app-web-ui\target\
+app-web-ui-1.0-SNAPSHOT.jar
+[INFO] ------------------------------------------------------------------
+[INFO] BUILD SUCCESSFUL
+[INFO] ------------------------------------------------------------------</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Как только сборка <code>app-web-ui</code> будет успешной, <strong>Maven</strong> начнет сборку проекта <code>app-desktop-ui</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>[INFO] ------------------------------------------------------------------
+[INFO] Building app-desktop-ui
+[INFO] task-segment: [package]
+[INFO] ------------------------------------------------------------------
+...
+[INFO] [jar:jar {execution: default-jar}]
+[INFO] Building jar: C:\MVN\app-desktop-ui\target\
+app-desktop-ui-1.0-SNAPSHOT.jar
+[INFO] -------------------------------------------------------------------
+[INFO] BUILD SUCCESSFUL
+[INFO] -------------------------------------------------------------------</pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_использование_службы_непрерывной_интеграции_с_maven">1.13.2. Использование службы непрерывной интеграции с Maven</h4>
+<div class="paragraph">
+<p>Использование <strong>CI</strong> Server более предпочтительно для разработчиков. Не требуется обновлять проект <code>bus-core-api</code> каждый раз, когда добавляется новый проект (например, <code>app-mobile-ui</code>), как зависимый проект от проекта <code>bus-core-api</code>. <strong>Jenkins</strong> — это инструмент непрерывной интеграции, написанный на Java, который находится в контейнере сервлетов, таких как <strong>Apache Tomcat</strong>. <strong>Jenkins</strong> автоматически управляет автоматизацией сборки с помощью управления зависимостями <strong>Maven</strong>.</p>
+</div>
+<div class="paragraph">
+<p><strong>Jenkins</strong> рассматривает каждый проект как работу. После того, как код проекта зарегистрирован в <strong>Git</strong> (или в любом инструменте управления исходными кодами, сопоставленном с <strong>Jenkins</strong>), <strong>Jenkins</strong> начинает свою работу по сборке, и, как только эта работа завершается, он автоматически запускает другие зависимые задания (другие зависимые проекты).</p>
+</div>
+<div class="paragraph">
+<p>В приведенном выше примере, когда исходный код <code>bus-core-ui</code> обновляется в <strong>Git</strong>, <strong>Jenkins</strong> начинает его сборку. После успешного завершения сборки <strong>Jenkins</strong> автоматически ищет зависимые проекты и начинает создавать проекты <code>app-web-ui</code> и <code>app-desktop-ui</code>.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_автоматизация_развёртывания_deployment">1.14. Автоматизация развёртывания (deployment).</h3>
+<div class="paragraph">
+<p>При разработке проекта процесс развёртывания состоит из следующих шагов:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Проверка всего кода проекта в системе контроля версий.</p>
+</li>
+<li>
+<p>Скачивание всего исходного кода из системы контроля версий.</p>
+</li>
+<li>
+<p>Сборка приложения.</p>
+</li>
+<li>
+<p>Получение WAR или EAR файла проекта.</p>
+</li>
+<li>
+<p>Развёртывание файла на сервере.</p>
+</li>
+<li>
+<p>Обновление документации и обновление номера версии приложения.</p>
+</li>
+</ul>
+</div>
+<div class="sect3">
+<h4 id="_проблема">1.14.1. Проблема</h4>
+<div class="paragraph">
+<p>Обычно в процессе развёртывания участвуют много человек. Одна команда проверяет код вторая выполняет сборку и т.д. Если всё выполнять вручную, какой-то из моментов может быть упущен и т.д.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_решение">1.14.2. Решение</h4>
+<div class="paragraph">
+<p>Здесь приходит на помощь автоматизация развёртывания с помощью комбинирования:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Сборки и релиза проекта с помощью <strong>Maven</strong>;</p>
+</li>
+<li>
+<p>Использование системы контроля версий (например, <strong>Git</strong>) для работы с кодом;</p>
+</li>
+<li>
+<p>Использования систем управления удалёнными репозиториями (например, <strong>Nexus</strong>).</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_обновление_pom_xml_проекта">1.14.3. Обновление <code>pom.xml</code> проекта</h4>
+<div class="paragraph">
+<p>Для автоматизирования релиза продукта используется плагин <strong>Maven Release</strong>.</p>
+</div>
+<div class="listingblock">
+<div class="title">Файл <code>pom.xml</code>:</div>
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="xml">&lt;project xmlns="http://maven.apache.org/POM/4.0.0"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+        http://maven.apache.org/xsd/maven-4.0.0.xsd"&gt;
+    &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;
+    &lt;groupId&gt;bus-core-api&lt;/groupId&gt;
+    &lt;artifactId&gt;mavenTutorial&lt;/artifactId&gt;
+    &lt;version&gt;1.0-SNAPSHOT&lt;/version&gt;
+    &lt;packaging&gt;jar&lt;/packaging&gt;
+
+    &lt;scm&gt;
+        &lt;url&gt;http://www.svn.com&lt;/url&gt;
+        &lt;connection&gt;scm:github:http://localhost:8080/svn/example/tutorial/maven&lt;/connection&gt;
+        &lt;developerConnection&gt;scm:svn:${username}/${password}@localhost:8080:core_features:1102:code&lt;/developerConnection&gt;
+    &lt;/scm&gt;
+
+    &lt;distributionManagement&gt;
+        &lt;repository&gt;
+            &lt;id&gt;MavenTutorial&lt;/id&gt;
+            &lt;name&gt;Release repository&lt;/name&gt;
+            &lt;url&gt;http://localhost:8088/nexus/content/repositories/MavenTutorial&lt;/url&gt;
+        &lt;/repository&gt;
+    &lt;/distributionManagement&gt;
+
+    &lt;build&gt;
+        &lt;plugins&gt;
+            &lt;plugin&gt;
+                &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;
+                &lt;artifactId&gt;maven-release-plugin&lt;/artifactId&gt;
+                &lt;version&gt;2.0-beta-8&lt;/version&gt;
+                &lt;configuration&gt;
+                    &lt;useReleaseProfile&gt;false&lt;/useReleaseProfile&gt;
+                    &lt;goals&gt;deploy&lt;/goals&gt;
+                    &lt;scmCommentPrefix&gt;[maven-tutorial-release-checkin]-&lt;/scmCommentPrefix&gt;
+                &lt;/configuration&gt;
+            &lt;/plugin&gt;
+        &lt;/plugins&gt;
+    &lt;/build&gt;
+&lt;/project&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>В этом <code>pom.xml</code> файле использовались следующие важные элементы:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Repositories</strong><br>
+Место, где выполняется сборка <strong>JAR</strong>, <strong>WAR</strong>, или <strong>EAR</strong> или другие артифакты, которые будут получены в случае успешной сборки.</p>
+</li>
+<li>
+<p><strong>Plugin</strong><br>
+Элемент <code>maven-release-plugin</code> сконфигурирован для автоматизации процесса развёртывания.</p>
+</li>
+<li>
+<p><strong>SCM</strong><br>
+Определяет расположение <strong>системы контроля версий</strong>, в которой <strong>Maven</strong> выполнит проверку исходного кода.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>С помощью <code>maven-release-plugin</code> <strong>Maven</strong> выполняет следующие задачи:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="shell script">mvn release:clean</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Выполняет <em>очистку</em> в случае, если релиз не был успешным.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="shell script">mvn release:rollback</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><em>Откатывает изменения</em>, которые были сделаны в коде и конфигурациях, если крайний релиз не был успешным.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="shell script">mvn release:prepare</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Выполняет множество операций:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Проверяет наличие изменений, которые не были внесены в системы контроля версий;</p>
+</li>
+<li>
+<p>Проверяет, что нет <em>snapshot</em> зависимостей;</p>
+</li>
+<li>
+<p>Обновляет <code>pom.xml</code> файл в системе контроля версий;</p>
+</li>
+<li>
+<p>Проверяет версию приложения и удаляет snapshot-ы из версии перед релизом;</p>
+</li>
+<li>
+<p>Выполняет тесты;</p>
+</li>
+<li>
+<p>Выполняет фиксацию (commit) изменённого файла <code>pom.xml</code>;</p>
+</li>
+<li>
+<p>Отмечает код в системе контроля версий;</p>
+</li>
+<li>
+<p>Изменяет (т.е. увеличивает) номер версии и “подтягивает” snapshot-ы для будущих релизов;</p>
+</li>
+<li>
+<p>Выполняет фиксацию (commit) изменённых <code>файлов pom.xml</code> в системы контроля версий.</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="shell script">mvn release:perform</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><em>Проверяет код</em>, используя предыдущую метку и запускает цель <strong>Maven</strong> – <code>deploy</code> – для развертывания артефакта, полученного в результате сборки на репозитории.</p>
+</div>
+<div class="paragraph">
+<p>После того как проект был успешно запущен выполняется загрузка артефакта в репозиторий.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_веб_проект_с_использованием_maven">1.15. Веб-проект с использованием Maven</h3>
+<div class="sect3">
+<h4 id="_создание_проекта_2">1.15.1. Создание проекта</h4>
+<div class="paragraph">
+<p>Для того чтобы создать простой веб-проект, можно использовать плагин <code>maven-archetype-webapp</code>.</p>
+</div>
+<div class="paragraph">
+<p>Перейдём в нужную директорию и выполним в терминале следующую команду:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="shell script">mvn archetype:generate
+        -DgroupId=net.proselyte.tutorial
+        -DartifactId=maven
+        -DarchetypeArtifactId=maven-archetype-webapp
+        -DinteractiveMode=false</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>В итоге получим следующий результат:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>[INFO] Scanning for projects...
+[INFO]
+[INFO] ------------------------------------------------------------------------
+[INFO] Building Maven Stub Project (No POM) 1
+[INFO] ------------------------------------------------------------------------
+[INFO]
+[INFO] &gt;&gt;&gt; maven-archetype-plugin:2.4:generate (default-cli) @ standalone-pom &gt;&gt;&gt;
+[INFO]
+[INFO] &lt;&lt;&lt; maven-archetype-plugin:2.4:generate (default-cli) @ standalone-pom &lt;&lt;&lt;
+[INFO]
+[INFO] --- maven-archetype-plugin:2.4:generate (default-cli) @ standalone-pom ---
+[INFO] Generating project in Batch mode
+[WARNING] Error reading archetype catalog http://repo.maven.apache.org/maven2
+org.apache.maven.wagon.TransferFailedException: repo.maven.apache.org
+        at org.apache.maven.wagon.providers.http.AbstractHttpClientWagon.fillInputData(AbstractHttpClientWagon.java:892)
+        at org.apache.maven.wagon.StreamWagon.getInputStream(StreamWagon.java:116)
+        at org.apache.maven.wagon.StreamWagon.getIfNewer(StreamWagon.java:88)
+        at org.apache.maven.wagon.StreamWagon.get(StreamWagon.java:61)
+        at org.apache.maven.archetype.source.RemoteCatalogArchetypeDataSource.downloadCatalog(RemoteCatalogArchetypeDataSource.java:119)
+        at org.apache.maven.archetype.source.RemoteCatalogArchetypeDataSource.getArchetypeCatalog(RemoteCatalogArchetypeDataSource.java:87)
+        at org.apache.maven.archetype.DefaultArchetypeManager.getRemoteCatalog(DefaultArchetypeManager.java:216)
+        at org.apache.maven.archetype.DefaultArchetypeManager.getRemoteCatalog(DefaultArchetypeManager.java:205)
+        at org.apache.maven.archetype.ui.generation.DefaultArchetypeSelector.getArchetypesByCatalog(DefaultArchetypeSelector.java:200)
+        at org.apache.maven.archetype.ui.generation.DefaultArchetypeSelector.selectArchetype(DefaultArchetypeSelector.java:71)
+        at org.apache.maven.archetype.mojos.CreateProjectFromArchetypeMojo.execute(CreateProjectFromArchetypeMojo.java:181)
+        at org.apache.maven.plugin.DefaultBuildPluginManager.executeMojo(DefaultBuildPluginManager.java:101)
+        at org.apache.maven.lifecycle.internal.MojoExecutor.execute(MojoExecutor.java:209)
+        at org.apache.maven.lifecycle.internal.MojoExecutor.execute(MojoExecutor.java:153)
+        at org.apache.maven.lifecycle.internal.MojoExecutor.execute(MojoExecutor.java:145)
+        at org.apache.maven.lifecycle.internal.LifecycleModuleBuilder.buildProject(LifecycleModuleBuilder.java:84)
+        at org.apache.maven.lifecycle.internal.LifecycleModuleBuilder.buildProject(LifecycleModuleBuilder.java:59)
+        at org.apache.maven.lifecycle.internal.LifecycleStarter.singleThreadedBuild(LifecycleStarter.java:183)
+        at org.apache.maven.lifecycle.internal.LifecycleStarter.execute(LifecycleStarter.java:161)
+        at org.apache.maven.DefaultMaven.doExecute(DefaultMaven.java:320)
+        at org.apache.maven.DefaultMaven.execute(DefaultMaven.java:156)
+        at org.apache.maven.cli.MavenCli.execute(MavenCli.java:537)
+        at org.apache.maven.cli.MavenCli.doMain(MavenCli.java:196)
+        at org.apache.maven.cli.MavenCli.main(MavenCli.java:141)
+        at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+        at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+        at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+        at java.lang.reflect.Method.invoke(Method.java:498)
+        at org.codehaus.plexus.classworlds.launcher.Launcher.launchEnhanced(Launcher.java:289)
+        at org.codehaus.plexus.classworlds.launcher.Launcher.launch(Launcher.java:229)
+        at org.codehaus.plexus.classworlds.launcher.Launcher.mainWithExitCode(Launcher.java:415)
+        at org.codehaus.plexus.classworlds.launcher.Launcher.main(Launcher.java:356)
+Caused by: java.net.UnknownHostException: repo.maven.apache.org
+        at java.net.InetAddress.getAllByName0(InetAddress.java:1280)
+        at java.net.InetAddress.getAllByName(InetAddress.java:1192)
+        at java.net.InetAddress.getAllByName(InetAddress.java:1126)
+        at org.apache.maven.wagon.providers.http.httpclient.impl.conn.SystemDefaultDnsResolver.resolve(SystemDefaultDnsResolver.java:45)
+        at org.apache.maven.wagon.providers.http.httpclient.impl.conn.DefaultClientConnectionOperator.resolveHostname(DefaultClientConnectionOperator.java:278)
+        at org.apache.maven.wagon.providers.http.httpclient.impl.conn.DefaultClientConnectionOperator.openConnection(DefaultClientConnectionOperator.java:162)
+        at org.apache.maven.wagon.providers.http.httpclient.impl.conn.ManagedClientConnectionImpl.open(ManagedClientConnectionImpl.java:294)
+        at org.apache.maven.wagon.providers.http.httpclient.impl.client.DefaultRequestDirector.tryConnect(DefaultRequestDirector.java:643)
+        at org.apache.maven.wagon.providers.http.httpclient.impl.client.DefaultRequestDirector.execute(DefaultRequestDirector.java:479)
+        at org.apache.maven.wagon.providers.http.httpclient.impl.client.AbstractHttpClient.execute(AbstractHttpClient.java:906)
+        at org.apache.maven.wagon.providers.http.httpclient.impl.client.AbstractHttpClient.execute(AbstractHttpClient.java:805)
+        at org.apache.maven.wagon.providers.http.AbstractHttpClientWagon.execute(AbstractHttpClientWagon.java:746)
+        at org.apache.maven.wagon.providers.http.AbstractHttpClientWagon.fillInputData(AbstractHttpClientWagon.java:886)
+        ... 31 more
+[WARNING] No archetype found in remote catalog. Defaulting to internal catalog
+[INFO] ----------------------------------------------------------------------------
+[INFO] Using following parameters for creating project from Old (1.x) Archetype: maven-archetype-webapp:1.0
+[INFO] ----------------------------------------------------------------------------
+[INFO] Parameter: basedir, Value: /home/proselyte/Programming/Projects/Proselyte/MavenWebProject
+[INFO] Parameter: package, Value: net.proselyte.tutorial
+[INFO] Parameter: groupId, Value: net.proselyte.tutorial
+[INFO] Parameter: artifactId, Value: maven
+[INFO] Parameter: packageName, Value: net.proselyte.tutorial
+[INFO] Parameter: version, Value: 1.0-SNAPSHOT
+[INFO] project created from Old (1.x) Archetype in dir: /home/proselyte/Programming/Projects/Proselyte/MavenWebProject/maven
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 1.494s
+[INFO] Finished at: Fri Apr 29 12:41:33 EEST 2016
+[INFO] Final Memory: 17M/212M
+[INFO] ------------------------------------------------------------------------</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Перейдём в директорию Maven</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../../../assets/img/java/tools/maven/maven-web-project.webp" alt="Maven Web Project">
+</div>
+</div>
+<div class="paragraph">
+<p>Рассмотрим файл <code>pom.xml</code></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="xml">&lt;project xmlns="http://maven.apache.org/POM/4.0.0"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"&gt;
+    &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;
+    &lt;groupId&gt;net.proselyte.tutorial&lt;/groupId&gt;
+    &lt;artifactId&gt;maven&lt;/artifactId&gt;
+    &lt;packaging&gt;war&lt;/packaging&gt;
+    &lt;version&gt;1.0-SNAPSHOT&lt;/version&gt;
+    &lt;name&gt;maven Maven Webapp&lt;/name&gt;
+    &lt;url&gt;http://maven.apache.org&lt;/url&gt;
+    &lt;dependencies&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;junit&lt;/groupId&gt;
+            &lt;artifactId&gt;junit&lt;/artifactId&gt;
+            &lt;version&gt;3.8.1&lt;/version&gt;
+            &lt;scope&gt;test&lt;/scope&gt;
+        &lt;/dependency&gt;
+    &lt;/dependencies&gt;
+    &lt;build&gt;
+        &lt;finalName&gt;maven&lt;/finalName&gt;
+    &lt;/build&gt;
+&lt;/project&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>В директории <code>webapp</code> есть файл <code>index.jsp</code></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_hello_world">1.15.2. Hello World!</h4>
+<div class="paragraph">
+<p>Выполним команду:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="shell script">mvn clean package</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>В итоге получим следующий результат:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>[INFO] Scanning for projects...
+[INFO]
+[INFO] ------------------------------------------------------------------------
+[INFO] Building maven Maven Webapp 1.0-SNAPSHOT
+[INFO] ------------------------------------------------------------------------
+[INFO]
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ maven ---
+[INFO] Deleting /home/proselyte/Programming/Projects/Proselyte/MavenWebProject/maven/target
+[INFO]
+[INFO] --- maven-resources-plugin:2.3:resources (default-resources) @ maven ---
+[WARNING] Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent!
+[INFO] Copying 0 resource
+[INFO]
+[INFO] --- maven-compiler-plugin:2.0.2:compile (default-compile) @ maven ---
+[INFO] No sources to compile
+[INFO]
+[INFO] --- maven-resources-plugin:2.3:testResources (default-testResources) @ maven ---
+[WARNING] Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent!
+[INFO] skip non existing resourceDirectory /home/proselyte/Programming/Projects/Proselyte/MavenWebProject/maven/src/test/resources
+[INFO]
+[INFO] --- maven-compiler-plugin:2.0.2:testCompile (default-testCompile) @ maven ---
+[INFO] No sources to compile
+[INFO]
+[INFO] --- maven-surefire-plugin:2.10:test (default-test) @ maven ---
+[INFO] No tests to run.
+[INFO] Surefire report directory: /home/proselyte/Programming/Projects/Proselyte/MavenWebProject/maven/target/surefire-reports
+
+-------------------------------------------------------
+ T E S T S
+-------------------------------------------------------
+
+Results :
+
+Tests run: 0, Failures: 0, Errors: 0, Skipped: 0
+
+[INFO]
+[INFO] --- maven-war-plugin:2.1.1:war (default-war) @ maven ---
+[INFO] Packaging webapp
+[INFO] Assembling webapp [maven] in [/home/proselyte/Programming/Projects/Proselyte/MavenWebProject/maven/target/maven]
+[INFO] Processing war project
+[INFO] Copying webapp resources [/home/proselyte/Programming/Projects/Proselyte/MavenWebProject/maven/src/main/webapp]
+[INFO] Webapp assembled in [25 msecs]
+[INFO] Building war: /home/proselyte/Programming/Projects/Proselyte/MavenWebProject/maven/target/maven.war
+[INFO] WEB-INF/web.xml already added, skipping
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 1.464s
+[INFO] Finished at: Fri Apr 29 12:48:48 EEST 2016
+[INFO] Final Memory: 9M/150M
+[INFO] ------------------------------------------------------------------------</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Запустим приложение с помощью локального сервера (в примере – <strong>tomcat</strong>) и получим следующий результат:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../../../assets/img/java/tools/maven/hello-world-maven.webp" alt="Hello World Maven">
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_lombok">2. Lombok</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_install_lombok_plugin_for_intellij_idea">2.1. Install Lombok Plugin for IntelliJ IDEA</h3>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -505,13 +4075,13 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </div>
 <div class="sect1">
-<h2 id="_лучшие_практики_тестирования_на_java">2. Лучшие практики тестирования на Java</h2>
+<h2 id="_лучшие_практики_тестирования_на_java">3. Лучшие практики тестирования на Java</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>Поддерживаемый и читаемый тестовый код имеет решающее значение для обеспечения хорошего тестового покрытия, которое, в свою очередь, позволяет внедрять новые функции и выполнять рефакторинг, не опасаясь что-то сломать. Некоторые рекомендации могут быть очевидны для, но некоторые могут противоречить тому, что можно прочитать в книгах о разработке и тестировании программного обеспечения.</p>
 </div>
 <div class="sect2">
-<h3 id="_too_long_didnt_read_tldr">2.1. Too Long; Didn&#8217;t Read (TL;DR)</h3>
+<h3 id="_too_long_didnt_read_tldr">3.1. Too Long; Didn&#8217;t Read (TL;DR)</h3>
 <div class="ulist">
 <ul>
 <li>
@@ -539,9 +4109,9 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </div>
 <div class="sect2">
-<h3 id="_главное">2.2. Главное</h3>
+<h3 id="_главное">3.2. Главное</h3>
 <div class="sect3">
-<h4 id="_given_when_then">2.2.1. Given, When, Then</h4>
+<h4 id="_given_when_then">3.2.1. Given, When, Then</h4>
 <div class="paragraph">
 <p>Тест должен содержать три блока, разделенных одной пустой строкой. Каждый блок кода должен быть как можно короче. Используйте вспомогательные методы, чтобы сократить эти блоки.</p>
 </div>
@@ -573,7 +4143,7 @@ public void findProduct() {
 </div>
 </div>
 <div class="sect3">
-<h4 id="_используйте_префиксы_actual_и_expected">2.2.2. Используйте префиксы <code>actual*</code> и <code>expected*</code>.</h4>
+<h4 id="_используйте_префиксы_actual_и_expected">3.2.2. Используйте префиксы <code>actual*</code> и <code>expected*</code>.</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="prettyprint highlight"><code data-lang="java">// Don't
@@ -597,7 +4167,7 @@ assertThat(actualProduct).isEqualTo(expectedProduct); // nice and clear.</code><
 </div>
 </div>
 <div class="sect3">
-<h4 id="_используйте_фиксированные_данные_вместо_случайных_данных">2.2.3. Используйте фиксированные данные вместо случайных данных</h4>
+<h4 id="_используйте_фиксированные_данные_вместо_случайных_данных">3.2.3. Используйте фиксированные данные вместо случайных данных</h4>
 <div class="paragraph">
 <p>Избегайте случайных данных, так как это может привести к:</p>
 </div>
@@ -645,9 +4215,9 @@ UUID uuid = UUID.fromString("00000000-000-0000-0000-000000000001");</code></pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_пишите_небольшие_и_узкоспециализированные_тесты">2.3. Пишите небольшие и узкоспециализированные тесты</h3>
+<h3 id="_пишите_небольшие_и_узкоспециализированные_тесты">3.3. Пишите небольшие и узкоспециализированные тесты</h3>
 <div class="sect3">
-<h4 id="_активно_используйте_вспомогательные_функции">2.3.1. Активно используйте вспомогательные функции</h4>
+<h4 id="_активно_используйте_вспомогательные_функции">3.3.1. Активно используйте вспомогательные функции</h4>
 <div class="paragraph">
 <p>Извлеките детали или повторяющийся код в подфункции и дайте им описательное имя. Это мощное средство, позволяющее сделать тесты короткими, а основы теста легкими для понимания с первого взгляда.</p>
 </div>
@@ -736,7 +4306,7 @@ fun Int.toUUID(): UUID = UUID.fromString("00000000-0000-0000-a000-${this.toStrin
 </div>
 </div>
 <div class="sect3">
-<h4 id="_не_злоупотребляйте_переменными">2.3.2. Не злоупотребляйте переменными</h4>
+<h4 id="_не_злоупотребляйте_переменными">3.3.2. Не злоупотребляйте переменными</h4>
 <div class="paragraph">
 <p>Обычный рефлекс разработчика — извлекать значения, которые многократно используются, в переменные.</p>
 </div>
@@ -803,7 +4373,7 @@ public void variables() throws Exception {
 </div>
 </div>
 <div class="sect3">
-<h4 id="_не_расширяйте_существующие_тесты_чтобы_просто_протестировать_еще_одну_маленькую_вещь">2.3.3. Не расширяйте существующие тесты, чтобы «просто протестировать еще одну маленькую вещь»</h4>
+<h4 id="_не_расширяйте_существующие_тесты_чтобы_просто_протестировать_еще_одну_маленькую_вещь">3.3.3. Не расширяйте существующие тесты, чтобы «просто протестировать еще одну маленькую вещь»</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="prettyprint highlight"><code data-lang="java">// Don't
@@ -845,7 +4415,7 @@ public class ProductControllerTest {
 </div>
 </div>
 <div class="sect3">
-<h4 id="_проверяйте_только_то_что_нужно_протестировать">2.3.4. Проверяйте только то, что нужно протестировать</h4>
+<h4 id="_проверяйте_только_то_что_нужно_протестировать">3.3.4. Проверяйте только то, что нужно протестировать</h4>
 <div class="paragraph">
 <p>Подумайте, что вы действительно хотите протестировать. Не нужно проверять все случаи только потому, что вы можете это сделать. Более того, нужно иметь в виду то, что уже тестировалось в предыдущих тестах; нет нужды проверять это снова и снова в каждом тесте. Это делает тесты короткими, четкими и явно указывает ожидаемое поведение.</p>
 </div>
@@ -913,9 +4483,9 @@ assertThat(toDTOs(responseJson))
 </div>
 </div>
 <div class="sect2">
-<h3 id="_автономные_тесты">2.4. Автономные тесты</h3>
+<h3 id="_автономные_тесты">3.4. Автономные тесты</h3>
 <div class="sect3">
-<h4 id="_не_скрывайте_соответствующие_параметры_во_вспомогательных_методах">2.4.1. Не скрывайте соответствующие параметры (во вспомогательных методах)</h4>
+<h4 id="_не_скрывайте_соответствующие_параметры_во_вспомогательных_методах">3.4.1. Не скрывайте соответствующие параметры (во вспомогательных методах)</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="prettyprint highlight"><code data-lang="java">// Don't
@@ -937,13 +4507,13 @@ assertThat(actualProducts).containsOnly(new ProductDTO("1", "Office"));</code></
 </div>
 </div>
 <div class="sect3">
-<h4 id="_вставьте_тестовые_данные_прямо_в_тестовый_метод">2.4.2. Вставьте тестовые данные прямо в тестовый метод</h4>
+<h4 id="_вставьте_тестовые_данные_прямо_в_тестовый_метод">3.4.2. Вставьте тестовые данные прямо в тестовый метод</h4>
 <div class="paragraph">
 <p>В методе тестирования все должно быть правильно. Заманчиво переместить в <code>@Before</code> метод повторно используемый код для вставки данных, но это заставит читателя перейти в этот метод, чтобы полностью понять, что происходит. Вспомогательные методы для вставки данных могут помочь сделать эту повторяющуюся задачу в одну строку.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_предпочитайте_композицию_над_наследованием">2.4.3. Предпочитайте композицию над наследованием</h4>
+<h4 id="_предпочитайте_композицию_над_наследованием">3.4.3. Предпочитайте композицию над наследованием</h4>
 <div class="paragraph">
 <p>Не создавайте сложные иерархии наследования для тестовых классов.</p>
 </div>
@@ -1023,9 +4593,9 @@ public class DatabaseFixture {
 </div>
 </div>
 <div class="sect2">
-<h3 id="_тупые_тесты_это_хорошо_сравнивайте_результат_с_жестко_заданными_значениями">2.5. Тупые тесты — это хорошо: сравнивайте результат с жестко заданными значениями</h3>
+<h3 id="_тупые_тесты_это_хорошо_сравнивайте_результат_с_жестко_заданными_значениями">3.5. Тупые тесты — это хорошо: сравнивайте результат с жестко заданными значениями</h3>
 <div class="sect3">
-<h4 id="_не_используйте_производственный_код_в_тестовом">2.5.1. Не используйте производственный код в тестовом</h4>
+<h4 id="_не_используйте_производственный_код_в_тестовом">3.5.1. Не используйте производственный код в тестовом</h4>
 <div class="paragraph">
 <p>Тест должен тестировать производственный код, а не использовать его повторно. Если повторно использовать производственный код в тесте, то можно пропустить ошибку, которая совершена в производственном коде и используется в тестируемом. Это происходит потому что код, который должен тестироваться, сам используется для тестирования.</p>
 </div>
@@ -1054,7 +4624,7 @@ assertThat(actualDTO.states).isEqualTo(List.of(States.ACTIVE, States.REJECTED));
 </div>
 </div>
 <div class="sect3">
-<h4 id="_не_переписывайте_производственную_логику">2.5.2. Не переписывайте производственную логику</h4>
+<h4 id="_не_переписывайте_производственную_логику">3.5.2. Не переписывайте производственную логику</h4>
 <div class="paragraph">
 <p>Маппинг — это типичный пример, когда логика тестов переписывается. Например: тест содержит метод <code>mapEntityToDto()</code>. Результат этого метода используется для <strong>assert</strong>, который проверяет, что возвращенный <strong>DTO</strong> содержит те же значения, что и вставленные в начале теста сущности. В этом случае скорее всего, захочется написать такую же логику, как и в производственную коде, а этот код может содержать ошибки.</p>
 </div>
@@ -1086,16 +4656,16 @@ assertThat(actualDTO).isEqualTo(expectedDTO);</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_не_пишите_слишком_много_логики">2.5.3. Не пишите слишком много логики</h4>
+<h4 id="_не_пишите_слишком_много_логики">3.5.3. Не пишите слишком много логики</h4>
 <div class="paragraph">
 <p>Тестирование в основном касается <strong>input</strong> и <strong>output: предоставление *input</strong> данных и сравнение <strong>actual</strong> <strong>output</strong> с <strong>expected</strong> значениями. Следовательно, не нужно писать много логики в тестах. Если реализуется логика с большим количеством циклов и условий, то тесты станут сложнее для понимания и более подвержены ошибкам. Более того, в случае сложной логики проверки, <strong>AssertJ</strong> может сделать всю тяжелую работу.</p>
 </div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_тест_близок_к_реальности">2.6. Тест близок к реальности</h3>
+<h3 id="_тест_близок_к_реальности">3.6. Тест близок к реальности</h3>
 <div class="sect3">
-<h4 id="_сосредоточьтесь_на_тестировании_полного_вертикального_слайда">2.6.1. Сосредоточьтесь на тестировании полного вертикального слайда</h4>
+<h4 id="_сосредоточьтесь_на_тестировании_полного_вертикального_слайда">3.6.1. Сосредоточьтесь на тестировании полного вертикального слайда</h4>
 <div class="paragraph">
 <p>Обычно рекомендуется тестировать каждый класс изолированно с помощью <strong>mocks</strong>. Однако у него есть недостатки:</p>
 </div>
@@ -1116,7 +4686,7 @@ assertThat(actualDTO).isEqualTo(expectedDTO);</code></pre>
 <div class="content">
 <img src="../../assets/img/java/tools/mock-based-testing.svg" alt="Модульное тестирование каждого класса изолированно и с помощью имитаций">
 </div>
-<div class="title">Figure 1. Модульное тестирование каждого класса изолированно и с помощью <strong>mocks</strong> имеет недостатки</div>
+<div class="title">Figure 2. Модульное тестирование каждого класса изолированно и с помощью <strong>mocks</strong> имеет недостатки</div>
 </div>
 <div class="paragraph">
 <p>Поэтому лучше сосредоточиться на <strong>интеграционных тестах</strong>. Под <strong>интеграционными тестами</strong> (или <strong>тестированием компонентов</strong>) имеется в виду объединение всех классов (как в производственной среде) и тестирование полного вертикального вызова, проходящего через все технические уровни (HTTP, бизнес-логика, база данных). Таким образом, тестируется поведение, а не реализацию. Эти тесты близки к производственным и устойчивы к рефакторингу внутренних компонентов. В идеале нужно написать только один тестовый класс.</p>
@@ -1125,19 +4695,19 @@ assertThat(actualDTO).isEqualTo(expectedDTO);</code></pre>
 <div class="content">
 <img src="../../assets/img/java/tools/integration-test.svg" alt="Интеграционное тестирование (= соединение реальных объектов вместе и тестирование всех сразу)">
 </div>
-<div class="title">Figure 2. Интеграционное тестирование (соединение реальных объектов вместе и тестирование всех сразу)</div>
+<div class="title">Figure 3. Интеграционное тестирование (соединение реальных объектов вместе и тестирование всех сразу)</div>
 </div>
 <div class="paragraph">
 <p>Тем не менее, модульные тесты полезны, и бывают ситуации, когда модульный тест является лучшим выбором или когда имеет смысл комбинировать оба подхода. Но в большинстве случаев интеграционный тест является лучшим и достаточным выбором.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_не_используйте_базы_данных_в_памяти_для_тестов">2.6.2. Не используйте базы данных в памяти для тестов</h4>
+<h4 id="_не_используйте_базы_данных_в_памяти_для_тестов">3.6.2. Не используйте базы данных в памяти для тестов</h4>
 <div class="imageblock">
 <div class="content">
 <img src="../../assets/img/java/tools/in-memory-database-vs-real-database-tests.svg" alt="База данных для тестов против базы данных для производства">
 </div>
-<div class="title">Figure 3. Используя базу данных в памяти, проводиться тестирование с другой базой данных, чем та, которая используется в производственной среде.</div>
+<div class="title">Figure 4. Используя базу данных в памяти, проводиться тестирование с другой базой данных, чем та, которая используется в производственной среде.</div>
 </div>
 <div class="paragraph">
 <p>Использование <strong>in-memory DB</strong> (<strong>H2</strong>, <strong>HSQLDB</strong>, <strong>Fongo</strong>) для тестов снижает надежность и объем тестов. <strong>In-memory DB</strong> и <strong>DB</strong>, используемая в производственной среде, ведут себя по-разному и могут возвращать разные результаты. Таким образом, правильный (зеленый/<strong>green</strong>) тест на основе <strong>in-memory DB</strong> не является гарантией правильного поведения приложения в производственной среде. Более того, можно легко столкнуться с ситуациями, когда нельзя использовать (или протестировать) определенную (специфичную для базы данных) функцию, потому что <strong>in-memory DB</strong> не поддерживает ее или действует иначе.</p>
@@ -1148,9 +4718,9 @@ assertThat(actualDTO).isEqualTo(expectedDTO);</code></pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_java_jvm">2.7. Java / JVM</h3>
+<h3 id="_java_jvm">3.7. Java / JVM</h3>
 <div class="sect3">
-<h4 id="_используйте_noverify_xxtieredstopatlevel1">2.7.1. Используйте <code>-noverify -XX:TieredStopAtLevel=1</code></h4>
+<h4 id="_используйте_noverify_xxtieredstopatlevel1">3.7.1. Используйте <code>-noverify -XX:TieredStopAtLevel=1</code></h4>
 <div class="paragraph">
 <p>Всегда добавляйте параметры <strong>JVM</strong> <code>-noverify -XX:TieredStopAtLevel=1</code> в конфигурации запуска. Это сэкономит 1-2 секунды при запуске <strong>JVM</strong> до выполнения теста. Это особенно полезно во время первоначальной разработки теста, когда часто запускаются тесты через <strong>IDE</strong>.</p>
 </div>
@@ -1185,7 +4755,7 @@ assertThat(actualDTO).isEqualTo(expectedDTO);</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_используйте_assertj">2.7.2. Используйте <code>AssertJ</code></h4>
+<h4 id="_используйте_assertj">3.7.2. Используйте <code>AssertJ</code></h4>
 <div class="paragraph">
 <p><a href="http://joel-costigliola.github.io/assertj/">AssertJ</a> - чрезвычайно мощная и зрелая библиотека <strong>asserts</strong> с удобным типо-безопасным API, огромным разнообразием <strong>asserts</strong> и описательных сообщений об ошибках. Есть <strong>asserts</strong> для всего, что необходимо сделать. Это не дает писать сложную логику <strong>asserts</strong> с циклами и условиями, сохраняя при этом тестовые методы короткими. Вот некоторые примеры:</p>
 </div>
@@ -1218,7 +4788,7 @@ assertThat(actualProductList)
 </div>
 </div>
 <div class="sect3">
-<h4 id="_избегайте_asserttrue_и_assertfalse">2.7.3. Избегайте <code>assertTrue()</code> и <code>assertFalse()</code></h4>
+<h4 id="_избегайте_asserttrue_и_assertfalse">3.7.3. Избегайте <code>assertTrue()</code> и <code>assertFalse()</code></h4>
 <div class="paragraph">
 <p>Избегайте простых <code>assertTrue()</code> или <code>assertFalse()</code> <strong>asserts</strong>, поскольку они выдают загадочные сообщения об ошибках:</p>
 </div>
@@ -1261,7 +4831,7 @@ but could not find:
 </div>
 </div>
 <div class="sect3">
-<h4 id="_используйте_junit_5">2.7.4. Используйте JUnit 5</h4>
+<h4 id="_используйте_junit_5">3.7.4. Используйте JUnit 5</h4>
 <div class="paragraph">
 <p><strong>JUnit 5</strong> - это новейший продукт для (модульного) тестирования. Он активно развивается и предоставляет множество мощных функций (например, параметризованные тесты, группирование, условные тесты, управление жизненным циклом).</p>
 </div>
@@ -1340,7 +4910,7 @@ static Stream&lt;Arguments&gt; validTokenProvider() {
 </div>
 </div>
 <div class="sect3">
-<h4 id="_сгруппируйте_тесты">2.7.5. Сгруппируйте тесты</h4>
+<h4 id="_сгруппируйте_тесты">3.7.5. Сгруппируйте тесты</h4>
 <div class="paragraph">
 <p><code>@Nested</code> полезен для группировки методов тестирования. Полезной группировкой может быть группировка по типам тестов (например: <code>InputIsXY</code>, <code>ErrorCases</code>) или одна группа для каждого тестируемого метода (<code>GetDesign</code> и <code>UpdateDesign</code>).</p>
 </div>
@@ -1377,11 +4947,11 @@ static Stream&lt;Arguments&gt; validTokenProvider() {
 <div class="content">
 <img src="../../assets/img/java/tools/group-test-methods.png" alt="Сгруппируйте методы тестирования с помощью `@Nested`">
 </div>
-<div class="title">Figure 4. Сгруппируйте методы тестирования с помощью <code>@Nested</code></div>
+<div class="title">Figure 5. Сгруппируйте методы тестирования с помощью <code>@Nested</code></div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_читаемые_имена_тестов_с_displayname_или_обратными_кавычками_kotlin">2.7.6. Читаемые имена тестов с <code>@DisplayName</code> или обратными кавычками Kotlin</h4>
+<h4 id="_читаемые_имена_тестов_с_displayname_или_обратными_кавычками_kotlin">3.7.6. Читаемые имена тестов с <code>@DisplayName</code> или обратными кавычками Kotlin</h4>
 <div class="paragraph">
 <p>В Java используйте <code>@DisplayName</code> для создания читаемых описаний тестов.</p>
 </div>
@@ -1406,7 +4976,7 @@ static Stream&lt;Arguments&gt; validTokenProvider() {
 <div class="content">
 <img src="../../assets/img/java/tools/annotation-display-name.png" alt="Читаемые имена тестовых методов с использованием `@DisplayName`">
 </div>
-<div class="title">Figure 5. Читаемые имена методов тестирования с использованием <code>@DisplayName</code></div>
+<div class="title">Figure 6. Читаемые имена методов тестирования с использованием <code>@DisplayName</code></div>
 </div>
 <div class="paragraph">
 <p>В <strong>Kotlin</strong> можно помещать имена методов в обратные кавычки, которые могут содержать пробелы. Это обеспечивает хорошую читаемость без избыточности.</p>
@@ -1419,7 +4989,7 @@ fun `design is removed from db`() {}</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_имитация_удаленной_службы">2.7.7. Имитация удаленной службы</h4>
+<h4 id="_имитация_удаленной_службы">3.7.7. Имитация удаленной службы</h4>
 <div class="paragraph">
 <p>Чтобы протестировать HTTP-клиентов, нужно имитировать удаленный сервис. Для этой цели часто используют <a href="https://github.com/square/okhttp/tree/master/mockwebserver">OkHttp&#8217;s WebMockServer</a>. Альтернативы - <a href="http://wiremock.org/">WireMock</a> или <a href="https://www.testcontainers.org/modules/mockserver/">Mockserver Testcontainer</a>.</p>
 </div>
@@ -1440,7 +5010,7 @@ assertThat(productDTO.getName()).isEqualTo("Smartphone");</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_используйте_awaitility_для_asserts_асинхронного_кода">2.7.8. Используйте Awaitility для asserts асинхронного кода</h4>
+<h4 id="_используйте_awaitility_для_asserts_асинхронного_кода">3.7.8. Используйте Awaitility для asserts асинхронного кода</h4>
 <div class="paragraph">
 <p><a href="https://github.com/awaitility/awaitility">Awaitility</a> - это библиотека для тестирования асинхронного кода. Вы можете легко определить, как часто <strong>assert</strong> будет повторяться до тех пор, пока окончательно не завершится ошибкой.</p>
 </div>
@@ -1468,7 +5038,7 @@ public void waitAndPoll(){
 </div>
 </div>
 <div class="sect3">
-<h4 id="_нет_необходимости_загружать_di_spring">2.7.9. Нет необходимости загружать DI (Spring)</h4>
+<h4 id="_нет_необходимости_загружать_di_spring">3.7.9. Нет необходимости загружать DI (Spring)</h4>
 <div class="paragraph">
 <p><strong>Bootstrapping</strong> (<strong>Spring</strong>) <strong>DI</strong> занимает несколько секунд, прежде чем можно будет начать тест. Это замедляет цикл обратной связи, особенно на начальном этапе разработки теста.</p>
 </div>
@@ -1481,9 +5051,9 @@ public void waitAndPoll(){
 </div>
 </div>
 <div class="sect2">
-<h3 id="_сделайте_реализацию_тестируемой">2.8. Сделайте реализацию тестируемой</h3>
+<h3 id="_сделайте_реализацию_тестируемой">3.8. Сделайте реализацию тестируемой</h3>
 <div class="sect3">
-<h4 id="_не_используйте_статический_доступ">2.8.1. Не используйте статический доступ</h4>
+<h4 id="_не_используйте_статический_доступ">3.8.1. Не используйте статический доступ</h4>
 <div class="paragraph">
 <p><strong>Статический доступ</strong> — это анти-шаблон.</p>
 </div>
@@ -1529,7 +5099,7 @@ public class ProductController {
 </div>
 </div>
 <div class="sect3">
-<h4 id="_параметризация">2.8.2. Параметризация</h4>
+<h4 id="_параметризация">3.8.2. Параметризация</h4>
 <div class="paragraph">
 <p>Сделайте все соответствующие части класса контролируемыми этим тестом. Это можно сделать, создав параметр для конструктора из этой части.</p>
 </div>
@@ -1538,7 +5108,7 @@ public class ProductController {
 </div>
 </div>
 <div class="sect3">
-<h4 id="_используйте_внедрение_через_конструктор">2.8.3. Используйте внедрение через конструктор</h4>
+<h4 id="_используйте_внедрение_через_конструктор">3.8.3. Используйте внедрение через конструктор</h4>
 <div class="paragraph">
 <p><strong>Field injection</strong> — зло из-за плохой тестируемости. Вы должны сделать <strong>bootstrap</strong> <strong>DI</strong> в тестах или использовать Reflection API. Таким образом, внедрение через конструктор является предпочтительным способом, поскольку оно позволяет легко управлять зависимым объектом в тесте.</p>
 </div>
@@ -1572,7 +5142,7 @@ class ProductController(
 </div>
 </div>
 <div class="sect3">
-<h4 id="_не_используйте_instant_now_или_new_date">2.8.4. Не используйте <code>Instant.now()</code> или <code>new Date()</code></h4>
+<h4 id="_не_используйте_instant_now_или_new_date">3.8.4. Не используйте <code>Instant.now()</code> или <code>new Date()</code></h4>
 <div class="paragraph">
 <p>Не получайте текущее время, вызывая <code>Instant.now()</code> или <code>new Date()</code> в производственном коде, если нужно проверить это поведение.</p>
 </div>
@@ -1614,7 +5184,7 @@ public class ProductDAO {
 </div>
 </div>
 <div class="sect3">
-<h4 id="_разделяйте_асинхронное_и_не_асинхронное_выполнение">2.8.5. Разделяйте асинхронное и не асинхронное выполнение</h4>
+<h4 id="_разделяйте_асинхронное_и_не_асинхронное_выполнение">3.8.5. Разделяйте асинхронное и не асинхронное выполнение</h4>
 <div class="paragraph">
 <p>Тестировать асинхронный код сложно. Такие библиотеки, как <strong>Awaitility</strong>, могут помочь, но они по-прежнему громоздки, и тесты все еще могут переключаться. Если возможно, имеет смысл отделить (часто синхронную) бизнес-логику от асинхронного выполнения этой логики.</p>
 </div>
@@ -1644,7 +5214,7 @@ public class ProductScheduler {
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2021-06-03 03:53:52 UTC
+Last updated 2021-06-09 04:24:49 UTC
 </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/run_prettify.min.js"></script>

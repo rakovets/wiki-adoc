@@ -1,0 +1,33 @@
+= Maven
+
+:leveloffset: +1
+include::introduction.adoc[]
+
+include::pom.adoc[]
+
+include::build-life-cycle.adoc[]
+
+include::build-profile.adoc[]
+
+include::repositories.adoc[]
+
+include::plugins.adoc[]
+
+include::project-creation.adoc[]
+
+include::build-and-test-project.adoc[]
+
+include::external-dependencies.adoc[]
+
+include::project-documents.adoc[]
+
+include::project-templates.adoc[]
+
+include::snapshots.adoc[]
+
+include::build-automation.adoc[]
+
+include::deployment-automation.adoc[]
+
+include::web-project.adoc[]
+:leveloffset: -1

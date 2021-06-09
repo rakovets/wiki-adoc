@@ -1,0 +1,197 @@
+= Автоматизация сборки.
+
+*Автоматизация сборки* определяет сценарий, в котором процесс сборки зависимого проекта запускается после успешного завершения сборки проекта, чтобы обеспечить стабильность зависимых проектов.
+
+Предположим, что команда разрабатывает проект `bus-core-api`, от которого зависят два других проекта: `app-web-ui` и `app-desktop-ui`.
+
+Проект `app-web-ui` использует `1.0-SNAPSHOT` проекта `bus-core-api`.
+
+[source,xml]
+----
+<project xmlns = "http://maven.apache.org/POM/4.0.0"
+        xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation = "http://maven.apache.org/POM/4.0.0
+        http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>app-web-ui</groupId>
+    <artifactId>app-web-ui</artifactId>
+    <version>1.0</version>
+    <packaging>jar</packaging>
+
+    <dependencies>
+        <dependency>
+            <groupId>bus-core-api</groupId>
+            <artifactId>bus-core-api</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
+</project>
+----
+
+Проект `app-desktop-ui` использует `1.0-SNAPSHOT` проекта `bus-core-api`.
+
+[source,xml]
+----
+<project xmlns = "http://maven.apache.org/POM/4.0.0"
+        xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation = "http://maven.apache.org/POM/4.0.0
+        http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>app_desktop_ui</groupId>
+    <artifactId>app_desktop_ui</artifactId>
+    <version>1.0</version>
+    <packaging>jar</packaging>
+    <name>app_desktop_ui</name>
+    <url>http://maven.apache.org</url>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>3.8.1</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>bus_core_api</groupId>
+            <artifactId>bus_core_api</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>system</scope>
+            <systemPath>C:\MVN\bus_core_api\target\bus_core_api-1.0-SNAPSHOT.jar</systemPath>
+        </dependency>
+    </dependencies>
+</project>
+----
+
+.POM-file проекта `bus-core-api`
+[source,xml]
+----
+<project xmlns = "http://maven.apache.org/POM/4.0.0"
+        xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation = "http://maven.apache.org/POM/4.0.0
+        http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>bus_core_api</groupId>
+    <artifactId>bus_core_api</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
+</project>
+----
+
+Теперь команды проектов `app-web-ui` и `app-desktop-ui` требуют, чтобы процесс их сборки начинался всякий раз, когда изменяется проект `bus-core-api`.
+
+Использование моментального снимка гарантирует, что будет использоваться последний проект `bus-core-api`, но для удовлетворения вышеуказанного требования нам нужно сделать что-то дополнительное.
+
+Можно действовать следующими двумя способами:
+
+* Добавьте цель пост-сборки в POM `bus-core-api`  для запуска сборок `app-web-ui` и `app-desktop-ui`.
+* Используйте сервер *непрерывной интеграции* (*CI*), такой как *Hudson*, для автоматического управления сборкой.
+
+== Использование Maven
+
+Обновите проект `bus-core-api` `pom.xml`.
+
+[source,xml]
+----
+<project xmlns = "http://maven.apache.org/POM/4.0.0"
+        xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation = "http://maven.apache.org/POM/4.0.0
+        http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>bus-core-api</groupId>
+    <artifactId>bus-core-api</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
+
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-invoker-plugin</artifactId>
+                <version>1.6</version>
+                <configuration>
+                    <debug>true</debug>
+                    <pomIncludes>
+                        <pomInclude>app-web-ui/pom.xml</pomInclude>
+                        <pomInclude>app-desktop-ui/pom.xml</pomInclude>
+                    </pomIncludes>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>build</id>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>
+----
+
+Давайте откроем командную консоль, перейдем в директорию с `bus-core-api` и выполним следующую *Maven* команду:
+
+[source,shell script]
+----
+mvn clean package -U
+----
+
+*Maven* начнет сборку проекта `bus-core-api`.
+
+----
+[INFO] Scanning for projects...
+[INFO] ------------------------------------------------------------------
+[INFO] Building bus-core-api
+[INFO] task-segment: [clean, package]
+[INFO] ------------------------------------------------------------------
+...
+[INFO] [jar:jar {execution: default-jar}]
+[INFO] Building jar: C:\MVN\bus-core-ui\target\
+bus-core-ui-1.0-SNAPSHOT.jar
+[INFO] ------------------------------------------------------------------
+[INFO] BUILD SUCCESSFUL
+[INFO] ------------------------------------------------------------------
+----
+
+Как только сборка `bus-core-api` будет успешной, *Maven* начнет сборку проекта `app-web-ui`.
+
+----
+[INFO] ------------------------------------------------------------------
+[INFO] Building app-web-ui
+[INFO] task-segment: [package]
+[INFO] ------------------------------------------------------------------
+...
+[INFO] [jar:jar {execution: default-jar}]
+[INFO] Building jar: C:\MVN\app-web-ui\target\
+app-web-ui-1.0-SNAPSHOT.jar
+[INFO] ------------------------------------------------------------------
+[INFO] BUILD SUCCESSFUL
+[INFO] ------------------------------------------------------------------
+----
+
+Как только сборка `app-web-ui` будет успешной, *Maven* начнет сборку проекта `app-desktop-ui`.
+
+----
+[INFO] ------------------------------------------------------------------
+[INFO] Building app-desktop-ui
+[INFO] task-segment: [package]
+[INFO] ------------------------------------------------------------------
+...
+[INFO] [jar:jar {execution: default-jar}]
+[INFO] Building jar: C:\MVN\app-desktop-ui\target\
+app-desktop-ui-1.0-SNAPSHOT.jar
+[INFO] -------------------------------------------------------------------
+[INFO] BUILD SUCCESSFUL
+[INFO] -------------------------------------------------------------------
+----
+
+== Использование службы непрерывной интеграции с Maven
+
+Использование *CI* Server более предпочтительно для разработчиков. Не требуется обновлять проект `bus-core-api` каждый раз, когда добавляется новый проект (например, `app-mobile-ui`), как зависимый проект от проекта `bus-core-api`. *Jenkins* — это инструмент непрерывной интеграции, написанный на Java, который находится в контейнере сервлетов, таких как *Apache Tomcat*. *Jenkins* автоматически управляет автоматизацией сборки с помощью управления зависимостями *Maven*.
+
+*Jenkins* рассматривает каждый проект как работу. После того, как код проекта зарегистрирован в *Git* (или в любом инструменте управления исходными кодами, сопоставленном с *Jenkins*), *Jenkins* начинает свою работу по сборке, и, как только эта работа завершается, он автоматически запускает другие зависимые задания (другие зависимые проекты).
+
+В приведенном выше примере, когда исходный код `bus-core-ui` обновляется в *Git*, *Jenkins* начинает его сборку. После успешного завершения сборки *Jenkins* автоматически ищет зависимые проекты и начинает создавать проекты `app-web-ui` и `app-desktop-ui`.
