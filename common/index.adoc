@@ -3,7 +3,7 @@ Dmitry Rakovets
 :sectnums:
 :source-highlighter: prettify
 :toc: left
-:toclevels: 3
+:toclevels: 2
 //:data-uri:
 
 :toc!:
@@ -27,3 +27,5 @@ include::number-systems.adoc[]
 // include ONLY at the end of the document, because it breaks the layout
 // Possible reason: using *PassThrough* Block
 include::asciidoc.adoc[]
+
+:leveloffset: -1

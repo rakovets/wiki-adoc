@@ -1,5 +1,7 @@
 = Git
 
+:leveloffset: +1
+
 include::git.adoc[leveloffset=1]
 
 include::repository-naming.adoc[leveloffset=1]
@@ -9,6 +11,8 @@ include::execute-using-git-bash.adoc[leveloffset=1]
 include::git-tips-beginner.adoc[leveloffset=1]
 
 include::git-for-beginner/index.adoc[leveloffset=1]
+
+:leveloffset: -1
 
 == Links
 
