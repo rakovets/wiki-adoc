@@ -27,3 +27,5 @@ include::number-systems.adoc[]
 // include ONLY at the end of the document, because it breaks the layout
 // Possible reason: using *PassThrough* Block
 include::asciidoc.adoc[]
+
+:leveloffset: -1

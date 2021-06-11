@@ -1,11 +1,23 @@
 = Git for beginner
 
-include::what-is-vcs.adoc[leveloffset=1]
-include::install-git.adoc[leveloffset=1]
-include::settings-git.adoc[leveloffset=1]
-include::git-architecture.adoc[leveloffset=1]
-include::creating-repository-and-first-commit.adoc[leveloffset=1]
-include::show-information-about-commits.adoc[leveloffset=1]
-include::head-and-tree-ish.adoc[leveloffset=1]
-include::add-delete-and-rename-files-in-repository.adoc[leveloffset=1]
-include::how-undo-commit-in-git.adoc[leveloffset=1]
+:leveloffset: +1
+
+include::what-is-vcs.adoc[]
+
+include::install-git.adoc[]
+
+include::settings-git.adoc[]
+
+include::git-architecture.adoc[]
+
+include::creating-repository-and-first-commit.adoc[]
+
+include::show-information-about-commits.adoc[]
+
+include::head-and-tree-ish.adoc[]
+
+include::add-delete-and-rename-files-in-repository.adoc[]
+
+include::how-undo-commit-in-git.adoc[]
+
+:leveloffset: -1
