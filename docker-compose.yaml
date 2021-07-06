@@ -1,0 +1,9 @@
+version: '3.7'
+
+services:
+  presentation:
+    container_name: wiki-container
+    image: rakovets/wiki
+    restart: unless-stopped
+    ports:
+      - 3001:80
