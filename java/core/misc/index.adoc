@@ -14,10 +14,6 @@ include::cloning-objects.adoc[]
 
 include::wrapper-classes.adoc[]
 
-include::intro-to-lambda-expressions.adoc[]
-
-include::lambdas-as-parameters-and-methods-results.adoc[]
-
 include::annotations.adoc[]
 
 include::reflection-api.adoc[]
