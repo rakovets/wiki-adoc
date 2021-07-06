@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.15">
-<title>Параллельные потоки</title>
+<title>Stream.collect()</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -437,138 +437,223 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </head>
 <body class="article">
 <div id="header">
-<h1>Параллельные потоки</h1>
+<h1><code>Stream.collect()</code></h1>
 </div>
 <div id="content">
-<div id="preamble">
-<div class="sectionbody">
 <div class="paragraph">
-<p>Кроме последовательных потоков <strong>Stream API</strong> поддерживает параллельные потоки. Распараллеливание потоков позволяет задействовать несколько ядер процессора (если целевая машина многоядерная) и тем самым может повысить производительность и ускорить вычисления. В то же время говорить, что применение параллельных потоков на многоядерных машинах однозначно повысит производительность - не совсем корректно. В каждом конкретном случае надо проверять и тестировать.</p>
-</div>
-<div class="paragraph">
-<p>Чтобы сделать обычный последовательный поток параллельным, надо вызвать у объекта <code>Stream</code> метод <code>parallel()</code>. Кроме того, можно также использовать метод <code>parallelStream()</code> интерфейса <code>Collection</code> для создания параллельного потока из коллекции.</p>
-</div>
-<div class="paragraph">
-<p>В то же время если рабочая машина не является многоядерной, то поток будет выполняться как последовательный.</p>
-</div>
-<div class="paragraph">
-<p>Применение параллельных потоков во многих случаях будет аналогично. Например:</p>
+<p>Большинство операций класса <code>Stream</code>, которые модифицируют набор данных, возвращают этот набор в виде потока. Однако бывают ситуации, когда хотелось бы получить данные не в виде потока, а в виде обычной коллекции, например, <code>ArrayList</code> или <code>HashSet</code>. И для этого у класса <code>Stream</code> определен метод <code>collect</code>. Первая версия метода принимает в качестве параметра функцию преобразования к коллекции:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">import java.util.Optional;
-import java.util.stream.Stream;
+<pre class="highlight"><code class="language-java" data-lang="java">&lt;R, A&gt; R collect(Collector&lt;? super T, A, R&gt; collector)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Параметр <code>R</code> представляет тип результата метода, параметр <code>Т</code> - тип элемента в потоке, а параметр <code>А</code> - тип промежуточных накапливаемых данных. В итоге параметр <code>collector</code> представляет функцию преобразования потока в коллекцию.</p>
+</div>
+<div class="paragraph">
+<p>Эта функция представляет объект <code>Collector</code>, который определен в пакете <code>java.util.stream</code>. Мы можем написать свою реализацию функции, однако Java уже предоставляет ряд встроенных функций, определенных в классе <code>Collectors</code>:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>toList()</code> преобразование к типу <code>List</code></p>
+</li>
+<li>
+<p><code>toSet()</code> преобразование к типу <code>Set</code></p>
+</li>
+<li>
+<p><code>toMap()</code> преобразование к типу <code>Map</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Например, преобразуем набор в потоке в список:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class Program {
     public static void main(String[] args) {
-        Stream&lt;Integer&gt; numbersStream = Stream.of(1, 2, 3, 4, 5, 6);
-        Optional&lt;Integer&gt; result = numbersStream.parallel().reduce((x, y) -&gt; x * y);
-        System.out.println(result.get()); // 720
+        List&lt;String&gt; phones = new ArrayList&lt;String&gt;();
+        Collections.addAll(phones, "iPhone 8", "HTC U12", "Huawei Nexus 6P",
+                "Samsung Galaxy S9", "LG G6", "Xiaomi MI6", "ASUS Zenfone 2",
+                "Sony Xperia Z5", "Meizu Pro 6", "Lenovo S850");
+        List&lt;String&gt; filteredPhones = phones.stream()
+                .filter(s -&gt; s.length() &lt; 10)
+                .collect(Collectors.toList());
+
+        for(String s : filteredPhones) {
+            System.out.println(s);
+        }
     }
 }</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Однако не все функции можно без ущерба для точности вычисления перенести с последовательных потоков на параллельные. Прежде всего такие функции должны быть без сохранения состояния и ассоциативными, то есть при выполнении слева направо давать тот же результат, что и при выполнении справа налево, как в случае с произведением чисел. Например:</p>
+<p>Использование метода <code>toSet()</code> аналогично.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">Stream&lt;String&gt; wordsStream = Stream.of("мама", "мыла", "раму");
-String sentence = wordsStream.parallel().reduce("Результат:", (x, y) -&gt; x + " " + y);
-System.out.println(sentence);</code></pre>
+<pre class="highlight"><code class="language-java" data-lang="java">Set&lt;String&gt; filteredPhones = phones.stream()
+                .filter(s -&gt; s.length() &lt; 10)
+                .collect(Collectors.toSet());</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Результатом этой функции будет консольный вывод:</p>
+<p>Для применения метода <code>toMap()</code> надо задать ключ и значение. Например, пусть у нас есть следующая модель:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-out" data-lang="out">Результат: мама Результат: мыла Результат: раму</code></pre>
+<pre class="highlight"><code class="language-java" data-lang="java">class Phone {
+    private String name;
+    private int price;
+
+    public Phone(String name, int price) {
+        this.name = name;
+        this.price = price;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+}</code></pre>
 </div>
 </div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_sequential"><code>sequential()</code></h2>
-<div class="sectionbody">
 <div class="paragraph">
-<p>Данный вывод не является правильным. Если же мы не уверены, что на каком-то этапе работы с параллельным потоком он адекватно сможет выполнить какую-нибудь операцию, то мы можем преобразовать этот поток в последовательный посредством вызова метода <code>sequential()</code>:</p>
+<p>Теперь применим метод <code>toMap()</code>:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">Stream&lt;String&gt; wordsStream = Stream.of("мама", "мыла", "раму", "hello world");
-String sentence = wordsStream.parallel()
-        .filter(s-&gt;s.length()&lt;10) // фильтрация над параллельным потоком
-        .sequential()
-        .reduce("Результат:", (x, y) -&gt; x + " " + y); // операция над последовательным потоком
-System.out.println(sentence);</code></pre>
+<pre class="highlight"><code class="language-java" data-lang="java">import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+public class Program {
+    public static void main(String[] args) {
+        Stream&lt;Phone&gt; phoneStream = Stream.of(new Phone("iPhone 8", 54000),
+            new Phone("Nokia 9", 45000),
+            new Phone("Samsung Galaxy S9", 40000),
+            new Phone("LG G6", 32000));
+
+
+        Map&lt;String, Integer&gt; phones = phoneStream
+            .collect(Collectors.toMap(p -&gt; p.getName(), t -&gt; t.getPrice()));
+
+        phones.forEach((k, v) -&gt; System.out.println(k + " " + v));
+    }
+}</code></pre>
 </div>
-</div>
-<div class="paragraph">
-<p>И возьмем другой пример:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">Stream&lt;Integer&gt; numbersStream = Stream.of(1, 2, 3, 4, 5, 6);
-Integer result = numbersStream.parallel().reduce(1, (x, y) -&gt; x * y);
-System.out.println(result);</code></pre>
+<pre class="highlight"><code class="language-java" data-lang="java">class Phone {
+    private String name;
+    private int price;
+
+    public Phone(String name, int price) {
+        this.name=name;
+        this.price=price;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+}</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Фактически здесь происходит перемножение чисел. При этом нет разницы между <code>1 * 2 * 3 * 4 * (5 * 6)</code> или <code>5 * 6 * 1 * (2 * 3) * 4</code>. Мы можем расставить скобки любым образом, разместить последовательность чисел в любом порядке, и все равно мы получим один и тот же результат. То есть данная операция является ассоциативной и поэтому может быть распараллелена.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_вопросы_производительности_в_параллельных_операциях">Вопросы производительности в параллельных операциях</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Фактически применение параллельных потоков сводится к тому, что данные в потоке будут разделены на части, каждая часть обрабатывается на отдельном ядре процессора, и в конце эти части соединяются, и над ними выполняются финальные операции. Рассмотрим некоторые критерии, которые могут повлиять на производительность в параллельных потоках:</p>
+<p>Лямбда-выражение <code>p &#8594; p.getName()</code> получает значение для ключа элемента, а <code>t &#8594; t.getPrice()</code> - извлекает значение элемента.</p>
 </div>
 <div class="paragraph">
-<p>Размер данных. Чем больше данных, тем сложнее сначала разделять данные, а потом их соединять.</p>
-</div>
-<div class="paragraph">
-<p>Количество ядер процессора. Теоретически, чем больше ядер в компьютере, тем быстрее программа будет работать. Если на машине одно ядро, нет смысла применять параллельные потоки.</p>
-</div>
-<div class="paragraph">
-<p>Чем проще структура данных, с которой работает поток, тем быстрее будут происходить операции. Например, данные из <code>ArrayList</code> легко использовать, так как структура данной коллекции предполагает последовательность несвязанных данных. А вот коллекция типа <code>LinkedList</code> - не лучший вариант, так как в последовательном списке все элементы связаны с предыдущими/последующими. И такие данные трудно распараллелить.</p>
-</div>
-<div class="paragraph">
-<p>Над данными примитивных типов операции будут производиться быстрее, чем над объектами классов</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_упорядоченность_в_параллельных_потоках">Упорядоченность в параллельных потоках</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Как правило, элементы передаются в поток в том же порядке, в котором они определены в источнике данных. При работе с параллельными потоками система сохраняет порядок следования элементов. Исключение составляет метод <code>forEach()</code>, который может выводить элементы в произвольном порядке. И чтобы сохранить порядок следования, необходимо применять метод <code>forEachOrdered()</code>:</p>
+<p>Если нам надо создать какой-то определенный тип коллекции, например, <code>HashSet</code>, то мы можем использовать специальные функции, которые определены в классах-коллекций. Например, получим объект <code>HashSet</code>:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">phones.parallelStream()
-    .sorted()
-    .forEachOrdered(s -&gt; System.out.println(s));</code></pre>
+<pre class="highlight"><code class="language-java" data-lang="java">import java.util.TreeSet;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+public class Program {
+    public static void main(String[] args) {
+        Stream&lt;String&gt; phones = Stream.of("iPhone 8", "HTC U12", "Huawei Nexus 6P",
+                "Samsung Galaxy S9", "LG G6", "Xiaomi MI6", "ASUS Zenfone 2",
+                "Sony Xperia Z5", "Meizu Pro 6", "Lenovo S850");
+
+        TreeSet&lt;String&gt; filteredPhones = phones.filter(s -&gt; s.length() &lt; 12).
+                                    collect(Collectors.toCollection(TreeSet::new));
+
+        filteredPhones.forEach(s -&gt; System.out.println(s));
+    }
+}</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Сохранение порядка в параллельных потоках увеличивает издержки при выполнении. Но если нам порядок не важен, то мы можем отключить его сохранение и тем самым увеличить производительность, использовав метод <code>unordered()</code>:</p>
+<p>Выражение <code>HashSet::new</code> представляет функцию создания коллекции. Аналогичным образом можно получать другие коллекции, например, <code>ArrayList</code>:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">phones.parallelStream()
-    .sorted()
-    .unordered()
-    .forEach(s -&gt; System.out.println(s));</code></pre>
+<pre class="highlight"><code class="language-java" data-lang="java">ArrayList&lt;String&gt; result = phones.collect(Collectors.toCollection(ArrayList::new));</code></pre>
 </div>
 </div>
+<div class="paragraph">
+<p>Вторая форма метода <code>&lt;R&gt; R collect(Supplier&lt;R&gt; supplier, BiConsumer&lt;R,? super T&gt; accumulator, BiConsumer&lt;R,R&gt; combiner)</code> имеет три параметра:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>supplier</code> создает объект коллекции</p>
+</li>
+<li>
+<p><code>accumulator</code> добавляет элемент в коллекцию</p>
+</li>
+<li>
+<p><code>combiner</code> бинарная функция, которая объединяет два объекта</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Применим эту версию метода <code>collect()</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">import java.util.ArrayList;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+public class Program {
+    public static void main(String[] args) {
+        Stream&lt;String&gt; phones = Stream.of("iPhone 8", "HTC U12", "Huawei Nexus 6P",
+                "Samsung Galaxy S9", "LG G6", "Xiaomi MI6", "ASUS Zenfone 2",
+                "Sony Xperia Z5", "Meizu Pro 6", "Lenovo S850");
+
+        ArrayList&lt;String&gt; filteredPhones = phones.filter(s -&gt; s.length() &lt; 12)
+            .collect(
+                ()-&gt; new ArrayList&lt;String&gt;(), // создаем ArrayList
+                (list, item) -&gt; list.add(item), // добавляем в список элемент
+                (list1, list2) -&gt; list1.addAll(list2)); // добавляем в список другой список
+
+        filteredPhones.forEach(s -&gt; System.out.println(s));
+    }
+}</code></pre>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2021-07-06 10:02:56 UTC
+Last updated 2021-07-06 10:40:55 UTC
 </div>
 </div>
 </body>

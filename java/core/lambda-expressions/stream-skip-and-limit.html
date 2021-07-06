@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.15">
-<title>Фильтрация, перебор элементов и отображение</title>
+<title>skip() и limit()</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -437,223 +437,105 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </head>
 <body class="article">
 <div id="header">
-<h1>Фильтрация, перебор элементов и отображение</h1>
+<h1><code>skip()</code> и <code>limit()</code></h1>
 </div>
 <div id="content">
-<div class="sect1">
-<h2 id="_foreach"><code>forEach()</code></h2>
-<div class="sectionbody">
 <div class="paragraph">
-<p>Для перебора элементов потока применяется метод <code>forEach()</code>, который представляет терминальную операцию. В качестве параметра он принимает объект <code>Consumer&lt;? super String&gt;</code>, который представляет действие, выполняемое для каждого элемента набора. Например:</p>
+<p>Метод <code>skip(long n)</code> используется для пропуска <code>n</code> элементов. Этот метод возвращает новый поток, в котором пропущены первые <code>n</code> элементов.</p>
+</div>
+<div class="paragraph">
+<p>Метод <code>limit(long n)</code> применяется для выборки первых <code>n</code> элементов потоков. Этот метод также возвращает модифицированный поток, в котором не более <code>n</code> элементов.</p>
+</div>
+<div class="paragraph">
+<p>Зачастую эта пара методов используется вместе для создания эффекта постраничной навигации. Рассмотрим, как их применять:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">Stream&lt;String&gt; citiesStream = Stream.of("Париж", "Лондон", "Мадрид","Берлин", "Брюссель");
-citiesStream.forEach(s -&gt; System.out.println(s));</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Фактически это будет аналогично перебору всех элементов в цикле <code>for</code> и выполнению с ними действия, а именно вывод на консоль. В итоге консоль выведет:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-out" data-lang="out">Париж
-Лондон
-Мадрид
-Берлин
-Брюссель</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Кстати мы можем сократить в данном случае применение метода <code>forEach</code> следующим образом:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">Stream&lt;String&gt; citiesStream = Stream.of("Париж", "Лондон", "Мадрид","Берлин", "Брюссель");
-citiesStream.forEach(System.out::println);</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Фактически здесь переадается ссылка на статический метод, который выводит строку на консоль.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_filter"><code>filter()</code></h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Для фильтрации элементов в потоке применяется метод <code>filter()</code>, который представляет промежуточную операцию. Он принимает в качестве параметра некоторое условие в виде объекта <code>Predicate&lt;T&gt;</code> и возвращает новый поток из элементов, которые удовлетворяют этому условию:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">Stream&lt;String&gt; citiesStream = Stream.of("Париж", "Лондон", "Мадрид","Берлин", "Брюссель");
-citiesStream.filter(s -&gt; s.length() == 6).forEach(s -&gt; System.out.println(s));</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Здесь условие <code>s.length() == 6</code> возвращает <code>true</code> для тех элементов, длина которых равна <code>6</code> символам. То есть в итоге программа выведет:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-out" data-lang="out">Лондон
-Мадрид
-Берлин</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Рассмотрим еще один пример фильтрации с более сложными данными. Допустим, у нас есть следующий класс <code>Phone</code>:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">class Phone {
-    private String name;
-    private int price;
+<pre class="highlight"><code class="language-java" data-lang="java">Stream&lt;String&gt; phoneStream = Stream.of("iPhone 6 S", "Lumia 950", "Samsung Galaxy S 6", "LG G 4", "Nexus 7");
 
-    public Phone(String name, int price) {
-        this.name = name;
-        this.price = price;
-    }
+phoneStream.skip(1)
+    .limit(2)
+    .forEach(s -&gt; System.out.println(s));</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>В данном случае метод <code>skip()</code> пропускает один первый элемент, а метод <code>limit()</code> выбирает два следующих элемента. В итоге мы получим следующий консольный вывод:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-out" data-lang="out">Lumia 950
+Samsung Galaxy S 6</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Вполне может быть, что метод <code>skip()</code> может принимать в качестве параметра число большее, чем количество элементов в потоке. В этом случае будут пропущены все элементы, а в результирующем потоке будет <code>0</code> элементов.</p>
+</div>
+<div class="paragraph">
+<p>И если в метод <code>limit()</code> передается число, большее, чем количество элементов, то просто выбираются все элементы потока.</p>
+</div>
+<div class="paragraph">
+<p>Теперь рассмотрим, как создать постраничную навигацию:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.*;
+import java.util.Scanner;
 
-    public String getName() {
-        return name;
-    }
+public class Program {
+    public static void main(String[] args) {
+        List&lt;String&gt; phones = new ArrayList&lt;String&gt;();
+        phones.addAll(Arrays.asList(new String[]
+                {"iPhone 6 S", "Lumia 950", "Huawei Nexus 6P",
+                "Samsung Galaxy S 6", "LG G 4", "Xiaomi MI 5",
+                "ASUS Zenfone 2", "Sony Xperia Z5", "Meizu Pro 5",
+                "Lenovo S 850"}));
 
-    public void setName(String name) {
-        this.name = name;
-    }
+        int pageSize = 3; // количество элементов на страницу
+        Scanner scanner = new Scanner(System.in);
+        while(true) {
+            System.out.println("Введите номер страницы: ");
+            int page = scanner.nextInt();
 
-    public int getPrice() {
-        return price;
-    }
+            if(page &lt; 1) {
+                break; // если число меньше 1, выходим из цикла
+            }
 
-    public void setPrice(int price) {
-        this.price = price;
+            phones.stream().skip((page - 1) * pageSize)
+                .limit(pageSize)
+                .forEach(s -&gt; System.out.println(s));
+       }
     }
 }</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Отфильтруем набор телефонов по цене:</p>
+<p>В данном случае у нас набор из 10 элементов. С помощью переменной <code>pageSize</code> определяем количество элементов на странице - <code>3</code>. То есть у нас получится <code>4</code> страницы (на последней будет только один элемент).</p>
+</div>
+<div class="paragraph">
+<p>В бесконечном цикле получаем номер страницы и выбираем только те элементы, которые находятся на указанной странице.</p>
+</div>
+<div class="paragraph">
+<p>Теперь введем какие-нибудь номера страниц, например, <code>4</code> и <code>2</code>:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">Stream&lt;Phone&gt; phoneStream = Stream.of(
-    new Phone("iPhone 6 S", 54000),
-    new Phone("Lumia 950", 45000),
-    new Phone("Samsung Galaxy S 6", 40000)
-);
-
-phoneStream.filter(p -&gt; p.getPrice() &lt; 50000)
-        .forEach(p -&gt; System.out.println(p.getName()));</code></pre>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_map"><code>map()</code></h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Отображение или маппинг позволяет задать функцию преобразования одного объекта в другой, то есть получить из элемента одного типа элемент другого типа. Для отображения используется метод <code>map()</code>, который имеет следующее определение:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">&lt;R&gt; Stream&lt;R&gt; map(Function&lt;? super T, ? extends R&gt; mapper)</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Передаваемая в метод <code>map()</code> функция задает преобразование от объектов типа <code>T</code> к типу <code>R</code>. И в результате возвращается новый поток с преобразованными объектами.</p>
-</div>
-<div class="paragraph">
-<p>Возьмем вышеопределенный класс телефонов и выполним преобразование от типа <code>Phone</code> к типу <code>String</code>:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">Stream&lt;Phone&gt; phoneStream = Stream.of(
-    new Phone("iPhone 6 S", 54000),
-    new Phone("Lumia 950", 45000),
-    new Phone("Samsung Galaxy S 6", 40000)
-);
-phoneStream.map(p -&gt; p.getName()) // помещаем в поток только названия телефонов
-        .forEach(s -&gt; System.out.println(s));</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Операция <code>map(p &#8594; p.getName())</code> помещает в новый поток только названия телефонов. В итоге на консоли будут только названия:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-out" data-lang="out">iPhone 6 S
-Lumia 950
-Samsung Galaxy S 6</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Еще проведем преобразования:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">phoneStream
-        .map(p -&gt; "название: " + p.getName() + " цена: " + p.getPrice())
-        .forEach(s -&gt; System.out.println(s));</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Здесь также результирующий поток содержит только строки, только теперь названия соединяются с ценами.</p>
-</div>
-<div class="paragraph">
-<p>Для преобразования объектов в типы <code>Integer</code>, <code>Long</code>, <code>Double</code> определены специальные методы <code>mapToInt()</code>, <code>mapToLong()</code> и <code>mapToDouble()</code> соответственно.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_flatmap"><code>flatMap()</code></h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Плоское отображение выполняется тогда, когда из одного элемента нужно получить несколько. Данную операцию выполняет метод <code>flatMap</code>:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">&lt;R&gt; Stream&lt;R&gt; flatMap(Function&lt;? super T, ? extends Stream&lt;? extends R&gt;&gt; mapper)</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Например, в примере выше мы выводим название телефона и его цену. Но что, если мы хотим установить для каждого телефона цену со скидкой и цену без скидки. То есть из одного объекта <code>Phone</code> нам надо получить два объекта с информацией, например, в виде строки. Для этого применим <code>flatMap</code>:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">Stream&lt;Phone&gt; phoneStream = Stream.of(
-    new Phone("iPhone 6 S", 54000),
-    new Phone("Lumia 950", 45000),
-    new Phone("Samsung Galaxy S 6", 40000)
-);
-
-phoneStream
-        .flatMap(p -&gt; Stream.of(
-                String.format("название: %s  цена без скидки: %d", p.getName(), p.getPrice()),
-                String.format("название: %s  цена со скидкой: %d", p.getName(), p.getPrice() - (int) (p.getPrice() * 0.1))
-        ))
-        .forEach(s -&gt; System.out.println(s));</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Результат работы программы:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-out" data-lang="out">название: iPhone 6 S цена без скидки: 54000
-название: iPhone 6 S цена со скидкой: 48600
-название: Lumia 950 цена без скидки: 45000
-название: Lumia 950 цена со скидкой: 40500
-название: Samsung Galaxy S 6 цена без скидки: 40000
-название: Samsung Galaxy S 6 цена со скидкой: 36000</code></pre>
-</div>
-</div>
+<pre class="highlight"><code class="language-out" data-lang="out">Введите номер страницы:
+4
+Lenovo S 850
+Введите номер страницы:
+2
+Samsung Galaxy S 6
+LG G 4
+Xiaomi MI 5</code></pre>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2021-07-06 10:02:56 UTC
+Last updated 2021-07-06 10:40:55 UTC
 </div>
 </div>
 </body>

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.15">
-<title>Параллельные операции над массивами</title>
+<title>Класс Collectors</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -437,78 +437,25 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </head>
 <body class="article">
 <div id="header">
-<h1>Параллельные операции над массивами</h1>
+<h1>Класс <code>Collectors</code></h1>
 </div>
 <div id="content">
-<div id="preamble">
-<div class="sectionbody">
-<div class="paragraph">
-<p>В JDK 8 к классу <code>Arrays</code> было добавлено ряд методов, которые позволяют в параллельном режиме совершать обработку элементов массива. И хотя данные методы формально не входят в <strong>Stream API</strong>, но реализуют схожую функциональность, что и параллельные потоки:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><code>parallelSetAll()</code> устанавливает элементы массива с помощью лямбда-выражения</p>
-</li>
-<li>
-<p><code>parallelSort()</code> сортирует массив</p>
-</li>
-<li>
-<p><code>parallelPrefix()</code> вычисляет некоторое значение для элементов массива (например, сумму элементов)</p>
-</li>
-</ul>
-</div>
-</div>
-</div>
 <div class="sect1">
-<h2 id="_parallelsetall"><code>parallelSetAll()</code></h2>
+<h2 id="_groupingby"><code>groupingBy()</code></h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Используем метод <code>parallelSetAll()</code> для установки элементов массива:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">import java.util.Arrays;
-public class Program {
-    public static void main(String[] args) {
-        int[] numbers = initializeArray(6);
-        for(int i : numbers) {
-            System.out.println(i);
-        }
-    }
-
-    public static int[] initializeArray(int size) {
-        int[] values = new int[size];
-        Arrays.parallelSetAll(values, i -&gt; i * 10);
-        return values;
-    }
-}</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>В метод <code>Arrays.parallelSetAll()</code> передается два параметра: изменяемый массив и функция, которая устанавливает элементы массива. Эта функция перебирает все элементы и в качестве параметра получает индекс текущего перебираемого элемента. Выражение <code>i &#8594; i * 10</code> означает, что по каждому индексу в массиве будет хранится число, равное <code>i * 10</code>. В итоге мы получим следующий вывод:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-out" data-lang="out">0
-10
-20
-30
-40
-50</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Рассмотрим более сложный пример. Пусть у нас есть следующий класс <code>Phone</code>:</p>
+<p>Чтобы сгруппировать данные по какому-нибудь признаку, нам надо использовать в связке метод <code>collect()</code> объекта <code>Stream</code> и метод <code>Collectors.groupingBy()</code>. Допустим, у нас есть следующий класс:</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight"><code class="language-java" data-lang="java">class Phone {
     private String name;
+    private String company;
     private int price;
 
-    public Phone(String name, int price) {
+    public Phone(String name, String comp, int price) {
         this.name = name;
+        this.company = comp;
         this.price = price;
     }
 
@@ -516,152 +463,277 @@ public class Program {
         return name;
     }
 
-    public void setName(String val) {
-        this.name = val;
-    }
-
     public int getPrice() {
         return price;
     }
 
-    public void setPrice(int val) {
-        this.price = val;
+    public String getCompany() {
+        return company;
     }
 }</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Теперь произведем манипуляции с массивом объектов <code>Phone</code>:</p>
+<p>И, к примеру, у нас есть набор объектов <code>Phone</code>, которые мы хотим сгруппировать по компании:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">Phone[] phones = new Phone[] {
-    new Phone("iPhone 8", 54000),
-    new Phone("Pixel 2", 45000),
-    new Phone("Samsung Galaxy S9", 40000),
-    new Phone("Nokia 9", 32000)
-};
+<pre class="highlight"><code class="language-java" data-lang="java">import java.util.List;
+import java.util.Map;
+import java.util.stream.Stream;
+import java.util.stream.Collectors;
 
-Arrays.parallelSetAll(phones, i -&gt; {
-    phones[i].setPrice(phones[i].getPrice() - 10000);
-    return phones[i];
-});
-
-for(Phone p : phones) {
-    System.out.printf("%s - %d \n", p.getName(), p.getPrice());
-}</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Теперь лямбда-выражение в методе <code>Arrays.parallelSetAll()</code> представляет блок кода. И так как лямбда-выражение должно возвращать объект, то нам надо явным образом использовать оператор <code>return</code>. В этом лямбда-выражении опять же функция получает индексы перебираемых элементов, и по этим индексам мы можем обратиться к элементам массива и их изменить. Конкретно в данном случае происходит уменьшение цены смартфонов на <code>10000</code> единиц. В итоге мы получим следующий консольный вывод:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-out" data-lang="out">iPhone 8 - 44000
-Pixel 2 - 35000
-Samsung Galaxy S9 - 30000
-Nokia 9 - 22000</code></pre>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_parallelsort"><code>parallelSort()</code></h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Отсортируем массив чисел в параллельном режиме:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">int[] nums = {30, -4, 5, 29, 7, -8};
-Arrays.parallelSort(nums);
-for(int i : nums) {
-    System.out.println(i);
-}</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Метод <code>Arrays.parallelSort()</code> в качестве параметра принимает массив и сортирует его по возрастанию:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-out" data-lang="out">-8
--4
-5
-7
-29
-30</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Если же нам надо как-то по-другому отсортировать объекты, например, по модулю числа, или у нас более сложные объекты, то мы можем создать свой компаратор и передать его в качестве второго параметра в <code>Arrays.parallelSort()</code>. Например, возьмем выше определенный класс <code>Phone</code> и создадим для него компаратор:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">import java.util.Arrays;
-import java.util.Comparator;
 public class Program {
     public static void main(String[] args) {
-        Phone[] phones = new Phone[]{new Phone("iPhone 8", 54000),
-        new Phone("Pixel 2", 45000),
-        new Phone("Samsung Galaxy S9", 40000),
-        new Phone("Nokia 9", 32000)};
+        Stream&lt;Phone&gt; phoneStream = Stream.of(
+            new Phone("iPhone X", "Apple", 600),
+            new Phone("Pixel 2", "Google", 500),
+            new Phone("iPhone 8", "Apple",450),
+            new Phone("Galaxy S9", "Samsung", 440),
+            new Phone("Galaxy S8", "Samsung", 340)
+        );
 
-        Arrays.parallelSort(phones,new PhoneComparator());
+        Map&lt;String, List&lt;Phone&gt;&gt; phonesByCompany = phoneStream.collect(
+                Collectors.groupingBy(Phone::getCompany));
 
-        for(Phone p : phones) {
-        System.out.println(p.getName());
+        for(Map.Entry&lt;String, List&lt;Phone&gt;&gt; item : phonesByCompany.entrySet()) {
+            System.out.println(item.getKey());
+            for(Phone phone : item.getValue()) {
+                System.out.println(phone.getName());
+            }
+            System.out.println();
         }
     }
-}
-
-class PhoneComparator implements Comparator&lt;Phone&gt; {
-    public int compare(Phone a, Phone b) {
-        return a.getName().toUpperCase().compareTo(b.getName().toUpperCase());
-    }
 }</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Консольный вывод:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-out" data-lang="out">Google
+Pixel 2
+
+Apple
+iPhone X
+iPhone 8
+
+Samsung
+Galaxy S9
+Galaxy S8</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Итак, для создания групп в метод <code>phoneStream.collect()</code> передается вызов функции <code>Collectors.groupingBy()</code>, которая с помощью выражения <code>Phone::getCompany</code> группирует объекты по компании. В итоге будет создан объект <code>Map</code>, в котором ключами являются названия компаний, а значениями - список связанных с компаниями телефонов.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_partitioningby"><code>partitioningBy()</code></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Метод <code>Collectors.partitioningBy()</code> имеет похожее действие, только он делит элементы на группы по принципу, соответствует ли элемент определенному условию. Например:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">Map&lt;Boolean, List&lt;Phone&gt;&gt; phonesByCompany = phoneStream.collect(
+                Collectors.partitioningBy(p -&gt; p.getCompany() == "Apple"));
+
+for(Map.Entry&lt;Boolean, List&lt;Phone&gt;&gt; item : phonesByCompany.entrySet()) {
+    System.out.println(item.getKey());
+    for(Phone phone : item.getValue()) {
+        System.out.println(phone.getName());
+    }
+    System.out.println();
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>В данном случае с помощью условия <code>p &#8594; p.getCompany() == "Apple"</code> мы смотрим, принадлежит ли телефон компании <code>Apple</code>. Если телефон принадлежит этой компании, то он попадает в одну группу, если нет, то в другую.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_counting"><code>counting()</code></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Метод <code>Collectors.counting()</code> применяется в <code>Collectors.groupingBy()</code> для вычисления количества элементов в каждой группе:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">Map&lt;String, Long&gt; phonesByCompany = phoneStream.collect(
+        Collectors.groupingBy(Phone::getCompany, Collectors.counting()));
+
+for(Map.Entry&lt;String, Long&gt; item : phonesByCompany.entrySet()) {
+    System.out.println(item.getKey() + " - " + item.getValue());
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Консольный вывод:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-out" data-lang="out">Google -1
+Apple - 2
+Samsung - 2</code></pre>
 </div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_parallelprefix"><code>parallelPrefix()</code></h2>
+<h2 id="_summing"><code>summing()</code></h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Метод <code>parallelPrefix()</code> походит для тех случаев, когда надо получить элемент массива или объект того же типа, что и элементы массива, который обладает некоторыми признаками. Например, в массиве чисел это может быть максимальное, минимальное значения и т.д. Например, найдем произведение чисел:</p>
+<p>Метод <code>Collectors.summing()</code> применяется для подсчета суммы. В зависимости от типа данных, к которым применяется метод, он имеет следующие формы: <code>summingInt()</code>, <code>summingLong()</code>, <code>summingDouble()</code>. Применим этот метод для подсчета стоимости всех смартфонов по компаниям:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">int[] numbers = {1, 2, 3, 4, 5, 6};
-Arrays.parallelPrefix(numbers, (x, y) -&gt; x * y);
+<pre class="highlight"><code class="language-java" data-lang="java">Map&lt;String, Integer&gt; phonesByCompany = phoneStream.collect(
+        Collectors.groupingBy(Phone::getCompany, Collectors.summingInt(Phone::getPrice)));
 
-for(int i : numbers) {
-    System.out.println(i);
+for(Map.Entry&lt;String, Integer&gt; item : phonesByCompany.entrySet()) {
+    System.out.println(item.getKey() + " - " + item.getValue());
 }</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Мы получим следующий результат:</p>
+<p>С помощью выражения <code>Collectors.summingInt(Phone::getPrice))</code> мы указываем, что для каждой компании будет вычислять совокупная цена всех ее смартфонов. И поскольку вычисляется результат - сумма для значений типа <code>int</code>, то в качестве типа возвращаемой коллекции используется тип <code>Map&lt;String, Integer&gt;</code></p>
+</div>
+<div class="paragraph">
+<p>Консольный вывод:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-out" data-lang="out">1
-2
-6
-24
-120
-720</code></pre>
+<pre class="highlight"><code class="language-out" data-lang="out">Google - 500
+Apple - 1050
+Samsung - 780</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_maxby_и_minby"><code>maxBy()</code> и <code>minBy()</code></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Методы <code>maxBy()</code> и <code>minBy()</code> применяются для подсчета минимального и максимального значения в каждой группе. В качестве параметра эти методы принимают функцию компаратора, которая нужна для сравнения значений. Например, найдем для каждой компании телефон с минимальной ценой:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">Map&lt;String, Optional&lt;Phone&gt;&gt; phonesByCompany = phoneStream.collect(
+        Collectors.groupingBy(Phone::getCompany,
+                Collectors.minBy(Comparator.comparing(Phone::getPrice))));
+
+for(Map.Entry&lt;String, Optional&lt;Phone&gt;&gt; item : phonesByCompany.entrySet()) {
+    System.out.println(item.getKey() + " - " + item.getValue().get().getName());
+}</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>То есть, как мы видим из консольного вывода, лямбда-выражение из <code>Arrays.parallelPrefix()</code>, которое представляет бинарную функцию, получает два элемента и выполняет над ними операцию. Результат операции сохраняется и передается в следующий вызов бинарной функции.</p>
+<p>Консольный вывод:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-out" data-lang="out">Google - Pixel 2
+Apple - iPhone 8
+Samsung - Galaxy S8</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>В качестве возвращаемого значения операции группировки используется объект <code>Map&lt;String, Optional&lt;Phone&gt;&gt;</code>. Опять же поскольку группируем по компаниям, то ключом будет выступать строка, а значением - объект <code>Optional&lt;Phone&gt;</code>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_summarizing"><code>summarizing()</code></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Методы <code>summarizingInt()</code> / <code>summarizingLong()</code> / <code>summarizingDouble()</code> позволяют объединить в набор значения соответствующих типов:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">Map&lt;String, java.util.IntSummaryStatistics&gt; priceSummary = phoneStream.collect(
+    Collectors.groupingBy(Phone::getCompany,
+        Collectors.summarizingInt(Phone::getPrice)));
+
+for(Map.Entry&lt;String, java.util.IntSummaryStatistics&gt; item : priceSummary.entrySet()) {
+    System.out.println(item.getKey() + " - " + item.getValue().getAverage());
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Метод <code>Collectors.summarizingInt(Phone::getPrice))</code> создает набор, в который помещаются цены для всех телефонов каждой из групп. Данный набор инкапсулируется в объекте <code>IntSummaryStatistics</code>. Соответственно если бы мы применяли методы <code>summarizingLong()</code> или <code>summarizingDouble()</code>, то соответственно бы получали объекты <code>LongSummaryStatistics</code> или <code>DoubleSummaryStatistics</code>.</p>
+</div>
+<div class="paragraph">
+<p>У этих объектов есть ряд методов, который позволяют выполнить различные атомарные операции над набором:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>getAverage()</code> возвращает среднее значение</p>
+</li>
+<li>
+<p><code>getCount()</code> возвращает количество элементов в наборе</p>
+</li>
+<li>
+<p><code>getMax()</code> возвращает максимальное значение</p>
+</li>
+<li>
+<p><code>getMin()</code> возвращает минимальное значение</p>
+</li>
+<li>
+<p><code>getSum()</code> возвращает сумму элементов</p>
+</li>
+<li>
+<p><code>accept()</code> добавляет в набор новый элемент</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>В данном случае мы получаем среднюю цену смартфонов для каждой группы.</p>
+</div>
+<div class="paragraph">
+<p>Консольный вывод:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-out" data-lang="out">Google - 500.0
+Apple - 525.0
+Samsung - 390.0</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_mapping"><code>mapping()</code></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Метод <code>mapping()</code> позволяет дополнительно обработать данные и задать функцию отображения объектов из потока на какой-нибудь другой тип данных. Например:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">Map&lt;String, List&lt;String&gt;&gt; phonesByCompany = phoneStream.collect(
+    Collectors.groupingBy(Phone::getCompany,
+    Collectors.mapping(Phone::getName, Collectors.toList())));
+
+for(Map.Entry&lt;String, List&lt;String&gt;&gt; item : phonesByCompany.entrySet()) {
+    System.out.println(item.getKey());
+    for(String name : item.getValue()) {
+        System.out.println(name);
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Выражение <code>Collectors.mapping(Phone::getName, Collectors.toList())</code> указывает, что в группу будут выделятся названия смартфонов, причем группа будет представлять объект <code>List</code>.</p>
 </div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2021-07-06 10:02:56 UTC
+Last updated 2021-07-06 10:40:55 UTC
 </div>
 </div>
 </body>

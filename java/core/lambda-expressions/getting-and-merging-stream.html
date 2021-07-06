@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.15">
-<title>reduce()</title>
+<title>Получение подпотока и объединение потоков</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -437,118 +437,162 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </head>
 <body class="article">
 <div id="header">
-<h1><code>reduce()</code></h1>
+<h1>Получение подпотока и объединение потоков</h1>
 </div>
 <div id="content">
+<div id="preamble">
+<div class="sectionbody">
 <div class="paragraph">
-<p>Метод <code>reduce()</code> выполняет терминальные операции сведения, возвращая некоторое значение - результат операции. Он имеет следующие формы:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">Optional&lt;T&gt; reduce(BinaryOperator&lt;T&gt; accumulator)
-T reduce(T identity, BinaryOperator&lt;T&gt; accumulator)
-U reduce(U identity, BiFunction&lt;U,? super T,U&gt; accumulator, BinaryOperator&lt;U&gt; combiner)</code></pre>
+<p>Ряд методов Stream API возвращают подпотоки или объединенные потоки на основе уже имеющихся потоков. Рассмотрим эти методы.</p>
 </div>
 </div>
+</div>
+<div class="sect1">
+<h2 id="_takewhile"><code>takeWhile()</code></h2>
+<div class="sectionbody">
 <div class="paragraph">
-<p>Первая форма возвращает результат в виде объекта <code>Optional&lt;T&gt;</code>. Например, вычислим произведение набора чисел:</p>
+<p>Метод <code>takeWhile()</code> выбирает из потока элементы, пока они соответствуют условию. Если попадается элемент, который не соответствует условию, то метод завершает свою работу. Выбранные элементы возвращаются в виде потока.</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight"><code class="language-java" data-lang="java">import java.util.stream.Stream;
-import java.util.Optional;
 
 public class Program {
     public static void main(String[] args) {
-        Stream&lt;Integer&gt; numbersStream = Stream.of(1, 2, 3, 4, 5, 6);
-        Optional&lt;Integer&gt; result = numbersStream.reduce((x, y) -&gt; x * y);
-        System.out.println(result.get()); // 720
+        Stream&lt;Integer&gt; numbers = Stream.of(-3, -2, -1, 0, 1, 2, 3, -4, -5);
+        numbers.takeWhile(n -&gt; n &lt; 0)
+            .forEach(n -&gt; System.out.println(n));
     }
 }</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Объект <code>BinaryOperator&lt;T&gt;</code> представляет функцию, которая принимает два элемента и выполняет над ними некоторую операцию, возвращая результат. При этом метод <code>reduce()</code> сохраняет результат и затем опять же применяет к этому результату и следующему элементу в наборе бинарную операцию. Фактически в данном случае мы получим результат, который будет равен: <code>n1 op n2 op n3 op n4 op n5 op n6</code>, где <code>op</code> - это операция (в данном случае умножения), а <code>n1</code>, <code>n2</code>, &#8230;&#8203; - элементы из потока.</p>
-</div>
-<div class="paragraph">
-<p>Затем с помощью метода <code>get()</code> мы можем получить собственно результат вычислений: <code>result.get()</code></p>
-</div>
-<div class="paragraph">
-<p>Или еще один пример - объединение слов в предложение:</p>
+<p>В данном случае программа выбирает из потока числа, пока они меньше нуля. Консольный вывод программы:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">Stream&lt;String&gt; wordsStream = Stream.of("мама", "мыла", "раму");
-Optional&lt;String&gt; sentence = wordsStream.reduce((x, y) -&gt; x + " " + y);
-System.out.println(sentence.get());</code></pre>
+<pre class="highlight"><code class="language-out" data-lang="out">-3
+-2
+-1</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Если нам надо, чтобы первым элементом в наборе было какое-то определенное значение, то мы можем использовать вторую версию метода <code>reduce()</code>, которая в качестве первого параметра принимает <code>T identity</code>. Этот параметр хранит значение, с которого будет начинаться цепочка бинарных операций. Например:</p>
+<p>При этом несмотря на то, что в потоке больше отрицательных чисел, но метод завершает работу, как только обнаружит первое число, которое не соответствует условию. В этом и состоит отличие, например, от метода <code>filter()</code>.</p>
+</div>
+<div class="paragraph">
+<p>Чтобы в данном случае охватить все элементы, которые меньше нуля, поток следует предварительно отсортировать:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">Stream&lt;String&gt; wordsStream = Stream.of("мама", "мыла", "раму");
-String sentence = wordsStream.reduce("Результат:", (x, y) -&gt; x + " " + y);
-System.out.println(sentence); // Результат: мама мыла раму</code></pre>
+<pre class="highlight"><code class="language-java" data-lang="java">Stream&lt;Integer&gt; numbers = Stream.of(-3, -2, -1, 0, 1, 2, 3, -4, -5);
+numbers.sorted().takeWhile(n -&gt; n &lt; 0)
+        .forEach(n -&gt; System.out.println(n));</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Фактически здесь выполняется следующая цепь операций: <code>identity op n1 op n2 op n3 op n4&#8230;&#8203;</code></p>
-</div>
-<div class="paragraph">
-<p>Использование параметра <code>identity</code> также подходит для тех случаев, когда надо предоставить значение по умолчанию, если поток пустой и не содержит элементов.</p>
-</div>
-<div class="paragraph">
-<p>В предыдущих примерах тип возвращаемых объектов совпадал с типом элементов, которые входят в поток. Однако это не всегда удобно. Возможно, мы захотим возвратить результат, тип которого отличается от типа объектов потока. Например, пусть у нас есть следующий класс <code>Phone</code>, представляющий телефон:</p>
+<p>Консольный вывод программы:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">class Phone {
-    private String name;
-    private int price;
+<pre class="highlight"><code class="language-out" data-lang="out">-5
+-4
+-3
+-2
+-1</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_dropwhile"><code>dropWhile()</code></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Метод <code>dropWhile()</code> выполняет обратную задачу - он пропускает элементы потока, которые соответствуют условию до тех пор, пока не встретит элемент, который НЕ соответствует условию:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">Stream&lt;Integer&gt; numbers = Stream.of(-3, -2, -1, 0, 1, 2, 3, -4, -5);
+numbers.sorted().dropWhile(n -&gt; n &lt; 0)
+    .forEach(n -&gt; System.out.println(n));</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Консольный вывод программы:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-out" data-lang="out">0
+1
+2
+3</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_stream_concat"><code>Stream.concat()</code></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Статический метод <code>concat()</code> объединяет элементы двух потоков, возвращая объединенный поток:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">import java.util.stream.Stream;
 
-    public Phone(String name, int price) {
-        this.name = name;
-        this.price = price;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public int getPrice() {
-        return price;
+public class Program {
+    public static void main(String[] args) {
+        Stream&lt;String&gt; people1 = Stream.of("Tom", "Bob", "Sam");
+        Stream&lt;String&gt; people2 = Stream.of("Alice", "Kate", "Sam");
+        Stream.concat(people1, people2).forEach(n -&gt; System.out.println(n));
     }
 }</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>И мы хотим найти сумму цен тех телефонов, у которых цена меньше определенного значения. Для этого используем третью версию метода <code>reduce()</code>:</p>
+<p>Консольный вывод:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">Stream&lt;Phone&gt; phoneStream = Stream.of(
-    new Phone("iPhone 6 S", 54000),
-    new Phone("Lumia 950", 45000),
-    new Phone("Samsung Galaxy S 6", 40000),
-    new Phone("LG G 4", 32000)
-);
-
-int sum = phoneStream.reduce(0,
-            (x, y) -&gt; (y.getPrice() &lt; 50000) ? x + y.getPrice() : x + 0,
-            (x, y) -&gt; x + y);
-
-System.out.println(sum); // 117000</code></pre>
+<pre class="highlight"><code class="language-out" data-lang="out">Tom
+Bob
+Sam
+Alice
+Kate
+Sam</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_distinct"><code>distinct()</code></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Метод <code>distinct()</code> возвращает только ункальные элементы в виде потока:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">Stream&lt;String&gt; people = Stream.of("Tom", "Bob", "Sam", "Tom", "Alice", "Kate", "Sam");
+people.distinct().forEach(p -&gt; System.out.println(p));</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Опять же здесь в качестве первого параметра идет значение по умолчанию - <code>0</code>. Второй параметр производит бинарную операцию, которая получает промежуточное значение - суммарную цену текущего и предыдущего телефонов. Третий параметр представляет бинарную операцию, которая суммирует все промежуточные вычисления.</p>
+<p>Консольный вывод:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-out" data-lang="out">Tom
+Bob
+Sam
+Alice
+Kate</code></pre>
+</div>
+</div>
+</div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2021-07-06 10:02:56 UTC
+Last updated 2021-07-06 10:40:55 UTC
 </div>
 </div>
 </body>

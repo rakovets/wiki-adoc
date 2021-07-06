@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.15">
-<title>Получение подпотока и объединение потоков</title>
+<title>Введение Stream API</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -437,162 +437,221 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </head>
 <body class="article">
 <div id="header">
-<h1>Получение подпотока и объединение потоков</h1>
+<h1>Введение Stream API</h1>
 </div>
 <div id="content">
-<div id="preamble">
-<div class="sectionbody">
 <div class="paragraph">
-<p>Ряд методов Stream API возвращают подпотоки или объединенные потоки на основе уже имеющихся потоков. Рассмотрим эти методы.</p>
+<p>Начиная с JDK 8 в Java появился новый API - <strong>Stream API</strong>. Его задача - упростить работу с наборами данных, в частности, упростить операции фильтрации, сортировки и другие манипуляции с данными. Вся основная функциональность данного API сосредоточена в пакете <code>java.util.stream</code>.</p>
 </div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_takewhile"><code>takeWhile()</code></h2>
-<div class="sectionbody">
 <div class="paragraph">
-<p>Метод <code>takeWhile()</code> выбирает из потока элементы, пока они соответствуют условию. Если попадается элемент, который не соответствует условию, то метод завершает свою работу. Выбранные элементы возвращаются в виде потока.</p>
+<p>Ключевым понятием в <strong>Stream API</strong> является <strong>поток данных</strong>. Вообще сам термин "поток" довольно перегружен в программировании в целом и в Java в частности. Применительно к <strong>Stream API</strong> поток представляет канал передачи данных из источника данных. Причем в качестве источника могут выступать как файлы, так и массивы и коллекции.</p>
+</div>
+<div class="paragraph">
+<p>Одной из отличительных черт <strong>Stream API</strong> является применение лямбда-выражений, которые позволяют значительно сократить запись выполняемых действий.</p>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src="../../../assets/img/java/core/java-stream.jpg" alt="Java Stream"></span></p>
+</div>
+<div class="paragraph">
+<p>При ближайшем рассмотрении можно найти в других технологиях программирования аналоги подобного <strong>API</strong>. В частности, в языке <strong>C#</strong> некоторым аналогом <strong>Stream API</strong> будет технология <strong>LINQ</strong>.</p>
+</div>
+<div class="paragraph">
+<p>Рассмотрим простейший пример. Допустим, у нас есть задача: найти в массиве количество всех чисел, которые больше <code>0</code>. До JDK 8 мы бы могли написать что-то наподобие следующего:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">import java.util.stream.Stream;
-
-public class Program {
+<pre class="highlight"><code class="language-java" data-lang="java">public class Test {
     public static void main(String[] args) {
-        Stream&lt;Integer&gt; numbers = Stream.of(-3, -2, -1, 0, 1, 2, 3, -4, -5);
-        numbers.takeWhile(n -&gt; n &lt; 0)
-            .forEach(n -&gt; System.out.println(n));
+        int[] numbers = {-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5};
+        int count = 0;
+        for (int i : numbers) {
+            if (i &gt; 0) count++;
+        }
+        System.out.println(count);
     }
 }</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>В данном случае программа выбирает из потока числа, пока они меньше нуля. Консольный вывод программы:</p>
+<p>Теперь применим Stream API:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-out" data-lang="out">-3
--2
--1</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>При этом несмотря на то, что в потоке больше отрицательных чисел, но метод завершает работу, как только обнаружит первое число, которое не соответствует условию. В этом и состоит отличие, например, от метода <code>filter()</code>.</p>
-</div>
-<div class="paragraph">
-<p>Чтобы в данном случае охватить все элементы, которые меньше нуля, поток следует предварительно отсортировать:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">Stream&lt;Integer&gt; numbers = Stream.of(-3, -2, -1, 0, 1, 2, 3, -4, -5);
-numbers.sorted().takeWhile(n -&gt; n &lt; 0)
-        .forEach(n -&gt; System.out.println(n));</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Консольный вывод программы:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-out" data-lang="out">-5
--4
--3
--2
--1</code></pre>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_dropwhile"><code>dropWhile()</code></h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Метод <code>dropWhile()</code> выполняет обратную задачу - он пропускает элементы потока, которые соответствуют условию до тех пор, пока не встретит элемент, который НЕ соответствует условию:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">Stream&lt;Integer&gt; numbers = Stream.of(-3, -2, -1, 0, 1, 2, 3, -4, -5);
-numbers.sorted().dropWhile(n -&gt; n &lt; 0)
-    .forEach(n -&gt; System.out.println(n));</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Консольный вывод программы:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-out" data-lang="out">0
-1
-2
-3</code></pre>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_stream_concat"><code>Stream.concat()</code></h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Статический метод <code>concat()</code> объединяет элементы двух потоков, возвращая объединенный поток:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">import java.util.stream.Stream;
+<pre class="highlight"><code class="language-java" data-lang="java">import java.util.stream.IntStream;
 
-public class Program {
+public class Test {
     public static void main(String[] args) {
-        Stream&lt;String&gt; people1 = Stream.of("Tom", "Bob", "Sam");
-        Stream&lt;String&gt; people2 = Stream.of("Alice", "Kate", "Sam");
-        Stream.concat(people1, people2).forEach(n -&gt; System.out.println(n));
+        long count = IntStream.of(-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5)
+            .filter(w -&gt; w &gt; 0)
+            .count();
+        System.out.println(count);
     }
 }</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Консольный вывод:</p>
+<p>Теперь вместо цикла и кучи условных конструкций, которые мы бы использовали до JDK 8, мы можем записать цепочку методов, которые будут выполнять те же действия.</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-out" data-lang="out">Tom
-Bob
-Sam
-Alice
-Kate
-Sam</code></pre>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_distinct"><code>distinct()</code></h2>
-<div class="sectionbody">
 <div class="paragraph">
-<p>Метод <code>distinct()</code> возвращает только ункальные элементы в виде потока:</p>
+<p>При работе со Stream API важно понимать, что все операции с потоками бывают либо <strong>терминальными</strong> (<strong>terminal</strong>), либо <strong>промежуточными</strong> (<strong>intermediate</strong>). Промежуточные операции возвращают трансформированный поток. Например, выше в примере метод <code>filter</code> принимал поток чисел и возвращал уже преобразованный поток, в котором только числа больше <code>0</code>. К возвращенному потоку также можно применить ряд промежуточных операций.</p>
+</div>
+<div class="paragraph">
+<p>Терминальные операции возвращают конкретный результат. Например, в примере выше метод <code>count()</code> представляет терминальную операцию и возвращает число. После этого никаких промежуточных операций естественно применять нельзя.</p>
+</div>
+<div class="paragraph">
+<p>Все потоки производят вычисления, в том числе в промежуточных операциях, только тогда, когда к ним применяется терминальная операция. То есть в данном случае применяется отложенное выполнение.</p>
+</div>
+<div class="paragraph">
+<p>В основе Stream API лежит интерфейс <code>BaseStream</code>. Его полное определение:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">Stream&lt;String&gt; people = Stream.of("Tom", "Bob", "Sam", "Tom", "Alice", "Kate", "Sam");
-people.distinct().forEach(p -&gt; System.out.println(p));</code></pre>
+<pre class="highlight"><code class="language-java" data-lang="java">interface BaseStream&lt;T , S extends BaseStream&lt;T , S&gt;&gt;</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Консольный вывод:</p>
+<p>Здесь параметр <code>T</code> означает тип данных в потоке, а <code>S</code> - тип потока, который наследуется от интерфейса <code>BaseStream</code>.</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-out" data-lang="out">Tom
-Bob
-Sam
-Alice
-Kate</code></pre>
+<div class="paragraph">
+<p><code>BaseStream</code> определяет базовый функционал для работы с потоками, которые реализуется через его методы:</p>
 </div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>void close()</code> закрывает поток</p>
+</li>
+<li>
+<p><code>boolean isParallel()</code> возвращает true, если поток является параллельным</p>
+</li>
+<li>
+<p><code>Iterator&lt;Т&gt; iterator()</code> возвращает ссылку на итератор потока</p>
+</li>
+<li>
+<p><code>Spliterator&lt;Т&gt; spliterator()</code> возвращает ссылку на сплитератор потока</p>
+</li>
+<li>
+<p><code>S parallel()</code> возвращает параллельный поток (параллельные потоки могут задействовать несколько ядер процессора в многоядерных архитектурах)</p>
+</li>
+<li>
+<p><code>S sequential()</code> возвращает последовательный поток</p>
+</li>
+<li>
+<p><code>S unordered()</code> возвращает неупорядоченный поток</p>
+</li>
+</ul>
 </div>
+<div class="paragraph">
+<p>От интерфейса BaseStream наследуется ряд интерфейсов, предназначенных для создания конкретных потоков:</p>
 </div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>Stream&lt;T&gt;</code> используется для потоков данных, представляющих любой ссылочный тип</p>
+</li>
+<li>
+<p><code>IntStream</code> используется для потоков с типом данных <code>int</code></p>
+</li>
+<li>
+<p><code>DoubleStream</code> используется для потоков с типом данных <code>double</code></p>
+</li>
+<li>
+<p><code>LongStream</code> используется для потоков с типом данных <code>long</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>При работе с потоками, которые представляют определенный примитивный тип - <code>double</code>, <code>int</code>, <code>long</code> проще использовать интерфейсы <code>DoubleStream</code>, <code>IntStream</code>, <code>LongStream</code>. Но в большинстве случаев, как правило, работа происходит с более сложными данными, для которых предназначен интерфейс <code>Stream&lt;T&gt;</code>. Рассмотрим некоторые его методы:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>boolean allMatch(Predicate&lt;? super T&gt; predicate)</code> возвращает <code>true</code>, если все элементы потока удовлетворяют условию в предикате</p>
+</li>
+<li>
+<p><code>boolean anyMatch(Predicate&lt;? super T&gt; predicate)</code> возвращает <code>true</code>, если хоть один элемент потока удовлетворяют условию в предикате</p>
+</li>
+<li>
+<p><code>&lt;R, A&gt; R collect(Collector&lt;? super T, A, R&gt; collector)</code> добавляет элементы в неизменяемый контейнер с типом <code>R</code>. <code>T</code> представляет тип данных из вызывающего потока, а <code>A</code> - тип данных в контейнере</p>
+</li>
+<li>
+<p><code>long count()</code> возвращает количество элементов в потоке</p>
+</li>
+<li>
+<p><code>Stream&lt;T&gt; concat|(Stream&lt;? extends T&gt; a, Stream&lt;? extends T&gt; b)</code> объединяет два потока</p>
+</li>
+<li>
+<p><code>Stream&lt;T&gt; distinct()</code> возвращает поток, в котором имеются только уникальные данные с типом <code>T</code></p>
+</li>
+<li>
+<p><code>Stream&lt;T&gt; dropWhile​(Predicate&lt;? super T&gt; predicate)</code> пропускает элементы, которые соответствуют условию в <code>predicate</code>, пока не попадется элемент, который не соответствует условию. Выбранные элементы возвращаются в виде потока</p>
+</li>
+<li>
+<p><code>Stream&lt;T&gt; filter(Predicate&lt;? super T&gt; predicate)</code> фильтрует элементы в соответствии с условием в предикате</p>
+</li>
+<li>
+<p><code>Optional&lt;T&gt; findFirst()</code> возвращает первый элемент из потока</p>
+</li>
+<li>
+<p><code>Optional&lt;T&gt; findAny()</code> возвращает первый попавшийся элемент из потока</p>
+</li>
+<li>
+<p><code>void forEach(Consumer&lt;? super T&gt; action)</code> для каждого элемента выполняется действие <code>action</code></p>
+</li>
+<li>
+<p><code>Stream&lt;T&gt; limit(long maxSize)</code> оставляет в потоке только <code>maxSize</code> элементов</p>
+</li>
+<li>
+<p><code>Optional&lt;T&gt; max(Comparator&lt;? super T&gt; comparator)</code> возвращает максимальный элемент из потока. Для сравнения элементов применяется компаратор comparator</p>
+</li>
+<li>
+<p><code>Optional&lt;T&gt; min(Comparator&lt;? super T&gt; comparator)</code> возвращает минимальный элемент из потока. Для сравнения элементов применяется компаратор comparator</p>
+</li>
+<li>
+<p><code>&lt;R&gt; Stream&lt;R&gt; map(Function&lt;? super T,? extends R&gt; mapper)</code> преобразует элементы типа <code>T</code> в элементы типа <code>R</code> и возвращает поток с элементами <code>R</code></p>
+</li>
+<li>
+<p><code>&lt;R&gt; Stream&lt;R&gt; flatMap(Function&lt;? super T, ? extends Stream&lt;? extends R&gt;&gt; mapper)</code> позволяет преобразовать элемент типа <code>T</code> в несколько элементов типа <code>R</code> и возвращает поток с элементами <code>R</code></p>
+</li>
+<li>
+<p><code>boolean noneMatch(Predicate&lt;? super T&gt; predicate)</code> возвращает true, если ни один из элементов в потоке не удовлетворяет условию в предикате</p>
+</li>
+<li>
+<p><code>Stream&lt;T&gt; skip(long n)</code> возвращает поток, в котором отсутствуют первые n элементов</p>
+</li>
+<li>
+<p><code>Stream&lt;T&gt; sorted()</code> возвращает отсортированный поток</p>
+</li>
+<li>
+<p><code>Stream&lt;T&gt; sorted(Comparator&lt;? super T&gt; comparator)</code> возвращает отсортированный в соответствии с компаратором поток</p>
+</li>
+<li>
+<p><code>Stream&lt;T&gt; takeWhile​(Predicate&lt;? super T&gt; predicate)</code> выбирает из потока элементы, пока они соответствуют условию в <code>predicate</code>. Выбранные элементы возвращаются в виде потока</p>
+</li>
+<li>
+<p><code>Object[] toArray()</code> возвращает массив из элементов потока</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Несмотря на то, что все эти операции позволяют взаимодействовать с потоком как неким набором данных наподобие коллекции, важно понимать отличие коллекций от потоков:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>потоки не хранят элементы. Элементы, используемые в потоках, могут храниться в коллекции, либо при необходимости могут быть напрямую сгенерированы</p>
+</li>
+<li>
+<p>операции с потоками не изменяют источника данных. Операции с потоками лишь возвращают новый поток с результатами этих операций</p>
+</li>
+<li>
+<p>для потоков характерно отложенное выполнение. То есть выполнение всех операций с потоком происходит лишь тогда, когда выполняется терминальная операция и возвращается конкретный результат, а не новый поток</p>
+</li>
+</ul>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2021-07-06 10:02:56 UTC
+Last updated 2021-07-06 10:40:55 UTC
 </div>
 </div>
 </body>

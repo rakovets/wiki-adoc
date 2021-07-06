@@ -28,7 +28,7 @@ include::generic-types/index.adoc[]
 
 include::java-collection-framework/index.adoc[]
 
-include::fp/index.adoc[]
+include::lambda-expressions/index.adoc[]
 
 include::date-and-time/index.adoc[]
 

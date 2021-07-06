@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.15">
-<title>Создание потока данных</title>
+<title>Встроенные функциональные интерфейсы</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -437,138 +437,249 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </head>
 <body class="article">
 <div id="header">
-<h1>Создание потока данных</h1>
+<h1>Встроенные функциональные интерфейсы</h1>
 </div>
 <div id="content">
+<div id="preamble">
+<div class="sectionbody">
 <div class="paragraph">
-<p>Для создания потока данных можно применять различные методы. В качестве источника потока мы можем использовать коллекции. В частности, в JDK 8 в интерфейс <code>Collection</code>, который реализуется всеми классами коллекций, были добавлены два метода для работы с потоками:</p>
+<p>В JDK 8 вместе с самой функциональностью лямбда-выражений также было добавлено некоторое количество встроенных функциональных интерфейсов, которые мы можем использовать в различных ситуациях и в различные API в рамках JDK 8. В частности, ряд далее рассматриваемых интерфейсов широко применяется в <code>Stream API</code> - новом прикладном интерфейсе для работы с данными. Рассмотрим основные из этих интерфейсов:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p><code>default Stream&lt;E&gt; stream</code> возвращается поток данных из коллекции</p>
+<p><code>Predicate&lt;T&gt;</code></p>
 </li>
 <li>
-<p><code>default Stream&lt;E&gt; parallelStream</code> возвращается параллельный поток данных из коллекции</p>
+<p><code>Consumer&lt;T&gt;</code></p>
+</li>
+<li>
+<p><code>Function&lt;T, R&gt;</code></p>
+</li>
+<li>
+<p><code>Supplier&lt;T&gt;</code></p>
+</li>
+<li>
+<p><code>UnaryOperator&lt;T&gt;</code></p>
+</li>
+<li>
+<p><code>BinaryOperator&lt;T&gt;</code></p>
 </li>
 </ul>
 </div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_predicatet"><code>Predicate&lt;T&gt;</code></h2>
+<div class="sectionbody">
 <div class="paragraph">
-<p>Так, рассмотрим пример с <code>ArrayList</code>:</p>
+<p>Функциональный интерфейс <code>Predicate&lt;T&gt;</code> проверяет соблюдение некоторого условия. Если оно соблюдается, то возвращается значение <code>true</code>. В качестве параметра лямбда-выражение принимает объект типа <code>T</code>:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">import java.util.ArrayList;
-import java.util.Collections;
-
-public class Test {
-    public static void main(String[] args) {
-        ArrayList&lt;String&gt; cities = new ArrayList&lt;String&gt;();
-        Collections.addAll(cities, "Париж", "Лондон", "Мадрид");
-        cities.stream() // получаем поток
-                .filter(s -&gt; s.length() == 6) // применяем фильтрацию по длине строки
-                .forEach(s -&gt; System.out.println(s)); // выводим отфильтрованные строки на консоль
-    }
+<pre class="highlight"><code class="language-java" data-lang="java">public interface Predicate&lt;T&gt; {
+    boolean test(T t);
 }</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Здесь с помощью вызова <code>cities.stream()</code> получаем поток, который использует данные из списка <code>cities</code>. С помощью каждой промежуточной операции, которая применяется к потоку, мы также можем получить поток с учетом модификаций. Например, мы можем изменить предыдущий пример следующим образом:</p>
+<p>Например:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">import java.util.ArrayList;
-import java.util.Collections;
-import java.util.stream.Stream;
+<pre class="highlight"><code class="language-java" data-lang="java">import java.util.function.Predicate;
 
-public class Test {
+public class LambdaApp {
     public static void main(String[] args) {
-        ArrayList&lt;String&gt; cities = new ArrayList&lt;String&gt;();
-        Collections.addAll(cities, "Париж", "Лондон", "Мадрид");
-        Stream&lt;String&gt; citiesStream = cities.stream(); // получаем поток
-        citiesStream = citiesStream.filter(s -&gt; s.length() == 6); // применяем фильтрацию по длине строки
-        citiesStream.forEach(s -&gt; System.out.println(s)); // выводим отфильтрованные строки на консоль
+        Predicate&lt;Integer&gt; isPositive = x -&gt; x &gt; 0;
+
+        System.out.println(isPositive.test(5)); // true
+        System.out.println(isPositive.test(-7)); // false
     }
 }</code></pre>
 </div>
 </div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_binaryoperatort"><code>BinaryOperator&lt;T&gt;</code></h2>
+<div class="sectionbody">
 <div class="paragraph">
-<p>Важно, что после использования терминальных операций другие терминальные или промежуточные операции к этому же потоку не могут быть применены, поток уже употреблен. Например, в следующем случае мы получим ошибку:</p>
+<p><code>BinaryOperator&lt;T&gt;</code> принимает в качестве параметра два объекта типа <code>T</code>, выполняет над ними бинарную операцию и возвращает ее результат также в виде объекта типа <code>T</code>:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">citiesStream.forEach(s -&gt; System.out.println(s)); // терминальная операция употребляет поток
-long number = citiesStream.count(); // здесь ошибка, так как поток уже употреблен
-System.out.println(number);
-citiesStream = citiesStream.filter(s -&gt; s.length() &gt; 5); // тоже нельзя, так как поток уже употреблен</code></pre>
+<pre class="highlight"><code class="language-java" data-lang="java">public interface BinaryOperator&lt;T&gt; {
+    T apply(T t1, T t2);
+}</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Фактически жизненный цикл потока проходит следующие три стадии:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>создание потока</p>
-</li>
-<li>
-<p>применение к потоку ряда промежуточных операций</p>
-</li>
-<li>
-<p>применение к потоку терминальной операции и получение результата</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>Кроме вышерассмотренных методов мы можем использовать еще ряд способов для создания потока данных. Один из таких способов представляет метод <code>Arrays.stream(T[] array)</code>, который создает поток данных из массива:</p>
+<p>Например:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">Stream&lt;String&gt; citiesStream = Arrays.stream(new String[]{"Париж", "Лондон", "Мадрид"}) ;
-citiesStream.forEach(s -&gt; System.out.println(s)); // выводим все элементы массива</code></pre>
+<pre class="highlight"><code class="language-java" data-lang="java">import java.util.function.BinaryOperator;
+
+public class LambdaApp {
+    public static void main(String[] args) {
+        BinaryOperator&lt;Integer&gt; multiply = (x, y) -&gt; x * y;
+
+        System.out.println(multiply.apply(3, 5)); // 15
+        System.out.println(multiply.apply(10, -2)); // -20
+    }
+}</code></pre>
 </div>
 </div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_unaryoperatort"><code>UnaryOperator&lt;T&gt;</code></h2>
+<div class="sectionbody">
 <div class="paragraph">
-<p>Для создания потоков <code>IntStream</code>, <code>DoubleStream</code>, <code>LongStream</code> можно использовать соответствующие перегруженные версии этого метода:</p>
+<p><code>UnaryOperator&lt;T&gt;</code> принимает в качестве параметра объект типа <code>T</code>, выполняет над ними операции и возвращает результат операций в виде объекта типа <code>T</code>:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">IntStream intStream = Arrays.stream(new int[]{1, 2, 4, 5, 7});
-intStream.forEach(i -&gt; System.out.println(i));
-
-LongStream longStream = Arrays.stream(new long[]{100, 250, 400, 5843787, 237});
-longStream.forEach(l -&gt; System.out.println(l));
-
-DoubleStream doubleStream = Arrays.stream(new double[]{3.4, 6.7, 9.5, 8.2345, 121});
-doubleStream.forEach(d -&gt; System.out.println(d));</code></pre>
+<pre class="highlight"><code class="language-java" data-lang="java">public interface UnaryOperator&lt;T&gt; {
+    T apply(T t);
+}</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>И еще один способ создания потока представляет статический метод <code>of(T..values)</code> класса <code>Stream</code>:</p>
+<p>Например:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">Stream&lt;String&gt; citiesStream = Stream.of("Париж", "Лондон", "Мадрид");
-citiesStream.forEach(s -&gt; System.out.println(s));
+<pre class="highlight"><code class="language-java" data-lang="java">import java.util.function.UnaryOperator;
 
-// можно передать массив
-String[] cities = {"Париж", "Лондон", "Мадрид"};
-Stream&lt;String&gt; citiesStream2 = Stream.of(cities);
+public class LambdaApp {
+    public static void main(String[] args) {
+        UnaryOperator&lt;Integer&gt; square = x -&gt; x * x;
+        System.out.println(square.apply(5)); // 25
+    }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_functiont_r"><code>Function&lt;T, R&gt;</code></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Функциональный интерфейс <code>Function&lt;T, R&gt;</code> представляет функцию перехода от объекта типа <code>T</code> к объекту типа <code>R</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">public interface Function&lt;T, R&gt; {
+    R apply(T t);
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Например:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">import java.util.function.Function;
 
-IntStream intStream = IntStream.of(1, 2, 4, 5, 7);
-intStream.forEach(i -&gt; System.out.println(i));
+public class LambdaApp {
+    public static void main(String[] args) {
+        Function&lt;Integer, String&gt; convert = x -&gt; String.valueOf(x) + " долларов";
+        System.out.println(convert.apply(5)); // 5 долларов
+    }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_consumert"><code>Consumer&lt;T&gt;</code></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><code>Consumer&lt;T&gt;</code> выполняет некоторое действие над объектом типа <code>T</code>, при этом ничего не возвращая:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">public interface Consumer&lt;T&gt; {
+    void accept(T t);
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Например:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">import java.util.function.Consumer;
 
-LongStream longStream = LongStream.of(100, 250, 400, 5843787, 237);
-longStream.forEach(l -&gt; System.out.println(l));
+public class LambdaApp {
+    public static void main(String[] args) {
+        Consumer&lt;Integer&gt; printer = x -&gt; System.out.printf("%d долларов \n", x);
+        printer.accept(600); // 600 долларов
+    }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_suppliert"><code>Supplier&lt;T&gt;</code></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><code>Supplier&lt;T&gt;</code> не принимает никаких аргументов, но должен возвращать объект типа <code>T</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">public interface Supplier&lt;T&gt; {
+    T get();
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Например:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">import java.util.Scanner;
+import java.util.function.Supplier;
 
-DoubleStream doubleStream = DoubleStream.of(3.4, 6.7, 9.5, 8.2345, 121);
-doubleStream.forEach(d -&gt; System.out.println(d));</code></pre>
+public class LambdaApp {
+    public static void main(String[] args) {
+        Supplier&lt;User&gt; userFactory = () -&gt; {
+            Scanner in = new Scanner(System.in);
+            System.out.println("Введите имя: ");
+            String name = in.nextLine();
+            return new User(name);
+        };
+
+        User user1 = userFactory.get();
+        User user2 = userFactory.get();
+
+        System.out.println("Имя user1: " + user1.getName());
+        System.out.println("Имя user2: " + user2.getName());
+    }
+}
+
+class User {
+    private String name;
+
+    String getName() {
+        return name;
+    }
+
+    User(String n) {
+        this.name = n;
+    }
+}</code></pre>
+</div>
+</div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2021-07-06 10:02:56 UTC
+Last updated 2021-07-06 10:40:55 UTC
 </div>
 </div>
 </body>

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.15">
-<title>skip() и limit()</title>
+<title>Лямбды как параметры и результаты методов</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -437,105 +437,280 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </head>
 <body class="article">
 <div id="header">
-<h1><code>skip()</code> и <code>limit()</code></h1>
+<h1>Лямбды как параметры и результаты методов</h1>
 </div>
 <div id="content">
+<div class="sect1">
+<h2 id="_лямбды_как_параметры_методов">Лямбды как параметры методов</h2>
+<div class="sectionbody">
 <div class="paragraph">
-<p>Метод <code>skip(long n)</code> используется для пропуска <code>n</code> элементов. Этот метод возвращает новый поток, в котором пропущены первые <code>n</code> элементов.</p>
-</div>
-<div class="paragraph">
-<p>Метод <code>limit(long n)</code> применяется для выборки первых <code>n</code> элементов потоков. Этот метод также возвращает модифицированный поток, в котором не более <code>n</code> элементов.</p>
-</div>
-<div class="paragraph">
-<p>Зачастую эта пара методов используется вместе для создания эффекта постраничной навигации. Рассмотрим, как их применять:</p>
+<p>Одним из преимуществ лямбд в java является то, что их можно передавать в качестве параметров в методы. Рассмотрим пример:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">Stream&lt;String&gt; phoneStream = Stream.of("iPhone 6 S", "Lumia 950", "Samsung Galaxy S 6", "LG G 4", "Nexus 7");
-
-phoneStream.skip(1)
-    .limit(2)
-    .forEach(s -&gt; System.out.println(s));</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>В данном случае метод <code>skip()</code> пропускает один первый элемент, а метод <code>limit()</code> выбирает два следующих элемента. В итоге мы получим следующий консольный вывод:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-out" data-lang="out">Lumia 950
-Samsung Galaxy S 6</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Вполне может быть, что метод <code>skip()</code> может принимать в качестве параметра число большее, чем количество элементов в потоке. В этом случае будут пропущены все элементы, а в результирующем потоке будет <code>0</code> элементов.</p>
-</div>
-<div class="paragraph">
-<p>И если в метод <code>limit()</code> передается число, большее, чем количество элементов, то просто выбираются все элементы потока.</p>
-</div>
-<div class="paragraph">
-<p>Теперь рассмотрим, как создать постраничную навигацию:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.*;
-import java.util.Scanner;
-
-public class Program {
+<pre class="highlight"><code class="language-java" data-lang="java">public class LambdaApp {
     public static void main(String[] args) {
-        List&lt;String&gt; phones = new ArrayList&lt;String&gt;();
-        phones.addAll(Arrays.asList(new String[]
-                {"iPhone 6 S", "Lumia 950", "Huawei Nexus 6P",
-                "Samsung Galaxy S 6", "LG G 4", "Xiaomi MI 5",
-                "ASUS Zenfone 2", "Sony Xperia Z5", "Meizu Pro 5",
-                "Lenovo S 850"}));
+        Expression func = (n) -&gt; n % 2 == 0;
+        int[] nums = {1, 2, 3, 4, 5, 6, 7, 8, 9};
+        System.out.println(sum(nums, func)); // 20
+    }
 
-        int pageSize = 3; // количество элементов на страницу
-        Scanner scanner = new Scanner(System.in);
-        while(true) {
-            System.out.println("Введите номер страницы: ");
-            int page = scanner.nextInt();
+    private static int sum(int[] numbers, Expression func) {
+        int result = 0;
+        for (int i : numbers) {
+            if (func.isEqual(i))
+                result += i;
+        }
+        return result;
+    }
+}
 
-            if(page &lt; 1) {
-                break; // если число меньше 1, выходим из цикла
-            }
+interface Expression {
+    boolean isEqual(int n);
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Функциональный интерфейс <code>Expression</code> определяет метод <code>isEqual()</code>, который возвращает <code>true</code>, если в отношении числа <code>n</code> действует какое-нибудь равенство.</p>
+</div>
+<div class="paragraph">
+<p>В основном классе программы определяется метод <code>sum()</code>, который вычисляет сумму всех элементов массива, соответствующих некоторому условию. А само условие передается через параметр <code>Expression func</code>. Причем на момент написания метода <code>sum</code> мы можем абсолютно не знать, какое именно условие будет использоваться. Само же условие определяется в виде лямбда-выражения:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">Expression func = (n) -&gt; n % 2 == 0;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>То есть в данном случае все числа должны быть четными или остаток от их деления на <code>2</code> должен быть равен <code>0</code>. Затем это лямбда-выражение передается в вызов метода <code>sum</code>.</p>
+</div>
+<div class="paragraph">
+<p>При этом можно не определять переменную интерфейса, а сразу передать в метод лямбда-выражение:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">int[] nums = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+int x = sum(nums, (n)-&gt; n &gt; 5); // сумма чисел, которые больше 5
+System.out.println(x);  // 30</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_ссылки_на_метод_как_параметры_методов">Ссылки на метод как параметры методов</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Начиная с JDK 8 в Java можно в качестве параметра в метод передавать ссылку на другой метод. В принципе данный способ аналогичен передаче в метод лямбда-выражения.</p>
+</div>
+<div class="paragraph">
+<p>Ссылка на метод передается в виде <code>имя_класса::имя_статического_метода</code> (если метод статический) или <code>объект_класса::имя_метода</code> (если метод нестатический). Рассмотрим на примере:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">interface Expression {
+    boolean isEqual(int n);
+}
 
-            phones.stream().skip((page - 1) * pageSize)
-                .limit(pageSize)
-                .forEach(s -&gt; System.out.println(s));
-       }
+class ExpressionHelper {
+    static boolean isEven(int n) {
+        return n % 2 == 0;
+    }
+
+    static boolean isPositive(int n) {
+        return n &gt; 0;
+    }
+}
+
+public class LambdaApp {
+    public static void main(String[] args) {
+        int[] nums = {-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5};
+        System.out.println(sum(nums, ExpressionHelper::isEven));
+
+        Expression expr = ExpressionHelper::isPositive;
+        System.out.println(sum(nums, expr));
+    }
+
+    private static int sum(int[] numbers, Expression func) {
+        int result = 0;
+        for (int i : numbers) {
+            if (func.isEqual(i))
+                result += i;
+        }
+        return result;
     }
 }</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>В данном случае у нас набор из 10 элементов. С помощью переменной <code>pageSize</code> определяем количество элементов на странице - <code>3</code>. То есть у нас получится <code>4</code> страницы (на последней будет только один элемент).</p>
+<p>Здесь также определен функциональный интерфейс <code>Expression</code>, который имеет один метод. Кроме того, определен класс <code>ExpressionHelper</code>, который содержит два статических метода. В принципе их можно было определить и в основном классе программы, но я вынес их в отдельный класс.</p>
 </div>
 <div class="paragraph">
-<p>В бесконечном цикле получаем номер страницы и выбираем только те элементы, которые находятся на указанной странице.</p>
+<p>В основном классе программы <code>LambdaApp</code> определен метод <code>sum()</code>, который возвращает сумму элементов массива, соответствующих некоторому условию. Условие передается в виде объекта функционального интерфейса <code>Expression</code>.</p>
 </div>
 <div class="paragraph">
-<p>Теперь введем какие-нибудь номера страниц, например, <code>4</code> и <code>2</code>:</p>
+<p>В методе <code>main</code> два раза вызываем метод <code>sum</code>, передавая в него один и тот же массив чисел, но разные условия. Первый вызов метода <code>sum</code>:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-out" data-lang="out">Введите номер страницы:
-4
-Lenovo S 850
-Введите номер страницы:
-2
-Samsung Galaxy S 6
-LG G 4
-Xiaomi MI 5</code></pre>
+<pre class="highlight"><code class="language-java" data-lang="java">System.out.println(sum(nums, ExpressionHelper::isEven));</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>На место второго параметра передается <code>ExpressionHelper::isEven</code>, то есть ссылка на статический метод <code>isEven()</code> класса <code>ExpressionHelper</code>. При этом методы, на которые идет ссылка, должны совпадать по параметрам и результату с методом функционального интерфейса.</p>
+</div>
+<div class="paragraph">
+<p>При втором вызове метода <code>sum</code> отдельно создается объект <code>Expression</code>, который затем передается в метод:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">Expression expr = ExpressionHelper::isPositive;
+System.out.println(sum(nums, expr));</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Использование ссылок на методы в качестве параметром аналогично использованию лямбда-выражений.</p>
+</div>
+<div class="paragraph">
+<p>Если нам надо вызвать нестатические методы, то в ссылке вместо имени класса применяется имя объекта этого класса:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">interface Expression {
+    boolean isEqual(int n);
+}
+
+class ExpressionHelper {
+    boolean isEven(int n) {
+        return n % 2 == 0;
+    }
+}
+
+public class LambdaApp {
+    public static void main(String[] args) {
+        int[] nums = {-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5};
+        ExpressionHelper exprHelper = new ExpressionHelper();
+        System.out.println(sum(nums, exprHelper::isEven)); // 0
+    }
+
+    private static int sum(int[] numbers, Expression func) {
+        int result = 0;
+        for (int i : numbers) {
+            if (func.isEqual(i))
+                result += i;
+        }
+        return result;
+    }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_ссылки_на_конструкторы">Ссылки на конструкторы</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Подобным образом мы можем использовать конструкторы: <code>название_класса::new</code>. Например:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">public class LambdaApp {
+    public static void main(String[] args) {
+        UserBuilder userBuilder = User::new;
+        User user = userBuilder.create("Tom");
+        System.out.println(user.getName());
+    }
+}
+
+interface UserBuilder {
+    User create(String name);
+}
+
+class User {
+    private String name;
+
+    String getName() {
+        return name;
+    }
+
+    User(String n) {
+        this.name = n;
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>При использовании конструкторов методы функциональных интерфейсов должны принимать тот же список параметров, что и конструкторы класса, и должны возвращать объект данного класса.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_лямбды_как_результат_методов">Лямбды как результат методов</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Также метод в Java может возвращать лямбда-выражение. Рассмотрим следующий пример:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">interface Operation {
+    int execute(int x, int y);
+}
+
+public class LambdaApp {
+    public static void main(String[] args) {
+        Operation func = action(1);
+        int a = func.execute(6, 5);
+        System.out.println(a); // 11
+
+        int b = action(2).execute(8, 2);
+        System.out.println(b); // 6
+    }
+
+    private static Operation action(int number) {
+        switch (number) {
+            case 1:
+                return (x, y) -&gt; x + y;
+            case 2:
+                return (x, y) -&gt; x - y;
+            case 3:
+                return (x, y) -&gt; x * y;
+            default:
+                return (x, y) -&gt; 0;
+        }
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>В данном случае определен функциональный интерфейс <code>Operation</code>, в котором метод <code>execute</code> принимает два значения типа <code>int</code> и возвращает значение типа <code>int</code>.</p>
+</div>
+<div class="paragraph">
+<p>Метод <code>action</code> принимает в качестве параметра число и в зависимости от его значения возвращает то или иное лямбда-выражение. Оно может представлять либо сложение, либо вычитание, либо умножение, либо просто возвращает <code>0</code>. Стоит учитывать, что формально возвращаемым типом метода <code>action</code> является интерфейс <code>Operation</code>, а возвращаемое лямбда-выражение соответствует этому интерфейсу.</p>
+</div>
+<div class="paragraph">
+<p>В методе <code>main</code> мы можем вызвать этот метод <code>action</code>. Например, сначала получить его результат - лямбда-выражение, которое присваивается переменной <code>Operation</code>. А затем через метод <code>execute</code> выполнить это лямбда-выражение:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">Operation func = action(1);
+int a = func.execute(6, 5);
+System.out.println(a); // 11</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Либо можно сразу получить и тут же выполнить лямбда-выражение:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">int b = action(2).execute(8, 2);
+System.out.println(b); // 6</code></pre>
+</div>
+</div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2021-07-06 10:02:56 UTC
+Last updated 2021-07-06 10:40:55 UTC
 </div>
 </div>
 </body>

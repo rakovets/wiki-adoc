@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.15">
-<title>Введение в лямбда-выражения</title>
+<title>Фильтрация, перебор элементов и отображение</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -437,324 +437,223 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </head>
 <body class="article">
 <div id="header">
-<h1>Введение в лямбда-выражения</h1>
+<h1>Фильтрация, перебор элементов и отображение</h1>
 </div>
 <div id="content">
 <div class="sect1">
-<h2 id="_введение">Введение</h2>
+<h2 id="_foreach"><code>forEach()</code></h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Среди новшеств, которые были привнесены в язык Java с выходом JDK 8, особняком стоят <strong>лямбда-выражения</strong>. Лямбда-выражение представляет набор инструкций, которые можно выделить в отдельную переменную и затем многократно вызвать в различных местах программы.</p>
-</div>
-<div class="paragraph">
-<p>Основу лямбда-выражения составляет <strong>лямбда-оператор</strong>, который представляет стрелку <strong>&#8594;</strong>. Этот оператор разделяет лямбда-выражение на две части: левая часть содержит <strong>список параметров выражения</strong>, а правая собственно представляет <strong>тело лямбда-выражения</strong>, где выполняются все действия.</p>
-</div>
-<div class="paragraph">
-<p>Лямбда-выражение не выполняется само по себе, а образует реализацию метода, определенного в функциональном интерфейсе. При этом важно, что функциональный интерфейс должен содержать только один единственный метод без реализации.</p>
-</div>
-<div class="paragraph">
-<p>Рассмотрим пример:</p>
+<p>Для перебора элементов потока применяется метод <code>forEach()</code>, который представляет терминальную операцию. В качестве параметра он принимает объект <code>Consumer&lt;? super String&gt;</code>, который представляет действие, выполняемое для каждого элемента набора. Например:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">public class LambdaApp {
-    public static void main(String[] args) {
-        Operationable operation;
-        operation = (x, y) -&gt; x + y;
+<pre class="highlight"><code class="language-java" data-lang="java">Stream&lt;String&gt; citiesStream = Stream.of("Париж", "Лондон", "Мадрид","Берлин", "Брюссель");
+citiesStream.forEach(s -&gt; System.out.println(s));</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Фактически это будет аналогично перебору всех элементов в цикле <code>for</code> и выполнению с ними действия, а именно вывод на консоль. В итоге консоль выведет:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-out" data-lang="out">Париж
+Лондон
+Мадрид
+Берлин
+Брюссель</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Кстати мы можем сократить в данном случае применение метода <code>forEach</code> следующим образом:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">Stream&lt;String&gt; citiesStream = Stream.of("Париж", "Лондон", "Мадрид","Берлин", "Брюссель");
+citiesStream.forEach(System.out::println);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Фактически здесь переадается ссылка на статический метод, который выводит строку на консоль.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_filter"><code>filter()</code></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Для фильтрации элементов в потоке применяется метод <code>filter()</code>, который представляет промежуточную операцию. Он принимает в качестве параметра некоторое условие в виде объекта <code>Predicate&lt;T&gt;</code> и возвращает новый поток из элементов, которые удовлетворяют этому условию:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">Stream&lt;String&gt; citiesStream = Stream.of("Париж", "Лондон", "Мадрид","Берлин", "Брюссель");
+citiesStream.filter(s -&gt; s.length() == 6).forEach(s -&gt; System.out.println(s));</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Здесь условие <code>s.length() == 6</code> возвращает <code>true</code> для тех элементов, длина которых равна <code>6</code> символам. То есть в итоге программа выведет:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-out" data-lang="out">Лондон
+Мадрид
+Берлин</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Рассмотрим еще один пример фильтрации с более сложными данными. Допустим, у нас есть следующий класс <code>Phone</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">class Phone {
+    private String name;
+    private int price;
 
-        int result = operation.calculate(10, 20);
-        System.out.println(result); //30
+    public Phone(String name, int price) {
+        this.name = name;
+        this.price = price;
     }
-}
 
-interface Operationable {
-    int calculate(int x, int y);
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
 }</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>В роли функционального интерфейса выступает интерфейс <code>Operationable</code>, в котором определен один метод без реализации - метод <code>calculate</code>. Данный метод принимает два параметра - целых числа, и возвращает некоторое целое число.</p>
-</div>
-<div class="paragraph">
-<p>По факту <strong>лямбда-выражения являются</strong> в некотором роде <strong>сокращенной формой внутренних анонимных классов</strong>, которые ранее применялись в Java. В частности, предыдущий пример мы можем переписать следующим образом:</p>
+<p>Отфильтруем набор телефонов по цене:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">public class LambdaApp {
-    public static void main(String[] args) {
-        Operationable op = new Operationable() {
-            public int calculate(int x, int y) {
-                return x + y;
-            }
-        };
-        int z = op.calculate(20, 10);
-        System.out.println(z); // 30
-    }
-}
+<pre class="highlight"><code class="language-java" data-lang="java">Stream&lt;Phone&gt; phoneStream = Stream.of(
+    new Phone("iPhone 6 S", 54000),
+    new Phone("Lumia 950", 45000),
+    new Phone("Samsung Galaxy S 6", 40000)
+);
 
-interface Operationable {
-    int calculate(int x, int y);
-}</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Чтобы объявить и использовать лямбда-выражение, основная программа разбивается на ряд этапов:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Определение ссылки на функциональный интерфейс:</p>
-</li>
-</ul>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">Operationable operation;</code></pre>
-</div>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Создание лямбда-выражения:</p>
-</li>
-</ul>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">operation = (x, y) -&gt; x + y;</code></pre>
-</div>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Использование лямбда-выражения в виде вызова метода интерфейса:</p>
-</li>
-</ul>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">int result = operation.calculate(10, 20);</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>На втором этапе параметры лямбда-выражения соответствуют параметрам единственного метода интерфейса <code>Operationable</code>, а результат соответствует возвращаемому результату метода интерфейса. При этом нам не надо использовать ключевое слово <code>return</code> для возврата результата из лямбда-выражения.</p>
-</div>
-<div class="paragraph">
-<p>Так, в методе интерфейса оба параметра представляют тип <code>int</code>, значит, в теле лямбда-выражения мы можем применить к ним сложение. Результат сложения также представляет тип <code>int</code>, объект которого возвращается методом интерфейса.</p>
-</div>
-<div class="paragraph">
-<p>На третьем этапе результатом будет сумма чисел <code>10</code> и <code>20</code>, так как в лямбда-выражении определена операция сложения параметров.</p>
-</div>
-<div class="paragraph">
-<p>При этом для одного функционального интерфейса мы можем определить множество лямбда-выражений. Например:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">Operationable operation1 = (int x, int y)-&gt; x + y;
-Operationable operation2 = (int x, int y)-&gt; x - y;
-Operationable operation3 = (int x, int y)-&gt; x * y;
-
-System.out.println(operation1.calculate(20, 10)); //30
-System.out.println(operation2.calculate(20, 10)); //10
-System.out.println(operation3.calculate(20, 10)); //200</code></pre>
+phoneStream.filter(p -&gt; p.getPrice() &lt; 50000)
+        .forEach(p -&gt; System.out.println(p.getName()));</code></pre>
 </div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_отложенное_выполнение">Отложенное выполнение</h2>
+<h2 id="_map"><code>map()</code></h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Одним из ключевых моментов в использовании лямбд является <strong>отложенное выполнение</strong> (<strong>deferred execution</strong>). То есть мы определяем в одном месте программы лямбда-выражение и затем можем его вызывать при необходимости неопределенное количество раз в различных частях программы. Отложенное выполнение может потребоваться, к примеру, в следующих случаях:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>выполнение кода отдельном потоке</p>
-</li>
-<li>
-<p>выполнение одного и того же кода несколько раз</p>
-</li>
-<li>
-<p>выполнение кода в результате какого-то события</p>
-</li>
-<li>
-<p>выполнение кода только в том случае, когда он действительно необходим и если он необходим</p>
-</li>
-</ul>
-</div>
-<div class="sect2">
-<h3 id="_передача_параметров_в_лямбда_выражение">Передача параметров в лямбда-выражение</h3>
-<div class="paragraph">
-<p>Параметры лямбда-выражения должны соответствовать по тип параметрам метода из функционального интерфейса. При написании самого лямбда-выражения тип параметров писать необязательно, хотя в принципе это можно сделать, например:</p>
+<p>Отображение или маппинг позволяет задать функцию преобразования одного объекта в другой, то есть получить из элемента одного типа элемент другого типа. Для отображения используется метод <code>map()</code>, который имеет следующее определение:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">operation = (int x, int y) -&gt; x + y;</code></pre>
+<pre class="highlight"><code class="language-java" data-lang="java">&lt;R&gt; Stream&lt;R&gt; map(Function&lt;? super T, ? extends R&gt; mapper)</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Если метод не принимает никаких параметров, то пишутся пустые скобки, например:</p>
+<p>Передаваемая в метод <code>map()</code> функция задает преобразование от объектов типа <code>T</code> к типу <code>R</code>. И в результате возвращается новый поток с преобразованными объектами.</p>
+</div>
+<div class="paragraph">
+<p>Возьмем вышеопределенный класс телефонов и выполним преобразование от типа <code>Phone</code> к типу <code>String</code>:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">() -&gt; 30 + 20;</code></pre>
+<pre class="highlight"><code class="language-java" data-lang="java">Stream&lt;Phone&gt; phoneStream = Stream.of(
+    new Phone("iPhone 6 S", 54000),
+    new Phone("Lumia 950", 45000),
+    new Phone("Samsung Galaxy S 6", 40000)
+);
+phoneStream.map(p -&gt; p.getName()) // помещаем в поток только названия телефонов
+        .forEach(s -&gt; System.out.println(s));</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Если метод принимает только один параметр, то скобки можно опустить:</p>
+<p>Операция <code>map(p &#8594; p.getName())</code> помещает в новый поток только названия телефонов. В итоге на консоли будут только названия:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">n -&gt; n * n;</code></pre>
+<pre class="highlight"><code class="language-out" data-lang="out">iPhone 6 S
+Lumia 950
+Samsung Galaxy S 6</code></pre>
 </div>
 </div>
+<div class="paragraph">
+<p>Еще проведем преобразования:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">phoneStream
+        .map(p -&gt; "название: " + p.getName() + " цена: " + p.getPrice())
+        .forEach(s -&gt; System.out.println(s));</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Здесь также результирующий поток содержит только строки, только теперь названия соединяются с ценами.</p>
+</div>
+<div class="paragraph">
+<p>Для преобразования объектов в типы <code>Integer</code>, <code>Long</code>, <code>Double</code> определены специальные методы <code>mapToInt()</code>, <code>mapToLong()</code> и <code>mapToDouble()</code> соответственно.</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_терминальные_лямбда_выражения">Терминальные лямбда-выражения</h2>
+<h2 id="_flatmap"><code>flatMap()</code></h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Выше рассмотрены лямбда-выражения, которые возвращают определенное значение. Но также могут быть и <strong>терминальные лямбды</strong>, которые не возвращают никакого значения. Например:</p>
+<p>Плоское отображение выполняется тогда, когда из одного элемента нужно получить несколько. Данную операцию выполняет метод <code>flatMap</code>:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">interface Printable {
-    void print(String s);
-}
-
-public class LambdaApp {
-    public static void main(String[] args) {
-        Printable printer = s -&gt; System.out.println(s);
-        printer.print("Hello Java!");
-    }
-}</code></pre>
+<pre class="highlight"><code class="language-java" data-lang="java">&lt;R&gt; Stream&lt;R&gt; flatMap(Function&lt;? super T, ? extends Stream&lt;? extends R&gt;&gt; mapper)</code></pre>
 </div>
 </div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_лямбды_и_локальные_переменные">Лямбды и локальные переменные</h2>
-<div class="sectionbody">
 <div class="paragraph">
-<p>Лямбда-выражение может использовать переменные, которые объявлены во вне в более общей области видимости - на уровне класса или метода, в котором лямбда-выражение определено. Однако в зависимости от того, как и где определены переменные, могут различаться способы их использования в лямбдах. Рассмотрим первый пример - использования переменных уровня класса:</p>
+<p>Например, в примере выше мы выводим название телефона и его цену. Но что, если мы хотим установить для каждого телефона цену со скидкой и цену без скидки. То есть из одного объекта <code>Phone</code> нам надо получить два объекта с информацией, например, в виде строки. Для этого применим <code>flatMap</code>:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">public class LambdaApp {
-    static int x = 10;
-    static int y = 20;
+<pre class="highlight"><code class="language-java" data-lang="java">Stream&lt;Phone&gt; phoneStream = Stream.of(
+    new Phone("iPhone 6 S", 54000),
+    new Phone("Lumia 950", 45000),
+    new Phone("Samsung Galaxy S 6", 40000)
+);
 
-    public static void main(String[] args) {
-        Operation op = () -&gt; {
-            x = 30;
-            return x + y;
-        };
-        System.out.println(op.calculate()); // 50
-        System.out.println(x); // 30 - значение x изменилось
-    }
-}
-
-interface Operation {
-    int calculate();
-}</code></pre>
+phoneStream
+        .flatMap(p -&gt; Stream.of(
+                String.format("название: %s  цена без скидки: %d", p.getName(), p.getPrice()),
+                String.format("название: %s  цена со скидкой: %d", p.getName(), p.getPrice() - (int) (p.getPrice() * 0.1))
+        ))
+        .forEach(s -&gt; System.out.println(s));</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Переменные <code>x</code> и <code>y</code> объявлены на уровне класса, и в лямбда-выражении мы их может получить и даже изменить. Так, в данном случае после выполнения выражения изменяется значение переменной <code>x</code>.</p>
-</div>
-<div class="paragraph">
-<p>Теперь рассмотрим другой пример - локальные переменные на уровне метода:</p>
+<p>Результат работы программы:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">public static void main(String[] args) {
-    int n = 70;
-    int m = 30;
-    Operation op = () -&gt; {
-        // n = 100; - так нельзя сделать
-        return m + n;
-    };
-    // n = 100;  - так тоже нельзя
-    System.out.println(op.calculate()); // 100
-}</code></pre>
+<pre class="highlight"><code class="language-out" data-lang="out">название: iPhone 6 S цена без скидки: 54000
+название: iPhone 6 S цена со скидкой: 48600
+название: Lumia 950 цена без скидки: 45000
+название: Lumia 950 цена со скидкой: 40500
+название: Samsung Galaxy S 6 цена без скидки: 40000
+название: Samsung Galaxy S 6 цена со скидкой: 36000</code></pre>
 </div>
-</div>
-<div class="paragraph">
-<p>Локальные переменные уровня метода мы также может использовать в лямбдах, но изменять их значение мы уже не сможем. Если мы попробуем это сделать, то среда разработки может нам высветить ошибку и то, что такую переменную надо пометить с помощью ключевого слова <code>final</code>, то есть сделать константой: <code>final int n = 70;</code>. Однако это необязательно.</p>
-</div>
-<div class="paragraph">
-<p>Более того, мы не сможем изменить значение переменной, которая используется в лямбда-выражении, вне этого выражения. То есть даже если такая переменная не объявлена как константа, по сути она является константой.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_блоки_кода_в_лямбда_выражениях">Блоки кода в лямбда-выражениях</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Существуют два типа лямбда-выражений:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>однострочное выражение</p>
-</li>
-<li>
-<p>блок кода</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>Примеры однострочных выражений демонстрировались выше. Блочные выражения обрамляются фигурными скобками. В блочных лямбда-выражениях можно использовать внутренние вложенные блоки, циклы, конструкции <code>if</code>, <code>switch</code>, создавать переменные и т.д. Если блочное лямбда-выражение должно возвращать значение, то явным образом применяется оператор <code>return</code>:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">Operationable operation = (int x, int y) -&gt; {
-    if(y == 0)
-        return 0;
-    else
-        return x / y;
-};
-
-System.out.println(operation.calculate(20, 10)); //2
-System.out.println(operation.calculate(20, 0)); //0</code></pre>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_обобщенный_функциональный_интерфейс">Обобщенный функциональный интерфейс</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Функциональный интерфейс может быть обобщенным, однако в лямбда-выражении использование обобщений не допускается. В этом случае нам надо типизировать объект интерфейса определенным типом, который потом будет применяться в лямбда-выражении. Например:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">public class LambdaApp {
-    public static void main(String[] args) {
-        Operationable&lt;Integer&gt; operation1 = (x, y) -&gt; x + y;
-        Operationable&lt;String&gt; operation2 = (x, y) -&gt; x + y;
-
-        System.out.println(operation1.calculate(20, 10)); //30
-        System.out.println(operation2.calculate("20", "10")); //2010
-    }
-}
-
-interface Operationable&lt;T&gt; {
-    T calculate(T x, T y);
-}</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Таким образом, при объявлении лямбд-выражения ему уже известно, какой тип параметры будут представлять и какой тип они будут возвращать.</p>
 </div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2021-07-06 10:02:56 UTC
+Last updated 2021-07-06 10:40:55 UTC
 </div>
 </div>
 </body>

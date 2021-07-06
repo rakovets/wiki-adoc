@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.15">
-<title>Встроенные функциональные интерфейсы</title>
+<title>Класс Optional</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -437,249 +437,169 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </head>
 <body class="article">
 <div id="header">
-<h1>Встроенные функциональные интерфейсы</h1>
+<h1>Класс <code>Optional</code></h1>
 </div>
 <div id="content">
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p>В JDK 8 вместе с самой функциональностью лямбда-выражений также было добавлено некоторое количество встроенных функциональных интерфейсов, которые мы можем использовать в различных ситуациях и в различные API в рамках JDK 8. В частности, ряд далее рассматриваемых интерфейсов широко применяется в <code>Stream API</code> - новом прикладном интерфейсе для работы с данными. Рассмотрим основные из этих интерфейсов:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><code>Predicate&lt;T&gt;</code></p>
-</li>
-<li>
-<p><code>Consumer&lt;T&gt;</code></p>
-</li>
-<li>
-<p><code>Function&lt;T, R&gt;</code></p>
-</li>
-<li>
-<p><code>Supplier&lt;T&gt;</code></p>
-</li>
-<li>
-<p><code>UnaryOperator&lt;T&gt;</code></p>
-</li>
-<li>
-<p><code>BinaryOperator&lt;T&gt;</code></p>
-</li>
-</ul>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_predicatet"><code>Predicate&lt;T&gt;</code></h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Функциональный интерфейс <code>Predicate&lt;T&gt;</code> проверяет соблюдение некоторого условия. Если оно соблюдается, то возвращается значение <code>true</code>. В качестве параметра лямбда-выражение принимает объект типа <code>T</code>:</p>
+<p>Ряд операций сведения, такие как <code>min()</code>, <code>max()</code>, <code>reduce()</code>, возвращают объект <code>Optional&lt;T&gt;</code>. Этот объект фактически обертывает результат операции. После выполнения операции с помощью метода <code>get()</code> объекта <code>Optional</code> мы можем получить его значение:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">public interface Predicate&lt;T&gt; {
-    boolean test(T t);
+<pre class="highlight"><code class="language-java" data-lang="java">import java.util.Optional;
+import java.util.ArrayList;
+import java.util.Arrays;
+public class Program {
+    public static void main(String[] args) {
+        ArrayList&lt;Integer&gt; numbers = new ArrayList&lt;Integer&gt;();
+        numbers.addAll(Arrays.asList(new Integer[] {1, 2, 3, 4, 5, 6, 7, 8, 9}));
+        Optional&lt;Integer&gt; min = numbers.stream()
+            .min(Integer::compare);
+        System.out.println(min.get()); // 1
+    }
 }</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Например:</p>
+<p>Но что, если поток не содержит вообще никаких данных:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">import java.util.function.Predicate;
-
-public class LambdaApp {
-    public static void main(String[] args) {
-        Predicate&lt;Integer&gt; isPositive = x -&gt; x &gt; 0;
-
-        System.out.println(isPositive.test(5)); // true
-        System.out.println(isPositive.test(-7)); // false
-    }
+<pre class="highlight"><code class="language-java" data-lang="java">// список numbers пустой
+ArrayList&lt;Integer&gt; numbers = new ArrayList&lt;Integer&gt;();
+Optional&lt;Integer&gt; min = numbers.stream()
+    .min(Integer::compare);
+System.out.println(min.get());  // java.util.NoSuchElementException</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>В этом случае программа выдаст исключение <code>java.util.NoSuchElementException</code>. Что мы можем сделать, чтобы избежать выброса исключения? Для этого класс <code>Optional</code> предоставляет ряд методов.</p>
+</div>
+<div class="paragraph">
+<p>Самой простой способ избежать подобной ситуации - это предварительная проверка наличия значения в <code>Optional</code> с помощью метода <code>isPresent()</code>. Он возврашает <code>true</code>, если значение присутствует в <code>Optional</code>, и <code>false</code>, если значение отсутствует:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">ArrayList&lt;Integer&gt; numbers = new ArrayList&lt;Integer&gt;();
+Optional&lt;Integer&gt; min = numbers.stream()
+    .min(Integer::compare);
+if (min.isPresent()) {
+    System.out.println(min.get());
 }</code></pre>
 </div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_binaryoperatort"><code>BinaryOperator&lt;T&gt;</code></h2>
+<h2 id="_orelse"><code>orElse()</code></h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p><code>BinaryOperator&lt;T&gt;</code> принимает в качестве параметра два объекта типа <code>T</code>, выполняет над ними бинарную операцию и возвращает ее результат также в виде объекта типа <code>T</code>:</p>
+<p>Метод <code>orElse()</code> позволяет определить альтернативное значение, которое будет возвращаться, если <code>Optional</code> не получит из потока какого-нибудь значения:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">public interface BinaryOperator&lt;T&gt; {
-    T apply(T t1, T t2);
+<pre class="highlight"><code class="language-java" data-lang="java">// пустой список
+ArrayList&lt;Integer&gt; numbers = new ArrayList&lt;Integer&gt;();
+Optional&lt;Integer&gt; min = numbers.stream()
+    .min(Integer::compare);
+System.out.println(min.orElse(-1)); // -1
+
+// непустой список
+numbers.addAll(Arrays.asList(new Integer[] {4, 5, 6, 7, 8, 9}));
+min = numbers.stream()
+    .min(Integer::compare);
+System.out.println(min.orElse(-1)); // 4</code></pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_orelseget"><code>orElseGet()</code></h3>
+<div class="paragraph">
+<p>Метод <code>orElseGet()</code> позволяет задать функцию, которая будет возвращать значение по умолчанию:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">import java.util.Optional;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Random;
+
+public class Program {
+    public static void main(String[] args) {
+        ArrayList&lt;Integer&gt; numbers = new ArrayList&lt;Integer&gt;();
+        Optional&lt;Integer&gt; min = numbers.stream()
+            .min(Integer::compare);
+        Random rnd = new Random();
+        System.out.println(min.orElseGet(() -&gt; rnd.nextInt(100)));
+    }
 }</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Например:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">import java.util.function.BinaryOperator;
-
-public class LambdaApp {
-    public static void main(String[] args) {
-        BinaryOperator&lt;Integer&gt; multiply = (x, y) -&gt; x * y;
-
-        System.out.println(multiply.apply(3, 5)); // 15
-        System.out.println(multiply.apply(10, -2)); // -20
-    }
-}</code></pre>
+<p>В данном случае возвращаемое значение генерируется с помощью метода <code>nextInt()</code> класса <code>Random</code>, который возвращает случайное число.</p>
 </div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_unaryoperatort"><code>UnaryOperator&lt;T&gt;</code></h2>
+<h2 id="_orelsethrow"><code>orElseThrow()</code></h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p><code>UnaryOperator&lt;T&gt;</code> принимает в качестве параметра объект типа <code>T</code>, выполняет над ними операции и возвращает результат операций в виде объекта типа <code>T</code>:</p>
+<p>Еще один метод - <code>orElseThrow()</code> позволяет сгенерировать исключение, если <code>Optional</code> не содержит значения:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">public interface UnaryOperator&lt;T&gt; {
-    T apply(T t);
-}</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Например:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">import java.util.function.UnaryOperator;
-
-public class LambdaApp {
-    public static void main(String[] args) {
-        UnaryOperator&lt;Integer&gt; square = x -&gt; x * x;
-        System.out.println(square.apply(5)); // 25
-    }
-}</code></pre>
+<pre class="highlight"><code class="language-java" data-lang="java">ArrayList&lt;Integer&gt; numbers = new ArrayList&lt;Integer&gt;();
+Optional&lt;Integer&gt; min = numbers.stream()
+    .min(Integer::compare);
+// генеррация исключения IllegalStateException
+System.out.println(min.orElseThrow(IllegalStateException::new));</code></pre>
 </div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_functiont_r"><code>Function&lt;T, R&gt;</code></h2>
+<h2 id="_ifpresent"><code>ifPresent()</code></h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Функциональный интерфейс <code>Function&lt;T, R&gt;</code> представляет функцию перехода от объекта типа <code>T</code> к объекту типа <code>R</code>:</p>
+<p>Метод <code>ifPresent()</code> определяет действия со значением в <code>Optional</code>, если значение имеется:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">public interface Function&lt;T, R&gt; {
-    R apply(T t);
-}</code></pre>
+<pre class="highlight"><code class="language-java" data-lang="java">ArrayList&lt;Integer&gt; numbers = new ArrayList&lt;Integer&gt;();
+numbers.addAll(Arrays.asList(new Integer[]{4,5,6,7,8,9}));
+Optional&lt;Integer&gt; min = numbers.stream().min(Integer::compare);
+min.ifPresent(v-&gt;System.out.println(v)); // 4</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Например:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">import java.util.function.Function;
-
-public class LambdaApp {
-    public static void main(String[] args) {
-        Function&lt;Integer, String&gt; convert = x -&gt; String.valueOf(x) + " долларов";
-        System.out.println(convert.apply(5)); // 5 долларов
-    }
-}</code></pre>
-</div>
+<p>В метод <code>ifPresent()</code> передается функция, которая принимает один параметр - значение из <code>Optional</code>. В данном случае полученное минимальное число выводится на консоль. Но если бы массив numbers был бы пустым, и соответственно <code>Optional</code> не сдержало бы никакого значения, то никакой ошибки бы не было.</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_consumert"><code>Consumer&lt;T&gt;</code></h2>
+<h2 id="_ifpresentorelse"><code>ifPresentOrElse()</code></h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p><code>Consumer&lt;T&gt;</code> выполняет некоторое действие над объектом типа <code>T</code>, при этом ничего не возвращая:</p>
+<p>Метод <code>ifPresentOrElse()</code> позволяет определить альтернативную логику на случай, если значение в <code>Optional</code> отсутствует:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">public interface Consumer&lt;T&gt; {
-    void accept(T t);
-}</code></pre>
+<pre class="highlight"><code class="language-java" data-lang="java">ArrayList&lt;Integer&gt; numbers = new ArrayList&lt;Integer&gt;();
+Optional&lt;Integer&gt; min = numbers.stream()
+    .min(Integer::compare);
+min.ifPresentOrElse(v -&gt; System.out.println(v), () -&gt; System.out.println("Value not found"));</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Например:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">import java.util.function.Consumer;
-
-public class LambdaApp {
-    public static void main(String[] args) {
-        Consumer&lt;Integer&gt; printer = x -&gt; System.out.printf("%d долларов \n", x);
-        printer.accept(600); // 600 долларов
-    }
-}</code></pre>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_suppliert"><code>Supplier&lt;T&gt;</code></h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p><code>Supplier&lt;T&gt;</code> не принимает никаких аргументов, но должен возвращать объект типа <code>T</code>:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">public interface Supplier&lt;T&gt; {
-    T get();
-}</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Например:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">import java.util.Scanner;
-import java.util.function.Supplier;
-
-public class LambdaApp {
-    public static void main(String[] args) {
-        Supplier&lt;User&gt; userFactory = () -&gt; {
-            Scanner in = new Scanner(System.in);
-            System.out.println("Введите имя: ");
-            String name = in.nextLine();
-            return new User(name);
-        };
-
-        User user1 = userFactory.get();
-        User user2 = userFactory.get();
-
-        System.out.println("Имя user1: " + user1.getName());
-        System.out.println("Имя user2: " + user2.getName());
-    }
-}
-
-class User {
-    private String name;
-
-    String getName() {
-        return name;
-    }
-
-    User(String n) {
-        this.name = n;
-    }
-}</code></pre>
-</div>
+<p>В метод <code>ifPresentOrElse()</code> передается две функции. Первая обрабатывает значение в <code>Optional</code>, если оно присутствует. Вторая функция представляет действия, которые выполняются, если значение в <code>Optional</code> отсутствует.</p>
 </div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2021-07-06 10:02:56 UTC
+Last updated 2021-07-06 10:40:55 UTC
 </div>
 </div>
 </body>

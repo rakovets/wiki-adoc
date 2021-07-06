@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.15">
-<title>Класс Optional</title>
+<title>Операции сведения</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -437,169 +437,226 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </head>
 <body class="article">
 <div id="header">
-<h1>Класс <code>Optional</code></h1>
+<h1>Операции сведения</h1>
 </div>
 <div id="content">
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p>Ряд операций сведения, такие как <code>min()</code>, <code>max()</code>, <code>reduce()</code>, возвращают объект <code>Optional&lt;T&gt;</code>. Этот объект фактически обертывает результат операции. После выполнения операции с помощью метода <code>get()</code> объекта <code>Optional</code> мы можем получить его значение:</p>
+<p>Операции сведения представляют терминальные операции, которые возвращают некоторое значение - результат операции. В Stream API есть ряд операций сведения.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_count"><code>count()</code></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Метод <code>count()</code> возвращает количество элементов в потоке данных:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">import java.util.Optional;
+<pre class="highlight"><code class="language-java" data-lang="java">import java.util.stream.Stream;
+import java.util.Optional;
+import java.util.*;
+public class Program {
+    public static void main(String[] args) {
+        ArrayList&lt;String&gt; names = new ArrayList&lt;String&gt;();
+        names.addAll(Arrays.asList(new String[]{"Tom", "Sam", "Bob", "Alice"}));
+        System.out.println(names.stream().count()); // 4
+
+        // количество элементов с длиной не больше 3 символов
+        System.out.println(names.stream()
+                .filter(n -&gt; n.length() &lt;= 3)
+                .count());  // 3
+    }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_findfirst_и_findany"><code>findFirst()</code> и <code>findAny()</code></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Метод <code>findFirst()</code> извлекает из потока первый элемент, а <code>findAny()</code> извлекает случайный объект из потока (нередко так же первый):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">ArrayList&lt;String&gt; names = new ArrayList&lt;String&gt;();
+names.addAll(Arrays.asList(new String[]{"Tom", "Sam", "Bob", "Alice"}));
+
+Optional&lt;String&gt; first = names.stream().findFirst();
+System.out.println(first.get()); // Tom
+
+Optional&lt;String&gt; any = names.stream().findAny();
+System.out.println(first.get()); // Tom</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_allmatch_anymatch_nonematch"><code>allMatch()</code>, <code>anyMatch()</code>, <code>noneMatch()</code></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Еще одна группа операций сведения возвращает логическое значение <code>true</code> или <code>false</code>:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>boolean allMatch(Predicate&lt;? super T&gt; predicate)</code> возвращает <code>true</code>, если все элементы потока удовлетворяют условию в предикате</p>
+</li>
+<li>
+<p><code>boolean anyMatch(Predicate&lt;? super T&gt; predicate)</code> возвращает <code>true</code>, если хоть один элемент потока удовлетворяют условию в предикате</p>
+</li>
+<li>
+<p><code>boolean noneMatch(Predicate&lt;? super T&gt; predicate)</code> возвращает <code>true</code>, если ни один из элементов в потоке не удовлетворяет условию в предикате</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Пример использования функций:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">import java.util.stream.Stream;
+import java.util.Optional;
+import java.util.ArrayList;
+import java.util.Arrays;
+public class Program {
+    public static void main(String[] args) {
+        ArrayList&lt;String&gt; names = new ArrayList&lt;String&gt;();
+        names.addAll(Arrays.asList(new String[]{"Tom", "Sam", "Bob", "Alice"}));
+
+        // есть ли в потоке строка, длина которой больше 3
+        boolean any = names.stream().anyMatch(s -&gt; s.length() &gt; 3);
+        System.out.println(any); // true
+
+        // все ли строки имеют длину в 3 символа
+        boolean all = names.stream().allMatch(s -&gt; s.length() == 3);
+        System.out.println(all); // false
+
+        // НЕТ ЛИ в потоке строки "Bill". Если нет, то true, если есть, то false
+        boolean none = names.stream().noneMatch(s -&gt; s == "Bill");
+        System.out.println(none); // true
+    }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_min_и_max"><code>min()</code> и <code>max()</code></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Методы <code>min()</code> и <code>max()</code> возвращают соответственно минимальное и максимальное значение. Поскольку данные в потоке могут представлять различные типы, в том числе сложные классы, то в качестве параметра в эти методы передается объект интерфейса <code>Comparator</code>, который указывает, как сравнивать объекты:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">Optional&lt;T&gt; min(Comparator&lt;? super T&gt; comparator)
+Optional&lt;T&gt; max(Comparator&lt;? super T&gt; comparator)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Оба метода возвращают элемент потока (минимальный или максимальный), обернутый в объект <code>Optional</code>.</p>
+</div>
+<div class="paragraph">
+<p>Например, найдем минимальное и максимальное число в числовом потоке:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">import java.util.stream.Stream;
+import java.util.Optional;
 import java.util.ArrayList;
 import java.util.Arrays;
 public class Program {
     public static void main(String[] args) {
         ArrayList&lt;Integer&gt; numbers = new ArrayList&lt;Integer&gt;();
-        numbers.addAll(Arrays.asList(new Integer[] {1, 2, 3, 4, 5, 6, 7, 8, 9}));
-        Optional&lt;Integer&gt; min = numbers.stream()
-            .min(Integer::compare);
+        numbers.addAll(Arrays.asList(new Integer[]{1, 2, 3, 4, 5, 6, 7, 8, 9}));
+
+        Optional&lt;Integer&gt; min = numbers.stream().min(Integer::compare);
+        Optional&lt;Integer&gt; max = numbers.stream().max(Integer::compare);
         System.out.println(min.get()); // 1
+        System.out.println(max.get()); // 9
     }
 }</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Но что, если поток не содержит вообще никаких данных:</p>
+<p>Интерфейс <code>Comparator</code> - это функциональный интерфейс, который определяет один метод <code>compare()</code>, принимающий два сравниваемых объекта и возвращающий число (если первый объект больше, возвращается положительное число, иначе возвращается отрицательное число). Поэтому вместо конкретной реализации компаратора мы можем передать лямбда-вырашение или метод, который соответствует методу compare интерфейса <code>Comparator</code>. Поскольку сравниваются числа, то в метод передается в качестве компаратора статический метод <code>Integer.compare()</code>.</p>
+</div>
+<div class="paragraph">
+<p>При этом методы <code>min()</code> и <code>max()</code> возвращают именно <code>Optional</code>, и чтобы получить непосредственно результат операции из <code>Optional</code>, необходимо вызвать метод <code>get()</code>.</p>
+</div>
+<div class="paragraph">
+<p>Рассмотрим более сложный случай, когда нам надо сравнивать более сложные объекты:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">// список numbers пустой
-ArrayList&lt;Integer&gt; numbers = new ArrayList&lt;Integer&gt;();
-Optional&lt;Integer&gt; min = numbers.stream()
-    .min(Integer::compare);
-System.out.println(min.get());  // java.util.NoSuchElementException</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>В этом случае программа выдаст исключение <code>java.util.NoSuchElementException</code>. Что мы можем сделать, чтобы избежать выброса исключения? Для этого класс <code>Optional</code> предоставляет ряд методов.</p>
-</div>
-<div class="paragraph">
-<p>Самой простой способ избежать подобной ситуации - это предварительная проверка наличия значения в <code>Optional</code> с помощью метода <code>isPresent()</code>. Он возврашает <code>true</code>, если значение присутствует в <code>Optional</code>, и <code>false</code>, если значение отсутствует:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">ArrayList&lt;Integer&gt; numbers = new ArrayList&lt;Integer&gt;();
-Optional&lt;Integer&gt; min = numbers.stream()
-    .min(Integer::compare);
-if (min.isPresent()) {
-    System.out.println(min.get());
-}</code></pre>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_orelse"><code>orElse()</code></h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Метод <code>orElse()</code> позволяет определить альтернативное значение, которое будет возвращаться, если <code>Optional</code> не получит из потока какого-нибудь значения:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">// пустой список
-ArrayList&lt;Integer&gt; numbers = new ArrayList&lt;Integer&gt;();
-Optional&lt;Integer&gt; min = numbers.stream()
-    .min(Integer::compare);
-System.out.println(min.orElse(-1)); // -1
-
-// непустой список
-numbers.addAll(Arrays.asList(new Integer[] {4, 5, 6, 7, 8, 9}));
-min = numbers.stream()
-    .min(Integer::compare);
-System.out.println(min.orElse(-1)); // 4</code></pre>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_orelseget"><code>orElseGet()</code></h3>
-<div class="paragraph">
-<p>Метод <code>orElseGet()</code> позволяет задать функцию, которая будет возвращать значение по умолчанию:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">import java.util.Optional;
+<pre class="highlight"><code class="language-java" data-lang="java">import java.util.stream.Stream;
+import java.util.Optional;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Random;
-
 public class Program {
     public static void main(String[] args) {
-        ArrayList&lt;Integer&gt; numbers = new ArrayList&lt;Integer&gt;();
-        Optional&lt;Integer&gt; min = numbers.stream()
-            .min(Integer::compare);
-        Random rnd = new Random();
-        System.out.println(min.orElseGet(() -&gt; rnd.nextInt(100)));
+        ArrayList&lt;Phone&gt; phones = new ArrayList&lt;Phone&gt;();
+        phones.addAll(Arrays.asList(new Phone[] {
+            new Phone("iPhone 8", 52000),
+            new Phone("Nokia 9", 35000),
+            new Phone("Samsung Galaxy S9", 48000),
+            new Phone("HTC U12", 36000)
+        }));
+
+        Phone min = phones.stream().min(Phone::compare).get();
+        Phone max = phones.stream().max(Phone::compare).get();
+        System.out.printf("MIN Name: %s Price: %d \n", min.getName(), min.getPrice());
+        System.out.printf("MAX Name: %s Price: %d \n", max.getName(), max.getPrice());
+    }
+}
+
+class Phone {
+    private String name;
+    private int price;
+
+    public Phone(String name, int price) {
+        this.name = name;
+        this.price = price;
+    }
+
+    public static int compare (Phone p1, Phone p2) {
+        if(p1.getPrice() &gt; p2.getPrice()) {
+            return 1;
+        }
+        return -1;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getPrice() {
+        return price;
     }
 }</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>В данном случае возвращаемое значение генерируется с помощью метода <code>nextInt()</code> класса <code>Random</code>, который возвращает случайное число.</p>
+<p>В данном случае мы находим минимальный и максимальный объект <code>Phone</code>: фактически объекты с максимальной и минимальной ценой. Для определения функциональности сравнения в классе <code>Phone</code> реализован статический метод <code>compare()</code>, который соответствует сигнатуре метода compare интерфейса <code>Comparator</code>. И в методах <code>min()</code> и <code>max()</code> применяем этот статический метод для сравнения объектов.</p>
 </div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_orelsethrow"><code>orElseThrow()</code></h2>
-<div class="sectionbody">
 <div class="paragraph">
-<p>Еще один метод - <code>orElseThrow()</code> позволяет сгенерировать исключение, если <code>Optional</code> не содержит значения:</p>
+<p>Консольный вывод:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">ArrayList&lt;Integer&gt; numbers = new ArrayList&lt;Integer&gt;();
-Optional&lt;Integer&gt; min = numbers.stream()
-    .min(Integer::compare);
-// генеррация исключения IllegalStateException
-System.out.println(min.orElseThrow(IllegalStateException::new));</code></pre>
+<pre class="highlight"><code class="language-out" data-lang="out">MIN Name: Nokia 9 Price: 35000
+MAX Name: iPhone 8 Price: 52000</code></pre>
 </div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_ifpresent"><code>ifPresent()</code></h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Метод <code>ifPresent()</code> определяет действия со значением в <code>Optional</code>, если значение имеется:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">ArrayList&lt;Integer&gt; numbers = new ArrayList&lt;Integer&gt;();
-numbers.addAll(Arrays.asList(new Integer[]{4,5,6,7,8,9}));
-Optional&lt;Integer&gt; min = numbers.stream().min(Integer::compare);
-min.ifPresent(v-&gt;System.out.println(v)); // 4</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>В метод <code>ifPresent()</code> передается функция, которая принимает один параметр - значение из <code>Optional</code>. В данном случае полученное минимальное число выводится на консоль. Но если бы массив numbers был бы пустым, и соответственно <code>Optional</code> не сдержало бы никакого значения, то никакой ошибки бы не было.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_ifpresentorelse"><code>ifPresentOrElse()</code></h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Метод <code>ifPresentOrElse()</code> позволяет определить альтернативную логику на случай, если значение в <code>Optional</code> отсутствует:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">ArrayList&lt;Integer&gt; numbers = new ArrayList&lt;Integer&gt;();
-Optional&lt;Integer&gt; min = numbers.stream()
-    .min(Integer::compare);
-min.ifPresentOrElse(v -&gt; System.out.println(v), () -&gt; System.out.println("Value not found"));</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>В метод <code>ifPresentOrElse()</code> передается две функции. Первая обрабатывает значение в <code>Optional</code>, если оно присутствует. Вторая функция представляет действия, которые выполняются, если значение в <code>Optional</code> отсутствует.</p>
 </div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2021-07-06 10:02:56 UTC
+Last updated 2021-07-06 10:40:55 UTC
 </div>
 </div>
 </body>

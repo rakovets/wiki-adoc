@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.15">
-<title>sorted()</title>
+<title>reduce()</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -437,72 +437,79 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </head>
 <body class="article">
 <div id="header">
-<h1><code>sorted()</code></h1>
+<h1><code>reduce()</code></h1>
 </div>
 <div id="content">
 <div class="paragraph">
-<p>Коллекции, на основе которых нередко создаются потоки, уже имеют специальные методы для сортировки содержимого. Однако класс <code>Stream</code> также включает возможность сортировки. Такую сортировку мы можем задействовать, когда у нас идет набор промежуточных операций с потоком, которые создают новые наборы данных, и нам надо эти наборы отсортировать.</p>
-</div>
-<div class="paragraph">
-<p>Для простой сортировки по возрастанию применяется метод <code>sorted()</code>:</p>
+<p>Метод <code>reduce()</code> выполняет терминальные операции сведения, возвращая некоторое значение - результат операции. Он имеет следующие формы:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+<pre class="highlight"><code class="language-java" data-lang="java">Optional&lt;T&gt; reduce(BinaryOperator&lt;T&gt; accumulator)
+T reduce(T identity, BinaryOperator&lt;T&gt; accumulator)
+U reduce(U identity, BiFunction&lt;U,? super T,U&gt; accumulator, BinaryOperator&lt;U&gt; combiner)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Первая форма возвращает результат в виде объекта <code>Optional&lt;T&gt;</code>. Например, вычислим произведение набора чисел:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">import java.util.stream.Stream;
+import java.util.Optional;
 
 public class Program {
     public static void main(String[] args) {
-        List&lt;String&gt; phones = new ArrayList&lt;String&gt;();
-        Collections.addAll(phones, "iPhone X", "Nokia 9", "Huawei Nexus 6P",
-                "Samsung Galaxy S8", "LG G6", "Xiaomi MI6",
-                "ASUS Zenfone 3", "Sony Xperia Z5", "Meizu Pro 6",
-                "Pixel 2");
-
-        phones.stream()
-                .filter(p -&gt; p.length() &lt; 12)
-                .sorted() // сортировка по возрастанию
-                .forEach(s -&gt; System.out.println(s));
+        Stream&lt;Integer&gt; numbersStream = Stream.of(1, 2, 3, 4, 5, 6);
+        Optional&lt;Integer&gt; result = numbersStream.reduce((x, y) -&gt; x * y);
+        System.out.println(result.get()); // 720
     }
 }</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Консольный вывод после сортировки объектов:</p>
+<p>Объект <code>BinaryOperator&lt;T&gt;</code> представляет функцию, которая принимает два элемента и выполняет над ними некоторую операцию, возвращая результат. При этом метод <code>reduce()</code> сохраняет результат и затем опять же применяет к этому результату и следующему элементу в наборе бинарную операцию. Фактически в данном случае мы получим результат, который будет равен: <code>n1 op n2 op n3 op n4 op n5 op n6</code>, где <code>op</code> - это операция (в данном случае умножения), а <code>n1</code>, <code>n2</code>, &#8230;&#8203; - элементы из потока.</p>
+</div>
+<div class="paragraph">
+<p>Затем с помощью метода <code>get()</code> мы можем получить собственно результат вычислений: <code>result.get()</code></p>
+</div>
+<div class="paragraph">
+<p>Или еще один пример - объединение слов в предложение:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-sh" data-lang="sh">LG G6
-Meizu Pro 6
-Nokia 9
-Pixel 2
-Xiaomi MI6
-iPhone X</code></pre>
+<pre class="highlight"><code class="language-java" data-lang="java">Stream&lt;String&gt; wordsStream = Stream.of("мама", "мыла", "раму");
+Optional&lt;String&gt; sentence = wordsStream.reduce((x, y) -&gt; x + " " + y);
+System.out.println(sentence.get());</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Однако данный метод не всегда подходит. Уже по консольному выводу мы видим, что метод сортирует объекты по возрастанию, но при этом заглавные и строчные буквы рассматриваются отдельно.</p>
+<p>Если нам надо, чтобы первым элементом в наборе было какое-то определенное значение, то мы можем использовать вторую версию метода <code>reduce()</code>, которая в качестве первого параметра принимает <code>T identity</code>. Этот параметр хранит значение, с которого будет начинаться цепочка бинарных операций. Например:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">Stream&lt;String&gt; wordsStream = Stream.of("мама", "мыла", "раму");
+String sentence = wordsStream.reduce("Результат:", (x, y) -&gt; x + " " + y);
+System.out.println(sentence); // Результат: мама мыла раму</code></pre>
+</div>
 </div>
 <div class="paragraph">
-<p>Кроме того, данный метод подходит только для сортировки тех объектов, которые реализуют интерфейс <code>Comparable</code>.</p>
+<p>Фактически здесь выполняется следующая цепь операций: <code>identity op n1 op n2 op n3 op n4&#8230;&#8203;</code></p>
 </div>
 <div class="paragraph">
-<p>Если же у нас классы объектов не реализуют этот интерфейс или мы хотим создать какую-то свою логику сортировки, то мы можем использовать другую версию метода <code>sorted()</code>, которая в качестве параметра принимает компаратор.</p>
+<p>Использование параметра <code>identity</code> также подходит для тех случаев, когда надо предоставить значение по умолчанию, если поток пустой и не содержит элементов.</p>
 </div>
 <div class="paragraph">
-<p>Например, пусть у нас есть следующий класс <code>Phone</code>:</p>
+<p>В предыдущих примерах тип возвращаемых объектов совпадал с типом элементов, которые входят в поток. Однако это не всегда удобно. Возможно, мы захотим возвратить результат, тип которого отличается от типа объектов потока. Например, пусть у нас есть следующий класс <code>Phone</code>, представляющий телефон:</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight"><code class="language-java" data-lang="java">class Phone {
     private String name;
-    private String company;
     private int price;
 
-    public Phone(String name, String comp, int price) {
+    public Phone(String name, int price) {
         this.name = name;
-        this.company = comp;
         this.price = price;
     }
 
@@ -513,58 +520,35 @@ iPhone X</code></pre>
     public int getPrice() {
         return price;
     }
-
-    public String getCompany() {
-        return company;
-    }
 }</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Отсортируем поток обектов <code>Phone</code>:</p>
+<p>И мы хотим найти сумму цен тех телефонов, у которых цена меньше определенного значения. Для этого используем третью версию метода <code>reduce()</code>:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">import java.util.Comparator;
-import java.util.stream.Stream;
+<pre class="highlight"><code class="language-java" data-lang="java">Stream&lt;Phone&gt; phoneStream = Stream.of(
+    new Phone("iPhone 6 S", 54000),
+    new Phone("Lumia 950", 45000),
+    new Phone("Samsung Galaxy S 6", 40000),
+    new Phone("LG G 4", 32000)
+);
 
-public class Program {
-    public static void main(String[] args) {
-        Stream&lt;Phone&gt; phoneStream = Stream.of(new Phone("iPhone X", "Apple", 600),
-            new Phone("Pixel 2", "Google", 500),
-            new Phone("iPhone 8", "Apple",450),
-            new Phone("Nokia 9", "HMD Global",150),
-            new Phone("Galaxy S9", "Samsung", 300));
+int sum = phoneStream.reduce(0,
+            (x, y) -&gt; (y.getPrice() &lt; 50000) ? x + y.getPrice() : x + 0,
+            (x, y) -&gt; x + y);
 
-        phoneStream.sorted(new PhoneComparator())
-                .forEach(p-&gt;System.out.printf("%s (%s) - %d \n",
-                        p.getName(), p.getCompany(), p.getPrice()));
-    }
-}
-
-class PhoneComparator implements Comparator&lt;Phone&gt; {
-    public int compare(Phone a, Phone b) {
-        return a.getName().toUpperCase().compareTo(b.getName().toUpperCase());
-    }
-}</code></pre>
+System.out.println(sum); // 117000</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Здесь определен класс компаратора <code>PhoneComparator</code>, который сортирует объекты по полю <code>name</code>. В итоге мы получим следующий вывод:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-sh" data-lang="sh">Galaxy S9 (Samsung) - 300
-iPhone 8 (Apple) - 450
-iPhone X (Apple) - 600
-Nokia 9 (HMD Global) - 150
-Pixel 2 (Google) - 500</code></pre>
-</div>
+<p>Опять же здесь в качестве первого параметра идет значение по умолчанию - <code>0</code>. Второй параметр производит бинарную операцию, которая получает промежуточное значение - суммарную цену текущего и предыдущего телефонов. Третий параметр представляет бинарную операцию, которая суммирует все промежуточные вычисления.</p>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2021-07-06 10:02:56 UTC
+Last updated 2021-07-06 10:40:55 UTC
 </div>
 </div>
 </body>

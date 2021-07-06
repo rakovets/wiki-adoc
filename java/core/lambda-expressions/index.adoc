@@ -1,20 +1,37 @@
-= Java Functional Programming (JSR 335)
+= Lambda Expressions (JSR 335)
 
 :leveloffset: +1
 
-include::intro-to-stream-api.adoc[]
+include::intro-to-lambda-expressions.adoc[]
+
+include::lambdas-as-parameters-and-methods-results.adoc[]
+
 include::functional-interfaces.adoc[]
+
+include::intro-to-stream-api.adoc[]
+
 include::creating-stream.adoc[]
+
 include::filtering-mapping-foreaching.adoc[]
+
 include::stream-sorted.adoc[]
+
 include::getting-and-merging-stream.adoc[]
+
 include::stream-skip-and-limit.adoc[]
+
 include::stream-resulting-methods.adoc[]
+
 include::stream-reduce.adoc[]
+
 include::class-optional.adoc[]
+
 include::stream-collect.adoc[]
+
 include::class-collectors.adoc[]
+
 include::stream-and-parallel.adoc[]
+
 include::arrays-and-parallel-operations.adoc[]
 
 :leveloffset: -1

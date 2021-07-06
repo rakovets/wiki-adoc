@@ -497,15 +497,13 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_класс_object">5.4. Класс <code>Object</code></a></li>
 <li><a href="#_ссылочные_типы_и_клонирование_объектов">5.5. Ссылочные типы и клонирование объектов</a></li>
 <li><a href="#_wrapper_classes">5.6. Wrapper Classes</a></li>
-<li><a href="#_введение_в_лямбда_выражения">5.7. Введение в лямбда-выражения</a></li>
-<li><a href="#_лямбды_как_параметры_и_результаты_методов">5.8. Лямбды как параметры и результаты методов</a></li>
-<li><a href="#_аннотации">5.9. Аннотации</a></li>
-<li><a href="#_reflection">5.10. Reflection</a></li>
-<li><a href="#_properties">5.11. Properties</a></li>
-<li><a href="#_javadoc">5.12. Javadoc</a></li>
-<li><a href="#_java_nio">5.13. Java NIO</a></li>
-<li><a href="#_java_memory_management">5.14. Java Memory Management</a></li>
-<li><a href="#_модульность_since_java_9">5.15. Модульность (@since Java 9)</a></li>
+<li><a href="#_аннотации">5.7. Аннотации</a></li>
+<li><a href="#_reflection">5.8. Reflection</a></li>
+<li><a href="#_properties">5.9. Properties</a></li>
+<li><a href="#_javadoc">5.10. Javadoc</a></li>
+<li><a href="#_java_nio">5.11. Java NIO</a></li>
+<li><a href="#_java_memory_management">5.12. Java Memory Management</a></li>
+<li><a href="#_модульность_since_java_9">5.13. Модульность (@since Java 9)</a></li>
 </ul>
 </li>
 <li><a href="#_обработка_исключений">6. Обработка исключений</a>
@@ -540,18 +538,24 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_interface_sortedmap">8.11. Interface <code>SortedMap</code></a></li>
 </ul>
 </li>
-<li><a href="#_java_functional_programming_jsr_335">9. Java Functional Programming (JSR 335)</a>
+<li><a href="#_lambda_expressions_jsr_335">9. Lambda Expressions (JSR 335)</a>
 <ul class="sectlevel2">
-<li><a href="#_введение_stream_api">9.1. Введение Stream API</a></li>
-<li><a href="#_создание_потока_данных">9.2. Создание потока данных</a></li>
-<li><a href="#_фильтрация_перебор_элементов_и_отображение">9.3. Фильтрация, перебор элементов и отображение</a></li>
-<li><a href="#_sorted">9.4. <code>sorted()</code></a></li>
-<li><a href="#_получение_подпотока_и_объединение_потоков">9.5. Получение подпотока и объединение потоков</a></li>
-<li><a href="#_skip_и_limit">9.6. <code>skip()</code> и <code>limit()</code></a></li>
-<li><a href="#_операции_сведения">9.7. Операции сведения</a></li>
-<li><a href="#_reduce">9.8. <code>reduce()</code></a></li>
-<li><a href="#_класс_collectors">9.9. Класс <code>Collectors</code></a></li>
-<li><a href="#_параллельные_операции_над_массивами">9.10. Параллельные операции над массивами</a></li>
+<li><a href="#_введение_в_лямбда_выражения">9.1. Введение в лямбда-выражения</a></li>
+<li><a href="#_лямбды_как_параметры_и_результаты_методов">9.2. Лямбды как параметры и результаты методов</a></li>
+<li><a href="#_встроенные_функциональные_интерфейсы">9.3. Встроенные функциональные интерфейсы</a></li>
+<li><a href="#_введение_stream_api">9.4. Введение Stream API</a></li>
+<li><a href="#_создание_потока_данных">9.5. Создание потока данных</a></li>
+<li><a href="#_фильтрация_перебор_элементов_и_отображение">9.6. Фильтрация, перебор элементов и отображение</a></li>
+<li><a href="#_sorted">9.7. <code>sorted()</code></a></li>
+<li><a href="#_получение_подпотока_и_объединение_потоков">9.8. Получение подпотока и объединение потоков</a></li>
+<li><a href="#_skip_и_limit">9.9. <code>skip()</code> и <code>limit()</code></a></li>
+<li><a href="#_операции_сведения">9.10. Операции сведения</a></li>
+<li><a href="#_reduce">9.11. <code>reduce()</code></a></li>
+<li><a href="#_класс_optional">9.12. Класс <code>Optional</code></a></li>
+<li><a href="#_stream_collect">9.13. <code>Stream.collect()</code></a></li>
+<li><a href="#_класс_collectors">9.14. Класс <code>Collectors</code></a></li>
+<li><a href="#_параллельные_потоки">9.15. Параллельные потоки</a></li>
+<li><a href="#_параллельные_операции_над_массивами">9.16. Параллельные операции над массивами</a></li>
 </ul>
 </li>
 <li><a href="#_date_and_time_api">10. Date and Time API</a>
@@ -8759,571 +8763,7 @@ System.out.println("int,int"); }</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_введение_в_лямбда_выражения">5.7. Введение в лямбда-выражения</h3>
-<div class="sect3">
-<h4 id="_введение">5.7.1. Введение</h4>
-<div class="paragraph">
-<p>Среди новшеств, которые были привнесены в язык Java с выходом JDK 8, особняком стоят <strong>лямбда-выражения</strong>. Лямбда-выражение представляет набор инструкций, которые можно выделить в отдельную переменную и затем многократно вызвать в различных местах программы.</p>
-</div>
-<div class="paragraph">
-<p>Основу лямбда-выражения составляет <strong>лямбда-оператор</strong>, который представляет стрелку <strong>&#8594;</strong>. Этот оператор разделяет лямбда-выражение на две части: левая часть содержит <strong>список параметров выражения</strong>, а правая собственно представляет <strong>тело лямбда-выражения</strong>, где выполняются все действия.</p>
-</div>
-<div class="paragraph">
-<p>Лямбда-выражение не выполняется само по себе, а образует реализацию метода, определенного в функциональном интерфейсе. При этом важно, что функциональный интерфейс должен содержать только один единственный метод без реализации.</p>
-</div>
-<div class="paragraph">
-<p>Рассмотрим пример:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="prettyprint highlight"><code data-lang="java">public class LambdaApp {
-    public static void main(String[] args) {
-        Operationable operation;
-        operation = (x, y) -&gt; x + y;
-
-        int result = operation.calculate(10, 20);
-        System.out.println(result); //30
-    }
-}
-
-interface Operationable {
-    int calculate(int x, int y);
-}</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>В роли функционального интерфейса выступает интерфейс <code>Operationable</code>, в котором определен один метод без реализации - метод <code>calculate</code>. Данный метод принимает два параметра - целых числа, и возвращает некоторое целое число.</p>
-</div>
-<div class="paragraph">
-<p>По факту <strong>лямбда-выражения являются</strong> в некотором роде <strong>сокращенной формой внутренних анонимных классов</strong>, которые ранее применялись в Java. В частности, предыдущий пример мы можем переписать следующим образом:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="prettyprint highlight"><code data-lang="java">public class LambdaApp {
-    public static void main(String[] args) {
-        Operationable op = new Operationable() {
-            public int calculate(int x, int y) {
-                return x + y;
-            }
-        };
-        int z = op.calculate(20, 10);
-        System.out.println(z); // 30
-    }
-}
-
-interface Operationable {
-    int calculate(int x, int y);
-}</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Чтобы объявить и использовать лямбда-выражение, основная программа разбивается на ряд этапов:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Определение ссылки на функциональный интерфейс:</p>
-</li>
-</ul>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="prettyprint highlight"><code data-lang="java">Operationable operation;</code></pre>
-</div>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Создание лямбда-выражения:</p>
-</li>
-</ul>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="prettyprint highlight"><code data-lang="java">operation = (x, y) -&gt; x + y;</code></pre>
-</div>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Использование лямбда-выражения в виде вызова метода интерфейса:</p>
-</li>
-</ul>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="prettyprint highlight"><code data-lang="java">int result = operation.calculate(10, 20);</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>На втором этапе параметры лямбда-выражения соответствуют параметрам единственного метода интерфейса <code>Operationable</code>, а результат соответствует возвращаемому результату метода интерфейса. При этом нам не надо использовать ключевое слово <code>return</code> для возврата результата из лямбда-выражения.</p>
-</div>
-<div class="paragraph">
-<p>Так, в методе интерфейса оба параметра представляют тип <code>int</code>, значит, в теле лямбда-выражения мы можем применить к ним сложение. Результат сложения также представляет тип <code>int</code>, объект которого возвращается методом интерфейса.</p>
-</div>
-<div class="paragraph">
-<p>На третьем этапе результатом будет сумма чисел <code>10</code> и <code>20</code>, так как в лямбда-выражении определена операция сложения параметров.</p>
-</div>
-<div class="paragraph">
-<p>При этом для одного функционального интерфейса мы можем определить множество лямбда-выражений. Например:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="prettyprint highlight"><code data-lang="java">Operationable operation1 = (int x, int y)-&gt; x + y;
-Operationable operation2 = (int x, int y)-&gt; x - y;
-Operationable operation3 = (int x, int y)-&gt; x * y;
-
-System.out.println(operation1.calculate(20, 10)); //30
-System.out.println(operation2.calculate(20, 10)); //10
-System.out.println(operation3.calculate(20, 10)); //200</code></pre>
-</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_отложенное_выполнение">5.7.2. Отложенное выполнение</h4>
-<div class="paragraph">
-<p>Одним из ключевых моментов в использовании лямбд является <strong>отложенное выполнение</strong> (<strong>deferred execution</strong>). То есть мы определяем в одном месте программы лямбда-выражение и затем можем его вызывать при необходимости неопределенное количество раз в различных частях программы. Отложенное выполнение может потребоваться, к примеру, в следующих случаях:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>выполнение кода отдельном потоке</p>
-</li>
-<li>
-<p>выполнение одного и того же кода несколько раз</p>
-</li>
-<li>
-<p>выполнение кода в результате какого-то события</p>
-</li>
-<li>
-<p>выполнение кода только в том случае, когда он действительно необходим и если он необходим</p>
-</li>
-</ul>
-</div>
-<div class="sect4">
-<h5 id="_передача_параметров_в_лямбда_выражение">Передача параметров в лямбда-выражение</h5>
-<div class="paragraph">
-<p>Параметры лямбда-выражения должны соответствовать по тип параметрам метода из функционального интерфейса. При написании самого лямбда-выражения тип параметров писать необязательно, хотя в принципе это можно сделать, например:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="prettyprint highlight"><code data-lang="java">operation = (int x, int y) -&gt; x + y;</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Если метод не принимает никаких параметров, то пишутся пустые скобки, например:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="prettyprint highlight"><code data-lang="java">() -&gt; 30 + 20;</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Если метод принимает только один параметр, то скобки можно опустить:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="prettyprint highlight"><code data-lang="java">n -&gt; n * n;</code></pre>
-</div>
-</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_терминальные_лямбда_выражения">5.7.3. Терминальные лямбда-выражения</h4>
-<div class="paragraph">
-<p>Выше рассмотрены лямбда-выражения, которые возвращают определенное значение. Но также могут быть и <strong>терминальные лямбды</strong>, которые не возвращают никакого значения. Например:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="prettyprint highlight"><code data-lang="java">interface Printable {
-    void print(String s);
-}
-
-public class LambdaApp {
-    public static void main(String[] args) {
-        Printable printer = s -&gt; System.out.println(s);
-        printer.print("Hello Java!");
-    }
-}</code></pre>
-</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_лямбды_и_локальные_переменные">5.7.4. Лямбды и локальные переменные</h4>
-<div class="paragraph">
-<p>Лямбда-выражение может использовать переменные, которые объявлены во вне в более общей области видимости - на уровне класса или метода, в котором лямбда-выражение определено. Однако в зависимости от того, как и где определены переменные, могут различаться способы их использования в лямбдах. Рассмотрим первый пример - использования переменных уровня класса:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="prettyprint highlight"><code data-lang="java">public class LambdaApp {
-    static int x = 10;
-    static int y = 20;
-
-    public static void main(String[] args) {
-        Operation op = () -&gt; {
-            x = 30;
-            return x + y;
-        };
-        System.out.println(op.calculate()); // 50
-        System.out.println(x); // 30 - значение x изменилось
-    }
-}
-
-interface Operation {
-    int calculate();
-}</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Переменные <code>x</code> и <code>y</code> объявлены на уровне класса, и в лямбда-выражении мы их может получить и даже изменить. Так, в данном случае после выполнения выражения изменяется значение переменной <code>x</code>.</p>
-</div>
-<div class="paragraph">
-<p>Теперь рассмотрим другой пример - локальные переменные на уровне метода:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="prettyprint highlight"><code data-lang="java">public static void main(String[] args) {
-    int n = 70;
-    int m = 30;
-    Operation op = () -&gt; {
-        // n = 100; - так нельзя сделать
-        return m + n;
-    };
-    // n = 100;  - так тоже нельзя
-    System.out.println(op.calculate()); // 100
-}</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Локальные переменные уровня метода мы также может использовать в лямбдах, но изменять их значение мы уже не сможем. Если мы попробуем это сделать, то среда разработки может нам высветить ошибку и то, что такую переменную надо пометить с помощью ключевого слова <code>final</code>, то есть сделать константой: <code>final int n = 70;</code>. Однако это необязательно.</p>
-</div>
-<div class="paragraph">
-<p>Более того, мы не сможем изменить значение переменной, которая используется в лямбда-выражении, вне этого выражения. То есть даже если такая переменная не объявлена как константа, по сути она является константой.</p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_блоки_кода_в_лямбда_выражениях">5.7.5. Блоки кода в лямбда-выражениях</h4>
-<div class="paragraph">
-<p>Существуют два типа лямбда-выражений:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>однострочное выражение</p>
-</li>
-<li>
-<p>блок кода</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>Примеры однострочных выражений демонстрировались выше. Блочные выражения обрамляются фигурными скобками. В блочных лямбда-выражениях можно использовать внутренние вложенные блоки, циклы, конструкции <code>if</code>, <code>switch</code>, создавать переменные и т.д. Если блочное лямбда-выражение должно возвращать значение, то явным образом применяется оператор <code>return</code>:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="prettyprint highlight"><code data-lang="java">Operationable operation = (int x, int y) -&gt; {
-    if(y == 0)
-        return 0;
-    else
-        return x / y;
-};
-
-System.out.println(operation.calculate(20, 10)); //2
-System.out.println(operation.calculate(20, 0)); //0</code></pre>
-</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_обобщенный_функциональный_интерфейс">5.7.6. Обобщенный функциональный интерфейс</h4>
-<div class="paragraph">
-<p>Функциональный интерфейс может быть обобщенным, однако в лямбда-выражении использование обобщений не допускается. В этом случае нам надо типизировать объект интерфейса определенным типом, который потом будет применяться в лямбда-выражении. Например:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="prettyprint highlight"><code data-lang="java">public class LambdaApp {
-    public static void main(String[] args) {
-        Operationable&lt;Integer&gt; operation1 = (x, y) -&gt; x + y;
-        Operationable&lt;String&gt; operation2 = (x, y) -&gt; x + y;
-
-        System.out.println(operation1.calculate(20, 10)); //30
-        System.out.println(operation2.calculate("20", "10")); //2010
-    }
-}
-
-interface Operationable&lt;T&gt; {
-    T calculate(T x, T y);
-}</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Таким образом, при объявлении лямбд-выражения ему уже известно, какой тип параметры будут представлять и какой тип они будут возвращать.</p>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_лямбды_как_параметры_и_результаты_методов">5.8. Лямбды как параметры и результаты методов</h3>
-<div class="sect3">
-<h4 id="_лямбды_как_параметры_методов">5.8.1. Лямбды как параметры методов</h4>
-<div class="paragraph">
-<p>Одним из преимуществ лямбд в java является то, что их можно передавать в качестве параметров в методы. Рассмотрим пример:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="prettyprint highlight"><code data-lang="java">public class LambdaApp {
-    public static void main(String[] args) {
-        Expression func = (n) -&gt; n % 2 == 0;
-        int[] nums = {1, 2, 3, 4, 5, 6, 7, 8, 9};
-        System.out.println(sum(nums, func)); // 20
-    }
-
-    private static int sum(int[] numbers, Expression func) {
-        int result = 0;
-        for (int i : numbers) {
-            if (func.isEqual(i))
-                result += i;
-        }
-        return result;
-    }
-}
-
-interface Expression {
-    boolean isEqual(int n);
-}</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Функциональный интерфейс <code>Expression</code> определяет метод <code>isEqual()</code>, который возвращает <code>true</code>, если в отношении числа <code>n</code> действует какое-нибудь равенство.</p>
-</div>
-<div class="paragraph">
-<p>В основном классе программы определяется метод <code>sum()</code>, который вычисляет сумму всех элементов массива, соответствующих некоторому условию. А само условие передается через параметр <code>Expression func</code>. Причем на момент написания метода <code>sum</code> мы можем абсолютно не знать, какое именно условие будет использоваться. Само же условие определяется в виде лямбда-выражения:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="prettyprint highlight"><code data-lang="java">Expression func = (n) -&gt; n % 2 == 0;</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>То есть в данном случае все числа должны быть четными или остаток от их деления на <code>2</code> должен быть равен <code>0</code>. Затем это лямбда-выражение передается в вызов метода <code>sum</code>.</p>
-</div>
-<div class="paragraph">
-<p>При этом можно не определять переменную интерфейса, а сразу передать в метод лямбда-выражение:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="prettyprint highlight"><code data-lang="java">int[] nums = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
-int x = sum(nums, (n)-&gt; n &gt; 5); // сумма чисел, которые больше 5
-System.out.println(x);  // 30</code></pre>
-</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_ссылки_на_метод_как_параметры_методов">5.8.2. Ссылки на метод как параметры методов</h4>
-<div class="paragraph">
-<p>Начиная с JDK 8 в Java можно в качестве параметра в метод передавать ссылку на другой метод. В принципе данный способ аналогичен передаче в метод лямбда-выражения.</p>
-</div>
-<div class="paragraph">
-<p>Ссылка на метод передается в виде <code>имя_класса::имя_статического_метода</code> (если метод статический) или <code>объект_класса::имя_метода</code> (если метод нестатический). Рассмотрим на примере:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="prettyprint highlight"><code data-lang="java">interface Expression {
-    boolean isEqual(int n);
-}
-
-class ExpressionHelper {
-    static boolean isEven(int n) {
-        return n % 2 == 0;
-    }
-
-    static boolean isPositive(int n) {
-        return n &gt; 0;
-    }
-}
-
-public class LambdaApp {
-    public static void main(String[] args) {
-        int[] nums = {-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5};
-        System.out.println(sum(nums, ExpressionHelper::isEven));
-
-        Expression expr = ExpressionHelper::isPositive;
-        System.out.println(sum(nums, expr));
-    }
-
-    private static int sum(int[] numbers, Expression func) {
-        int result = 0;
-        for (int i : numbers) {
-            if (func.isEqual(i))
-                result += i;
-        }
-        return result;
-    }
-}</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Здесь также определен функциональный интерфейс <code>Expression</code>, который имеет один метод. Кроме того, определен класс <code>ExpressionHelper</code>, который содержит два статических метода. В принципе их можно было определить и в основном классе программы, но я вынес их в отдельный класс.</p>
-</div>
-<div class="paragraph">
-<p>В основном классе программы <code>LambdaApp</code> определен метод <code>sum()</code>, который возвращает сумму элементов массива, соответствующих некоторому условию. Условие передается в виде объекта функционального интерфейса <code>Expression</code>.</p>
-</div>
-<div class="paragraph">
-<p>В методе <code>main</code> два раза вызываем метод <code>sum</code>, передавая в него один и тот же массив чисел, но разные условия. Первый вызов метода <code>sum</code>:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="prettyprint highlight"><code data-lang="java">System.out.println(sum(nums, ExpressionHelper::isEven));</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>На место второго параметра передается <code>ExpressionHelper::isEven</code>, то есть ссылка на статический метод <code>isEven()</code> класса <code>ExpressionHelper</code>. При этом методы, на которые идет ссылка, должны совпадать по параметрам и результату с методом функционального интерфейса.</p>
-</div>
-<div class="paragraph">
-<p>При втором вызове метода <code>sum</code> отдельно создается объект <code>Expression</code>, который затем передается в метод:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="prettyprint highlight"><code data-lang="java">Expression expr = ExpressionHelper::isPositive;
-System.out.println(sum(nums, expr));</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Использование ссылок на методы в качестве параметром аналогично использованию лямбда-выражений.</p>
-</div>
-<div class="paragraph">
-<p>Если нам надо вызвать нестатические методы, то в ссылке вместо имени класса применяется имя объекта этого класса:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="prettyprint highlight"><code data-lang="java">interface Expression {
-    boolean isEqual(int n);
-}
-
-class ExpressionHelper {
-    boolean isEven(int n) {
-        return n % 2 == 0;
-    }
-}
-
-public class LambdaApp {
-    public static void main(String[] args) {
-        int[] nums = {-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5};
-        ExpressionHelper exprHelper = new ExpressionHelper();
-        System.out.println(sum(nums, exprHelper::isEven)); // 0
-    }
-
-    private static int sum(int[] numbers, Expression func) {
-        int result = 0;
-        for (int i : numbers) {
-            if (func.isEqual(i))
-                result += i;
-        }
-        return result;
-    }
-}</code></pre>
-</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_ссылки_на_конструкторы">5.8.3. Ссылки на конструкторы</h4>
-<div class="paragraph">
-<p>Подобным образом мы можем использовать конструкторы: <code>название_класса::new</code>. Например:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="prettyprint highlight"><code data-lang="java">public class LambdaApp {
-    public static void main(String[] args) {
-        UserBuilder userBuilder = User::new;
-        User user = userBuilder.create("Tom");
-        System.out.println(user.getName());
-    }
-}
-
-interface UserBuilder {
-    User create(String name);
-}
-
-class User {
-    private String name;
-
-    String getName() {
-        return name;
-    }
-
-    User(String n) {
-        this.name = n;
-    }
-}</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>При использовании конструкторов методы функциональных интерфейсов должны принимать тот же список параметров, что и конструкторы класса, и должны возвращать объект данного класса.</p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_лямбды_как_результат_методов">5.8.4. Лямбды как результат методов</h4>
-<div class="paragraph">
-<p>Также метод в Java может возвращать лямбда-выражение. Рассмотрим следующий пример:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="prettyprint highlight"><code data-lang="java">interface Operation {
-    int execute(int x, int y);
-}
-
-public class LambdaApp {
-    public static void main(String[] args) {
-        Operation func = action(1);
-        int a = func.execute(6, 5);
-        System.out.println(a); // 11
-
-        int b = action(2).execute(8, 2);
-        System.out.println(b); // 6
-    }
-
-    private static Operation action(int number) {
-        switch (number) {
-            case 1:
-                return (x, y) -&gt; x + y;
-            case 2:
-                return (x, y) -&gt; x - y;
-            case 3:
-                return (x, y) -&gt; x * y;
-            default:
-                return (x, y) -&gt; 0;
-        }
-    }
-}</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>В данном случае определен функциональный интерфейс <code>Operation</code>, в котором метод <code>execute</code> принимает два значения типа <code>int</code> и возвращает значение типа <code>int</code>.</p>
-</div>
-<div class="paragraph">
-<p>Метод <code>action</code> принимает в качестве параметра число и в зависимости от его значения возвращает то или иное лямбда-выражение. Оно может представлять либо сложение, либо вычитание, либо умножение, либо просто возвращает <code>0</code>. Стоит учитывать, что формально возвращаемым типом метода <code>action</code> является интерфейс <code>Operation</code>, а возвращаемое лямбда-выражение соответствует этому интерфейсу.</p>
-</div>
-<div class="paragraph">
-<p>В методе <code>main</code> мы можем вызвать этот метод <code>action</code>. Например, сначала получить его результат - лямбда-выражение, которое присваивается переменной <code>Operation</code>. А затем через метод <code>execute</code> выполнить это лямбда-выражение:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="prettyprint highlight"><code data-lang="java">Operation func = action(1);
-int a = func.execute(6, 5);
-System.out.println(a); // 11</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Либо можно сразу получить и тут же выполнить лямбда-выражение:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="prettyprint highlight"><code data-lang="java">int b = action(2).execute(8, 2);
-System.out.println(b); // 6</code></pre>
-</div>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_аннотации">5.9. Аннотации</h3>
+<h3 id="_аннотации">5.7. Аннотации</h3>
 <div class="paragraph">
 <p><strong>Аннотации</strong> представляют собой некую мета-информацию. Они не выполняют какого-либо действия сами по себе, но они могут предоставлять дополнительную информацию, которая может быть использована компилятором, различными утилитами сборки и генерации кода, а также они могут обрабатываться во время выполнения программы.</p>
 </div>
@@ -9359,7 +8799,7 @@ void myMethod() {
 </div>
 </div>
 <div class="sect3">
-<h4 id="_объявление_аннотаций">5.9.1. Объявление аннотаций</h4>
+<h4 id="_объявление_аннотаций">5.7.1. Объявление аннотаций</h4>
 <div class="paragraph">
 <p>Предположим, что при объявлении каждого нового класса необходимо записывать в комментариях информацию об авторах в таком виде:</p>
 </div>
@@ -9440,7 +8880,7 @@ class Goblin {
 </div>
 </div>
 <div class="sect3">
-<h4 id="_предопределённые_аннотации">5.9.2. Предопределённые аннотации</h4>
+<h4 id="_предопределённые_аннотации">5.7.2. Предопределённые аннотации</h4>
 <div class="sect4">
 <h5 id="_deprecated"><code>@Deprecated</code></h5>
 <div class="paragraph">
@@ -9517,7 +8957,7 @@ void useDeprecatedMethod() {
 </div>
 </div>
 <div class="sect3">
-<h4 id="_мета_аннотации">5.9.3. Мета-аннотации</h4>
+<h4 id="_мета_аннотации">5.7.3. Мета-аннотации</h4>
 <div class="paragraph">
 <p>Аннотации, применяемые к другим аннотациям, называются <strong>мета-аннотациями</strong>. Есть несколько мета-аннотаций в пакете <code>java.lang.annotation</code>:</p>
 </div>
@@ -9633,7 +9073,7 @@ class Goblin {
 </div>
 </div>
 <div class="sect2">
-<h3 id="_reflection">5.10. Reflection</h3>
+<h3 id="_reflection">5.8. Reflection</h3>
 <div class="paragraph">
 <p><strong>Рефлексия</strong> (от reflexio - обращение назад) - это механизм исследования данных о программе во время её выполнения. Рефлексия в Java осуществляется с помощью <strong>Java Reflection API</strong>, состоящий из классов пакетов <code>java.lang</code> и <code>java.lang.reflect</code>. В информатике рефлексия означает процесс, во время которого программа может отслеживать и модифицировать собственную структуру и поведение во время выполнения.</p>
 </div>
@@ -9670,7 +9110,7 @@ class Goblin {
 </blockquote>
 </div>
 <div class="sect3">
-<h4 id="_определение_свойств_класса">5.10.1. Определение свойств класса</h4>
+<h4 id="_определение_свойств_класса">5.8.1. Определение свойств класса</h4>
 <div class="paragraph">
 <p>В работающем приложении для получения класса необходимо использовать метод <code>forName(String className)</code>. Следующий код демонстрирует возможность создания класса без использования и с использованием Reflection :</p>
 </div>
@@ -9730,7 +9170,7 @@ Class superCls = cls.getSuperClass();</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_определение_интерфейсов_и_конструкторов_класса">5.10.2. Определение интерфейсов и конструкторов класса</h4>
+<h4 id="_определение_интерфейсов_и_конструкторов_класса">5.8.2. Определение интерфейсов и конструкторов класса</h4>
 <div class="paragraph">
 <p>Для получения в режиме <strong>runtime</strong> списка реализующих классом интерфейсов, необходимо получить <code>Class</code> и использовать его метод <code>getInterfaces()</code>. В следующем примере извлекается список интерфейсов класса <code>ArrayList</code>:</p>
 </div>
@@ -9785,7 +9225,7 @@ for (Constructor constructor : constructors) {
 </div>
 </div>
 <div class="sect3">
-<h4 id="_определение_полей_класса">5.10.3. Определение полей класса</h4>
+<h4 id="_определение_полей_класса">5.8.3. Определение полей класса</h4>
 <div class="paragraph">
 <p>Метод <code>getFields()</code> объекта <code>Class</code> возвращает массив открытых полей типа <code>java.lang.reflect.Field</code>, которые могут быть определены не только в данном классе, но также и в его родителях (суперклассе), либо интерфейсах, реализованных классом или его родителями. Класс <code>Field</code> позволяет получить имя поля, тип и модификаторы :</p>
 </div>
@@ -9814,7 +9254,7 @@ Field fld = cls.getField("fieldName");</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_определение_значений_полей_класса">5.10.4. Определение значений полей класса</h4>
+<h4 id="_определение_значений_полей_класса">5.8.4. Определение значений полей класса</h4>
 <div class="paragraph">
 <p>Класс <code>Field</code> содержит специализированные методы для получения значений примитивных типов:</p>
 </div>
@@ -9867,7 +9307,7 @@ field.set(obj, "New value");</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_определение_методов_класса">5.10.5. Определение методов класса</h4>
+<h4 id="_определение_методов_класса">5.8.5. Определение методов класса</h4>
 <div class="paragraph">
 <p>Метод <code>getMethods()</code> объекта <code>Class</code> возвращает массив открытых методов типа <code>java.lang.reflect.Method</code>. Эти методы могут быть определены не только в классе, но также и в его родителях (суперклассе), либо интерфейсах, реализованных классом или его родителями. Класс <code>Method</code> позволяет получить имя метода, тип возвращаемого им значения, типы параметров метода, модификаторы и генерируемые исключения.</p>
 </div>
@@ -9901,7 +9341,7 @@ Method method = cls.getMethod("methodName", params);</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_пример_изменения_значения_закрытого_поля_класса">5.10.6. Пример изменения значения закрытого поля класса</h4>
+<h4 id="_пример_изменения_значения_закрытого_поля_класса">5.8.6. Пример изменения значения закрытого поля класса</h4>
 <div class="paragraph">
 <p>Чтобы изменить значение закрытого (<code>private</code>) поля класса необходимо получить это поле методом <code>getDeclaredField()</code> и вызвать метод <code>setAccessible(true)</code> объекта <code>Field</code>, чтобы открыть доступ к полю. После этого значение закрытого поля можно изменять, если оно не <code>final</code>. В следующем примере определен внутренний класс <code>PrivateFinalFields</code> с набором закрытых полей; одно из полей <code>final</code>. При создании объекта класса поля инициализируются. В методе <code>main()</code> примера поочередно в закрытые поля вносятся изменения и свойства объекта выводятся в консоль.</p>
 </div>
@@ -9963,7 +9403,7 @@ class PrivateFinalFields {
 </div>
 </div>
 <div class="sect3">
-<h4 id="_пример_вызова_метода_invoke">5.10.7. Пример вызова метода <code>invoke()</code></h4>
+<h4 id="_пример_вызова_метода_invoke">5.8.7. Пример вызова метода <code>invoke()</code></h4>
 <div class="paragraph">
 <p><strong>Java Reflection Api</strong> позволяет вызвать метод класса. Рассмотрим пример, в котором определим класс <code>Reflect</code>, включающий поля и методы управления ими. В runtime с помощью метода данного класса будем изменять значения полей и распечатывать их.</p>
 </div>
@@ -10160,7 +9600,7 @@ Reflect [ id : 123, name : New value]</code></pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_properties">5.11. Properties</h3>
+<h3 id="_properties">5.9. Properties</h3>
 <div class="paragraph">
 <p>Класс <code>Properties</code> – это подкласс <code>Hashtable</code>.
 Он используется для хранения списков значений, в которых ключ является <code>String</code>, а значение также является <code>String</code>.</p>
@@ -10181,7 +9621,7 @@ Reflect [ id : 123, name : New value]</code></pre>
 <p>Эта переменная содержит список свойств по умолчанию, связанный с объектом <code>Properties</code>.</p>
 </div>
 <div class="sect3">
-<h4 id="_конструкторы_2">5.11.1. Конструкторы</h4>
+<h4 id="_конструкторы_2">5.9.1. Конструкторы</h4>
 <div class="paragraph">
 <p>Вот список конструкторов, предоставляемые классом <code>Properties</code>.</p>
 </div>
@@ -10198,7 +9638,7 @@ Reflect [ id : 123, name : New value]</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_методы_2">5.11.2. Методы</h4>
+<h4 id="_методы_2">5.9.2. Методы</h4>
 <div class="paragraph">
 <p>Помимо методов, определённых <code>Hashtable</code>, <code>Properties</code> определяет следующие методы:</p>
 </div>
@@ -10234,7 +9674,7 @@ Reflect [ id : 123, name : New value]</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_примеры_2">5.11.3. Примеры</h4>
+<h4 id="_примеры_2">5.9.3. Примеры</h4>
 <div class="sect4">
 <h5 id="_пример_системные_свойства">Пример: системные свойства</h5>
 <div class="paragraph">
@@ -10445,7 +9885,7 @@ email=dmitryrakovets@gmail.com</code></pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_javadoc">5.12. Javadoc</h3>
+<h3 id="_javadoc">5.10. Javadoc</h3>
 <div class="paragraph">
 <p>Наибольшая проблема, связанная с документированием кода – поддержка этой документации. Если документация и код разделены, возникают трудности, связанные с необходимостью внесения изменений в соответствующие разделы сопроводительной документации всякий раз при изменении программного кода. Среда разработки предлагает решение – связать код с документацией, поместив всё в один файл.</p>
 </div>
@@ -10493,7 +9933,7 @@ email=dmitryrakovets@gmail.com</code></pre>
 <p>Дескрипторы, начинающиеся с фигурной скобки, например <code>{@code}</code>, называются встроенными и могут применяться внутри описания.</p>
 </div>
 <div class="sect3">
-<h4 id="_список_дескрипторов_javadoc">5.12.1. Список дескрипторов Javadoc</h4>
+<h4 id="_список_дескрипторов_javadoc">5.10.1. Список дескрипторов Javadoc</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 33.3333%;">
@@ -10555,14 +9995,14 @@ email=dmitryrakovets@gmail.com</code></pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="_генерация_файлов">5.12.2. Генерация файлов</h4>
+<h4 id="_генерация_файлов">5.10.2. Генерация файлов</h4>
 <div class="paragraph">
 <p>Утилита <strong>javadoc</strong> в качестве входных данных принимает файл с исходным кодом программы. Генерирует несколько НТМL файлов, содержащих документацию по этой программе. Информация о каждом классе будет содержаться в отдельном НТМL файле. Кроме того, создается дерево индексов и иерархии. Могут быть сгенерированы и другие НТМL файлы.</p>
 </div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_java_nio">5.13. Java NIO</h3>
+<h3 id="_java_nio">5.11. Java NIO</h3>
 <div class="paragraph">
 <p>Java NIO (New IO) - это альтернативный API для работы с IO в Java (начиная с Java 1.4), это значит альтернативный стандартным Java IO и API Java Networking. Java NIO предлагает другой способ работы с IO, чем стандартный IO API.</p>
 </div>
@@ -10585,7 +10025,7 @@ email=dmitryrakovets@gmail.com</code></pre>
 <p>Java NIO имеет понятие «селекторы». <strong>Селектор</strong> - это объект, который может отслеживать несколько каналов на наличие событий (например: соединение установлено, данные получены и т.д.). Таким образом, один поток может контролировать несколько каналов данных.</p>
 </div>
 <div class="sect3">
-<h4 id="_обзор_java_nio">5.13.1. Обзор Java NIO</h4>
+<h4 id="_обзор_java_nio">5.11.1. Обзор Java NIO</h4>
 <div class="paragraph">
 <p><strong>Java NIO</strong> состоит из следующих основных компонентов:</p>
 </div>
@@ -10712,7 +10152,7 @@ email=dmitryrakovets@gmail.com</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_channel">5.13.2. <code>Channel</code></h4>
+<h4 id="_channel">5.11.2. <code>Channel</code></h4>
 <div class="paragraph">
 <p>Каналы Java NIO похожи на потоки с некоторыми отличиями:</p>
 </div>
@@ -10784,7 +10224,7 @@ aFile.close();</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_buffers">5.13.3. Buffers</h4>
+<h4 id="_buffers">5.11.3. Buffers</h4>
 <div class="paragraph">
 <p>Буферы используются при взаимодействии с каналами.</p>
 </div>
@@ -11126,9 +10566,9 @@ buffer.reset();  //set position back to mark.</code></pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_java_memory_management">5.14. Java Memory Management</h3>
+<h3 id="_java_memory_management">5.12. Java Memory Management</h3>
 <div class="sect3">
-<h4 id="_почему_необходимо_заботиться_об_управлении_памятью">5.14.1. Почему необходимо заботиться об управлении памятью?</h4>
+<h4 id="_почему_необходимо_заботиться_об_управлении_памятью">5.12.1. Почему необходимо заботиться об управлении памятью?</h4>
 <div class="paragraph">
 <p>Многие разработчики не заботятся об управлении памятью, так как в Java ж е есть <strong>Garbage Collection</strong> (<strong>GC</strong>/<strong>Сборка мусора</strong>). <strong>Garbage Collection</strong> - это процесс, с помощью которого Java программы выполняют автоматическое управление памятью. По сути, код, который пишется на Java (и других языках для JVM), компилируется в byte-код (файл <code>.class</code>) и запускается на <strong>JVM</strong> (<strong>виртуальной машине Java</strong>). Когда приложение работает на <strong>JVM</strong>, большинство объектов создается в <strong>HEAP</strong> (<strong>Куча</strong>). В процессе работы, некоторые объекты больше не понадобятся (недоступные/неиспользуемые объекты). <strong>Garbage Collector</strong> (<strong>Сборщик мусора</strong>) освободит неиспользуемую память, чтобы вернуть память для программы, других приложений и операционной системы.</p>
 </div>
@@ -11381,7 +10821,7 @@ public class ImageMetadataExample {
 </div>
 </div>
 <div class="sect3">
-<h4 id="_архитектура_виртуальной_машины_java_архитектура_jvm">5.14.2. Архитектура виртуальной машины Java (архитектура JVM)</h4>
+<h4 id="_архитектура_виртуальной_машины_java_архитектура_jvm">5.12.2. Архитектура виртуальной машины Java (архитектура JVM)</h4>
 <div class="paragraph">
 <p><strong>JVM</strong> - это всего лишь спецификация, и она имеет множество различных реализаций. Можно провести аналогию с интерфейсом и несколькими реализациями в Java программе. Чтобы узнать информацию о JVM, можно воспользоваться командой <code>java -version</code> в терминале.</p>
 </div>
@@ -11443,7 +10883,7 @@ OpenJDK 64-Bit Server VM AdoptOpenJDK (build 11.0.7+10, mixed mode)</pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_модель_памяти_heap_без_heap_другая_память">5.14.3. Модель памяти (HEAP, без HEAP, другая память)</h4>
+<h4 id="_модель_памяти_heap_без_heap_другая_память">5.12.3. Модель памяти (HEAP, без HEAP, другая память)</h4>
 <div class="paragraph">
 <p><strong>JVM</strong> использует доступное пространство памяти в операционной системе. <strong>JVM</strong> включает области памяти:</p>
 </div>
@@ -11540,7 +10980,7 @@ OpenJDK 64-Bit Server VM AdoptOpenJDK (build 11.0.7+10, mixed mode)</pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_garbage_collection">5.14.4. Garbage Collection</h4>
+<h4 id="_garbage_collection">5.12.4. Garbage Collection</h4>
 <div class="paragraph">
 <p><strong>GC</strong> помогает разработчикам писать код без выделения/освобождения памяти и позволяет не заботиться о проблемах с памятью. Однако в реальном проекте иногда имеются проблем с памятью. Они заставляют приложение работать с неэффективно и очень медленно.</p>
 </div>
@@ -11613,7 +11053,7 @@ OpenJDK 64-Bit Server VM AdoptOpenJDK (build 11.0.7+10, mixed mode)</pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_мониторинг_и_настройка_gc">5.14.5. Мониторинг и настройка <strong>GC</strong></h4>
+<h4 id="_мониторинг_и_настройка_gc">5.12.5. Мониторинг и настройка <strong>GC</strong></h4>
 <div class="paragraph">
 <p>Можно отслеживать приложение Java с помощью командной строки и различных инструментов. На самом деле существует множество инструментов: <strong>JVisualVM</strong>, <strong>JProfile</strong>, <strong>Eclipse MAT</strong>, <strong>JetBrains JVM Debugger</strong>, <strong>Netbeans Profiler</strong>, &#8230;&#8203; Рекомендуется использовать <strong>JVisualVM</strong>, который встроен в <strong>JDK</strong>. Этого достаточно для мониторинга приложения.</p>
 </div>
@@ -11854,7 +11294,7 @@ OpenJDK 64-Bit Server VM AdoptOpenJDK (build 11.0.7+10, mixed mode)</pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_советы_для_повышения_производительности_при_разработке_веб_приложения">5.14.6. Советы для повышения производительности при разработке веб-приложения</h4>
+<h4 id="_советы_для_повышения_производительности_при_разработке_веб_приложения">5.12.6. Советы для повышения производительности при разработке веб-приложения</h4>
 <div class="ulist">
 <ul>
 <li>
@@ -11877,12 +11317,12 @@ OpenJDK 64-Bit Server VM AdoptOpenJDK (build 11.0.7+10, mixed mode)</pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_модульность_since_java_9">5.15. Модульность (@since Java 9)</h3>
+<h3 id="_модульность_since_java_9">5.13. Модульность (@since Java 9)</h3>
 <div class="paragraph">
 <p>С выходом Java 9 появился новый уровень абстракции над пакетами, формально известный как <strong>Java Platform Module System</strong> (<strong>JPMS</strong>), или сокращенно <strong>Modules</strong>.</p>
 </div>
 <div class="sect3">
-<h4 id="_что_такое_модуль">5.15.1. Что такое модуль?</h4>
+<h4 id="_что_такое_модуль">5.13.1. Что такое модуль?</h4>
 <div class="paragraph">
 <p>Прежде всего, нам нужно понять, что такое модуль, прежде чем его использовать.</p>
 </div>
@@ -12013,7 +11453,7 @@ OpenJDK 64-Bit Server VM AdoptOpenJDK (build 11.0.7+10, mixed mode)</pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_модули_по_умолчанию">5.15.2. Модули по умолчанию</h4>
+<h4 id="_модули_по_умолчанию">5.13.2. Модули по умолчанию</h4>
 <div class="paragraph">
 <p>Когда мы устанавливаем Java 9, мы видим, что JDK теперь имеет новую структуру.</p>
 </div>
@@ -12049,7 +11489,7 @@ OpenJDK 64-Bit Server VM AdoptOpenJDK (build 11.0.7+10, mixed mode)</pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_объявления_модуля">5.15.3. Объявления модуля</h4>
+<h4 id="_объявления_модуля">5.13.3. Объявления модуля</h4>
 <div class="paragraph">
 <p>Чтобы создать модуль, нам нужно поместить специальный файл (<strong>дескриптор модуля</strong>/<strong>module descriptor</strong>) в корень наших пакетов с именем <code>module-info.java</code>. Он содержит всю информацию необходимую для построения и использования данного модуля.</p>
 </div>
@@ -12233,7 +11673,7 @@ OpenJDK 64-Bit Server VM AdoptOpenJDK (build 11.0.7+10, mixed mode)</pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_параметры_командной_строки">5.15.4. Параметры командной строки</h4>
+<h4 id="_параметры_командной_строки">5.13.4. Параметры командной строки</h4>
 <div class="paragraph">
 <p>В настоящее времени поддержка модулей Java 9 была добавлена ​​в <strong>Maven</strong> и <strong>Gradle</strong>, поэтому нет необходимости делать много ручной работы для сборки проектов. Однако полезно знать, как использовать систему модулей из командной строки. Для этого используют следующие параметры при работе в командной строке:</p>
 </div>
@@ -12267,7 +11707,7 @@ OpenJDK 64-Bit Server VM AdoptOpenJDK (build 11.0.7+10, mixed mode)</pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_видимость">5.15.5. Видимость</h4>
+<h4 id="_видимость">5.13.5. Видимость</h4>
 <div class="paragraph">
 <p>Многие библиотеки, что бы работать, зависят от возможности использования <strong>Reflection API</strong>, например: <strong>JUnit</strong> и <strong>Spring</strong>.</p>
 </div>
@@ -12282,7 +11722,7 @@ OpenJDK 64-Bit Server VM AdoptOpenJDK (build 11.0.7+10, mixed mode)</pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_создание_модуля_с_помощью_cli">5.15.6. Создание модуля с помощью CLI</h4>
+<h4 id="_создание_модуля_с_помощью_cli">5.13.6. Создание модуля с помощью CLI</h4>
 <div class="sect4">
 <h5 id="_создание_структуры_проекта">Создание структуры проекта</h5>
 <div class="paragraph">
@@ -12564,7 +12004,7 @@ Hello!</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_добавление_модулей_в_unnamed_module">5.15.7. Добавление модулей в <strong>Unnamed Module</strong></h4>
+<h4 id="_добавление_модулей_в_unnamed_module">5.13.7. Добавление модулей в <strong>Unnamed Module</strong></h4>
 <div class="paragraph">
 <p>Концепция <strong>Unnamed Module</strong> похожа на пакет по умолчанию, поэтому его не следует считать реальным модулем, но можно рассматриваться как модуль по умолчанию.</p>
 </div>
@@ -15414,10 +14854,797 @@ public class Program {
 </div>
 </div>
 <div class="sect1">
-<h2 id="_java_functional_programming_jsr_335">9. Java Functional Programming (JSR 335)</h2>
+<h2 id="_lambda_expressions_jsr_335">9. Lambda Expressions (JSR 335)</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_введение_stream_api">9.1. Введение Stream API</h3>
+<h3 id="_введение_в_лямбда_выражения">9.1. Введение в лямбда-выражения</h3>
+<div class="sect3">
+<h4 id="_введение">9.1.1. Введение</h4>
+<div class="paragraph">
+<p>Среди новшеств, которые были привнесены в язык Java с выходом JDK 8, особняком стоят <strong>лямбда-выражения</strong>. Лямбда-выражение представляет набор инструкций, которые можно выделить в отдельную переменную и затем многократно вызвать в различных местах программы.</p>
+</div>
+<div class="paragraph">
+<p>Основу лямбда-выражения составляет <strong>лямбда-оператор</strong>, который представляет стрелку <strong>&#8594;</strong>. Этот оператор разделяет лямбда-выражение на две части: левая часть содержит <strong>список параметров выражения</strong>, а правая собственно представляет <strong>тело лямбда-выражения</strong>, где выполняются все действия.</p>
+</div>
+<div class="paragraph">
+<p>Лямбда-выражение не выполняется само по себе, а образует реализацию метода, определенного в функциональном интерфейсе. При этом важно, что функциональный интерфейс должен содержать только один единственный метод без реализации.</p>
+</div>
+<div class="paragraph">
+<p>Рассмотрим пример:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="java">public class LambdaApp {
+    public static void main(String[] args) {
+        Operationable operation;
+        operation = (x, y) -&gt; x + y;
+
+        int result = operation.calculate(10, 20);
+        System.out.println(result); //30
+    }
+}
+
+interface Operationable {
+    int calculate(int x, int y);
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>В роли функционального интерфейса выступает интерфейс <code>Operationable</code>, в котором определен один метод без реализации - метод <code>calculate</code>. Данный метод принимает два параметра - целых числа, и возвращает некоторое целое число.</p>
+</div>
+<div class="paragraph">
+<p>По факту <strong>лямбда-выражения являются</strong> в некотором роде <strong>сокращенной формой внутренних анонимных классов</strong>, которые ранее применялись в Java. В частности, предыдущий пример мы можем переписать следующим образом:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="java">public class LambdaApp {
+    public static void main(String[] args) {
+        Operationable op = new Operationable() {
+            public int calculate(int x, int y) {
+                return x + y;
+            }
+        };
+        int z = op.calculate(20, 10);
+        System.out.println(z); // 30
+    }
+}
+
+interface Operationable {
+    int calculate(int x, int y);
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Чтобы объявить и использовать лямбда-выражение, основная программа разбивается на ряд этапов:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Определение ссылки на функциональный интерфейс:</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="java">Operationable operation;</code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Создание лямбда-выражения:</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="java">operation = (x, y) -&gt; x + y;</code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Использование лямбда-выражения в виде вызова метода интерфейса:</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="java">int result = operation.calculate(10, 20);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>На втором этапе параметры лямбда-выражения соответствуют параметрам единственного метода интерфейса <code>Operationable</code>, а результат соответствует возвращаемому результату метода интерфейса. При этом нам не надо использовать ключевое слово <code>return</code> для возврата результата из лямбда-выражения.</p>
+</div>
+<div class="paragraph">
+<p>Так, в методе интерфейса оба параметра представляют тип <code>int</code>, значит, в теле лямбда-выражения мы можем применить к ним сложение. Результат сложения также представляет тип <code>int</code>, объект которого возвращается методом интерфейса.</p>
+</div>
+<div class="paragraph">
+<p>На третьем этапе результатом будет сумма чисел <code>10</code> и <code>20</code>, так как в лямбда-выражении определена операция сложения параметров.</p>
+</div>
+<div class="paragraph">
+<p>При этом для одного функционального интерфейса мы можем определить множество лямбда-выражений. Например:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="java">Operationable operation1 = (int x, int y)-&gt; x + y;
+Operationable operation2 = (int x, int y)-&gt; x - y;
+Operationable operation3 = (int x, int y)-&gt; x * y;
+
+System.out.println(operation1.calculate(20, 10)); //30
+System.out.println(operation2.calculate(20, 10)); //10
+System.out.println(operation3.calculate(20, 10)); //200</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_отложенное_выполнение">9.1.2. Отложенное выполнение</h4>
+<div class="paragraph">
+<p>Одним из ключевых моментов в использовании лямбд является <strong>отложенное выполнение</strong> (<strong>deferred execution</strong>). То есть мы определяем в одном месте программы лямбда-выражение и затем можем его вызывать при необходимости неопределенное количество раз в различных частях программы. Отложенное выполнение может потребоваться, к примеру, в следующих случаях:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>выполнение кода отдельном потоке</p>
+</li>
+<li>
+<p>выполнение одного и того же кода несколько раз</p>
+</li>
+<li>
+<p>выполнение кода в результате какого-то события</p>
+</li>
+<li>
+<p>выполнение кода только в том случае, когда он действительно необходим и если он необходим</p>
+</li>
+</ul>
+</div>
+<div class="sect4">
+<h5 id="_передача_параметров_в_лямбда_выражение">Передача параметров в лямбда-выражение</h5>
+<div class="paragraph">
+<p>Параметры лямбда-выражения должны соответствовать по тип параметрам метода из функционального интерфейса. При написании самого лямбда-выражения тип параметров писать необязательно, хотя в принципе это можно сделать, например:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="java">operation = (int x, int y) -&gt; x + y;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Если метод не принимает никаких параметров, то пишутся пустые скобки, например:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="java">() -&gt; 30 + 20;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Если метод принимает только один параметр, то скобки можно опустить:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="java">n -&gt; n * n;</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_терминальные_лямбда_выражения">9.1.3. Терминальные лямбда-выражения</h4>
+<div class="paragraph">
+<p>Выше рассмотрены лямбда-выражения, которые возвращают определенное значение. Но также могут быть и <strong>терминальные лямбды</strong>, которые не возвращают никакого значения. Например:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="java">interface Printable {
+    void print(String s);
+}
+
+public class LambdaApp {
+    public static void main(String[] args) {
+        Printable printer = s -&gt; System.out.println(s);
+        printer.print("Hello Java!");
+    }
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_лямбды_и_локальные_переменные">9.1.4. Лямбды и локальные переменные</h4>
+<div class="paragraph">
+<p>Лямбда-выражение может использовать переменные, которые объявлены во вне в более общей области видимости - на уровне класса или метода, в котором лямбда-выражение определено. Однако в зависимости от того, как и где определены переменные, могут различаться способы их использования в лямбдах. Рассмотрим первый пример - использования переменных уровня класса:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="java">public class LambdaApp {
+    static int x = 10;
+    static int y = 20;
+
+    public static void main(String[] args) {
+        Operation op = () -&gt; {
+            x = 30;
+            return x + y;
+        };
+        System.out.println(op.calculate()); // 50
+        System.out.println(x); // 30 - значение x изменилось
+    }
+}
+
+interface Operation {
+    int calculate();
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Переменные <code>x</code> и <code>y</code> объявлены на уровне класса, и в лямбда-выражении мы их может получить и даже изменить. Так, в данном случае после выполнения выражения изменяется значение переменной <code>x</code>.</p>
+</div>
+<div class="paragraph">
+<p>Теперь рассмотрим другой пример - локальные переменные на уровне метода:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="java">public static void main(String[] args) {
+    int n = 70;
+    int m = 30;
+    Operation op = () -&gt; {
+        // n = 100; - так нельзя сделать
+        return m + n;
+    };
+    // n = 100;  - так тоже нельзя
+    System.out.println(op.calculate()); // 100
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Локальные переменные уровня метода мы также может использовать в лямбдах, но изменять их значение мы уже не сможем. Если мы попробуем это сделать, то среда разработки может нам высветить ошибку и то, что такую переменную надо пометить с помощью ключевого слова <code>final</code>, то есть сделать константой: <code>final int n = 70;</code>. Однако это необязательно.</p>
+</div>
+<div class="paragraph">
+<p>Более того, мы не сможем изменить значение переменной, которая используется в лямбда-выражении, вне этого выражения. То есть даже если такая переменная не объявлена как константа, по сути она является константой.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_блоки_кода_в_лямбда_выражениях">9.1.5. Блоки кода в лямбда-выражениях</h4>
+<div class="paragraph">
+<p>Существуют два типа лямбда-выражений:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>однострочное выражение</p>
+</li>
+<li>
+<p>блок кода</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Примеры однострочных выражений демонстрировались выше. Блочные выражения обрамляются фигурными скобками. В блочных лямбда-выражениях можно использовать внутренние вложенные блоки, циклы, конструкции <code>if</code>, <code>switch</code>, создавать переменные и т.д. Если блочное лямбда-выражение должно возвращать значение, то явным образом применяется оператор <code>return</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="java">Operationable operation = (int x, int y) -&gt; {
+    if(y == 0)
+        return 0;
+    else
+        return x / y;
+};
+
+System.out.println(operation.calculate(20, 10)); //2
+System.out.println(operation.calculate(20, 0)); //0</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_обобщенный_функциональный_интерфейс">9.1.6. Обобщенный функциональный интерфейс</h4>
+<div class="paragraph">
+<p>Функциональный интерфейс может быть обобщенным, однако в лямбда-выражении использование обобщений не допускается. В этом случае нам надо типизировать объект интерфейса определенным типом, который потом будет применяться в лямбда-выражении. Например:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="java">public class LambdaApp {
+    public static void main(String[] args) {
+        Operationable&lt;Integer&gt; operation1 = (x, y) -&gt; x + y;
+        Operationable&lt;String&gt; operation2 = (x, y) -&gt; x + y;
+
+        System.out.println(operation1.calculate(20, 10)); //30
+        System.out.println(operation2.calculate("20", "10")); //2010
+    }
+}
+
+interface Operationable&lt;T&gt; {
+    T calculate(T x, T y);
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Таким образом, при объявлении лямбд-выражения ему уже известно, какой тип параметры будут представлять и какой тип они будут возвращать.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_лямбды_как_параметры_и_результаты_методов">9.2. Лямбды как параметры и результаты методов</h3>
+<div class="sect3">
+<h4 id="_лямбды_как_параметры_методов">9.2.1. Лямбды как параметры методов</h4>
+<div class="paragraph">
+<p>Одним из преимуществ лямбд в java является то, что их можно передавать в качестве параметров в методы. Рассмотрим пример:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="java">public class LambdaApp {
+    public static void main(String[] args) {
+        Expression func = (n) -&gt; n % 2 == 0;
+        int[] nums = {1, 2, 3, 4, 5, 6, 7, 8, 9};
+        System.out.println(sum(nums, func)); // 20
+    }
+
+    private static int sum(int[] numbers, Expression func) {
+        int result = 0;
+        for (int i : numbers) {
+            if (func.isEqual(i))
+                result += i;
+        }
+        return result;
+    }
+}
+
+interface Expression {
+    boolean isEqual(int n);
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Функциональный интерфейс <code>Expression</code> определяет метод <code>isEqual()</code>, который возвращает <code>true</code>, если в отношении числа <code>n</code> действует какое-нибудь равенство.</p>
+</div>
+<div class="paragraph">
+<p>В основном классе программы определяется метод <code>sum()</code>, который вычисляет сумму всех элементов массива, соответствующих некоторому условию. А само условие передается через параметр <code>Expression func</code>. Причем на момент написания метода <code>sum</code> мы можем абсолютно не знать, какое именно условие будет использоваться. Само же условие определяется в виде лямбда-выражения:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="java">Expression func = (n) -&gt; n % 2 == 0;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>То есть в данном случае все числа должны быть четными или остаток от их деления на <code>2</code> должен быть равен <code>0</code>. Затем это лямбда-выражение передается в вызов метода <code>sum</code>.</p>
+</div>
+<div class="paragraph">
+<p>При этом можно не определять переменную интерфейса, а сразу передать в метод лямбда-выражение:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="java">int[] nums = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+int x = sum(nums, (n)-&gt; n &gt; 5); // сумма чисел, которые больше 5
+System.out.println(x);  // 30</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_ссылки_на_метод_как_параметры_методов">9.2.2. Ссылки на метод как параметры методов</h4>
+<div class="paragraph">
+<p>Начиная с JDK 8 в Java можно в качестве параметра в метод передавать ссылку на другой метод. В принципе данный способ аналогичен передаче в метод лямбда-выражения.</p>
+</div>
+<div class="paragraph">
+<p>Ссылка на метод передается в виде <code>имя_класса::имя_статического_метода</code> (если метод статический) или <code>объект_класса::имя_метода</code> (если метод нестатический). Рассмотрим на примере:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="java">interface Expression {
+    boolean isEqual(int n);
+}
+
+class ExpressionHelper {
+    static boolean isEven(int n) {
+        return n % 2 == 0;
+    }
+
+    static boolean isPositive(int n) {
+        return n &gt; 0;
+    }
+}
+
+public class LambdaApp {
+    public static void main(String[] args) {
+        int[] nums = {-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5};
+        System.out.println(sum(nums, ExpressionHelper::isEven));
+
+        Expression expr = ExpressionHelper::isPositive;
+        System.out.println(sum(nums, expr));
+    }
+
+    private static int sum(int[] numbers, Expression func) {
+        int result = 0;
+        for (int i : numbers) {
+            if (func.isEqual(i))
+                result += i;
+        }
+        return result;
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Здесь также определен функциональный интерфейс <code>Expression</code>, который имеет один метод. Кроме того, определен класс <code>ExpressionHelper</code>, который содержит два статических метода. В принципе их можно было определить и в основном классе программы, но я вынес их в отдельный класс.</p>
+</div>
+<div class="paragraph">
+<p>В основном классе программы <code>LambdaApp</code> определен метод <code>sum()</code>, который возвращает сумму элементов массива, соответствующих некоторому условию. Условие передается в виде объекта функционального интерфейса <code>Expression</code>.</p>
+</div>
+<div class="paragraph">
+<p>В методе <code>main</code> два раза вызываем метод <code>sum</code>, передавая в него один и тот же массив чисел, но разные условия. Первый вызов метода <code>sum</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="java">System.out.println(sum(nums, ExpressionHelper::isEven));</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>На место второго параметра передается <code>ExpressionHelper::isEven</code>, то есть ссылка на статический метод <code>isEven()</code> класса <code>ExpressionHelper</code>. При этом методы, на которые идет ссылка, должны совпадать по параметрам и результату с методом функционального интерфейса.</p>
+</div>
+<div class="paragraph">
+<p>При втором вызове метода <code>sum</code> отдельно создается объект <code>Expression</code>, который затем передается в метод:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="java">Expression expr = ExpressionHelper::isPositive;
+System.out.println(sum(nums, expr));</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Использование ссылок на методы в качестве параметром аналогично использованию лямбда-выражений.</p>
+</div>
+<div class="paragraph">
+<p>Если нам надо вызвать нестатические методы, то в ссылке вместо имени класса применяется имя объекта этого класса:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="java">interface Expression {
+    boolean isEqual(int n);
+}
+
+class ExpressionHelper {
+    boolean isEven(int n) {
+        return n % 2 == 0;
+    }
+}
+
+public class LambdaApp {
+    public static void main(String[] args) {
+        int[] nums = {-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5};
+        ExpressionHelper exprHelper = new ExpressionHelper();
+        System.out.println(sum(nums, exprHelper::isEven)); // 0
+    }
+
+    private static int sum(int[] numbers, Expression func) {
+        int result = 0;
+        for (int i : numbers) {
+            if (func.isEqual(i))
+                result += i;
+        }
+        return result;
+    }
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_ссылки_на_конструкторы">9.2.3. Ссылки на конструкторы</h4>
+<div class="paragraph">
+<p>Подобным образом мы можем использовать конструкторы: <code>название_класса::new</code>. Например:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="java">public class LambdaApp {
+    public static void main(String[] args) {
+        UserBuilder userBuilder = User::new;
+        User user = userBuilder.create("Tom");
+        System.out.println(user.getName());
+    }
+}
+
+interface UserBuilder {
+    User create(String name);
+}
+
+class User {
+    private String name;
+
+    String getName() {
+        return name;
+    }
+
+    User(String n) {
+        this.name = n;
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>При использовании конструкторов методы функциональных интерфейсов должны принимать тот же список параметров, что и конструкторы класса, и должны возвращать объект данного класса.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_лямбды_как_результат_методов">9.2.4. Лямбды как результат методов</h4>
+<div class="paragraph">
+<p>Также метод в Java может возвращать лямбда-выражение. Рассмотрим следующий пример:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="java">interface Operation {
+    int execute(int x, int y);
+}
+
+public class LambdaApp {
+    public static void main(String[] args) {
+        Operation func = action(1);
+        int a = func.execute(6, 5);
+        System.out.println(a); // 11
+
+        int b = action(2).execute(8, 2);
+        System.out.println(b); // 6
+    }
+
+    private static Operation action(int number) {
+        switch (number) {
+            case 1:
+                return (x, y) -&gt; x + y;
+            case 2:
+                return (x, y) -&gt; x - y;
+            case 3:
+                return (x, y) -&gt; x * y;
+            default:
+                return (x, y) -&gt; 0;
+        }
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>В данном случае определен функциональный интерфейс <code>Operation</code>, в котором метод <code>execute</code> принимает два значения типа <code>int</code> и возвращает значение типа <code>int</code>.</p>
+</div>
+<div class="paragraph">
+<p>Метод <code>action</code> принимает в качестве параметра число и в зависимости от его значения возвращает то или иное лямбда-выражение. Оно может представлять либо сложение, либо вычитание, либо умножение, либо просто возвращает <code>0</code>. Стоит учитывать, что формально возвращаемым типом метода <code>action</code> является интерфейс <code>Operation</code>, а возвращаемое лямбда-выражение соответствует этому интерфейсу.</p>
+</div>
+<div class="paragraph">
+<p>В методе <code>main</code> мы можем вызвать этот метод <code>action</code>. Например, сначала получить его результат - лямбда-выражение, которое присваивается переменной <code>Operation</code>. А затем через метод <code>execute</code> выполнить это лямбда-выражение:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="java">Operation func = action(1);
+int a = func.execute(6, 5);
+System.out.println(a); // 11</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Либо можно сразу получить и тут же выполнить лямбда-выражение:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="java">int b = action(2).execute(8, 2);
+System.out.println(b); // 6</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_встроенные_функциональные_интерфейсы">9.3. Встроенные функциональные интерфейсы</h3>
+<div class="paragraph">
+<p>В JDK 8 вместе с самой функциональностью лямбда-выражений также было добавлено некоторое количество встроенных функциональных интерфейсов, которые мы можем использовать в различных ситуациях и в различные API в рамках JDK 8. В частности, ряд далее рассматриваемых интерфейсов широко применяется в <code>Stream API</code> - новом прикладном интерфейсе для работы с данными. Рассмотрим основные из этих интерфейсов:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>Predicate&lt;T&gt;</code></p>
+</li>
+<li>
+<p><code>Consumer&lt;T&gt;</code></p>
+</li>
+<li>
+<p><code>Function&lt;T, R&gt;</code></p>
+</li>
+<li>
+<p><code>Supplier&lt;T&gt;</code></p>
+</li>
+<li>
+<p><code>UnaryOperator&lt;T&gt;</code></p>
+</li>
+<li>
+<p><code>BinaryOperator&lt;T&gt;</code></p>
+</li>
+</ul>
+</div>
+<div class="sect3">
+<h4 id="_predicatet">9.3.1. <code>Predicate&lt;T&gt;</code></h4>
+<div class="paragraph">
+<p>Функциональный интерфейс <code>Predicate&lt;T&gt;</code> проверяет соблюдение некоторого условия. Если оно соблюдается, то возвращается значение <code>true</code>. В качестве параметра лямбда-выражение принимает объект типа <code>T</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="java">public interface Predicate&lt;T&gt; {
+    boolean test(T t);
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Например:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="java">import java.util.function.Predicate;
+
+public class LambdaApp {
+    public static void main(String[] args) {
+        Predicate&lt;Integer&gt; isPositive = x -&gt; x &gt; 0;
+
+        System.out.println(isPositive.test(5)); // true
+        System.out.println(isPositive.test(-7)); // false
+    }
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_binaryoperatort">9.3.2. <code>BinaryOperator&lt;T&gt;</code></h4>
+<div class="paragraph">
+<p><code>BinaryOperator&lt;T&gt;</code> принимает в качестве параметра два объекта типа <code>T</code>, выполняет над ними бинарную операцию и возвращает ее результат также в виде объекта типа <code>T</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="java">public interface BinaryOperator&lt;T&gt; {
+    T apply(T t1, T t2);
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Например:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="java">import java.util.function.BinaryOperator;
+
+public class LambdaApp {
+    public static void main(String[] args) {
+        BinaryOperator&lt;Integer&gt; multiply = (x, y) -&gt; x * y;
+
+        System.out.println(multiply.apply(3, 5)); // 15
+        System.out.println(multiply.apply(10, -2)); // -20
+    }
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_unaryoperatort">9.3.3. <code>UnaryOperator&lt;T&gt;</code></h4>
+<div class="paragraph">
+<p><code>UnaryOperator&lt;T&gt;</code> принимает в качестве параметра объект типа <code>T</code>, выполняет над ними операции и возвращает результат операций в виде объекта типа <code>T</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="java">public interface UnaryOperator&lt;T&gt; {
+    T apply(T t);
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Например:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="java">import java.util.function.UnaryOperator;
+
+public class LambdaApp {
+    public static void main(String[] args) {
+        UnaryOperator&lt;Integer&gt; square = x -&gt; x * x;
+        System.out.println(square.apply(5)); // 25
+    }
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_functiont_r">9.3.4. <code>Function&lt;T, R&gt;</code></h4>
+<div class="paragraph">
+<p>Функциональный интерфейс <code>Function&lt;T, R&gt;</code> представляет функцию перехода от объекта типа <code>T</code> к объекту типа <code>R</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="java">public interface Function&lt;T, R&gt; {
+    R apply(T t);
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Например:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="java">import java.util.function.Function;
+
+public class LambdaApp {
+    public static void main(String[] args) {
+        Function&lt;Integer, String&gt; convert = x -&gt; String.valueOf(x) + " долларов";
+        System.out.println(convert.apply(5)); // 5 долларов
+    }
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_consumert">9.3.5. <code>Consumer&lt;T&gt;</code></h4>
+<div class="paragraph">
+<p><code>Consumer&lt;T&gt;</code> выполняет некоторое действие над объектом типа <code>T</code>, при этом ничего не возвращая:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="java">public interface Consumer&lt;T&gt; {
+    void accept(T t);
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Например:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="java">import java.util.function.Consumer;
+
+public class LambdaApp {
+    public static void main(String[] args) {
+        Consumer&lt;Integer&gt; printer = x -&gt; System.out.printf("%d долларов \n", x);
+        printer.accept(600); // 600 долларов
+    }
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_suppliert">9.3.6. <code>Supplier&lt;T&gt;</code></h4>
+<div class="paragraph">
+<p><code>Supplier&lt;T&gt;</code> не принимает никаких аргументов, но должен возвращать объект типа <code>T</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="java">public interface Supplier&lt;T&gt; {
+    T get();
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Например:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="java">import java.util.Scanner;
+import java.util.function.Supplier;
+
+public class LambdaApp {
+    public static void main(String[] args) {
+        Supplier&lt;User&gt; userFactory = () -&gt; {
+            Scanner in = new Scanner(System.in);
+            System.out.println("Введите имя: ");
+            String name = in.nextLine();
+            return new User(name);
+        };
+
+        User user1 = userFactory.get();
+        User user2 = userFactory.get();
+
+        System.out.println("Имя user1: " + user1.getName());
+        System.out.println("Имя user2: " + user2.getName());
+    }
+}
+
+class User {
+    private String name;
+
+    String getName() {
+        return name;
+    }
+
+    User(String n) {
+        this.name = n;
+    }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_введение_stream_api">9.4. Введение Stream API</h3>
 <div class="paragraph">
 <p>Начиная с JDK 8 в Java появился новый API - <strong>Stream API</strong>. Его задача - упростить работу с наборами данных, в частности, упростить операции фильтрации, сортировки и другие манипуляции с данными. Вся основная функциональность данного API сосредоточена в пакете <code>java.util.stream</code>.</p>
 </div>
@@ -15622,234 +15849,13 @@ public class Test {
 <p>операции с потоками не изменяют источника данных. Операции с потоками лишь возвращают новый поток с результатами этих операций</p>
 </li>
 <li>
-<p>для потоков характерно отложенное выполнение. То есть выполнение всех операций с потоком происходит лишь тогда, когда выполняется терминальная операция и возвращается конкретный результат, а не новый поток
-= Встроенные функциональные интерфейсы</p>
+<p>для потоков характерно отложенное выполнение. То есть выполнение всех операций с потоком происходит лишь тогда, когда выполняется терминальная операция и возвращается конкретный результат, а не новый поток</p>
 </li>
 </ul>
-</div>
-<div class="paragraph">
-<p>В JDK 8 вместе с самой функциональностью лямбда-выражений также было добавлено некоторое количество встроенных функциональных интерфейсов, которые мы можем использовать в различных ситуациях и в различные API в рамках JDK 8. В частности, ряд далее рассматриваемых интерфейсов широко применяется в <code>Stream API</code> - новом прикладном интерфейсе для работы с данными. Рассмотрим основные из этих интерфейсов:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><code>Predicate&lt;T&gt;</code></p>
-</li>
-<li>
-<p><code>Consumer&lt;T&gt;</code></p>
-</li>
-<li>
-<p><code>Function&lt;T, R&gt;</code></p>
-</li>
-<li>
-<p><code>Supplier&lt;T&gt;</code></p>
-</li>
-<li>
-<p><code>UnaryOperator&lt;T&gt;</code></p>
-</li>
-<li>
-<p><code>BinaryOperator&lt;T&gt;</code></p>
-</li>
-</ul>
-</div>
-<div class="sect3">
-<h4 id="_predicatet">9.1.1. <code>Predicate&lt;T&gt;</code></h4>
-<div class="paragraph">
-<p>Функциональный интерфейс <code>Predicate&lt;T&gt;</code> проверяет соблюдение некоторого условия. Если оно соблюдается, то возвращается значение <code>true</code>. В качестве параметра лямбда-выражение принимает объект типа <code>T</code>:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="prettyprint highlight"><code data-lang="java">public interface Predicate&lt;T&gt; {
-    boolean test(T t);
-}</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Например:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="prettyprint highlight"><code data-lang="java">import java.util.function.Predicate;
-
-public class LambdaApp {
-    public static void main(String[] args) {
-        Predicate&lt;Integer&gt; isPositive = x -&gt; x &gt; 0;
-
-        System.out.println(isPositive.test(5)); // true
-        System.out.println(isPositive.test(-7)); // false
-    }
-}</code></pre>
-</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_binaryoperatort">9.1.2. <code>BinaryOperator&lt;T&gt;</code></h4>
-<div class="paragraph">
-<p><code>BinaryOperator&lt;T&gt;</code> принимает в качестве параметра два объекта типа <code>T</code>, выполняет над ними бинарную операцию и возвращает ее результат также в виде объекта типа <code>T</code>:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="prettyprint highlight"><code data-lang="java">public interface BinaryOperator&lt;T&gt; {
-    T apply(T t1, T t2);
-}</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Например:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="prettyprint highlight"><code data-lang="java">import java.util.function.BinaryOperator;
-
-public class LambdaApp {
-    public static void main(String[] args) {
-        BinaryOperator&lt;Integer&gt; multiply = (x, y) -&gt; x * y;
-
-        System.out.println(multiply.apply(3, 5)); // 15
-        System.out.println(multiply.apply(10, -2)); // -20
-    }
-}</code></pre>
-</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_unaryoperatort">9.1.3. <code>UnaryOperator&lt;T&gt;</code></h4>
-<div class="paragraph">
-<p><code>UnaryOperator&lt;T&gt;</code> принимает в качестве параметра объект типа <code>T</code>, выполняет над ними операции и возвращает результат операций в виде объекта типа <code>T</code>:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="prettyprint highlight"><code data-lang="java">public interface UnaryOperator&lt;T&gt; {
-    T apply(T t);
-}</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Например:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="prettyprint highlight"><code data-lang="java">import java.util.function.UnaryOperator;
-
-public class LambdaApp {
-    public static void main(String[] args) {
-        UnaryOperator&lt;Integer&gt; square = x -&gt; x * x;
-        System.out.println(square.apply(5)); // 25
-    }
-}</code></pre>
-</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_functiont_r">9.1.4. <code>Function&lt;T, R&gt;</code></h4>
-<div class="paragraph">
-<p>Функциональный интерфейс <code>Function&lt;T, R&gt;</code> представляет функцию перехода от объекта типа <code>T</code> к объекту типа <code>R</code>:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="prettyprint highlight"><code data-lang="java">public interface Function&lt;T, R&gt; {
-    R apply(T t);
-}</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Например:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="prettyprint highlight"><code data-lang="java">import java.util.function.Function;
-
-public class LambdaApp {
-    public static void main(String[] args) {
-        Function&lt;Integer, String&gt; convert = x -&gt; String.valueOf(x) + " долларов";
-        System.out.println(convert.apply(5)); // 5 долларов
-    }
-}</code></pre>
-</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_consumert">9.1.5. <code>Consumer&lt;T&gt;</code></h4>
-<div class="paragraph">
-<p><code>Consumer&lt;T&gt;</code> выполняет некоторое действие над объектом типа <code>T</code>, при этом ничего не возвращая:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="prettyprint highlight"><code data-lang="java">public interface Consumer&lt;T&gt; {
-    void accept(T t);
-}</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Например:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="prettyprint highlight"><code data-lang="java">import java.util.function.Consumer;
-
-public class LambdaApp {
-    public static void main(String[] args) {
-        Consumer&lt;Integer&gt; printer = x -&gt; System.out.printf("%d долларов \n", x);
-        printer.accept(600); // 600 долларов
-    }
-}</code></pre>
-</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_suppliert">9.1.6. <code>Supplier&lt;T&gt;</code></h4>
-<div class="paragraph">
-<p><code>Supplier&lt;T&gt;</code> не принимает никаких аргументов, но должен возвращать объект типа <code>T</code>:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="prettyprint highlight"><code data-lang="java">public interface Supplier&lt;T&gt; {
-    T get();
-}</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Например:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="prettyprint highlight"><code data-lang="java">import java.util.Scanner;
-import java.util.function.Supplier;
-
-public class LambdaApp {
-    public static void main(String[] args) {
-        Supplier&lt;User&gt; userFactory = () -&gt; {
-            Scanner in = new Scanner(System.in);
-            System.out.println("Введите имя: ");
-            String name = in.nextLine();
-            return new User(name);
-        };
-
-        User user1 = userFactory.get();
-        User user2 = userFactory.get();
-
-        System.out.println("Имя user1: " + user1.getName());
-        System.out.println("Имя user2: " + user2.getName());
-    }
-}
-
-class User {
-    private String name;
-
-    String getName() {
-        return name;
-    }
-
-    User(String n) {
-        this.name = n;
-    }
-}</code></pre>
-</div>
-</div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_создание_потока_данных">9.2. Создание потока данных</h3>
+<h3 id="_создание_потока_данных">9.5. Создание потока данных</h3>
 <div class="paragraph">
 <p>Для создания потока данных можно применять различные методы. В качестве источника потока мы можем использовать коллекции. В частности, в JDK 8 в интерфейс <code>Collection</code>, который реализуется всеми классами коллекций, были добавлены два метода для работы с потоками:</p>
 </div>
@@ -15977,9 +15983,9 @@ doubleStream.forEach(d -&gt; System.out.println(d));</code></pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_фильтрация_перебор_элементов_и_отображение">9.3. Фильтрация, перебор элементов и отображение</h3>
+<h3 id="_фильтрация_перебор_элементов_и_отображение">9.6. Фильтрация, перебор элементов и отображение</h3>
 <div class="sect3">
-<h4 id="_foreach">9.3.1. <code>forEach()</code></h4>
+<h4 id="_foreach">9.6.1. <code>forEach()</code></h4>
 <div class="paragraph">
 <p>Для перебора элементов потока применяется метод <code>forEach()</code>, который представляет терминальную операцию. В качестве параметра он принимает объект <code>Consumer&lt;? super String&gt;</code>, который представляет действие, выполняемое для каждого элемента набора. Например:</p>
 </div>
@@ -16015,7 +16021,7 @@ citiesStream.forEach(System.out::println);</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_filter">9.3.2. <code>filter()</code></h4>
+<h4 id="_filter">9.6.2. <code>filter()</code></h4>
 <div class="paragraph">
 <p>Для фильтрации элементов в потоке применяется метод <code>filter()</code>, который представляет промежуточную операцию. Он принимает в качестве параметра некоторое условие в виде объекта <code>Predicate&lt;T&gt;</code> и возвращает новый поток из элементов, которые удовлетворяют этому условию:</p>
 </div>
@@ -16084,7 +16090,7 @@ phoneStream.filter(p -&gt; p.getPrice() &lt; 50000)
 </div>
 </div>
 <div class="sect3">
-<h4 id="_map">9.3.3. <code>map()</code></h4>
+<h4 id="_map">9.6.3. <code>map()</code></h4>
 <div class="paragraph">
 <p>Отображение или маппинг позволяет задать функцию преобразования одного объекта в другой, то есть получить из элемента одного типа элемент другого типа. Для отображения используется метод <code>map()</code>, который имеет следующее определение:</p>
 </div>
@@ -16138,7 +16144,7 @@ Samsung Galaxy S 6</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_flatmap">9.3.4. <code>flatMap()</code></h4>
+<h4 id="_flatmap">9.6.4. <code>flatMap()</code></h4>
 <div class="paragraph">
 <p>Плоское отображение выполняется тогда, когда из одного элемента нужно получить несколько. Данную операцию выполняет метод <code>flatMap</code>:</p>
 </div>
@@ -16182,7 +16188,7 @@ phoneStream
 </div>
 </div>
 <div class="sect2">
-<h3 id="_sorted">9.4. <code>sorted()</code></h3>
+<h3 id="_sorted">9.7. <code>sorted()</code></h3>
 <div class="paragraph">
 <p>Коллекции, на основе которых нередко создаются потоки, уже имеют специальные методы для сортировки содержимого. Однако класс <code>Stream</code> также включает возможность сортировки. Такую сортировку мы можем задействовать, когда у нас идет набор промежуточных операций с потоком, которые создают новые наборы данных, и нам надо эти наборы отсортировать.</p>
 </div>
@@ -16306,12 +16312,12 @@ Pixel 2 (Google) - 500</code></pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_получение_подпотока_и_объединение_потоков">9.5. Получение подпотока и объединение потоков</h3>
+<h3 id="_получение_подпотока_и_объединение_потоков">9.8. Получение подпотока и объединение потоков</h3>
 <div class="paragraph">
 <p>Ряд методов Stream API возвращают подпотоки или объединенные потоки на основе уже имеющихся потоков. Рассмотрим эти методы.</p>
 </div>
 <div class="sect3">
-<h4 id="_takewhile">9.5.1. <code>takeWhile()</code></h4>
+<h4 id="_takewhile">9.8.1. <code>takeWhile()</code></h4>
 <div class="paragraph">
 <p>Метод <code>takeWhile()</code> выбирает из потока элементы, пока они соответствуют условию. Если попадается элемент, который не соответствует условию, то метод завершает свою работу. Выбранные элементы возвращаются в виде потока.</p>
 </div>
@@ -16365,7 +16371,7 @@ numbers.sorted().takeWhile(n -&gt; n &lt; 0)
 </div>
 </div>
 <div class="sect3">
-<h4 id="_dropwhile">9.5.2. <code>dropWhile()</code></h4>
+<h4 id="_dropwhile">9.8.2. <code>dropWhile()</code></h4>
 <div class="paragraph">
 <p>Метод <code>dropWhile()</code> выполняет обратную задачу - он пропускает элементы потока, которые соответствуют условию до тех пор, пока не встретит элемент, который НЕ соответствует условию:</p>
 </div>
@@ -16389,7 +16395,7 @@ numbers.sorted().dropWhile(n -&gt; n &lt; 0)
 </div>
 </div>
 <div class="sect3">
-<h4 id="_stream_concat">9.5.3. <code>Stream.concat()</code></h4>
+<h4 id="_stream_concat">9.8.3. <code>Stream.concat()</code></h4>
 <div class="paragraph">
 <p>Статический метод <code>concat()</code> объединяет элементы двух потоков, возвращая объединенный поток:</p>
 </div>
@@ -16421,7 +16427,7 @@ Sam</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_distinct">9.5.4. <code>distinct()</code></h4>
+<h4 id="_distinct">9.8.4. <code>distinct()</code></h4>
 <div class="paragraph">
 <p>Метод <code>distinct()</code> возвращает только ункальные элементы в виде потока:</p>
 </div>
@@ -16446,7 +16452,7 @@ Kate</code></pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_skip_и_limit">9.6. <code>skip()</code> и <code>limit()</code></h3>
+<h3 id="_skip_и_limit">9.9. <code>skip()</code> и <code>limit()</code></h3>
 <div class="paragraph">
 <p>Метод <code>skip(long n)</code> используется для пропуска <code>n</code> элементов. Этот метод возвращает новый поток, в котором пропущены первые <code>n</code> элементов.</p>
 </div>
@@ -16541,12 +16547,12 @@ Xiaomi MI 5</code></pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_операции_сведения">9.7. Операции сведения</h3>
+<h3 id="_операции_сведения">9.10. Операции сведения</h3>
 <div class="paragraph">
 <p>Операции сведения представляют терминальные операции, которые возвращают некоторое значение - результат операции. В Stream API есть ряд операций сведения.</p>
 </div>
 <div class="sect3">
-<h4 id="_count">9.7.1. <code>count()</code></h4>
+<h4 id="_count">9.10.1. <code>count()</code></h4>
 <div class="paragraph">
 <p>Метод <code>count()</code> возвращает количество элементов в потоке данных:</p>
 </div>
@@ -16571,7 +16577,7 @@ public class Program {
 </div>
 </div>
 <div class="sect3">
-<h4 id="_findfirst_и_findany">9.7.2. <code>findFirst()</code> и <code>findAny()</code></h4>
+<h4 id="_findfirst_и_findany">9.10.2. <code>findFirst()</code> и <code>findAny()</code></h4>
 <div class="paragraph">
 <p>Метод <code>findFirst()</code> извлекает из потока первый элемент, а <code>findAny()</code> извлекает случайный объект из потока (нередко так же первый):</p>
 </div>
@@ -16589,7 +16595,7 @@ System.out.println(first.get()); // Tom</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_allmatch_anymatch_nonematch">9.7.3. <code>allMatch()</code>, <code>anyMatch()</code>, <code>noneMatch()</code></h4>
+<h4 id="_allmatch_anymatch_nonematch">9.10.3. <code>allMatch()</code>, <code>anyMatch()</code>, <code>noneMatch()</code></h4>
 <div class="paragraph">
 <p>Еще одна группа операций сведения возвращает логическое значение <code>true</code> или <code>false</code>:</p>
 </div>
@@ -16637,7 +16643,7 @@ public class Program {
 </div>
 </div>
 <div class="sect3">
-<h4 id="_min_и_max">9.7.4. <code>min()</code> и <code>max()</code></h4>
+<h4 id="_min_и_max">9.10.4. <code>min()</code> и <code>max()</code></h4>
 <div class="paragraph">
 <p>Методы <code>min()</code> и <code>max()</code> возвращают соответственно минимальное и максимальное значение. Поскольку данные в потоке могут представлять различные типы, в том числе сложные классы, то в качестве параметра в эти методы передается объект интерфейса <code>Comparator</code>, который указывает, как сравнивать объекты:</p>
 </div>
@@ -16745,7 +16751,7 @@ MAX Name: iPhone 8 Price: 52000</code></pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_reduce">9.8. <code>reduce()</code></h3>
+<h3 id="_reduce">9.11. <code>reduce()</code></h3>
 <div class="paragraph">
 <p>Метод <code>reduce()</code> выполняет терминальные операции сведения, возвращая некоторое значение - результат операции. Он имеет следующие формы:</p>
 </div>
@@ -16849,9 +16855,11 @@ System.out.println(sum); // 117000</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Опять же здесь в качестве первого параметра идет значение по умолчанию - <code>0</code>. Второй параметр производит бинарную операцию, которая получает промежуточное значение - суммарную цену текущего и предыдущего телефонов. Третий параметр представляет бинарную операцию, которая суммирует все промежуточные вычисления.
-= Класс <code>Optional</code></p>
+<p>Опять же здесь в качестве первого параметра идет значение по умолчанию - <code>0</code>. Второй параметр производит бинарную операцию, которая получает промежуточное значение - суммарную цену текущего и предыдущего телефонов. Третий параметр представляет бинарную операцию, которая суммирует все промежуточные вычисления.</p>
 </div>
+</div>
+<div class="sect2">
+<h3 id="_класс_optional">9.12. Класс <code>Optional</code></h3>
 <div class="paragraph">
 <p>Ряд операций сведения, такие как <code>min()</code>, <code>max()</code>, <code>reduce()</code>, возвращают объект <code>Optional&lt;T&gt;</code>. Этот объект фактически обертывает результат операции. После выполнения операции с помощью метода <code>get()</code> объекта <code>Optional</code> мы можем получить его значение:</p>
 </div>
@@ -16900,7 +16908,7 @@ if (min.isPresent()) {
 </div>
 </div>
 <div class="sect3">
-<h4 id="_orelse">9.8.1. <code>orElse()</code></h4>
+<h4 id="_orelse">9.12.1. <code>orElse()</code></h4>
 <div class="paragraph">
 <p>Метод <code>orElse()</code> позволяет определить альтернативное значение, которое будет возвращаться, если <code>Optional</code> не получит из потока какого-нибудь значения:</p>
 </div>
@@ -16948,7 +16956,7 @@ public class Program {
 </div>
 </div>
 <div class="sect3">
-<h4 id="_orelsethrow">9.8.2. <code>orElseThrow()</code></h4>
+<h4 id="_orelsethrow">9.12.2. <code>orElseThrow()</code></h4>
 <div class="paragraph">
 <p>Еще один метод - <code>orElseThrow()</code> позволяет сгенерировать исключение, если <code>Optional</code> не содержит значения:</p>
 </div>
@@ -16963,7 +16971,7 @@ System.out.println(min.orElseThrow(IllegalStateException::new));</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_ifpresent">9.8.3. <code>ifPresent()</code></h4>
+<h4 id="_ifpresent">9.12.3. <code>ifPresent()</code></h4>
 <div class="paragraph">
 <p>Метод <code>ifPresent()</code> определяет действия со значением в <code>Optional</code>, если значение имеется:</p>
 </div>
@@ -16980,7 +16988,7 @@ min.ifPresent(v-&gt;System.out.println(v)); // 4</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_ifpresentorelse">9.8.4. <code>ifPresentOrElse()</code></h4>
+<h4 id="_ifpresentorelse">9.12.4. <code>ifPresentOrElse()</code></h4>
 <div class="paragraph">
 <p>Метод <code>ifPresentOrElse()</code> позволяет определить альтернативную логику на случай, если значение в <code>Optional</code> отсутствует:</p>
 </div>
@@ -16993,9 +17001,12 @@ min.ifPresentOrElse(v -&gt; System.out.println(v), () -&gt; System.out.println("
 </div>
 </div>
 <div class="paragraph">
-<p>В метод <code>ifPresentOrElse()</code> передается две функции. Первая обрабатывает значение в <code>Optional</code>, если оно присутствует. Вторая функция представляет действия, которые выполняются, если значение в <code>Optional</code> отсутствует.
-= <code>Stream.collect()</code></p>
+<p>В метод <code>ifPresentOrElse()</code> передается две функции. Первая обрабатывает значение в <code>Optional</code>, если оно присутствует. Вторая функция представляет действия, которые выполняются, если значение в <code>Optional</code> отсутствует.</p>
 </div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_stream_collect">9.13. <code>Stream.collect()</code></h3>
 <div class="paragraph">
 <p>Большинство операций класса <code>Stream</code>, которые модифицируют набор данных, возвращают этот набор в виде потока. Однако бывают ситуации, когда хотелось бы получить данные не в виде потока, а в виде обычной коллекции, например, <code>ArrayList</code> или <code>HashSet</code>. И для этого у класса <code>Stream</code> определен метод <code>collect</code>. Первая версия метода принимает в качестве параметра функцию преобразования к коллекции:</p>
 </div>
@@ -17207,11 +17218,10 @@ public class Program {
 </div>
 </div>
 </div>
-</div>
 <div class="sect2">
-<h3 id="_класс_collectors">9.9. Класс <code>Collectors</code></h3>
+<h3 id="_класс_collectors">9.14. Класс <code>Collectors</code></h3>
 <div class="sect3">
-<h4 id="_groupingby">9.9.1. <code>groupingBy()</code></h4>
+<h4 id="_groupingby">9.14.1. <code>groupingBy()</code></h4>
 <div class="paragraph">
 <p>Чтобы сгруппировать данные по какому-нибудь признаку, нам надо использовать в связке метод <code>collect()</code> объекта <code>Stream</code> и метод <code>Collectors.groupingBy()</code>. Допустим, у нас есть следующий класс:</p>
 </div>
@@ -17298,7 +17308,7 @@ Galaxy S8</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_partitioningby">9.9.2. <code>partitioningBy()</code></h4>
+<h4 id="_partitioningby">9.14.2. <code>partitioningBy()</code></h4>
 <div class="paragraph">
 <p>Метод <code>Collectors.partitioningBy()</code> имеет похожее действие, только он делит элементы на группы по принципу, соответствует ли элемент определенному условию. Например:</p>
 </div>
@@ -17321,7 +17331,7 @@ for(Map.Entry&lt;Boolean, List&lt;Phone&gt;&gt; item : phonesByCompany.entrySet(
 </div>
 </div>
 <div class="sect3">
-<h4 id="_counting">9.9.3. <code>counting()</code></h4>
+<h4 id="_counting">9.14.3. <code>counting()</code></h4>
 <div class="paragraph">
 <p>Метод <code>Collectors.counting()</code> применяется в <code>Collectors.groupingBy()</code> для вычисления количества элементов в каждой группе:</p>
 </div>
@@ -17347,7 +17357,7 @@ Samsung - 2</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_summing">9.9.4. <code>summing()</code></h4>
+<h4 id="_summing">9.14.4. <code>summing()</code></h4>
 <div class="paragraph">
 <p>Метод <code>Collectors.summing()</code> применяется для подсчета суммы. В зависимости от типа данных, к которым применяется метод, он имеет следующие формы: <code>summingInt()</code>, <code>summingLong()</code>, <code>summingDouble()</code>. Применим этот метод для подсчета стоимости всех смартфонов по компаниям:</p>
 </div>
@@ -17376,7 +17386,7 @@ Samsung - 780</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_maxby_и_minby">9.9.5. <code>maxBy()</code> и <code>minBy()</code></h4>
+<h4 id="_maxby_и_minby">9.14.5. <code>maxBy()</code> и <code>minBy()</code></h4>
 <div class="paragraph">
 <p>Методы <code>maxBy()</code> и <code>minBy()</code> применяются для подсчета минимального и максимального значения в каждой группе. В качестве параметра эти методы принимают функцию компаратора, которая нужна для сравнения значений. Например, найдем для каждой компании телефон с минимальной ценой:</p>
 </div>
@@ -17406,7 +17416,7 @@ Samsung - Galaxy S8</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_summarizing">9.9.6. <code>summarizing()</code></h4>
+<h4 id="_summarizing">9.14.6. <code>summarizing()</code></h4>
 <div class="paragraph">
 <p>Методы <code>summarizingInt()</code> / <code>summarizingLong()</code> / <code>summarizingDouble()</code> позволяют объединить в набор значения соответствующих типов:</p>
 </div>
@@ -17464,7 +17474,7 @@ Samsung - 390.0</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_mapping">9.9.7. <code>mapping()</code></h4>
+<h4 id="_mapping">9.14.7. <code>mapping()</code></h4>
 <div class="paragraph">
 <p>Метод <code>mapping()</code> позволяет дополнительно обработать данные и задать функцию отображения объектов из потока на какой-нибудь другой тип данных. Например:</p>
 </div>
@@ -17483,9 +17493,12 @@ for(Map.Entry&lt;String, List&lt;String&gt;&gt; item : phonesByCompany.entrySet(
 </div>
 </div>
 <div class="paragraph">
-<p>Выражение <code>Collectors.mapping(Phone::getName, Collectors.toList())</code> указывает, что в группу будут выделятся названия смартфонов, причем группа будет представлять объект <code>List</code>.
-= Параллельные потоки</p>
+<p>Выражение <code>Collectors.mapping(Phone::getName, Collectors.toList())</code> указывает, что в группу будут выделятся названия смартфонов, причем группа будет представлять объект <code>List</code>.</p>
 </div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_параллельные_потоки">9.15. Параллельные потоки</h3>
 <div class="paragraph">
 <p>Кроме последовательных потоков <strong>Stream API</strong> поддерживает параллельные потоки. Распараллеливание потоков позволяет задействовать несколько ядер процессора (если целевая машина многоядерная) и тем самым может повысить производительность и ускорить вычисления. В то же время говорить, что применение параллельных потоков на многоядерных машинах однозначно повысит производительность - не совсем корректно. В каждом конкретном случае надо проверять и тестировать.</p>
 </div>
@@ -17530,9 +17543,8 @@ System.out.println(sentence);</code></pre>
 <pre class="prettyprint highlight"><code data-lang="out">Результат: мама Результат: мыла Результат: раму</code></pre>
 </div>
 </div>
-</div>
 <div class="sect3">
-<h4 id="_sequential">9.9.8. <code>sequential()</code></h4>
+<h4 id="_sequential">9.15.1. <code>sequential()</code></h4>
 <div class="paragraph">
 <p>Данный вывод не является правильным. Если же мы не уверены, что на каком-то этапе работы с параллельным потоком он адекватно сможет выполнить какую-нибудь операцию, то мы можем преобразовать этот поток в последовательный посредством вызова метода <code>sequential()</code>:</p>
 </div>
@@ -17561,7 +17573,7 @@ System.out.println(result);</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_вопросы_производительности_в_параллельных_операциях">9.9.9. Вопросы производительности в параллельных операциях</h4>
+<h4 id="_вопросы_производительности_в_параллельных_операциях">9.15.2. Вопросы производительности в параллельных операциях</h4>
 <div class="paragraph">
 <p>Фактически применение параллельных потоков сводится к тому, что данные в потоке будут разделены на части, каждая часть обрабатывается на отдельном ядре процессора, и в конце эти части соединяются, и над ними выполняются финальные операции. Рассмотрим некоторые критерии, которые могут повлиять на производительность в параллельных потоках:</p>
 </div>
@@ -17579,7 +17591,7 @@ System.out.println(result);</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_упорядоченность_в_параллельных_потоках">9.9.10. Упорядоченность в параллельных потоках</h4>
+<h4 id="_упорядоченность_в_параллельных_потоках">9.15.3. Упорядоченность в параллельных потоках</h4>
 <div class="paragraph">
 <p>Как правило, элементы передаются в поток в том же порядке, в котором они определены в источнике данных. При работе с параллельными потоками система сохраняет порядок следования элементов. Исключение составляет метод <code>forEach()</code>, который может выводить элементы в произвольном порядке. И чтобы сохранить порядок следования, необходимо применять метод <code>forEachOrdered()</code>:</p>
 </div>
@@ -17604,7 +17616,7 @@ System.out.println(result);</code></pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_параллельные_операции_над_массивами">9.10. Параллельные операции над массивами</h3>
+<h3 id="_параллельные_операции_над_массивами">9.16. Параллельные операции над массивами</h3>
 <div class="paragraph">
 <p>В JDK 8 к классу <code>Arrays</code> было добавлено ряд методов, которые позволяют в параллельном режиме совершать обработку элементов массива. И хотя данные методы формально не входят в <strong>Stream API</strong>, но реализуют схожую функциональность, что и параллельные потоки:</p>
 </div>
@@ -17622,7 +17634,7 @@ System.out.println(result);</code></pre>
 </ul>
 </div>
 <div class="sect3">
-<h4 id="_parallelsetall">9.10.1. <code>parallelSetAll()</code></h4>
+<h4 id="_parallelsetall">9.16.1. <code>parallelSetAll()</code></h4>
 <div class="paragraph">
 <p>Используем метод <code>parallelSetAll()</code> для установки элементов массива:</p>
 </div>
@@ -17725,7 +17737,7 @@ Nokia 9 - 22000</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_parallelsort">9.10.2. <code>parallelSort()</code></h4>
+<h4 id="_parallelsort">9.16.2. <code>parallelSort()</code></h4>
 <div class="paragraph">
 <p>Отсортируем массив чисел в параллельном режиме:</p>
 </div>
@@ -17782,7 +17794,7 @@ class PhoneComparator implements Comparator&lt;Phone&gt; {
 </div>
 </div>
 <div class="sect3">
-<h4 id="_parallelprefix">9.10.3. <code>parallelPrefix()</code></h4>
+<h4 id="_parallelprefix">9.16.3. <code>parallelPrefix()</code></h4>
 <div class="paragraph">
 <p>Метод <code>parallelPrefix()</code> походит для тех случаев, когда надо получить элемент массива или объект того же типа, что и элементы массива, который обладает некоторыми признаками. Например, в массиве чисел это может быть максимальное, минимальное значения и т.д. Например, найдем произведение чисел:</p>
 </div>
@@ -24801,7 +24813,7 @@ String msg = mf.format(new Object[] { значения });</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2021-07-06 10:02:56 UTC
+Last updated 2021-07-06 10:40:55 UTC
 </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/run_prettify.min.js"></script>
