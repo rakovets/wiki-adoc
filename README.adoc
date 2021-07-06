@@ -7,6 +7,7 @@ Wikis for different courses. Use 'AsciiDoc' and 'Asciidoctor' for converting to 
 Need to install:
 
 * Docker
+* Docker-compose (_Optional_)
 
 === Build image
 
@@ -17,16 +18,36 @@ docker build -t rakovets/wiki .
 
 === Run container
 
+==== Run with docker
+
 [source,sh]
 ----
 docker run -dp 3001:80 rakovets/wiki
 ----
 
-=== Force remove container on 3001 port
+==== Run with docker-compose
+
+[source,sh]
+----
+docker-compose up -d
+----
+
+=== Stop
+
+==== Stop with docker
+
+Force remove container on 3001 port
 
 [source,sh]
 ----
 docker ps -aqf "publish=3001" | xargs docker rm -f
+----
+
+==== Stop with docker-compose
+
+[source,sh]
+----
+docker-compose down
 ----
 
 == Code of Conduct
